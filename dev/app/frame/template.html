@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html manifest="/manifest/base.appcache">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="content-language" content="zh-CN" />
+        
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+        <meta content="yes" name="apple-mobile-web-app-capable" />
+        <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+        <meta content="telephone=no" name="format-detection" />
+        
+        <title>neetproject ver.6</title>
+        
+        <!--        <link rel="shortcut icon" href="/favicon.ico" /> -->
+        <!-- <link href='http://fonts.googleapis.com/css?family=Roboto:400,100' rel='stylesheet' type='text/css'> -->
+        <link rel="stylesheet" media="screen" href="../../lib/global.css" />
+        <link rel="stylesheet" media="screen" href="./style.css" />
+        <link rel="stylesheet" media="screen" href="../nav/style.css" />
+        <link rel="stylesheet" media="screen" href="../spal/style.css" />
+        <script>
+            var $CONFIG = new Object();
+            $CONFIG['kitpath'] = '{$KITPATH}';
+            $CONFIG['root'] = '{$root}';
+            $CONFIG['isMobile'] = '{$isMobile}';
+            $CONFIG['style'] = '{$style}';
+        </script>
+        <script src="../../lib/core.js" data-node="script"></script>
+    </head>
+    <body>
+        <div id="wrapper">
+{include file="../spal/template.html"}
+        </div>
+        <div id="syscomp">
+{include file="../nav/template.html"}
+        </div>
+        <script src="../nav/init.js" data-node="script"></script>
+        <script src="../spal/init.js" data-node="script"></script>
+        <script>seajs.use(['nav', 'spal']);</script>
+    </body>
+</html>

@@ -1,0 +1,7 @@
+#wrapper{
+    position: relative;
+    height:100%;
+    width:100%;
+    -webkit-perspective:800;
+    overflow: hidden;
+}
