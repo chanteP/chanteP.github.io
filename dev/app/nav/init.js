@@ -18,6 +18,7 @@ define('nav', function(require, exports){
         }
     }
     var check = function(value){
+        console.log(123)
         var mode = regCan[value];
         if(!mode || mode === removeMarker){
             node.dataset[dataMarker] = null;

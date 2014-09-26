@@ -1,73 +1,105 @@
 define('spal', function(require, exports){
 	var defaultPage = 'home', pageCache = {}, pageList = [], maxPageCount = 10, pageWrap = $.find('#wrapper'), pageModulePrefix = 'page/';
+	var removeMarker = '[id="spalScript"], [data-node="script"]';
 	var pageReg = new RegExp('^' + $CONFIG.root + '([^\/#\?]+)');
 	var vm;
 
 	var template = {
 		'404' : [
-			'<div data-page="404"></div>'
+			'<div data-page="404">404</div>'
+		].join(''),
+		'loading' : [
+			'<div data-page="loading" style="background:#fff;">loading</div>'
 		].join('')
 	}
 
 	var page = {
 		'parse' : function(pathname){
-			var rs = pageReg.exec(pathname || '');
+			var rs = pageReg.exec(pathname || location.pathname);
 			return rs ? rs[1] : defaultPage;
 		},
 		'check' : function(value, oldValue){
-			if(!value){
-				value = page.parse(location.pathname);
+			if(page.rel(value)){
+				page.show(value, oldValue);
 			}
-			page[value in pageCache ? 'show' : 'load'](value, oldValue);
+			else{
+				page.show('loading', oldValue);
+				page.load(value, oldValue);
+			}
 		},
 		'init' : function(pageName){
 			[].forEach.call(pageWrap.children, function(el){
-				if(!el.dataset.page || el.dataset.page in pageCache){return;}
-				page.setRel(el.dataset.page, el);
+				if(!el.dataset.page || page.rel(el.dataset.page)){return;}
+				page.rel(el.dataset.page, el);
 			});
-			if(pageName && !pageCache[pageName]){
-				page.setRel(pageName);
+			if(pageName && !page.rel(pageName)){
+				page.rel(pageName, null);
 			}
+			page.rel('loading', $.create(template['loading']));
 			page.clear();
 		},
-		'setRel' : function(name, dom){
-			if(!dom){
-				dom = $.create(template['404']);
+		/*
+		cachepage相关
+		*/
+		'rel' : function(pageName, dom){
+			if(arguments.length === 1){
+				return pageName in pageCache ? pageCache[pageName] : false;
 			}
-			pageCache[name] = dom;
+			else if(arguments.length === 2){
+				return pageCache[pageName] = dom || $.create(template['404']);
+			}
 		},
+		/*
+		toggle相关
+		*/
 		'show' : function(pageName, oldPageName){
 			var mod;
 			mod = require(pageModulePrefix + oldPageName);
 			if(mod && typeof mod.hide === 'function'){
 				mod.hide();
 			}
-			page.effect(pageWrap, pageCache[pageName]);
+			page.effect(pageWrap, page.rel(pageName), page.rel(oldPageName));
 			mod = require(pageModulePrefix + pageName);
 			if(mod && typeof mod.show === 'function'){
 				mod.show();
 			}
 		},
-		'effect' : function(wrapper, page){
+		'effect' : function(wrapper, page, oldPage){
 			wrapper.innerHTML = '';
 			page.dataset.status = 'show';
 			wrapper.appendChild(page);
+			return;		
+
+			if(page){
+				page.className = 'animated flipInY';
+				page.dataset.status = 'show';
+				wrapper.appendChild(page);
+			}
+			if(oldPage){
+				page.className = 'animated flipOutY';
+				oldPage.dataset.status = 'hide';
+			}
+			// wrapper.innerHTML = '';
+		},
+		'effectEnd' : function(wrapper, page, oldPage){
+
 		},
 		'load' : function(pageName){
 			var iframe = $.create('<iframe style="width:0;height:0;border:0;visibility:hidden;" data-for="'+pageName+'"></iframe>');
 			iframe.src = $CONFIG.root + 'page/' + pageName;
 			iframe.onload = function(e){
-				if(!pageCache[pageName]){
-					page.setRel(pageName);
-				}
 				this.parentNode.removeChild(iframe);
-				page.check();
+				if(!page.rel(this.dataset.for)){
+					page.rel(this.dataset.for, null);
+				}
+				if(vm.page === this.dataset.for){
+					vm.check('page');
+				}
 			}
 			document.body.appendChild(iframe);
 		},
 		'clear' : function(){
-			[].forEach.call($.findAll('[id="spalScript"]'), $.remove);
-			[].forEach.call($.findAll('[data-node="script"]'), $.remove);
+			[].forEach.call($.findAll(removeMarker), $.remove);
 		}
 	}
 	var init = function(){
@@ -90,12 +122,22 @@ define('spal', function(require, exports){
 			history.pushState(null, document.title, url);
 			vm.url = url;
 		});
+		$.evt(document.body).on('webkitAnimationEnd', '[data-page]', function(e){
+			debugger
+			console.log(this, this.dataset.status)
+			if(this.dataset.status == 'show'){
+
+			}
+			else{
+				pageWrap.removeChild(this);
+			}
+		});
 		window.addEventListener('popstate', function(e){
 			vm.url = location.pathname;
 		});
 	}
 	init();
-	window.setSPAL = page.setRel;
+	window.setSPAL = page.rel;
 
 	exports.vm = vm;
 });

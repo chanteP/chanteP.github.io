@@ -25,6 +25,13 @@
             $CONFIG['style'] = '{$style}';
         </script>
         <script src="../../lib/core.js" data-node="script"></script>
+        <script>
+        seajs.config({
+            'base' : $CONFIG['root'] + 'static/'
+        });
+        </script>
+        <script src="../nav/init.js" data-node="script"></script>
+        <script src="../spal/init.js" data-node="script"></script>
     </head>
     <body>
         <div id="wrapper">
@@ -33,8 +40,6 @@
         <div id="syscomp">
 {include file="../nav/template.html"}
         </div>
-        <script src="../nav/init.js" data-node="script"></script>
-        <script src="../spal/init.js" data-node="script"></script>
-        <script>seajs.use(['nav', 'spal']);</script>
+        <script>seajs.use(['spal', 'nav']);</script>
     </body>
 </html>

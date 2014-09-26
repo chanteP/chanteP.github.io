@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.14, created on 2014-09-17 00:39:03
+<?php /* Smarty version Smarty-3.1.14, created on 2014-09-21 00:52:31
          compiled from "static/app/frame/template.html" */ ?>
 <?php /*%%SmartyHeaderCode:290736318540354061f5f85-42814310%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '10414993942224e3c8af1d36bc55770b3f390980' => 
     array (
       0 => 'static/app/frame/template.html',
-      1 => 1410885540,
+      1 => 1411231948,
       2 => 'file',
     ),
   ),
@@ -57,6 +57,13 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 ';
         </script>
         <script src="http://127.0.0.1/neetproject/10/static/lib/core_c118653.js" data-node="script"></script>
+        <script>
+        seajs.config({
+            'base' : $CONFIG['root'] + 'static/'
+        });
+        </script>
+        <script src="http://127.0.0.1/neetproject/10/static/app/nav/init_f3506ef.js" data-node="script"></script>
+        <script src="http://127.0.0.1/neetproject/10/static/app/spal/init_a33e5a0.js" data-node="script"></script>
     </head>
     <body>
         <div id="wrapper">
@@ -67,8 +74,6 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 <?php echo $_smarty_tpl->getSubTemplate ("../nav/template.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null, array(), 0);?>
 
         </div>
-        <script src="http://127.0.0.1/neetproject/10/static/app/nav/init_2bca478.js" data-node="script"></script>
-        <script src="http://127.0.0.1/neetproject/10/static/app/spal/init_ddcfb2e.js" data-node="script"></script>
-        <script>seajs.use(['nav', 'spal']);</script>
+        <script>seajs.use(['spal', 'nav']);</script>
     </body>
 </html><?php }} ?>

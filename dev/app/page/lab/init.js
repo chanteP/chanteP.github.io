@@ -2,7 +2,7 @@ define('page/lab', function(require, exports){
 	var api = {};
 	var nav = require('nav'), spal = require('spal');
 	var page, mainbox, iframe, iframeTitle, iframeBlank, search;
-
+	
 	// var func = {
 	// 	'toggleLab' : function(value, oldValue){
 	// 		if(typeof value != 'undefined'){
