@@ -1,0 +1,47 @@
+.fullsc{
+    height:100%;
+    width:100%;
+}
+.clearfix:after{
+    content:'';
+    display: block;
+    width: 0;
+    height: 0;
+    clear: both;
+}
+.scrollbox{
+    overflow-y: auto; 
+    -webkit-overflow-scrolling: touch;
+}
+.scrollbox_s{
+    overflow-y: auto; 
+}
+.p_mp{
+    padding-left:4%;
+    padding-right:4%;
+}
+.p_mm{
+    margin-left:4%;
+    margin-right:4%;
+}
+.p_mml{
+    margin-left:4%;
+}
+@media screen and (max-width : 750px){
+    .p_mp{
+        padding-left:0;
+        padding-right:0;
+    }
+    .p_mm{
+        margin-left:0;
+        margin-right:0;
+    }
+    .p_mml{
+        margin-left:0;
+    }
+}
+/*
+.f_line{
+    font-family: 'Roboto', 'Open Sans', 'FF DIN', 'Benton Sans', 'Microsoft YaHei', sans-serif;
+}
+*/
