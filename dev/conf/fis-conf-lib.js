@@ -18,7 +18,8 @@ fis.config.set('pack', {
     ],
     'global.css' : [
         '/global/reset.css',
-        '/global/global.css',
+        '/global/style.css',
+        '/global/common-*.css',
         '/global/animate.css'
     ]
 });

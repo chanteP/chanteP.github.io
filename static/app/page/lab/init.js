@@ -1,27 +1,8 @@
 define('page/lab', function(require, exports){
-	var api = {};
-	var nav = require('nav'), spal = require('spal');
-	var page, mainbox, iframe, iframeTitle, iframeBlank, search;
-	
-	// var func = {
-	// 	'toggleLab' : function(value, oldValue){
-	// 		if(typeof value != 'undefined'){
-	// 			mainbox.classList.add('onshow');
-	// 		}
-	// 		else{
-	// 			mainbox.classList.remove('onshow');
-	// 		}
-	// 		func.setIframe(value);
-			
-	// 	},
-	// 	'setIframe' : function(id){
-	// 		if(typeof id != 'undefined'){
-	// 			clearTimeout(arguments.callee.timer);
-	// 			iframe.style.opacity = 0;
-	// 			var i = $.find('[data-labid="'+id+'"]', page);
-	// 			if(!i){return;}
-	// 			iframeTitle.innerHTML = $.find('[data-title]', i).innerHTML;
-	// 			iframeBlank.href = iframe.src = i.dataset.link;
+    var api = {};
+    var nav = require('nav'), spal = require('spal');
+    var page, mainbox, iframe, iframeTitle, iframeBlank, searchBar;
+
 
     var lab = {
         'show' : function(id){

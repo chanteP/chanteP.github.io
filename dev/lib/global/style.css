@@ -1,0 +1,52 @@
+html{
+    font-size: 100%; 
+    height:100%;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    -webkit-user-select: none;   /* 禁止选中文本（如无文本选中需求，此为必选项） */
+    user-select: none;
+}
+@media screen and (max-width : 750px){
+    html{
+        -webkit-font-smoothing: antialiased;
+    }
+}
+body{
+    min-height:100%;
+    height:100%;
+    color:#333;
+    font-size: .9em;
+    /*font-family: 'Open Sans', 'Benton Sans', 'Microsoft YaHei', sans-serif;*/
+    font-family: "Helvetica Neue", Helvetica, STHeiTi, 'Microsoft YaHei', sans-serif;
+    background: none #fff center center no-repeat;
+}
+b,
+i{
+    font-weight:100;
+    text-decoration:none;
+}
+a,
+img {
+    -webkit-touch-callout: none; /* 禁止长按链接与图片弹出菜单 */
+}
+a{
+    cursor:pointer;
+}
+hr {
+    display:block;
+    height:0;
+    border:0;
+    margin:0;
+    padding:0;
+    clear:both;
+}
+::selection{
+    background: #FE7F57;
+    color: #fff;
+    text-shadow: none;
+}
+
+@media print {
+    img { max-width: 100% !important; }
+    p, h2, h3 { orphans: 3; widows: 3; }
+}
