@@ -1,31 +1,29 @@
 ;(function(window, DataBind, $){
 	//################################################################################################################
     DataBind.expression = function(expressionText, context, vm){
+        debugger
         if(typeof expressionText !== 'string'){return '';}
-        var expressionRs;
-        //三目
-        if(expressionRs = trinocular.check(expressionText)){
-            return trinocular(expressionRs, context, vm);
-        }
-        //filter
-        else if(expressionRs = filterExp.check(expressionText)){
-            filterExp(expressionRs, context, vm);
-        }
-        //prop
-        else if(expressionRs = calc.check(expressionText)){
-            calc(expressionRs, context, vm);
-        }
-        //prop
-        else if(expressionRs = getProp.check(expressionText)){
-            getProp(expressionRs, context, vm);
-        }
-        else{
-            return expressionText;
-        }
+        var expressionRs, expressionFunc, check;
+        [trinocular, filterExp, calc, getProp].some(function(func){
+            check = func.check(expressionText);
+            if(check){
+                expressionFunc = func;
+                expressionRs = check;
+                return true;
+            }
+        });
+        return check ? expressionFunc(expressionRs, context, vm) : expressionText;
     }
     //################################################################################################################
-    var getProp = function(expression, context, vm){
-
+    var accessor = DataBind.accessor;
+    //################################################################################################################
+    var getProp = function(expressionRs, context, vm){
+        if(expressionRs[1] in context){
+            return context[expressionRs[1]];
+        }
+        else{
+            return '';
+        }
     }
     getProp.check = function(expressionText){
         return /^\s*([\w\.]+)\s*$/.exec(expressionText);
@@ -35,8 +33,11 @@
 
     }
     calc.check = function(expressionText){
-        return /^([\s\S]+?)([\+\-\*\/])([\s\S]+)$/
+        return /^([\s\S]+?)([\+\-\*\/])([\s\S]+)$/.exec(expressionText);
     }
+    calc.checkList = [
+        
+    ];
     //################################################################################################################
     var trinocular = function(expressionRs, context, vm){
         var cond = expressionRs[1], valT = expressionRs[2], valF = expressionRs[3];
@@ -54,5 +55,5 @@
     var filter = {
 
     }
-})(window, window.DataBind, window.NPWEB_Core);
+})(window, window.DataBind || {}, window.NPWEB_Core);
 
