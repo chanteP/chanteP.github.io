@@ -27,6 +27,9 @@
             node.parentNode.removeChild(node);
         }
     }
+    $.animate   = function(node, eff, callback, conf){
+        
+    }
     $.evt = function(element, data){
         var obj = typeof data === 'undefined' ?
             $.ext(element).hammer(data):
