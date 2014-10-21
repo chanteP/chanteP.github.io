@@ -20,9 +20,11 @@
         </div>
         <div id="syscomp">
         </div>
-        <script type="text/javascript">
+        <pre>
+        <script type="text/javascript" style="display:block;">
         DataBind.config({mode : 0});
-        var vm = new DataBind('a.b.c', {
+        var vm = DataBind.accessor();
+        var demo = new DataBind('a.b.c', {
             data : {
                 value:123,
                 set:function(value, o){
@@ -35,17 +37,22 @@
             d : 222,
             ss : 13
         }, {
-            propagation : false
+            propagation : true
         });
         var v = new DataBind('', {
             s : {
+                value : 1,
                 set : function(v, o){
                     return Math.min(v, 3000);
                 }
             }
         });
         DataBind.ob('a.b', function(v, ov){console.log('a.b', v, ov)});
-        vm.ob('data', function(v, ov){console.log('data', v, ov)})
+        demo.ob('data', function(v, ov){console.log('data', v, ov)});
+        setInterval(function(){
+            vm.s++;
+        }, 3000);
         </script>
+        </pre>
     </body>
 </html>

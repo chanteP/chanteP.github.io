@@ -859,13 +859,23 @@ var Zepto=function(){function G(a){return a==null?String(a):z[A.call(a)]||"objec
 	@140106
 	自用的web框架前端part，保留register作为扩展组件用
 */
-;(function(window, name, lib){
+config = config || {};
+config.lib = Zepto;
+config.loader = seajs;
+seajs.config({
+    base : config.base
+});
+
+;(function(window, name, config){
     var corename = 'NPWEB_Core';
 	if(corename in window){return;}
 	var $ = {};
 
-	$.ext 	= lib;
-	$.debug = true;
+    $.config = config;
+
+	$.ext 	= config.lib;
+    $.loader = config.loader;
+	$.debug = config.debug;
 	//base func###################################################################
     $.objMerger = function(type, args){
         var hold = false, rsObj, curObj;
@@ -921,12 +931,8 @@ var Zepto=function(){function G(a){return a==null?String(a):z[A.call(a)]||"objec
 	};
 	$.log.list = [];
 	
-	//init################################################################### 
-	$.init = function(coreExt){
-		$.ext = coreExt;
-	}
 	window[corename] = window[name] = $;
-})(window, '$', Zepto);
+})(window, '$', config);
 
 ;;(function($){
     $.id        = function(id){
@@ -956,6 +962,9 @@ var Zepto=function(){function G(a){return a==null?String(a):z[A.call(a)]||"objec
         if(node.parentNode){
             node.parentNode.removeChild(node);
         }
+    }
+    $.animate   = function(node, eff, callback, conf){
+        
     }
     $.evt = function(element, data){
         var obj = typeof data === 'undefined' ?

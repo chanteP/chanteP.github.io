@@ -1,5 +1,5 @@
 define('nav', function(require, exports){
-    var spal = require('spal');
+    var spa = require('spa');
 
     var node = $.find('#nav');
     var removeMarker = 'hide', dataMarker = 'mode';
@@ -13,7 +13,7 @@ define('nav', function(require, exports){
         else{
             delete regCan[pageName];
         }
-        if(spal.vm.page == pageName){
+        if(spa.page == pageName){
             check(pageName);
         }
     }
@@ -28,7 +28,7 @@ define('nav', function(require, exports){
         }
     }
     var init = function(){
-        spal.vm.ob('page', check);
+        spa.ob('page', check);
     }
     init();
     exports.reg = registerNav;

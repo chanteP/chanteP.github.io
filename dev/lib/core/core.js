@@ -3,13 +3,23 @@
 	@140106
 	自用的web框架前端part，保留register作为扩展组件用
 */
-;(function(window, name, lib){
+config = config || {};
+config.lib = Zepto;
+config.loader = seajs;
+seajs.config({
+    base : config.base
+});
+
+;(function(window, name, config){
     var corename = 'NPWEB_Core';
 	if(corename in window){return;}
 	var $ = {};
 
-	$.ext 	= lib;
-	$.debug = true;
+    $.config = config;
+
+	$.ext 	= config.lib;
+    $.loader = config.loader;
+	$.debug = config.debug;
 	//base func###################################################################
     $.objMerger = function(type, args){
         var hold = false, rsObj, curObj;
@@ -65,9 +75,5 @@
 	};
 	$.log.list = [];
 	
-	//init################################################################### 
-	$.init = function(coreExt){
-		$.ext = coreExt;
-	}
 	window[corename] = window[name] = $;
-})(window, '$', Zepto);
+})(window, '$', config);
