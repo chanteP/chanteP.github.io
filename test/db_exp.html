@@ -9,7 +9,7 @@
         <meta content="black" name="apple-mobile-web-app-status-bar-style" />
         <meta content="telephone=no" name="format-detection" />
         
-        <title>neetproject ver.6</title>
+        <title></title>
         
         <!-- <link rel="shortcut icon" href="/favicon.ico" /> -->
         <!-- <link href='http://fonts.googleapis.com/css?family=Roboto:400,100' rel='stylesheet' type='text/css'> -->
@@ -18,13 +18,16 @@
     </head>
     <body>
         <div id="wrapper">
-            <div><span>asdfsdf</span><span>但是复古的风格{{dsfdg}}</span></div>
+            <div><span>asdfsdf</span><span>但是复古的风格{{abc}}</span></div>
         </div>
         <div id="syscomp">
         </div>
         <script type="text/javascript">
         var exp = DataBind.expression;
-        var a = {abc : 123}
+        var vm = DataBind.accessor();
+        DataBind.accessor('a.b.d', 123);
+        var a = {abc : 123};
+
         </script>
     </body>
 </html>

@@ -1,59 +1,37 @@
+/*
+    <tag>{{a}}</tag> // text vm.a
+    <tag attr={{a}}></tag> // attribute vm.a
+
+*/
 ;(function(window, DataBind, $){
 	//################################################################################################################
     DataBind.expression = function(expressionText, context, vm){
-        debugger
-        if(typeof expressionText !== 'string'){return '';}
-        var expressionRs, expressionFunc, check;
-        [trinocular, filterExp, calc, getProp].some(function(func){
-            check = func.check(expressionText);
-            if(check){
-                expressionFunc = func;
-                expressionRs = check;
-                return true;
-            }
-        });
-        return check ? expressionFunc(expressionRs, context, vm) : expressionText;
+        if(typeof expressionText !== 'string' || !expressionText.trim() || expressionText[0] === '#'){return '';}
+        //TODO char
+        var filterData = expressionText.split('|'), filterArgs = /^\s*([\w]+)\(([\w\s\,]+)\)/.exec(filterData[1]);
+        var rs = getValue(filterData[0], context, vm);
+        if(filterArgs && filterArgs[1]){
+            return filter[filterArgs[1]](rs, filterArgs[2].split(','), context, vm);
+        }
+        return rs;
     }
     //################################################################################################################
     var accessor = DataBind.accessor;
     //################################################################################################################
-    var getProp = function(expressionRs, context, vm){
-        if(expressionRs[1] in context){
-            return context[expressionRs[1]];
+    var infixToPostfix = function(exp){
+        var escape = false, quot = [], brackets = [], pExp = [], token = [], code;
+        for(var i = 0, j = exp.length; i < j; i++){
+            code = exp[i].charCodeAt();
         }
-        else{
-            return '';
-        }
-    }
-    getProp.check = function(expressionText){
-        return /^\s*([\w\.]+)\s*$/.exec(expressionText);
     }
     //################################################################################################################
-    var calc = function(expressionRs, context, vm){
+    var getValue = function(expression, context, vm){
+        return eval(expression) || '';
+    }
+    var filter = [
 
-    }
-    calc.check = function(expressionText){
-        return /^([\s\S]+?)([\+\-\*\/])([\s\S]+)$/.exec(expressionText);
-    }
-    calc.checkList = [
-        
     ];
-    //################################################################################################################
-    var trinocular = function(expressionRs, context, vm){
-        var cond = expressionRs[1], valT = expressionRs[2], valF = expressionRs[3];
-    }
-    trinocular.check = function(expressionText){
-        return /^([\s\S]+?)\?([\s\S]+)\:([\s\S]+)$/.exec(expressionText);
-    }
-    //################################################################################################################
-    var filterExp = function(expressionRs, context, vm){
-        var prop = expressionRs[1], valT = expressionRs[2], valF = expressionRs[3];
-    }
-    filterExp.check = function(expressionText){
-        return /^([\s\S]+?)\|([\s\S]+)\:?([\s\S]+)?$/.exec(expressionText);
-    }
-    var filter = {
 
-    }
+
 })(window, window.DataBind || {}, window.NPWEB_Core);
 

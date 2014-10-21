@@ -9,10 +9,10 @@
     });
     accessor :
         db.set('a', 1);
-        db.ob('a', func, 'change');
+        db.observe('a', func, 'change');
     defineProp :
         db.a = 1;
-        DataBind.ob('')
+        DataBind.observe('')
     propagation : 
 */
 ;(function(window, name, $){
@@ -34,6 +34,7 @@
         }
         return true;
     }
+    var merge = $.merge;
     //################################################################################################################
     var main = {
         'parseNS' : function(name, propNS){
@@ -135,28 +136,29 @@
     }
     //################################################################################################################
     var list = {
-        'fire' : function(nameNS, type, args){
+        'fire' : function(nameNS, type, extArgs){
             if(type instanceof Array){
                 type.forEach(function(type){
-                    list.fire(nameNS, type, args);
+                    list.fire(nameNS, type, extArgs);
                 });
                 return;
             }
             var evtList = list.check(nameNS, type);
             var col = Accessor.ns(nameNS);
+            args = [col.value, col.oldValue, {type:type, object:col.parent, name:col.name}];
+            args[2] = merge(args[2], extArgs);
             if(evtList){
                 evtList.forEach(function(func){
                     if(typeof func === 'function'){
                         func.apply(col.parent, args);
                     }
                     else if(typeof func === 'string'){
-                        list.fire(func, type, [main.accessor(func), Accessor.ns(func).oldValue]);
-                        Accessor.ns(func).oldValue = main.accessor(func);
+                        list.fire(func, type, args[2]);
                     }
                 });
             }
             if(col.parentNS && col.propagation && col.propagationType.indexOf(type) >= 0){
-                list.fire(col.parentNS, type, [main.accessor(col.parentNS), Accessor.ns(col.parentNS).oldValue]);
+                list.fire(col.parentNS, type, args[2]);
             }
         },
         'add' : function(nameNS, func, evt){
@@ -198,7 +200,7 @@
     Accessor.prototype.set = function(value){
         this.value = value;
         this.mode && (this.parent[this.name] = value);
-        // list.fire(this.nameNS, 'set', [value, this.oldValue]);
+        list.fire(this.nameNS, 'set', [value, this.oldValue]);
         value !== this.oldValue && list.fire(this.nameNS, 'change', [value, this.oldValue]);
         this.oldValue = value;
         return value;
@@ -241,7 +243,7 @@
     //################################################################################################################
     var expApi = {};
     if('defineProperty' in Object){
-        Object.defineProperty(expApi, 'ob', {'enumerable':false, 'writable':true});
+        Object.defineProperty(expApi, 'observe', {'enumerable':false, 'writable':true});
         Object.defineProperty(expApi, 'destroy', {'enumerable':false, 'writable':true});   
         Object.defineProperty(expApi, 'setPropagation', {'enumerable':false, 'writable':true});   
     }
@@ -269,7 +271,7 @@
     }
     DataBind.collection = collection;
     DataBind.accessor = main.accessor;
-    DataBind.ob = list.add;
+    DataBind.observe = list.add;
     DataBind.destroy = Accessor.destroy;
     DataBind.setPropagation = Accessor.setPropagation;
     DataBind.prototype.get = function(propNS){
@@ -283,17 +285,17 @@
         Accessor.setPropagation(propNS, bool, type);
         return this;
     };
-    DataBind.prototype.ob = expApi.ob = function(propNS, func, evt){
+    DataBind.prototype.observe = expApi.observe = function(propNS, func, evt){
         propNS = main.parseNS(this.__proto__._name || this.name, propNS);
         list.add(propNS, func, evt);
         return this;
     };
-    DataBind.prototype.check = expApi.check = function(propNS){
+    DataBind.prototype.fire = expApi.fire = function(propNS, evt, args){
         propNS = main.parseNS(this.__proto__._name || this.name, propNS);
         var value = main.accessor(propNS);
-        list.fire(propNS, ['set', 'change'], [value, value]);
+        list.fire(propNS, [evt], [value, value]);
         return this;
-    }
+    };
     DataBind.prototype.destroy = expApi.destroy = function(deep){
         Accessor.destroy(this.__proto__._name || this.name);        
     };
