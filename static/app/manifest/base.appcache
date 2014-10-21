@@ -1,9 +1,0 @@
-CACHE MANIFEST
-
-CACHE:
-../base/core.js
-
-NETWORK:
-*
-
-FALLBACK:

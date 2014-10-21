@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.14, created on 2014-09-17 00:39:03
+<?php /* Smarty version Smarty-3.1.14, created on 2014-10-19 00:52:48
          compiled from "static/app/frame/template.html" */ ?>
 <?php /*%%SmartyHeaderCode:290736318540354061f5f85-42814310%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '10414993942224e3c8af1d36bc55770b3f390980' => 
     array (
       0 => 'static/app/frame/template.html',
-      1 => 1410885540,
+      1 => 1413651160,
       2 => 'file',
     ),
   ),
@@ -41,34 +41,39 @@ $_valid = $_smarty_tpl->decodeProperties(array (
         
         <!--        <link rel="shortcut icon" href="/favicon.ico" /> -->
         <!-- <link href='http://fonts.googleapis.com/css?family=Roboto:400,100' rel='stylesheet' type='text/css'> -->
-        <link rel="stylesheet" media="screen" href="http://127.0.0.1/neetproject/10/static/lib/global_1602e06.css" />
-        <link rel="stylesheet" media="screen" href="http://127.0.0.1/neetproject/10/static/app/frame/style_1cf294d.css" />
+        <link rel="stylesheet" media="screen" href="http://127.0.0.1/neetproject/10/static/lib/global_357b8a7.css" />
+        <link rel="stylesheet" media="screen" href="http://127.0.0.1/neetproject/10/static/app/frame/style_c8f6cf2.css" />
         <link rel="stylesheet" media="screen" href="http://127.0.0.1/neetproject/10/static/app/nav/style_909fea8.css" />
-        <link rel="stylesheet" media="screen" href="http://127.0.0.1/neetproject/10/static/app/spal/style_6da59a0.css" />
+        <link rel="stylesheet" media="screen" href="http://127.0.0.1/neetproject/10/static/app/spa/style_6da59a0.css" />
         <script>
-            var $CONFIG = new Object();
-            $CONFIG['kitpath'] = '<?php echo $_smarty_tpl->tpl_vars['KITPATH']->value;?>
-';
-            $CONFIG['root'] = '<?php echo $_smarty_tpl->tpl_vars['root']->value;?>
-';
-            $CONFIG['isMobile'] = '<?php echo $_smarty_tpl->tpl_vars['isMobile']->value;?>
-';
-            $CONFIG['style'] = '<?php echo $_smarty_tpl->tpl_vars['style']->value;?>
-';
+            var config = {
+                kitpath : '<?php echo $_smarty_tpl->tpl_vars['KITPATH']->value;?>
+',
+                root : '<?php echo $_smarty_tpl->tpl_vars['root']->value;?>
+',
+                pagePath : '<?php echo $_smarty_tpl->tpl_vars['root']->value;?>
+static/app/',
+                isMobile : '<?php echo $_smarty_tpl->tpl_vars['isMobile']->value;?>
+',
+                style : '<?php echo $_smarty_tpl->tpl_vars['style']->value;?>
+',
+                base : '<?php echo $_smarty_tpl->tpl_vars['root']->value;?>
+static/app/'
+            };
         </script>
-        <script src="http://127.0.0.1/neetproject/10/static/lib/core_c118653.js" data-node="script"></script>
+        <script src="http://127.0.0.1/neetproject/10/static/lib/core_9d6571a.js" data-node="script"></script>
+        <script src="http://127.0.0.1/neetproject/10/static/app/spa/init_2fb8dc1.js" data-node="script"></script>
+        <script src="http://127.0.0.1/neetproject/10/static/app/nav/init_b1536b1.js" data-node="script"></script>
     </head>
     <body>
         <div id="wrapper">
-<?php echo $_smarty_tpl->getSubTemplate ("../spal/template.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null, array(), 0);?>
+<?php echo $_smarty_tpl->getSubTemplate ("../spa/template.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null, array(), 0);?>
 
         </div>
         <div id="syscomp">
 <?php echo $_smarty_tpl->getSubTemplate ("../nav/template.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null, array(), 0);?>
 
         </div>
-        <script src="http://127.0.0.1/neetproject/10/static/app/nav/init_2bca478.js" data-node="script"></script>
-        <script src="http://127.0.0.1/neetproject/10/static/app/spal/init_ddcfb2e.js" data-node="script"></script>
-        <script>seajs.use(['nav', 'spal']);</script>
+        <script data-node="script">$.loader.use(['nav', 'spa'], function(nav, spa){spa.init()});</script>
     </body>
 </html><?php }} ?>

@@ -5,6 +5,7 @@ class ExtAction extends Action{
 		$this->isPage = true;
 	}
 	public function getPage($page, $display){
+        $page = strtolower($page);
 		$appStaticPath = PATH_STATIC . APP_STATIC;
 
 		$jsFile = "page/$page/init.js";
@@ -28,12 +29,13 @@ class ExtAction extends Action{
         $this->assign('isMobile', is_mobile());
 
         if($display){
+            sleep(2);
         	$this->display('spal/template.html');
         }
 	}
 	public function _end($data){
 		if($this->isPage){return;}
-		$pageHTML = $this->getPage($data['action']);
+		$pageHTML = $this->getPage(rtrim($data['controller'], 'Action'));
 		$this->display('frame/template.html');
 	}
 }

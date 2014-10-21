@@ -16,25 +16,28 @@
         <link rel="stylesheet" media="screen" href="../../lib/global.css" />
         <link rel="stylesheet" media="screen" href="./style.css" />
         <link rel="stylesheet" media="screen" href="../nav/style.css" />
-        <link rel="stylesheet" media="screen" href="../spal/style.css" />
+        <link rel="stylesheet" media="screen" href="../spa/style.css" />
         <script>
-            var $CONFIG = new Object();
-            $CONFIG['kitpath'] = '{$KITPATH}';
-            $CONFIG['root'] = '{$root}';
-            $CONFIG['isMobile'] = '{$isMobile}';
-            $CONFIG['style'] = '{$style}';
+            var config = {
+                kitpath : '{$KITPATH}',
+                root : '{$root}',
+                pagePath : '{$root}static/app/',
+                isMobile : '{$isMobile}',
+                style : '{$style}',
+                base : '{$root}static/app/'
+            };
         </script>
         <script src="../../lib/core.js" data-node="script"></script>
+        <script src="../spa/init.js" data-node="script"></script>
+        <script src="../nav/init.js" data-node="script"></script>
     </head>
     <body>
         <div id="wrapper">
-{include file="../spal/template.html"}
+{include file="../spa/template.html"}
         </div>
         <div id="syscomp">
 {include file="../nav/template.html"}
         </div>
-        <script src="../nav/init.js" data-node="script"></script>
-        <script src="../spal/init.js" data-node="script"></script>
-        <script>seajs.use(['nav', 'spal']);</script>
+        <script data-node="script">{literal}$.loader.use(['nav', 'spa'], function(nav, spa){spa.init()});{/literal}</script>
     </body>
 </html>

@@ -24,7 +24,7 @@ class Route{
             return false;
         }
         $controller = new $c();
-        $actionData = self::check_action($controller, $actionUrl);
+        $actionData = self::check_action($controller, $actionUrl, $c);
         if(!$actionData){
             $type == 1 && self::page('404');
             return false;
@@ -49,7 +49,7 @@ class Route{
         }
         return $controllerName;
     }
-    private static function check_action($controller, $url){
+    private static function check_action($controller, $url, $controllerName){
         $action = DEF_ACTION;
         $url = $url ? $url : '/';
         if(is_array($controller->_mapping)){
@@ -70,6 +70,7 @@ class Route{
             return false;
         }
         return array(
+            'controller' => $controllerName,
             'action' => $action,
             'data' => $check ? $check : array(),
             'url' => $url
