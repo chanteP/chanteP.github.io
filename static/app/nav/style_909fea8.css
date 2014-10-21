@@ -1,0 +1,115 @@
+.comp_nav{
+    -webkit-user-select:none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+    width: 200px;
+    text-align: center;
+    background: #fff left top no-repeat;
+    /*background-image: linear-gradient(0deg, #333 3px, transparent 3px);*/
+    border-right: 1px solid #ccc;
+
+    transition:all .4s ease .4s;
+
+    box-shadow: rgba(0,0,0,.1) 0 0 4px;
+    visibility: hidden;
+    -webkit-transform:translateX(-100%);
+}
+.comp_nav .title{
+    height:50%;
+}
+@media screen and (max-width:750px){
+    .comp_nav .title{
+        height:40px;
+    }
+}
+.comp_nav .nav{
+    width: 100%;
+}
+.comp_nav[data-mode="show"]{
+    transition-delay:0s;
+    visibility: visible;
+    -webkit-transform:translateX(0);
+}
+@media screen and (max-width:750px){
+    .comp_nav{
+        position: absolute;
+        right: 0;
+        bottom: initial;
+        width: inherit;
+        border-bottom: 1px #aaa solid;
+        -webkit-transform:translateY(-100%);
+        background: #fff;
+    }
+    .comp_nav[data-mode="show"]{
+        -webkit-transform:translateY(0);
+    }
+    .comp_nav .title{
+        display: block;
+    }
+}
+.p_np{
+    padding-left: 200px;
+}
+.p_nm{
+    margin-left: 200px;
+}
+.p_nsh{
+    height: 100%;
+}
+@media screen and (max-width:750px){
+    .p_np{
+        padding-left: 0;
+        padding-top: 78px;
+    }
+    .p_nm{
+        margin-left: 0;
+        margin-top: 78px;
+    }
+    .p_nsh{
+        height: calc(100% - 78px);
+    }
+}
+.comp_nav .navlist{
+}
+.comp_nav li{
+/*    position: relative;*/
+    display: block;
+    height: 36px;
+    line-height: 36px;
+    border-bottom: 1px solid transparent;
+    border-left: 4px solid transparent;
+    overflow-y: hidden;
+    transition:none .5s ease 0s;
+    transition-property: box-shadow, border, background;
+}
+.comp_nav a{
+    display: block;
+    padding: 0 12px;
+    font-size: 14px;
+    color: #333;
+    text-decoration: none;
+}
+.comp_nav li[data-cur]{
+    border-left-color: #f90;
+}
+
+@media screen and (min-width:751px){
+    .comp_nav[data-mode="show"] li{
+        border-bottom: 1px solid #ccc;
+        box-shadow: rgba(0,0,0,.1) 0px 1px 4px -1px;
+    }
+}
+@media screen and (max-width:750px){
+    .comp_nav li,
+    .comp_nav li[data-cur]{
+        display: inline-block;
+        border: 0;
+        box-shadow: none;
+    }
+    .comp_nav li[data-cur] a{
+        color: #e90;
+    }
+}

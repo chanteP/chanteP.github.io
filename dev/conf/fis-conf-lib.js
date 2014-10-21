@@ -1,6 +1,8 @@
 fis.config.set('pack', {
     'core.js' : [
         '/core/sea-debug.js',
+        '/core/sea-config.js',
+        // '/core/handlebars-v2.0.0.js',
 
         '/core/zepto.min.js',
         '/core/jquery.hammer.min.js',

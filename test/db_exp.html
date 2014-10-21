@@ -26,8 +26,12 @@
         <script type="text/javascript" style="display:block;">
         var exp = DataBind.expression;
         var vm = DataBind.accessor();
-        DataBind.accessor('a.b.d', 123);
+        // DataBind.accessor('a.b.c', 123);
+        var data = new DataBind('a.b.c.abc', 123);
+        new DataBind('a.b.c.eee', 123);
         var a = {abc : 123};
+
+        exp('abc + eee', 'a.b.c', vm);
 
         </script>
         </pre>

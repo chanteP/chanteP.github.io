@@ -18,20 +18,25 @@
     //################################################################################################################
     var accessor = DataBind.accessor;
     //################################################################################################################
-    var infixToPostfix = function(exp){
-        var escape = false, quot = [], brackets = [], pExp = [], token = [], code;
-        for(var i = 0, j = exp.length; i < j; i++){
-            code = exp[i].charCodeAt();
-        }
+    var getValue = function(expression, context, vm){
+        return parser(expression)(typeof context === 'string' ? DataBind.accessor(context) : context, vm);
     }
     //################################################################################################################
-    var getValue = function(expression, context, vm){
-        return eval(expression) || '';
-    }
     var filter = [
 
     ];
-
+    //################################################################################################################
+    var parserCache = {};
+    var parser = function(expression){
+        if(typeof expression !== 'string'){return;}
+        if(parserCache[expression]){return parserCache[expression];}
+        var reg = /\b(?!\'|\"|vm\.)(\w+)(?!\'|\")\b/g, funcBody;
+        funcBody = expression.replace(reg, function(match, group){
+            return isNaN(group) ? 'data.' + group : group;
+        });
+        // /(^( )?(if|for|else|switch|case|break|{|}))(.*)?/g;
+        return parserCache[expression] = new Function('data', 'vm', 'return ' + funcBody);
+    }
 
 })(window, window.DataBind || {}, window.NPWEB_Core);
 

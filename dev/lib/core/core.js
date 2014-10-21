@@ -3,13 +3,6 @@
 	@140106
 	自用的web框架前端part，保留register作为扩展组件用
 */
-config = config || {};
-config.lib = Zepto;
-config.loader = seajs;
-seajs.config({
-    base : config.base
-});
-
 ;(function(window, name, config){
     var corename = 'NPWEB_Core';
 	if(corename in window){return;}
@@ -17,8 +10,10 @@ seajs.config({
 
     $.config = config;
 
-	$.ext 	= config.lib;
-    $.loader = config.loader;
+	$.ext 	= window.Zepto;
+    $.loader = window.seajs;
+    // $.template = window.Handlebars;
+    
 	$.debug = config.debug;
 	//base func###################################################################
     $.objMerger = function(type, args){
@@ -38,10 +33,10 @@ seajs.config({
         return rsObj;
     };
 	$.parse = function(){
-        $.objMerger(0, arguments);
+        return $.objMerger(0, arguments);
     };
     $.merge = function(){
-        $.objMerger(1, arguments);
+        return $.objMerger(1, arguments);
     };
 	//register###################################################################
 	$.register = function(route, func, base){
@@ -76,4 +71,4 @@ seajs.config({
 	$.log.list = [];
 	
 	window[corename] = window[name] = $;
-})(window, '$', config);
+})(window, '$', window.config || {});
