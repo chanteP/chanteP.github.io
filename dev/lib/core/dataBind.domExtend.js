@@ -4,17 +4,16 @@
 		desc:
 			{{expression}}
 			
-			vm-bind
 			vm-list="a.b.c"
-			vm-bind="a.b" vm-model="value" 
+			vm-model="value" 
 
 	*/
 	//################################################################################################################
 	var preg = /{{([^}]+)}}/m;
+	var prefix = 'vm-';
 	var marker = {
-		'bind' : 'vm-bind',
-		'list' : 'vm-list',
-		'evt' : ['tap', 'change'],
+		'model' : prefix + 'model',
+		'list' : prefix + 'list'
 	}
 	//################################################################################################################
 	var func = {
@@ -27,11 +26,27 @@
 		'expression' : DataBind.expression,
 		'bindDocument' : function(){
 			var evtBody = func.evt(document.body);
-			marker.evt.forEach(function(evt){
-				evtBody.on(evt, 'vm-' + evt, function(e){
-					console.log(e.type)
+			evtBody
+				.on('change', [
+						'input[type=checkbox]['+marker.model+']',
+						'input[type=radio]['+marker.model+']'
+					].join(','), 
+					function(e){
+						console.log(e.type, e.target)
+				})
+				.on('change', 'select['+marker.model+']', function(){
+						console.log(e.type, e.target)
+				})
+				.on('change', 'file['+marker.model+']', function(){
+						console.log(e.type, e.target)
+				})
+				.on('keyup', [
+						'input[type=text]['+marker.model+']',
+						'textarea['+marker.model+']'
+					].join(','), 
+					function(e){
+						console.log(e.type, e.target)
 				});
-			});
 		},
 		'parseNode' : function(node){
 			if(node.nodeType === 1){
@@ -59,10 +74,10 @@
 		}
 	}
 	//################################################################################################################
-	DataBind.scan = function(node, init){
+	DataBind.scan = function(node){
 		main.parseNode(node || document.body);
-		init && main.bindDocument();
 	}
+	window.document.on('DOMContentloaded', main.bindDocument);
 
 	//################################################################################################################
 })(window, window.DataBind, window.NPWEB_Core);

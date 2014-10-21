@@ -41,16 +41,16 @@
             propNS = propNS || '';
             return name + (name !== undefined && name !== '' && propNS !== '' ? '.' : '') + propNS;
         },
-        'accessor' : function(propNS, value){
-            var data = Accessor.ns(propNS || ''), rs;
+        'accessor' : function(propNS, value, dirty){
+            var scope = Accessor.ns(propNS || ''), rs;
             if(arguments.length === 0){return vm;}
             if(arguments.length === 1){
-                // rs = data.get();
-                return config.mode ? data.get() : data.parent[data.name];
+                // rs = scope.get();
+                return config.mode ? scope.get() : scope.parent[scope.name];
             }
             if(arguments.length >= 2){
-                data.set(value);
-                return data.value;
+                scope.set(value, dirty);
+                return scope.value;
             }
         },
         'parseDeps' : function(nameNS, parentNS, func){
@@ -74,46 +74,48 @@
             });
         },
         'defProp' : function(nameNS, propDesc){
-            var col = Accessor.ns(nameNS);
+            var scope = Accessor.ns(nameNS);
             var get, set, value, change;
             propDesc = propDesc || {};
             set = propDesc.set;
             get = propDesc.get;
             change = propDesc.change;
+            dirty = propDesc.dirty;
             //desc.set控制输入，响应set->change
             if(typeof set === 'function'){
-                col.set = function(value){
-                    value = set.call(col.mode ? col : col.parent, value, col.value);
-                    col.__proto__.set.call(col, value);
+                scope.set = function(value, dirty){
+                    value = set.call(scope.mode ? scope : scope.parent, value, scope.value);
+                    scope.__proto__.set.call(scope, value, dirty);
                     return value;
                 }
             }
             //desc.get控制输出，不响应，绑定关联属性的change
             if(typeof get === 'function'){
-                main.parseDeps(nameNS, col.parentNS, get);
+                main.parseDeps(nameNS, scope.parentNS, get);
                 var args = vm;
-                col.get = function(){
-                    var value = get.call(col.parent, args);
-                    // col.oldValue = value;
+                scope.get = function(){
+                    var value = get.call(scope.parent, args);
+                    // scope.oldValue = value;
                     return value;
                 }
             }
             if(typeof change === 'function'){
                 list.add(nameNS, change, 'change');
             }
-            !col.mode && Object.defineProperty(col.parent, col.name, {
+            scope.dirty = !!dirty;
+            !scope.mode && Object.defineProperty(scope.parent, scope.name, {
                 'get' : function(){
-                    return col.get();
+                    return scope.get();
                 },
                 'set' : function(value){
-                    return col.set(value);
+                    return scope.set(value);
                 },
                 'enumerable' : true
             });
-            col.value = col.parent[col.name] = typeof set === 'function' || typeof get === 'function' || typeof change === 'function' ? propDesc.value : propDesc;
+            scope.value = scope.parent[scope.name] = typeof set === 'function' || typeof get === 'function' || typeof change === 'function' ? propDesc.value : propDesc;
         },
         'register' : function(nameNS, obj){
-            var col = Accessor.ns(nameNS);
+            var scope = Accessor.ns(nameNS);
             if(typeof obj === 'object' && obj !== null
                 && typeof obj.set !== 'function'
                 && typeof obj.get !== 'function'
@@ -131,7 +133,7 @@
             else{
                 main.defProp(nameNS, obj);
             }
-            return col;
+            return scope;
         }
     }
     //################################################################################################################
@@ -144,21 +146,21 @@
                 return;
             }
             var evtList = list.check(nameNS, type);
-            var col = Accessor.ns(nameNS);
-            args = [col.value, col.oldValue, {type:type, object:col.parent, name:col.name}];
+            var scope = Accessor.ns(nameNS);
+            args = [scope.value, scope.oldValue, {type:type, object:scope.parent, name:scope.name}];
             args[2] = merge(args[2], extArgs);
             if(evtList){
                 evtList.forEach(function(func){
                     if(typeof func === 'function'){
-                        func.apply(col.parent, args);
+                        func.apply(scope.parent, args);
                     }
                     else if(typeof func === 'string'){
                         list.fire(func, type, args[2]);
                     }
                 });
             }
-            if(col.parentNS && col.propagation && col.propagationType.indexOf(type) >= 0){
-                list.fire(col.parentNS, type, args[2]);
+            if(scope.parentNS && scope.propagation && scope.propagationType.indexOf(type) >= 0){
+                list.fire(scope.parentNS, type, args[2]);
             }
         },
         'add' : function(nameNS, func, evt){
@@ -168,13 +170,13 @@
             evtList.push(func);
         },
         'check' : function(nameNS, type, build){
-            var col = Accessor.ns(nameNS, !build);
-            if(!col){return false;}
-            if(!(col.list[type] instanceof Array)){
+            var scope = Accessor.ns(nameNS, !build);
+            if(!scope){return false;}
+            if(!(scope.list[type] instanceof Array)){
                 if(!build){return false;}
-                col.list[type] = [];
+                scope.list[type] = [];
             }
-            return col.list[type];
+            return scope.list[type];
         }
     }
     //################################################################################################################
@@ -188,8 +190,9 @@
         this.oldValue = data.value;
         this.deps = [];
         this.propagation = config.propagation;
-        this.propagationType = config.propagationType;
+        this.propagationType = [].concat(config.propagationType);
         this.mode = config.mode;
+        this.dirty = false;
         this.children = [];
         this.parentNS && Accessor.ns(this.parentNS).children.push(this.nameNS);
         collection[this.nameNS] = this;
@@ -197,12 +200,14 @@
     Accessor.prototype.get = function(){
         return this.value;
     }
-    Accessor.prototype.set = function(value){
+    Accessor.prototype.set = function(value, dirty){
         this.value = value;
         this.mode && (this.parent[this.name] = value);
-        list.fire(this.nameNS, 'set', [value, this.oldValue]);
-        value !== this.oldValue && list.fire(this.nameNS, 'change', [value, this.oldValue]);
+        dirty = this.dirty || dirty;
+        !dirty && list.fire(this.nameNS, 'set', [value, this.oldValue]);
+        !dirty && value !== this.oldValue && list.fire(this.nameNS, 'change', [value, this.oldValue]);
         this.oldValue = value;
+        this.dirty = false;
         return value;
     }
     Accessor.ns = function(nameNS, pure){
@@ -227,16 +232,16 @@
         });
     };
     Accessor.setPropagation = function(nameNS, bool, type){
-        var col = Accessor.ns(nameNS, true);
-        if(!col){return;}
-        col.propagation = bool;
-        type instanceof Array && (col.propagationType = type);
+        var scope = Accessor.ns(nameNS, true);
+        if(!scope){return;}
+        scope.propagation = bool;
+        type instanceof Array && (scope.propagationType = type);
     }
     Accessor.destroy = function(nameNS, deep){
-        var col = Accessor.ns(nameNS, true);
-        if(col && col.parent){
-            col.children.forEach(Accessor.destroy);
-            delete col.parent[col.name];
+        var scope = Accessor.ns(nameNS, true);
+        if(scope && scope.parent){
+            scope.children.forEach(Accessor.destroy);
+            delete scope.parent[scope.name];
             delete collection[nameNS];
         }
     }
@@ -254,13 +259,13 @@
             obj = nameNS;
             nameNS = '';
         }
-        var col = main.register(nameNS, obj);
+        var scope = main.register(nameNS, obj);
         cfg = cfg || {};
         this.name = nameNS;
         'propagation' in cfg && Accessor.setPropagation(nameNS, cfg.propagation, cfg.propagationType);
-        // this.col = col;
+        // this.scope = scope;
         if(!config.mode){
-            var exports = col.parent ? col.parent[col.name] : vm;
+            var exports = scope.parent ? scope.parent[scope.name] : vm;
             exports.__proto__ = Object.create(expApi, {'_name':{'value' : nameNS}});
             return exports;
         }
@@ -277,8 +282,8 @@
     DataBind.prototype.get = function(propNS){
         return main.accessor(main.parseNS(this.__proto__._name || this.name, propNS));
     }
-    DataBind.prototype.set = function(propNS, value){
-        return main.accessor(main.parseNS(this.__proto__._name || this.name, propNS), value);
+    DataBind.prototype.set = function(propNS, value, dirty){
+        return main.accessor(main.parseNS(this.__proto__._name || this.name, propNS), value, dirty);
     }
     DataBind.prototype.setPropagation = expApi.setPropagation = function(bool, type){
         propNS = main.parseNS(this.__proto__._name || this.name, propNS);
