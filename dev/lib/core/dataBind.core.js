@@ -245,6 +245,7 @@
     if('defineProperty' in Object){
         Object.defineProperty(expApi, 'observe', {'enumerable':false, 'writable':true});
         Object.defineProperty(expApi, 'destroy', {'enumerable':false, 'writable':true});   
+        Object.defineProperty(expApi, 'fire', {'enumerable':false, 'writable':true});   
         Object.defineProperty(expApi, 'setPropagation', {'enumerable':false, 'writable':true});   
     }
     var DataBind = function(nameNS, obj, cfg){

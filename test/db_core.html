@@ -9,11 +9,13 @@
         <meta content="black" name="apple-mobile-web-app-status-bar-style" />
         <meta content="telephone=no" name="format-detection" />
         
-        <title>neetproject ver.6</title>
+        <title>db core test</title>
         
         <!--        <link rel="shortcut icon" href="/favicon.ico" /> -->
         <!-- <link href='http://fonts.googleapis.com/css?family=Roboto:400,100' rel='stylesheet' type='text/css'> -->
-        <script src="../dev/lib/core.js"></script>
+        <script src="../dev/lib/core/core.js"></script>
+        <script src="../dev/lib/core/kit.js"></script>
+        <script src="../dev/lib/core/dataBind.core.js"></script>
     </head>
     <body>
         <div id="wrapper">
@@ -22,8 +24,21 @@
         </div>
         <pre>
         <script type="text/javascript" style="display:block;">
-        DataBind.config({mode : 0});
         var vm = DataBind.accessor();
+        /* ######################################################################
+        vm : {
+            a : {
+                b : {
+                    c : {
+                        data : this.d + this.e
+                    },
+                    d : 222,
+                    e : 13
+                }
+            },
+            s : 1 [3000, +]
+        }
+        */
         var demo = new DataBind('a.b.c', {
             data : {
                 value:123,
@@ -31,11 +46,11 @@
                     return value;
                 },
                 get : function(vm){
-                   return this.d + this.ss; 
+                   return this.d + this.e + vm.s;
                 }
             }, 
             d : 222,
-            ss : 13
+            e : 13
         }, {
             propagation : true
         });
@@ -47,8 +62,15 @@
                 }
             }
         });
-        DataBind.ob('a.b', function(v, ov){console.log('a.b', v, ov)});
-        demo.ob('data', function(v, ov){console.log('data', v, ov)});
+        //mode : 0 ######################################################################
+        // DataBind.config({mode : 0});
+        DataBind.observe('a.b', function(v, ov){console.log('a.b', v, ov, arguments)});
+        
+
+        //mode : 0 ######################################################################
+        // DataBind.config({mode : 1});
+        // DataBind.ob('a.b', function(v, ov){console.log('a.b', v, ov)});
+        // demo.ob('data', function(v, ov){console.log('data', v, ov)});
         setInterval(function(){
             vm.s++;
         }, 3000);
