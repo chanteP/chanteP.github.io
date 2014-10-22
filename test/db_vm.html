@@ -9,46 +9,54 @@
         <meta content="black" name="apple-mobile-web-app-status-bar-style" />
         <meta content="telephone=no" name="format-detection" />
         
-        <title>neetproject ver.6</title>
+        <title>vm</title>
         
         <!--        <link rel="shortcut icon" href="/favicon.ico" /> -->
         <!-- <link href='http://fonts.googleapis.com/css?family=Roboto:400,100' rel='stylesheet' type='text/css'> -->
-        <script src="../dev/lib/core.js"></script>
+        <script src="../dev/lib/core/core.js"></script>
+        <script src="../dev/lib/core/kit.js"></script>
+        <script src="../dev/lib/core/dataBind.core.js"></script>
+        <script src="../dev/lib/core/dataBind.expression.js"></script>
     </head>
     <body>
         <div id="wrapper">
-            <div><span>asdfsdf</span><span>但是复古的风格{{dsfdg}}</span></div>
+            <div><span abc="{{a.b.c.data}}123">asdfsdf</span><span>但是复古的风格{{s}}</span></div>
         </div>
         <div id="syscomp">
         </div>
         <script type="text/javascript">
         DataBind.config({mode : 0});
-        var vm = new DataBind('a.b.c', {
-            data : {
-                value:123,
-                set:function(value, o){
-                    return value;
-                },
-                get : function(vm){
-                   return this.d + vm.s; 
-                }
-            }, 
-            d : 222,
-            ss : 13
-        }, {
-            propagation : false
-        });
+        
         var v = new DataBind('', {
             s : {
                 set : function(v, o){
                     return Math.min(v, 3000);
                 }
             }
+        });var demo = new DataBind('a.b.c', {
+            data : {
+                value:123,
+                set:function(value, o){
+                    return value;
+                },
+                get : function(vm){
+                   return this.d + this.e + vm.s;
+                }
+            }, 
+            d : 222,
+            e : 13
+        }, {
+            propagation : true,
+            mode : mode
         });
-        DataBind.ob('a.b', function(v, ov){console.log('a.b', v, ov)});
-        vm.ob('data', function(v, ov){console.log('data', v, ov)});
-
-        DataBind.scan(null, true);
+        var v = new DataBind('', {
+            s : {
+                value : 1,
+                set : function(v, o){
+                    return Math.min(v, 3000);
+                }
+            }
+        });
         </script>
     </body>
 </html>

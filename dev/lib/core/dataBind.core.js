@@ -147,8 +147,9 @@
             }
             var evtList = list.check(nameNS, type);
             var scope = Accessor.ns(nameNS);
-            args = [scope.value, scope.oldValue, {type:type, object:scope.parent, name:scope.name}];
+            args = [scope.value, scope.oldValue, {type:type, object:scope.parent, name:scope.name, nameNS:scope.nameNS}];
             args[2] = merge(args[2], extArgs);
+            args[2].curNS = nameNS;
             if(evtList){
                 evtList.forEach(function(func){
                     if(typeof func === 'function'){
@@ -214,12 +215,13 @@
         if(collection[nameNS]){return collection[nameNS];}
         else if(pure){return false;}
         var props = nameNS.split('.'), name = props.pop(), parentNS = props.join('.'), parent = vm;
-        var tmp;
+        var tmp, curScope = '';
         while(props.length){
             tmp = props.shift();
             if(typeof parent != 'object'){parent = null;break;}
             if(!(tmp in parent)){
-                parent[tmp] = {};
+                curScope += (curScope ? '.' : '') + tmp;
+                main.accessor(curScope, parent[tmp] = {});
             }
             parent = parent[tmp];
         }
@@ -250,6 +252,7 @@
     if('defineProperty' in Object){
         Object.defineProperty(expApi, 'observe', {'enumerable':false, 'writable':true});
         Object.defineProperty(expApi, 'destroy', {'enumerable':false, 'writable':true});   
+        Object.defineProperty(expApi, 'fire', {'enumerable':false, 'writable':true});   
         Object.defineProperty(expApi, 'setPropagation', {'enumerable':false, 'writable':true});   
     }
     var DataBind = function(nameNS, obj, cfg){
