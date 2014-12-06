@@ -1,6 +1,0 @@
----
-name: np
-version: 10
-handle:
-  - rewrite: if(!is_dir() && path == "(?:\/static/)(?!public/)(.*)") goto "/static/public/$1"
-  - rewrite: if(!is_dir() && !is_file() && path~"^(.*)$") goto "/index.php/$1"

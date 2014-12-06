@@ -1,6 +1,0 @@
-rm ./lib/*.js
-rm ./lib/*.css
-fis release -r ./lib -d ./lib -f ./conf/fis-conf-lib.js -p
-rm ./lib/map.json
-fis release -d ../static -f ./conf/fis-conf-project.js -m -p --domains -w
-
