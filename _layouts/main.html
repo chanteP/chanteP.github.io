@@ -16,19 +16,22 @@
         <link rel="stylesheet" media="screen" href="./resource/global.css" />
         <script src="./resource/kit.js"></script>
     </head>
-    <body>
+    <body class="loading">
         <div id="wrapper">
-            {{ content }}
+{{ content }}
         </div>
         <div id="syscomp">
             <nav id="mainnav">
                 <ul>
-                    <li><a href="/">home</a></li>
-                    <li><a href="/lab">lab</a></li>
-                    <li><a href="/blog">blog</a></li>
-                    <li><a href="/about">about</a></li>
+                    <li data-for="index" data-hide="true"><a href="/">home</a></li>
+                    <li data-for="lab"><a href="/lab">lab</a></li>
+                    <li data-for="blog"><a href="/blog">blog</a></li>
+                    <li data-for="about"><a href="/about">about</a></li>
                 </ul>
             </nav>
+            <div id="loading" class="mid">
+                <img class="midcont" src="./resource/loading.gif" alt="loading">
+            </div>
         </div>
     </body>
 </html>

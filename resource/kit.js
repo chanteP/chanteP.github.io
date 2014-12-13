@@ -12,6 +12,8 @@ module.exports = $;
 var config = {
     debug : true
 
+    ,'expHead' : '[['
+    ,'expFoot' : ']]'
 
     ,DOMPrefix : 'data-'
     ,initDOM : false
@@ -216,6 +218,13 @@ var $ = require('../kit');
 document.addEventListener('DOMContentLoaded', function(){
     nav = $.find('#mainnav');
 
+    nav.set = function(page){
+        var cur = $.find('.cur', nav);
+        var to = $.find('[data-for="'+page+'"]', nav);
+        cur && cur.classList.remove('cur');
+        to && to.classList.add('cur');
+        to && (to.dataset.hide ? this.hide() : this.show());
+    }
     nav.show = function(){
         nav.classList.add('show');
     }
@@ -321,16 +330,21 @@ PageModule.prototype = {
         i.src = url;
         document.body.appendChild(i);
     },
-    setLoading : function(){
-        $.find(wrapperID).innerHTML = '';
+    setLoading : function(bool){
+        // $.find(wrapperID).innerHTML = '';
+        document.body.classList[bool ? 'add' : 'remove']('loading');
     },
     switchOn : function(){
+        this.navRel();
         $.find(wrapperID).innerHTML = '';
         $.find(wrapperID).appendChild(this.dom);
         return true;
     },
     switchOff : function(){
         return true;
+    },
+    navRel : function(){
+        $.find('#mainnav').set(this.page);
     }
 }
 
@@ -340,17 +354,18 @@ var api = {
         if(!mod){
             mod = new PageModule(page);
         }
-        else if(mod.status === mod.LOADING){
-            mod.setLoading();
+        mod.setLoading(true);
+        if(mod.status > mod.LOADING){
+            setTimeout(function(){
+                cur && cur.switchOff() && cur.callback && cur.callback.hide && cur.callback.hide();
+                if(mod.switchOn() && mod.callback){
+                    mod.status < mod.INITED && (mod.status = mod.INITED) && mod.callback.init && mod.callback.init();
+                    mod.callback.show && mod.callback.show();
+                }
+                mod.setLoading(false);
+                cur = mod;
+            }, 1000);
         }
-        else{
-            cur && cur.switchOff() && cur.callback && cur.callback.hide && cur.callback.hide();
-            if(mod.switchOn() && mod.callback && mod.callback.show){
-                mod.status < mod.INITED && (mod.status = mod.INITED) && mod.callback.init && mod.callback.init();
-                mod.callback.show();
-            }
-        }
-        cur = mod;
     },
     set : function(dom, obj){
         var page = dom.dataset.page;
@@ -1085,7 +1100,7 @@ var config = require('./config');
 
 var $ = require('./kit');
 
-var expPreg = new RegExp(config.expHead + '(.*?)' + config.expFoot, 'm');
+var expPreg = new RegExp(config.expHead.replace(/([\[\(\|])/g, '\\$1') + '(.*?)' + config.expFoot.replace(/([\[\(\|])/g, '\\$1'), 'm');
 var prefix = config.DOMPrefix || 'vm-';
 var marker = {
     'model' : prefix + 'model',

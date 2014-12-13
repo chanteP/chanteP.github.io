@@ -2,12 +2,15 @@
 layout: main
 ---
 <div data-page="index" class="page_index">
-    <style>.page_index{position:relative;height:100%}.page_index .main{position:relative;top:37%;padding:0 3%}.page_index .sub{position:absolute;bottom:4px;padding:0 3%}.page_index p{margin:0 6px;font-size:12px;line-height:1.4;color:#e0e0e0}.page_index h1{font-size:100px;font-weight:100}.page_index ul{float:left;width:190px}.page_index li{border-left:#333 solid 3px;margin:0 6px}.page_index a{display:block;padding:4px 12px;text-decoration:none;color:#666}</style>
+    <style>.page_index{position:relative;height:100%}.page_index .main{position:relative;top:37%;padding:0 3%}.page_index h1{font-size:100px;font-weight:100;line-height:1}.page_index .desc{font-size:12px;color:#a1a1a1;line-height:1.8;margin-bottom:8px;padding-left:12px;border-top:1px solid #a1a1a1}.page_index ul{float:left;width:190px}.page_index li{border-left:#333 solid 3px;margin:0 6px;transition:all 0.2s ease}.page_index li:first-child,.page_index li:hover{border-color:#48D3CE}.page_index a{display:block;padding:4px 12px;text-decoration:none;color:#666;transition:all 0.2s ease}.page_index a:hover{color:#48D3CE}.page_index footer{position:absolute;bottom:4px;padding:0 3%}.page_index footer p{margin:0 6px;font-size:12px;line-height:1.4;color:#e0e0e0}</style>
     <section class="main">
         <header>
             <h1>NEET PROJECT</h1>
+            <fieldset class="descbox">
+                <legend class="desc">宅☑前端☑动漫☑音乐☑</legend>
+            </fieldset>
         </header>
-        <nav>
+        <nav class="clearfix">
             <ul>
                 <li><a href="/">home</a></li>
                 <li><a href="/lab">lab</a></li>
@@ -19,9 +22,9 @@ layout: main
             </ul>
         </nav>
     </section>
-    <aside class="sub">
+    <footer class="sub">
         <p>neetproject @2014 </p>
         <p>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</p>
-    </aside>
-    <script>window.parent.core.initPage(window,function(n,i,o,e){return{show:function(){e.find("#mainnav").hide()},hide:function(){}}});</script>
+    </footer>
+    <script>window.parent.core.initPage(window,function(){});</script>
 </div>
