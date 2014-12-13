@@ -286,7 +286,7 @@ var cur;
 
 var url2Page = function(url){
     var rs = pageGrep.exec(url);
-    return rs ? rs[1] : 'index';
+    return rs && rs[1] ? rs[1] : 'index';
 }
 
 var pageStorage = {};
@@ -303,7 +303,6 @@ var PageModule = function(page, dom, obj){
         this.set(dom, obj);
     }
 }
-window.pp = pageStorage;
 PageModule.prototype = {
     LOADING : 0,
     READY : 1,
