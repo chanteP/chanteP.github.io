@@ -274,7 +274,14 @@ module.exports = api = {
         }
         var wrap = win.document.querySelector('[data-page]');
         page.set(wrap, callback(window, document, wrap, $));
-        page.load(location.href);
+        if(document.readyState !== 'complete'){
+            window.addEventListener('load', function(){
+                page.load(location.href);
+            });
+        }
+        else{
+            page.load(location.href);
+        }
     }
 }
 
@@ -297,7 +304,7 @@ var PageModule = function(page, dom, obj){
     pageStorage[page] = this;
     this.page = page;
     if(!dom){
-        this.build(page + '.html');
+        this.build('/pages/' + page + '.html');
     }
     else{
         this.set(dom, obj);
