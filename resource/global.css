@@ -1,0 +1,40 @@
+@import url('../lib/global/global.css');
+
+#wrapper{
+    height: 100%;
+    overflow: visible;
+}
+#mainnav{
+    position: fixed;
+    top:0;
+    left: 0;
+    height: 100%;
+    background: #fafafa;
+    box-shadow: rgba(0,0,0,.4) 0 0 4px;
+    visibility: hidden;
+    -webkit-transform: translate(-100%, 0);
+    transition:all 0.3s ease;
+}
+#mainnav.show{
+    visibility: visible;
+    -webkit-transform: translate(0, 0);
+}
+#mainnav ul{
+    position: relative;
+    top:40%;
+    width: 220px;
+}
+.nav-pad{
+    padding-left: 220px;
+}
+
+#mainnav li{
+}
+#mainnav li a{
+    display: block;
+    line-height: 32px;
+    font-size: 14px;
+    text-align: center;
+    text-decoration: none;
+    color: #666;
+}
