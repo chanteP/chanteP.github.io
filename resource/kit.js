@@ -207,6 +207,48 @@ $.query = {
         return rs.join('&');
     }
 }
+//top顺序，vertical
+$.lazyload = function(node, attr, callback){
+    var hasLazyLoad = node.hasBindLazyLoad;
+    node.hasBindLazyLoad = attr;
+    var checkTimer;
+    var lazyload = function(el, src){
+        el.setAttribute('lazy-loading', '1');
+        var img = new Image();
+        img.onload = function(){
+            el.src = this.src;
+            el.removeAttribute('lazy-loading');
+        }
+        setTimeout(function(){
+            img.src = src;
+            callback && callback(el);
+        }, 400);
+    }
+    var timerCheck = function(){
+        clearTimeout(checkTimer);
+        checkTimer = setTimeout(check, 50);
+    }
+    var check = function(){
+        var list = $.findAll('['+attr+']', node);
+        var docHeight = document.documentElement.clientHeight;
+        [].every.call(list, function(el){
+            var bd = el.getBoundingClientRect();
+            if(bd.top + el.clientHeight < 0){
+                return true;
+            }
+            else if(bd.top < docHeight){
+                lazyload(el, el.getAttribute(attr));
+                el.removeAttribute(attr);
+                return true;
+            }
+            else{
+                return false;
+            }
+        });
+    }
+    check();
+    !hasLazyLoad && document.addEventListener('scroll', timerCheck);  
+}
 
 $.touch = require('./touch.kit');
 $.tween = require('./tween');
