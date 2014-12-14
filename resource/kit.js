@@ -369,6 +369,7 @@ PageModule.prototype = {
         this.status = this.READY;
     },
     build : function(url){
+        var self = this;
         this.status = this.LOADING;
         var i = document.createElement('iframe');
         i.style.cssText = 'height:0;width:0;border:0;overflow:hidden;display:none;';
