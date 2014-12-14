@@ -30,7 +30,7 @@ var $ = {};
 module.exports = $;
 var config = require('./config');
 // require('./jquery.hammer.min');
-$.isOnline = location.host !== 'localhost:9000';
+$.isOnline = location.host != 'localhost:9000';
 
 $.objMerger = function(type, args){
     var hold = false, rsObj, curObj;
@@ -293,7 +293,7 @@ var init = function(){
             e.preventDefault();
             var href, fake;
             href = this.getAttribute('href');
-            if(!$.isOnline){
+            if(!($.isOnline)){
                 href = (href.length > 1 ? href : '/index') + '.html';
             }
             fake = this.dataset.fake;
