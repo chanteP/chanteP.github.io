@@ -1,4 +1,7 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"./lib/core/core.js":[function(require,module,exports){
+if(!('defineProperty' in Object)){
+    alert('如果\n你能换个高级浏览器的话\n或许生活会更美好');
+}
 var $ = require('./kit');
 window._config = require('./config');
 window.DataBind = require('np-databind');
@@ -208,7 +211,8 @@ $.query = {
     }
 }
 //top顺序，vertical
-$.lazyload = function(node, attr, callback){
+$.lazyload = function(wrapper, node, attr, callback){
+    wrapper = wrapper || document.body;
     var hasLazyLoad = node.hasBindLazyLoad;
     node.hasBindLazyLoad = attr;
     var checkTimer;
@@ -247,7 +251,7 @@ $.lazyload = function(node, attr, callback){
         });
     }
     check();
-    !hasLazyLoad && document.addEventListener('scroll', timerCheck);  
+    !hasLazyLoad && wrapper.addEventListener('scroll', timerCheck);  
 }
 
 $.touch = require('./touch.kit');
