@@ -290,11 +290,11 @@ var init = function(){
     $.evt(document.body)
         .on('click', 'a[href^="/"]', function(e){
             e.preventDefault();
-            var href = this.getAttribute('href');
-
+            var href, fake;
+            href = this.getAttribute('href');
             href = (href.length > 1 ? href : '/index') + '.html';
-
-            url.set(href, document.title);
+            fake = this.dataset.fake;
+            url.set(fake || href, document.title, null, fake);
             // page.load(href);
         });
 
@@ -335,7 +335,7 @@ module.exports = api = {
 var pageGrep = /^(?:.*\:\/\/[^\/]+)?\/([^\/#\?\.]*)/;
 var $ = require('../kit');
 var wrapperID = '#wrapper';
-var cur;
+var cur, loadTimer;
 
 var url2Page = function(url){
     var rs = pageGrep.exec(url);
@@ -356,6 +356,7 @@ var PageModule = function(page, dom, obj){
         this.set(dom, obj);
     }
 }
+
 PageModule.prototype = {
     LOADING : 0,
     READY : 1,
@@ -407,9 +408,11 @@ var api = {
         if(!mod){
             mod = new PageModule(page);
         }
+        if(page === url2Page(location.href) && mod === cur){return;}
         mod.setLoading(true);
         if(mod.status > mod.LOADING){
-            setTimeout(function(){
+            clearTimeout(loadTimer);
+            loadTimer = setTimeout(function(){
                 cur && cur.switchOff() && cur.callback && cur.callback.hide && cur.callback.hide();
                 if(mod.switchOn() && mod.callback){
                     mod.status < mod.INITED && (mod.status = mod.INITED) && mod.callback.init && mod.callback.init();
@@ -417,7 +420,7 @@ var api = {
                 }
                 mod.setLoading(false);
                 cur = mod;
-            }, 1000);
+            }, 400);
         }
     },
     set : function(dom, obj){
@@ -440,18 +443,19 @@ module.exports = api;
 var state = window.history;
 var evtList = [];
 
-var runList = function(dir){
+var runList = function(dir, url){
     evtList.forEach(function(func){
-        func(location.href, dir);
+        func(url, dir);
     });
 };
 window.addEventListener('popstate', function(){
     runList(-1);
 });
 module.exports = {
-    set : function(url, title, data){
-        state.pushState(data, title, url);
-        runList(1);
+    set : function(url, title, data, justSet){
+        if(url !== location.pathname)
+            state.pushState(data, title, url);
+        justSet || runList(1, url);
     },
     on : function(func){
         evtList.push(func);
@@ -1492,7 +1496,7 @@ var bind = {
             }
             if(v instanceof Node){exchangeNode = bind.element(exchangeNode, v);}
             else if(ov instanceof Node){exchangeNode = bind.element(exchangeNode, node);}
-            node.textContent = parse.text(textContent, context);
+            node.nodeValue = parse.text(textContent, context);
         }
         deps.forEach(function(prop){
             main.addScanFunc(prop, func);
