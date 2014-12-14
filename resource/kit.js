@@ -30,6 +30,7 @@ var $ = {};
 module.exports = $;
 var config = require('./config');
 // require('./jquery.hammer.min');
+$.isOnline = location.host !== 'localhost:9000';
 
 $.objMerger = function(type, args){
     var hold = false, rsObj, curObj;
@@ -292,7 +293,9 @@ var init = function(){
             e.preventDefault();
             var href, fake;
             href = this.getAttribute('href');
-            href = (href.length > 1 ? href : '/index') + '.html';
+            if(!$.isOnline){
+                href = (href.length > 1 ? href : '/index') + '.html';
+            }
             fake = this.dataset.fake;
             url.set(fake || href, document.title, null, fake);
             // page.load(href);
@@ -350,7 +353,7 @@ var PageModule = function(page, dom, obj){
     pageStorage[page] = this;
     this.page = page;
     if(!dom){
-        this.build('/pages/' + page + '.html');
+        this.build('/pages/' + page + ($.isOnline ? '' : '.html'));
     }
     else{
         this.set(dom, obj);

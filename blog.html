@@ -8,7 +8,7 @@ layout: main
         {% for post in site.posts %}
             <li>
                 <article>
-                    <a href="/post/{{ post.url }}" data-fake="{{ site.baseurl }}{{ post.url }}">
+                    <a href="/post{{ post.url }}" data-fake="/blog{{ post.url }}">
                         <h1>{{ post.title }}</h1>
                     </a>
                     <p class="info">{{ post.date | date_to_string }}</p>
