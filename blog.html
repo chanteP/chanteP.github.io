@@ -13,7 +13,7 @@ layout: main
                     </a>
                     <p class="info">{{ post.date | date_to_string }}</p>
                     <div class="content" data-node="content">
-                        <p>{{ post.content | truncate : 30 }}</p>
+                        <p>{{ post.content | truncate : 50 | escape_once | append:'...'}}</p>
                     </div>
                     <p class="more">
                         <a href="{{ post.url }}" data-fake="/blog#!{{ post.url }}" data-act="loadBlog"></a>
