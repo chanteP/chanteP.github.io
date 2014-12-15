@@ -8,13 +8,13 @@ layout: main
         {% for post in site.posts %}
             <li data-node="postlist" data-status>
                 <article>
-                    <a href="/{{ post.url }}" data-fake="/blog#!{{ post.url }}" data-act="loadBlog">
+                    <a href="{{ post.url }}" data-fake="/blog#!{{ post.url }}" data-act="loadBlog">
                         <h1>{{ post.title }}</h1>
                     </a>
                     <p class="info">{{ post.date | date_to_string }}</p>
                     <p class="content" data-node="content">{{ post.content | truncate : 30 }}</p>
                     <p class="more">
-                        <a href="/{{ post.url }}" data-fake="/blog#!{{ post.url }}" data-act="loadBlog"></a>
+                        <a href="{{ post.url }}" data-fake="/blog#!{{ post.url }}" data-act="loadBlog"></a>
                         <a data-act="toTop">回到顶部</a>
                     </p>
                 </article>
