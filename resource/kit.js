@@ -86,6 +86,15 @@ $.contains  = function(root, el){
     if(root == el){return true;}
     return !!(root.compareDocumentPosition(el) & 16);
 }
+$.parent    = function(node, selector){
+    while(node.parentNode){
+        if($.match(node.parentNode, selector)){
+            return node.parentNode;
+        }
+        node = node.parentNode;
+    }
+    return null;
+}
 $.create = function(str){
     if(str.slice(0, 1) === '<'){
         var template = document.createElement(str.slice(0, 3) === '<tr' ? 'tbody' : 'template');
@@ -255,6 +264,27 @@ $.lazyload = function(wrapper, node, attr, callback){
     !hasLazyLoad && wrapper.addEventListener('scroll', timerCheck);  
 }
 
+$.iLoad = function(url, onsucc, onerr, context){
+    var i = document.createElement('iframe');
+    i.style.cssText = 'height:0;width:0;border:0;overflow:hidden;display:none;';
+    i.onload = function(){
+        try{
+            if(!this.contentWindow.document.title && !this.contentWindow.fin){
+                onerr && onerr.call(context);
+            }
+            else{
+                onsucc && onsucc.call(context, i);
+            }
+        }catch(e){
+            onsucc && onsucc.call(context, i);
+        }
+        // onerr && onerr.call(context);
+        $.remove(i);
+    }
+    i.src = url;
+    document.body.appendChild(i);
+}
+
 $.touch = require('./touch.kit');
 $.tween = require('./tween');
 
@@ -331,7 +361,8 @@ module.exports = api = {
         else{
             page.load(location.href);
         }
-    }
+    },
+    onUrlChange : url.on
 }
 
 },{"../kit":"/Volumes/LINKAREA/web/neetproject/11/dev/lib/core/kit.js","./loader":"/Volumes/LINKAREA/web/neetproject/11/dev/lib/core/spa/loader.js","./url":"/Volumes/LINKAREA/web/neetproject/11/dev/lib/core/spa/url.js"}],"/Volumes/LINKAREA/web/neetproject/11/dev/lib/core/spa/loader.js":[function(require,module,exports){
@@ -379,13 +410,9 @@ PageModule.prototype = {
     build : function(url){
         var self = this;
         this.status = this.LOADING;
-        var i = document.createElement('iframe');
-        i.style.cssText = 'height:0;width:0;border:0;overflow:hidden;display:none;';
-        i.onload = function(){
-            $.remove(i);
-        }
-        i.src = url;
-        document.body.appendChild(i);
+        $.iLoad(url, null, function(){
+            window.history.go(-1);
+        }, this);
     },
     setLoading : function(bool){
         // $.find(wrapperID).innerHTML = '';

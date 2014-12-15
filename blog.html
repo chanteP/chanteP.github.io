@@ -2,21 +2,25 @@
 layout: main
 ---
 <div data-page="blog" class="page_blog">
-    <style>.page_blog{min-height:100%;background:#ccc}.page_blog .blog_list{padding:0 9px}.page_blog .blog_list>li{float:left;width:50%}.page_blog .blog_list article{margin:18px 9px;padding:20px;background:rgba(255,255,255,0.4);line-height:1.8}.page_blog .blog_list article>a:link{text-decoration:none}.page_blog .blog_list h1{font-size:24px}.page_blog .blog_list .info{color:#a1a1a1}.page_blog .blog_list .abst{color:#666}</style>
+    <style>.page_blog{min-height:100%;background:#EAEAEA}.page_blog .blog_list{padding:0 9px}.page_blog .blog_list>li{float:left;width:50%}.page_blog .blog_list article{margin:18px 9px;padding:20px;background:rgba(255,255,255,0.4);line-height:1.8}.page_blog .blog_list article>a:link{text-decoration:none}.page_blog .blog_list h1{font-size:24px}.page_blog .blog_list .info{color:#a1a1a1}.page_blog .blog_list .abst{color:#666}@media screen and (max-width: 750px){.page_blog .blog_list>li{float:none;width:auto}}</style>
     <section class="wrap">
         <ul class="blog_list clearfix">
         {% for post in site.posts %}
-            <li>
+            <li data-node="postlist" data-status>
                 <article>
-                    <a href="/post{{ post.url }}" data-fake="/blog{{ post.url }}">
+                    <a href="/{{ post.url }}" data-fake="/blog#!{{ post.url }}" data-act="loadBlog">
                         <h1>{{ post.title }}</h1>
                     </a>
                     <p class="info">{{ post.date | date_to_string }}</p>
-                    <p class="abst">fasdfsdfasdf</p>
+                    <p class="content" data-node="content">{{ post.content | truncate : 30 }}</p>
+                    <p class="more">
+                        <a href="/{{ post.url }}" data-fake="/blog#!{{ post.url }}" data-act="loadBlog"></a>
+                        <a data-act="toTop">回到顶部</a>
+                    </p>
                 </article>
             </li>
         {% endfor %}
         </ul>
     </section>
-    <script>window.parent.core.initPage(window,function(){});</script>
+    <script>window.parent.core.initPage(window,function(t,i,s,n){var e=(t.core.on,t.DataBind,{}),o=function(t,i){this.url=i,this.node=t,this.contentNode=n.find('[data-node="content"]',t),this.status=this.WAITING,this.load()};o.prototype={WAITING:"waiting",LOADING:"loading",LOADED:"loaded",AUTOHIDE:"autohide",ERROR:"error",HIDE:"hide",SHOW:"show",set status(t){return this.cacheStatus=t,this.node.dataset.status=t,t},get status(){return this.cacheStatus},load:function(){this.status=this.LOADING,n.iLoad(this.url,this.getContent,this.loadFail,this)},getContent:function(t){this.status=this.LOADED;try{this.contentNode.innerHTML=t.contentWindow.document.getElementById("content")}catch(i){}this.checkShow()},loadFail:function(){this.status=this.ERROR},checkShow:function(){},toggle:function(){if(this.status===this.ERROR)return void this.load();switch(this.status){case this.LOADED:case this.AUTOHIDE:case this.HIDE:this.status=this.SHOW;break;case this.SHOW:this.status=this.HIDE}}};var a=function(){var t=this.getAttribute("href");e[t]?e[t].toggle():e[t]=new o(n.parent(this,'[data-node="postlist"]'),t)},h=function(){n.evt(s).on("click",'[data-act="loadBlog"]',a)};return{init:h}});</script>
 </div>
