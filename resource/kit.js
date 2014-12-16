@@ -430,7 +430,7 @@ PageModule.prototype = {
         this.status = this.LOADING;
         $.iLoad(url, null, function(){
             window.history.go(-1);
-        }, this);
+        });
     },
     setLoading : function(bool){
         // $.find(wrapperID).innerHTML = '';
