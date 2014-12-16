@@ -23,25 +23,8 @@ layout: main
                     </p>
                 </article>
             </li>
-            <li data-node="postlist" data-status data-url="#!{{ post.url }}">
-                <article>
-                    <a href="{{ post.url }}" class="title" data-fake="/blog#!{{ post.url }}" data-act="loadBlog">
-                        <h1 title="{{ post.title }}">{{ post.title }}</h1>
-                    </a>
-                    <fieldset class="infobox">
-                        <legend class="info">{{ post.date | date_to_string }}</legend>
-                    </fieldset>
-                    <div class="content" data-node="content">
-                        <p>{{ post.content | truncate : 50 | escape_once | append:'...'}}</p>
-                    </div>
-                    <p class="more">
-                        <a href="{{ post.url }}" data-fake="/blog#!{{ post.url }}" data-act="loadBlog"></a>
-                        <a href="javascript:;" data-act="toTop">回到顶部</a>
-                    </p>
-                </article>
-            </li>
         {% endfor %}
         </ul>
     </section>
-    <script>window.parent.core.initPage(window,function(t,i,s,e){var n=(t.core.on,t.DataBind,e.find("#wrapper")),o={},h=function(t,i){this.url=i,this.node=t,this.contentNode=e.find('[data-node="content"]',t),this.status=this.WAITING,this.url=this.node.dataset.url,this.toggle()};h.prototype={WAITING:"waiting",LOADING:"loading",LOADED:"loaded",AUTOHIDE:"autohide",ERROR:"error",HIDE:"hide",SHOW:"show",set status(t){return this.cacheStatus=t,this.node.dataset.status=t,t},get status(){return this.cacheStatus},load:function(){this.status=this.LOADING,e.iLoad(this.url,this.getContent.bind(this),this.loadFail.bind(this))},getContent:function(t){this.status=this.LOADED;try{this.contentNode.innerHTML=t.contentWindow.document.getElementById("content").innerHTML}catch(i){}this.checkShow()},loadFail:function(){this.status=this.ERROR},checkShow:function(){this.status=this.SHOW},toggle:function(){if(e.isMobileMode||this.smoothify(),e.scrollTo(this.node.offsetTop,n),this.status===this.ERROR||this.status===this.WAITING)return void this.load();switch(this.status){case this.LOADED:case this.AUTOHIDE:case this.HIDE:this.status=this.SHOW;break;case this.SHOW:this.status=this.HIDE}var t=this;[].forEach.call(e.findAll("[data-fake]",this.node),function(i){i.dataset.fake="/blog"+t.status===t.SHOW?"":t.url})},smoothify:function(){return this.node.offsetRight<300?void this.node.classList.remove("right"):(this.node.classList.add("right"),void this.node.parentNode.insertBefore(this.node,this.node.previousElementSibling))}};var a=function(t){t.preventDefault();var i=this.getAttribute("href");o[i]?o[i].toggle():o[i]=new h(e.parent(this,'[data-node="postlist"]'),i)},d=function(){e.evt(s).on("click",'[data-act="loadBlog"]',a)};return{init:d}});</script>
+    <script>window.parent.core.initPage(window,function(t,i,s,e){var n=(t.core.on,t.DataBind,e.find("#wrapper")),o={},h=function(t,i){this.url=i,this.node=t,this.contentNode=e.find('[data-node="content"]',t),this.status=this.WAITING,this.url=this.node.dataset.url,this.toggle()};h.prototype={WAITING:"waiting",LOADING:"loading",LOADED:"loaded",AUTOHIDE:"autohide",ERROR:"error",HIDE:"hide",SHOW:"show",set status(t){return this.cacheStatus=t,this.node.dataset.status=t,t},get status(){return this.cacheStatus},load:function(){this.status=this.LOADING,e.iLoad(this.url,this.getContent.bind(this),this.loadFail.bind(this))},getContent:function(t){this.status=this.LOADED;try{this.contentNode.innerHTML=t.contentWindow.document.getElementById("content").innerHTML}catch(i){}this.checkShow()},loadFail:function(){this.status=this.ERROR},checkShow:function(){this.status=this.SHOW},toggle:function(){if(e.isMobileMode||this.smoothify(),e.scrollTo(this.node.offsetTop,n),this.status===this.ERROR||this.status===this.WAITING)return void this.load();switch(this.status){case this.LOADED:case this.AUTOHIDE:case this.HIDE:this.status=this.SHOW;break;case this.SHOW:this.node.classList.remove("right"),this.status=this.HIDE}var t=this;[].forEach.call(e.findAll("[data-fake]",this.node),function(i){i.dataset.fake="/blog"+t.status===t.SHOW?"":t.url})},smoothify:function(){return this.node.offsetRight<300?void this.node.classList.remove("right"):(this.node.classList.add("right"),void this.node.parentNode.insertBefore(this.node,this.node.previousElementSibling))}};var a=function(t){t.preventDefault();var i=this.getAttribute("href");o[i]?o[i].toggle():o[i]=new h(e.parent(this,'[data-node="postlist"]'),i)},d=function(){e.evt(s).on("click",'[data-act="loadBlog"]',a)};return{init:d}});</script>
 </div>
