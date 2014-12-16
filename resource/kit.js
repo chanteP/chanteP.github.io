@@ -267,21 +267,20 @@ $.lazyload = function(wrapper, node, attr, callback){
     !hasLazyLoad && wrapper.addEventListener('scroll', timerCheck);  
 }
 
-$.iLoad = function(url, onsucc, onerr, context){
+$.iLoad = function(url, onsucc, onerr){
     var i = document.createElement('iframe');
     i.style.cssText = 'height:0;width:0;border:0;overflow:hidden;display:none;';
     i.onload = function(){
         try{
             if(!this.contentWindow.document.title && !this.contentWindow.fin){
-                onerr && onerr.call(context);
+                onerr && onerr();
             }
             else{
-                onsucc && onsucc.call(context, i);
+                onsucc && onsucc(i);
             }
         }catch(e){
-            onsucc && onsucc.call(context, i);
+            onsucc && onsucc(i);
         }
-        // onerr && onerr.call(context);
         $.remove(i);
     }
     i.src = url;
@@ -290,6 +289,22 @@ $.iLoad = function(url, onsucc, onerr, context){
 
 $.touch = require('./touch.kit');
 $.tween = require('./tween');
+
+$.scrollTo = function(pos, wrap){
+    wrap = wrap || document.body;
+    if(wrap.isScrolling){wrap.isScrolling.stop();}
+    return wrap.isScrolling = $.tween({
+        'begin': wrap.scrollTop,
+        'end'  : pos,
+        'duration' : 300,
+        'func' : function(num){
+            wrap.scrollTop = num;
+        },
+        'endfunc' : function(){
+            delete wrap.isScrolling;
+        }
+    });
+}
 
 },{"./config":"/Volumes/LINKAREA/web/neetproject/11/dev/lib/core/config.js","./touch.kit":"/Volumes/LINKAREA/web/neetproject/11/dev/lib/core/touch.kit.js","./tween":"/Volumes/LINKAREA/web/neetproject/11/dev/lib/core/tween.js"}],"/Volumes/LINKAREA/web/neetproject/11/dev/lib/core/nav/init.js":[function(require,module,exports){
 var nav;
@@ -545,7 +560,7 @@ var tweenAniAnchor = function(opts){
     var spf = 1000 / opts.fps;
     var duration = opts.duration;
     var step = duration / Math.round(spf);
-    var tweenT = tweenT(opts.type, opts.begin, opts.end, step, opts.extra);
+    var tweenTRS = tweenT(opts.type, opts.begin, opts.end, step, opts.extra);
     var startTimer = Date.now(), distance;
     var controll;
     requestAnimationFrame(function(){
@@ -556,7 +571,7 @@ var tweenAniAnchor = function(opts){
     		opts.endfunc();
     		return;
     	}
-    	opts.func(tweenT(Math.round(distance / spf)));
+    	opts.func(tweenTRS(Math.round(distance / spf)));
     	requestAnimationFrame(arguments.callee);
     });
     return {
