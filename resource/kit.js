@@ -23,6 +23,8 @@ var config = {
 
     ,apiHost : 'http://neetproject.sinaapp.com'
 
+    ,isMobileMode : document.documentElement.clientWidth <= 750
+
 };
 module.exports = config;
 },{}],"/Volumes/LINKAREA/web/neetproject/11/dev/lib/core/kit.js":[function(require,module,exports){
@@ -31,6 +33,7 @@ module.exports = $;
 var config = require('./config');
 // require('./jquery.hammer.min');
 $.isOnline = location.host != 'localhost:9000';
+$.isMobileMode = config.isMobileMode;
 
 $.objMerger = function(type, args){
     var hold = false, rsObj, curObj;
