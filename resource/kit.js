@@ -1196,25 +1196,30 @@ module.exports = DataBind;
 },{"./Accessor":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/Accessor.js","./Observer":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/Observer.js","./config":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/config.js","./kit":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/kit.js"}],"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/DomExtend.js":[function(require,module,exports){
 /*
     dom绑定用外挂包
-    TODO list
-    -scope啊啊啊啊啊dom里怎么堆scope啊啊啊
+
+    好长。。。该拆分了
 */
 var DataBind = require('./DataBind');
-var expression = require('./Expression');
+var expression = DataBind.expression;
+// var expression = require('./Expression');
+// var expression = require('./Expression.artTemplate.js');
 var config = require('./config');
 
 var $ = require('./kit');
 
+//exp /{{(.*)}}/
 var expPreg = new RegExp(config.expHead.replace(/([\[\(\|])/g, '\\$1') + '(.*?)' + config.expFoot.replace(/([\[\(\|])/g, '\\$1'), 'm');
-var prefix = config.DOMPrefix || 'vm-';
+var prefix = config.DOMPrefix;
 var marker = {
-    'model' : prefix + 'model',
-    'list' : prefix + 'list',
-    'bind' : prefix + 'bind',
-    'escape' : prefix + 'escape',
-    'toggle' : prefix + 'toggle'
+    'model' : prefix + 'model',//v to m
+    'list' : prefix + 'list',//list: tr in table
+    'bind' : prefix + 'bind',//scope源
+    'escape' : prefix + 'escape',//scan外
+    'toggle' : prefix + 'toggle',
+    'extraData' : prefix + 'extraExpData' //传给expression的额外数据
 }
 var indexPreg = /\[(\d+)\]$/;
+var listPreg = /([\w\.]+)\s+in\s+([\w\.]+)/;
 var nodeFuncKey = 'bindObserver';
 var checkProp, checkType = 'change';
 var scanQueue = [];
@@ -1228,7 +1233,6 @@ var observe = DataBind.observe,
     fire = DataBind.fire;
 
 var parseOnlyWhileScan = false;
-
 
 //################################################################################################################
 var evt = $.evt,
@@ -1341,16 +1345,13 @@ var check = {
     */
     'list' : function(node){
         var listProp;
-        listProp = node.getAttribute(marker.list) || node[marker.list];
-        if(listProp === null || listProp === undefined){return;}
-        node.removeAttribute(marker.list);
-        delete node[marker.list];
-        //TODO WTF?
-        if(listProp.indexOf(' in ') >= 0){
-            listProp = listProp.split(' in ')[1];
+        listProp = node.getAttribute(marker.list);
+        if(typeof listProp === 'string' && (listProp = listPreg.exec(listProp))){
+            node.removeAttribute(marker.list);
+            listProp.shift();
+            bind.list(node, listProp);
+            return true;
         }
-        bind.list(node, listProp);
-        return true;
     }
 }
 var parse = {
@@ -1364,14 +1365,7 @@ var parse = {
         }
         expressions = parse.exps(text);
         expressions.forEach(function(exp){
-            expression.parseDeps(exp, deps, function(dep){
-                if(dep.indexOf('[') >= 1){
-                    dep = dep.split('[')[0];
-                }
-                if(dep.slice(0, 3) === 'vm.'){return dep.slice(2, -1)}
-                if(dep.slice(0, 1) === '.'){return context;}
-                return context ? context + '.' + dep : dep;
-            });
+            deps.splice(deps.length, 0, expression.parseDeps(exp, context));
         });
         return unique(deps);
     },
@@ -1386,13 +1380,19 @@ var parse = {
         return expressions;
     },
     /*
+        Object extraData
+    */
+    'extraData' : function(node){
+        if(node[marker.extraData]){
+            return node[marker.extraData];
+        }
+        return node.parentNode ? parse.extraData(node.parentNode) : undefined;
+    },
+    /*
         String 根据表达式解析text
     */
-    'text' : function(text, context){
+    'text' : function(text, context, extra){
         var extra, rs, value = get(context);
-        if(rs = indexPreg.exec(context)){
-            extra = {index:rs[1],name:value};
-        }
         return text.replace(new RegExp(expPreg.source, 'mg'), function(t, match){
             return expression(match, value, vm, extra);
         });
@@ -1447,32 +1447,58 @@ var bind = {
         else{
             value = this.value;
         }
+        if(!isNaN(value)){
+            value = +value;
+        }
         set(model, value);
     },
-    'list' : function(node, prop){
+    'list' : function(node, propGroup){
         var template = node.outerHTML;
         var context = parse.context(node);
         node[marker.bind] = context;
 
-        prop = (context ? context + '.' + prop : prop);
-        var listMark = document.createComment('list for ' + prop),
+        var writeProp = propGroup[0],
+            useProp = propGroup[1];
+
+        //list: tr to table 替换
+        var templateFunc = function(template, index, writeProp, useProp){
+            var listExpPreg = new RegExp(expPreg.source, 'mg'),
+                fieldPreg = new RegExp('(?:\\s|\\b)('+writeProp+'\\.)', 'mg');
+            return template.replace(listExpPreg, function(match, exp){
+                return match.replace(fieldPreg, function(match, matchContext){
+                    return ' ' + useProp + '['+index+'].';
+                });
+            });
+        }
+
+        var prop = (context ? context + '.' + useProp : useProp);
+
+        //TODO 备用标注
+        var listMarkEnd = document.createComment('list for ' + useProp + ' as ' + writeProp + 'end'),
+            listMarkStart = document.createComment('list for ' + useProp + ' as ' + writeProp + 'start'),
             listNodeCollection = [];
-        node.parentNode.replaceChild(listMark, node);
+
+        node.parentNode.insertBefore(listMarkStart, node);
+        node.parentNode.replaceChild(listMarkEnd, node);
         main.addScanFunc(prop, function(v, ov, e){
-            if(!listMark.parentNode){return;}
+            if(!listMarkEnd.parentNode){return;}
             var list = get(prop);
             if(!(Array.isArray(list))){return;}
-            var content = listMark.parentNode;
+            var content = listMarkEnd.parentNode;
             //TODO 增强array功能后这里就不用全部删了再加了
             [].forEach.call(listNodeCollection, function(element){
                 remove(element);
             });
             list.forEach(function(dataElement, index){
-                var element = create(template);
+                var element = create(templateFunc(template, index, writeProp, useProp));
+                element[marker.extraData] = {
+                    index : index,
+                    value : dataElement
+                };
                 // var scope = Object.create(dataElement, {index:{value:index}});
                 // element.setAttribute(marker.bind, prop + '['+index+']');
-                element[marker.bind] = prop + '['+index+']';
-                content.insertBefore(element, listMark);
+                // element[marker.bind] = prop + '['+index+']';
+                content.insertBefore(element, listMarkEnd);
                 listNodeCollection.push(element);
                 main.scan(element);
             });
@@ -1482,6 +1508,7 @@ var bind = {
     'attr' : function(node, attrText, attrName){
         var context = parse.context(node), deps = parse.deps(attrText, context), func;
         node[marker.bind] = context;
+        var extraData = parse.extraData(node);
 
         switch (attrName){
             case 'checked' : 
@@ -1506,19 +1533,19 @@ var bind = {
             case 'value' : 
                 func = function(){
             //TODO if(!node.parentNode){}
-                    node.value = parse.text(attrText, context);
+                    node.value = parse.text(attrText, context, extraData);
                 }
                 break;
             case 'data-src' : 
                 func = function(){
             //TODO if(!node.parentNode){}
-                    node.src = parse.text(attrText, context);
+                    node.src = parse.text(attrText, context, extraData);
                 }
                 break;
             default : 
                 func = function(){
             //TODO if(!node.parentNode){}
-                    value = parse.text(attrText, context);
+                    value = parse.text(attrText, context, extraData);
                     if(value === 'null' || value === 'undefined'){
                         node.removeAttribute(attrName);
                     }
@@ -1537,6 +1564,7 @@ var bind = {
         var context = parse.context(node), deps = parse.deps(textContent, context), func;
         node[marker.bind] = context;
         var exchangeNode = node;
+        var extraData = parse.extraData(node);
         func = function(v, ov, e){
             if(e && !contains(document.documentElement, node)){
                 unobserve(e.nameNS, func, checkType);
@@ -1544,7 +1572,7 @@ var bind = {
             }
             if(v instanceof Node){exchangeNode = bind.element(exchangeNode, v);}
             else if(ov instanceof Node){exchangeNode = bind.element(exchangeNode, node);}
-            node.nodeValue = parse.text(textContent, context);
+            node.textContent = parse.text(textContent, context, extraData);
         }
         deps.forEach(function(prop){
             main.addScanFunc(prop, func);
@@ -1569,170 +1597,202 @@ window.document.addEventListener('DOMContentLoaded', function(){
 
 
 
-},{"./DataBind":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/DataBind.js","./Expression":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/Expression.js","./config":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/config.js","./kit":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/kit.js"}],"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/Expression.js":[function(require,module,exports){
+},{"./DataBind":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/DataBind.js","./config":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/config.js","./kit":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/kit.js"}],"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/Expression.artTemplate.js":[function(require,module,exports){
 /*
     表达式解析外挂包
-    expression('a.b.c', {a:xxx}, vm)
+    expression('a.b.c', {a:xxx}, vm， extraData)
     整个文件跟{{}}没关系啦
 */
 var DataBind = require('./DataBind');
 var $ = require('./kit');
-var Filter = require('./Filter');
+var config = require('./config');
 
-var scopeHolder = '$data', selfHolder = '$self';
+// var artTemplate = window.template = require('art-template');
+//....默认打上debug...只能。。
+var artTemplate = window.template = require('../node_modules/art-template/dist/template.js');
+var filters = require('./Filter');
+var merge = $.merge;
+
+var rootVar = config.rootVar, rootVarLen = String(rootVar).length;
+
 //################################################################################################################
 var log = $.log;
 var get = DataBind.get;
-var emptyFunc = function(){return '';};
-var filterArgsSplitMark = ';';
-var filter = Filter.list;
 //################################################################################################################
-var getValue = function(expression, scope, vm, extra){
-    return parser(expression)(scope, vm, extra);
-}
-//################################################################################################################
-var funcPropCheck = function(propText){
-    return '(typeof '+propText+' === "undefined" ? "" : '+propText+')';
-}
-//################################################################################################################
-var parserCache = {};
-/*
-    Function 解析表达式并构造&缓存函数体
-*/
-var parser = function(expression){
-    if(typeof expression !== 'string'){
-        log('DataBind.expression', 'expression \"' + expression + '\" is not a function');
-        return emptyFunc;
+var parseDeps = function(expressionText, context){
+    var expression = getExpressionPart(expressionText);
+    var reg = /(?=\b|\.|\[)(?!\'|\")([\w\.\[\]]+)(?!\'|\")\b/g, expressionBody;
+    var match, col = [], temp;
+    while(match = reg.exec(expression)){
+        if(match[1].indexOf('[') === 0){continue;}
+        temp = match[1].indexOf('[') ? match[1].split('[')[0] : match[1];
+        if(temp.slice(0, rootVarLen - 1) === rootVar + '.'){}
+        else if(temp.slice(0, 1) === '.'){continue;}
+        else{temp = (context ? context + '.' : '') + temp;}
+        col.push(temp);
     }
-    if(parserCache[expression]){return parserCache[expression];}
-    var funcBody, funcIns;
-    funcBody = parseDeps(expression, null, function(match){
-        var prop;
-        if(match.slice(0, 1) === '.')
-            prop = selfHolder + match;
-        else if(match.slice(0, 3) === 'vm.')
-            prop = match;
-        else
-            prop = scopeHolder + '.' + match;
-        return funcPropCheck(prop);
-    });
-    // /(^( )?(if|for|else|switch|case|break|{|}))(.*)?/g;
-    try{
-        funcIns = new Function(scopeHolder, 'vm', selfHolder, 'return ' + funcBody);
-        return parserCache[expression] = funcIns;
-    }
-    catch(e){
-        log('DataBind.expression', 'expression error!' + expression, e);
-        return emptyFunc;
-    }
-}
-/*
-    
-*/
-var parseDeps = function(expression, matchList, matchCallback){
-    //TODO cache
-    if(!matchList && !matchCallback){return;}
-    expression = getExpressionPart(expression).expression;
-    var reg = /(?=\b|\.)(?!\'|\")([\w|\.]+)(?!\'|\")\b/g, expressionBody;
-    //TODO 应该是把所有变量抓出来然后判空..感觉会好一点
-    expressionBody = expression.replace(reg, function(text, match){
-        if(isNaN(match)){
-            var dep = matchCallback ? matchCallback(match) : match;
-            matchList && matchList.push(dep);
-            return dep;
-        }
-        return match;
-    });
-    return expressionBody;
+    return col;
 }
 var getExpressionPart = function(expressionText){
-    //TODO cache
-    var part = expressionText.split(/\|{1,1}/),
-        exp = part.shift(),
-        filterArgs = /^\s*([\w\-]+)(?:\((.+)\))?/.exec(part.join('|'));
-    return {
-        expression : exp.trim(),
-        filterName : filterArgs && filterArgs[1].trim(),
-        filterArgs : filterArgs && filterArgs[2] && filterArgs[2].split(filterArgsSplitMark)
-    }
+    return expressionText.split(/\|{1,1}/)[0].trim();
 }
-
+for(var helperName in filters){
+    if(!filters.hasOwnProperty(helperName)){continue;}
+    artTemplate.helper(helperName, filters[helperName]);
+}
 //################################################################################################################
-var expression = function(expressionText, scope, vm, extra){
-    if(typeof expressionText !== 'string' || !expressionText.trim() || expressionText[0] === '#'){return '';}
-    //{{expression | filter}}
-    var execData = getExpressionPart(expressionText);
-    extra = extra || {};
-    extra.value = scope;
-
-    var rs = '';
-    try{
-        rs = getValue(execData.expression, scope, vm, extra);
-    }catch(e){
-        log('DataBind.expression', 'getValue: fetch error, function body :\n' + parserCache[execData.expression], e);
-    }
-    if(execData.filterName && filter.hasOwnProperty(execData.filterName)){
-        try{
-            rs = filter[execData.filterName].apply(scope, [rs, extra].concat(execData.filterArgs));
-        }catch(e){
-            log('DataBind.expression', 'filter:' + execData.filterName + ' error, args: "' + execData.filterArgs + '"', e);
-        }
-    }
-    if(rs === undefined){
-        rs = '';
-    }
+var expression = function(expressionText, scope, rootScope, extraData){
+    if(expressionText === undefined){return '';}
+    expressionText = '{{' + expressionText + '}}';
+    var rs, root = {};
+    root[rootVar] = rootScope;
+    rs = artTemplate.render(expressionText)(merge(
+        scope,
+        root,
+        {$:extraData}
+    ));
     return rs;
 }
 //################################################################################################################
 DataBind.expression = expression;
 DataBind.expression.parseDeps = parseDeps;
-DataBind.expression.register = Filter.register;
+DataBind.expression.register = artTemplate.helper;
 
-DataBind.expression.parserCache = parserCache;
 //################################################################################################################
 module.exports = expression;
 
 
-},{"./DataBind":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/DataBind.js","./Filter":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/Filter.js","./kit":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/kit.js"}],"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/Filter.js":[function(require,module,exports){
-var filter = {
-    /*
-        a,b,c | map({a:1,b:2,c:3};,) => 1,2,3
-    */
-    'map' : function(rs, extra, json, multiMark){
-        var map = JSON.parse(json);
-        if(!multiMark){
-            rs = [rs];
+},{"../node_modules/art-template/dist/template.js":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/node_modules/art-template/dist/template.js","./DataBind":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/DataBind.js","./Filter":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/Filter.js","./config":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/config.js","./kit":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/kit.js"}],"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/Filter.js":[function(require,module,exports){
+/*
+    liquid式预设helper外挂包
+*/
+var def = function(rs, defaultValue){
+    return rs === undefined ? defaultValue : rs;
+}
+module.exports = {
+    // date -时间格式化| date:'yyyy-MM-dd hh:mm:ss'
+    date : function (date, format) {
+        date = new Date(date);
+        if(!format){
+            return date.valueOf();
         }
-        var rsGroup = rs.split(multiMark);
-        return rsGroup.map(function(rs){
-            return map[rs] === undefined ? '' : map[rs];
-        }).join(multiMark);
+        var map = {
+            "M": date.getMonth() + 1, //月份 
+            "d": date.getDate(), //日 
+            "h": date.getHours(), //小时 
+            "m": date.getMinutes(), //分 
+            "s": date.getSeconds(), //秒 
+            "q": Math.floor((date.getMonth() + 3) / 3), //季度 
+            "S": date.getMilliseconds() //毫秒 
+        };
+        format = format.replace(/([yMdhmsqS])+/g, function(all, t){
+            var v = map[t];
+            if(v !== undefined){
+                if(all.length > 1){
+                    v = '0' + v;
+                    v = v.substr(v.length-2);
+                }
+                return v;
+            }
+            else if(t === 'y'){
+                return (date.getFullYear() + '').substr(4 - all.length);
+            }
+            return all;
+        });
+        return format;
     },
-    /*
-        
-    */
-    'text-overflow' : function(rs, extra, num, holder){
-        num = num || 16;
-        holder = holder || '...';
-        if(rs && rs.toString().length > num){
-            rs = rs.slice(0, num) + holder;
+    // capitalize-设置输入中的某个单词*
+    // downcase-将输入的字符串转换为小写*
+    // upcase-将输入的字符串转换为大写
+    // first-获得传入的数组的第一个元素
+    first : function(arr){
+        return arr[0];
+    },
+    // last-获得传入的数组的最后一个元素
+    last : function(arr){
+        return arr[arr.length?arr.length-1:0];
+    },
+    // join-用数组的分隔符连接数组中的元素
+    join : function(arr, joinMark){
+        return arr.join(joinMark);
+    },
+    // sort-数组中的元素排序
+    sort : function(arr, dir){
+        return arr.sort(function(a, b){return dir ? a > b : b > a;});
+    },
+    // map-通过指定的属性过滤数组中的元素
+    map : function(arr, json){
+        json = JSON.parse(json);
+        if(Array.isArray(arr)){
+            return arr.map(function(element){
+                return json[element];
+            });
         }
-        return rs;
+        else if(typeof arr === 'string'){
+            return json[arr];
+        }
+        return arr;
     },
-    /*
-        display:none | ''
-    */
-    'display' : function(rs, extra, displayType){
-        return 'display:' + ((+rs && rs !== 'false') ? displayType || '\"\";' : 'none;');
+    // size-返回一个数组或字符串的大小
+    // escape-转义一个字符串
+    // escape_once-返回HTML的转义版本，而不会影响现有的实体转义
+    // strip_html-从字符串去除HTML
+    strip_html : function(str){
+        // return str.replace()
+        return str;
+    },
+    // strip_newlines -从字符串中去除所有换行符（\ n）的
+    // newline_to_br-用HTML标记替换每个换行符（\ n）
+    // replace-替换，例如：{{ 'foofoo' | replace:'foo','bar' }} #=> 'barbar'
+    replace : function(str, match, replace){
+        return str.replace(new RegExp(match, 'g'), replace);
+    },
+    // replace_first-替换第一个，例如： '{{barbar' | replace_first:'bar','foo' }} #=> 'foobar'
+    // remove-删除，例如：{{'foobarfoobar' | remove:'foo' }} #=> 'barbar'
+    // remove_first-删除第一个，例如：{{ 'barbar' | remove_first:'bar' }} #=> 'bar'
+    // truncate-截取字符串到第x个字符
+    truncate : function(str, length){
+        return str.slice(0, length);
+    },
+    // slice-截取字符串第x个到第x个字符
+    slice : function(str, fromIndex, toIndex){
+        return str.slice(fromIndex, def(toIndex, undefined));
+    },
+    // truncatewords-截取字符串到第x个词
+    // prepend-前置添加字符串，例如：{{ 'bar' | prepend:'foo' }} #=> 'foobar'
+    prepend : function(str, appendString){
+        return def(prependString, '...') + str;
+    },
+    // append-后置追加字符串，例如：{{'foo' | append:'bar' }} #=> 'foobar'
+    append : function(str, appendString){
+        return str + def(appendString, '...');
+    },
+    // minus-减法，例如：{{ 4 | minus:2 }} #=> 2
+    minus : function(rs, num){
+        return rs - num;
+    },
+    // plus-加法，例如：{{'1' | plus:'1' }} #=> '11', {{ 1 | plus:1 }} #=> 2
+    plus : function(rs, num){
+        return rs + num;
+    },
+    // times-乘法，例如：{{ 5 | times:4 }} #=> 20
+    times : function(rs, num){
+        return rs * num;
+    },
+    // divided_by-除法，例如：{{ 10 | divided_by:2 }} #=> 5
+    divided_by : function(rs, num){
+        return rs / num;
+    },
+    // split-通过正则表达式切分字符串为数组，例如：{{"a~b" | split:"~" }} #=> ['a','b']
+    split : function(str, splitMark){
+        return str.split(def(splitMark, ','));
+    },
+    // modulo-取模，例如：{{ 3 | modulo:2 }} #=> 1
+    modulo : function(rs, num){
+        return rs % num;
     }
 };
 
-module.exports = {
-    list : filter,
-    register : function(name, func){
-        filter[name] = func;
-    }
-}
 },{}],"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/Observer.js":[function(require,module,exports){
 var listener = {
     'topic' : {},
@@ -1840,6 +1900,7 @@ var config = {
     ,'expHead' : '{{'
     ,'expFoot' : '}}'
 
+    ,'rootVar' : 'vm' //备用
     ,'DOMPrefix' : 'vm-'
     ,'propagation' : true
     ,'propagationType' : ['change'] //暂弃
@@ -1863,9 +1924,9 @@ module.exports = config;
 var name = require('./config').name;
 if(name in window){return;}
 module.exports = window[name] = require('./DataBind').init();
-// require('./Expression');
+require('./Expression.artTemplate');
 require('./DomExtend');
-},{"./DataBind":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/DataBind.js","./DomExtend":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/DomExtend.js","./config":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/config.js"}],"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/kit.js":[function(require,module,exports){
+},{"./DataBind":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/DataBind.js","./DomExtend":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/DomExtend.js","./Expression.artTemplate":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/Expression.artTemplate.js","./config":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/config.js"}],"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/kit.js":[function(require,module,exports){
 var $ = {};
 module.exports = $;
 var config = require('./config');
@@ -2002,4 +2063,7 @@ $.match = function(node, selector, context){
 
 },{"./config":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/config.js"}],"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/index.js":[function(require,module,exports){
 module.exports = require('./dev/init');
-},{"./dev/init":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/init.js"}]},{},["./lib/core/core.js"]);
+},{"./dev/init":"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/dev/init.js"}],"/Volumes/LINKAREA/web/neetproject/11/dev/node_modules/np-databind/node_modules/art-template/dist/template.js":[function(require,module,exports){
+/*!art-template - Template Engine | http://aui.github.com/artTemplate/*/
+!function(){function a(a){return a.replace(t,"").replace(u,",").replace(v,"").replace(w,"").replace(x,"").split(y)}function b(a){return"'"+a.replace(/('|\\)/g,"\\$1").replace(/\r/g,"\\r").replace(/\n/g,"\\n")+"'"}function c(c,d){function e(a){return m+=a.split(/\n/).length-1,k&&(a=a.replace(/\s+/g," ").replace(/<!--[\w\W]*?-->/g,"")),a&&(a=s[1]+b(a)+s[2]+"\n"),a}function f(b){var c=m;if(j?b=j(b,d):g&&(b=b.replace(/\n/g,function(){return m++,"$line="+m+";"})),0===b.indexOf("=")){var e=l&&!/^=[=#]/.test(b);if(b=b.replace(/^=[=#]?|[\s;]*$/g,""),e){var f=b.replace(/\s*\([^\)]+\)/,"");n[f]||/^(include|print)$/.test(f)||(b="$escape("+b+")")}else b="$string("+b+")";b=s[1]+b+s[2]}return g&&(b="$line="+c+";"+b),r(a(b),function(a){if(a&&!p[a]){var b;b="print"===a?u:"include"===a?v:n[a]?"$utils."+a:o[a]?"$helpers."+a:"$data."+a,w+=a+"="+b+",",p[a]=!0}}),b+"\n"}var g=d.debug,h=d.openTag,i=d.closeTag,j=d.parser,k=d.compress,l=d.escape,m=1,p={$data:1,$filename:1,$utils:1,$helpers:1,$out:1,$line:1},q="".trim,s=q?["$out='';","$out+=",";","$out"]:["$out=[];","$out.push(",");","$out.join('')"],t=q?"$out+=text;return $out;":"$out.push(text);",u="function(){var text=''.concat.apply('',arguments);"+t+"}",v="function(filename,data){data=data||$data;var text=$utils.$include(filename,data,$filename);"+t+"}",w="'use strict';var $utils=this,$helpers=$utils.$helpers,"+(g?"$line=0,":""),x=s[0],y="return new String("+s[3]+");";r(c.split(h),function(a){a=a.split(i);var b=a[0],c=a[1];1===a.length?x+=e(b):(x+=f(b),c&&(x+=e(c)))});var z=w+x+y;g&&(z="try{"+z+"}catch(e){throw {filename:$filename,name:'Render Error',message:e.message,line:$line,source:"+b(c)+".split(/\\n/)[$line-1].replace(/^\\s+/,'')};}");try{var A=new Function("$data","$filename",z);return A.prototype=n,A}catch(B){throw B.temp="function anonymous($data,$filename) {"+z+"}",B}}var d=function(a,b){return"string"==typeof b?q(b,{filename:a}):g(a,b)};d.version="3.0.0",d.config=function(a,b){e[a]=b};var e=d.defaults={openTag:"<%",closeTag:"%>",escape:!0,cache:!0,compress:!1,parser:null},f=d.cache={};d.render=function(a,b){return q(a,b)};var g=d.renderFile=function(a,b){var c=d.get(a)||p({filename:a,name:"Render Error",message:"Template not found"});return b?c(b):c};d.get=function(a){var b;if(f[a])b=f[a];else if("object"==typeof document){var c=document.getElementById(a);if(c){var d=(c.value||c.innerHTML).replace(/^\s*|\s*$/g,"");b=q(d,{filename:a})}}return b};var h=function(a,b){return"string"!=typeof a&&(b=typeof a,"number"===b?a+="":a="function"===b?h(a.call(a)):""),a},i={"<":"&#60;",">":"&#62;",'"':"&#34;","'":"&#39;","&":"&#38;"},j=function(a){return i[a]},k=function(a){return h(a).replace(/&(?![\w#]+;)|[<>"']/g,j)},l=Array.isArray||function(a){return"[object Array]"==={}.toString.call(a)},m=function(a,b){var c,d;if(l(a))for(c=0,d=a.length;d>c;c++)b.call(a,a[c],c,a);else for(c in a)b.call(a,a[c],c)},n=d.utils={$helpers:{},$include:g,$string:h,$escape:k,$each:m};d.helper=function(a,b){o[a]=b};var o=d.helpers=n.$helpers;d.onerror=function(a){var b="Template Error\n\n";for(var c in a)b+="<"+c+">\n"+a[c]+"\n\n";"object"==typeof console&&console.error(b)};var p=function(a){return d.onerror(a),function(){return"{Template Error}"}},q=d.compile=function(a,b){function d(c){try{return new i(c,h)+""}catch(d){return b.debug?p(d)():(b.debug=!0,q(a,b)(c))}}b=b||{};for(var g in e)void 0===b[g]&&(b[g]=e[g]);var h=b.filename;try{var i=c(a,b)}catch(j){return j.filename=h||"anonymous",j.name="Syntax Error",p(j)}return d.prototype=i.prototype,d.toString=function(){return i.toString()},h&&b.cache&&(f[h]=d),d},r=n.$each,s="break,case,catch,continue,debugger,default,delete,do,else,false,finally,for,function,if,in,instanceof,new,null,return,switch,this,throw,true,try,typeof,var,void,while,with,abstract,boolean,byte,char,class,const,double,enum,export,extends,final,float,goto,implements,import,int,interface,long,native,package,private,protected,public,short,static,super,synchronized,throws,transient,volatile,arguments,let,yield,undefined",t=/\/\*[\w\W]*?\*\/|\/\/[^\n]*\n|\/\/[^\n]*$|"(?:[^"\\]|\\[\w\W])*"|'(?:[^'\\]|\\[\w\W])*'|\s*\.\s*[$\w\.]+/g,u=/[^\w$]+/g,v=new RegExp(["\\b"+s.replace(/,/g,"\\b|\\b")+"\\b"].join("|"),"g"),w=/^\d[^,]*|,\d[^,]*/g,x=/^,+|,+$/g,y=/^$|,+/;e.openTag="{{",e.closeTag="}}";var z=function(a,b){var c=b.split(":"),d=c.shift(),e=c.join(":")||"";return e&&(e=", "+e),"$helpers."+d+"("+a+e+")"};e.parser=function(a){a=a.replace(/^\s/,"");var b=a.split(" "),c=b.shift(),e=b.join(" ");switch(c){case"if":a="if("+e+"){";break;case"else":b="if"===b.shift()?" if("+b.join(" ")+")":"",a="}else"+b+"{";break;case"/if":a="}";break;case"each":var f=b[0]||"$data",g=b[1]||"as",h=b[2]||"$value",i=b[3]||"$index",j=h+","+i;"as"!==g&&(f="[]"),a="$each("+f+",function("+j+"){";break;case"/each":a="});";break;case"echo":a="print("+e+");";break;case"print":case"include":a=c+"("+b.join(",")+");";break;default:if(/^\s*\|\s*[\w\$]/.test(e)){var k=!0;0===a.indexOf("#")&&(a=a.substr(1),k=!1);for(var l=0,m=a.split("|"),n=m.length,o=m[l++];n>l;l++)o=z(o,m[l]);a=(k?"=":"=#")+o}else a=d.helpers[c]?"=#"+c+"("+b.join(",")+");":"="+a}return a},"function"==typeof define?define(function(){return d}):"undefined"!=typeof exports?module.exports=d:this.template=d}();
+},{}]},{},["./lib/core/core.js"]);

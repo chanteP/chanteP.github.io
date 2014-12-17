@@ -20,7 +20,9 @@ layout: page
                 <li><a href="/about"><icon>❄</icon>about</a></li>
             </ul>
             <ul>
-                <li><a href="/">hello</a></li>
+                {% for post in site.posts %}
+                <li><a href="{{ post.url }}" data-fake="/blog#!{{ post.url }}">{{ post.title }}<time>{{ post.date | date_to_string }}</time></a></li>
+                {% endfor %}
             </ul>
         </nav>
     </section>
