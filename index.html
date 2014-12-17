@@ -2,7 +2,7 @@
 layout: main
 ---
 <div data-page="index" class="page_index">
-    <style>.page_index{position:relative;height:100%}.page_index .main{position:relative;top:37%;padding:0 3%}.page_index h1{font-size:100px;font-weight:100;line-height:1}.page_index .descbox{margin-bottom:8px;padding-left:12px;border-top:1px solid #a1a1a1}.page_index .desc{padding:0 12px;font-size:12px;color:#a1a1a1;line-height:1.8;font-weight:400}.page_index ul{float:left;width:190px}.page_index li{border-left:#333 solid 3px;margin:0 6px;-webkit-transition:all 0.2s ease;-moz-transition:all 0.2s ease;transition:all 0.2s ease}.page_index li:first-child,.page_index li:hover{border-color:#48D3CE}.page_index a{display:block;padding:4px 12px;text-decoration:none;color:#666;-webkit-transition:all 0.2s ease;-moz-transition:all 0.2s ease;transition:all 0.2s ease}.page_index a:hover{color:#48D3CE}.page_index footer{position:absolute;bottom:4px;padding:0 3%}.page_index footer p{margin:0 6px;font-size:12px;line-height:1.4;color:#e0e0e0}@media screen and (max-width: 750px){.page_index .main{top:25%}.page_index h1{font-size:40px;padding-left:12px}.page_index ul{float:left;width:46%;margin:2%}}</style>
+    <style>.page_index{position:relative;height:100%}.page_index .main{position:relative;top:37%;padding:0 3%}.page_index h1{font-size:100px;font-weight:100;line-height:1}.page_index .descbox{margin-bottom:8px;padding-left:12px;border-top:1px solid #a1a1a1}.page_index .desc{padding:0 12px;font-size:12px;color:#a1a1a1;line-height:1.8;font-weight:400}.page_index ul{float:left;width:190px}.page_index ul.long{width:30em}.page_index li{border-left:#333 solid 3px;margin:0 6px;-webkit-transition:all 0.2s ease;-moz-transition:all 0.2s ease;transition:all 0.2s ease}.page_index li:first-child,.page_index li:hover{border-color:#48D3CE}.page_index a{display:block;padding:4px 12px;text-decoration:none;color:#666;-webkit-transition:all 0.2s ease;-moz-transition:all 0.2s ease;transition:all 0.2s ease;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}.page_index a:hover{color:#48D3CE}.page_index footer{position:absolute;bottom:4px;padding:0 3%}.page_index footer p{margin:0 6px;font-size:12px;line-height:1.4;color:#e0e0e0}@media screen and (max-width: 750px){.page_index .main{top:25%}.page_index h1{font-size:40px;padding-left:12px}.page_index ul,.page_index ul.long{float:left;width:46%;margin:2%}}</style>
     <section class="main">
         <header>
             <h1>NEET PROJECT</h1>
@@ -19,9 +19,9 @@ layout: main
                 <li><a href="/blog"><icon>⌸</icon>blog</a></li>
                 <li><a href="/about"><icon>❄</icon>about</a></li>
             </ul>
-            <ul>
+            <ul class="long">
                 {% for post in site.posts %}
-                <li><a href="{{ post.url }}" data-fake="/blog#!{{ post.url }}">{{ post.title }}<time>{{ post.date | date_to_string }}</time></a></li>
+                <li><a href="{{ post.url }}" data-fake="/blog#!{{ post.url }}"><time>{{ post.date | date_to_string }}</time> - {{ post.title }}</a></li>
                 {% endfor %}
             </ul>
         </nav>
@@ -30,5 +30,7 @@ layout: main
         <p>::prototype::</p>
         <p>© neetproject 2015 ver.github_pages </p>
     </footer>
-    <script>window.parent.core.initPage(window,function(){});</script>
+    <script>window.parent.core.initPage(window, function(window, document, wrap, $){
+
+});</script>
 </div>

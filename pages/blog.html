@@ -26,5 +26,102 @@ layout: page
         {% endfor %}
         </ul>
     </section>
-    <script>window.parent.core.initPage(window,function(t,i,s,n){var e=(t.core.on,t.DataBind,n.find("#wrapper")),a={},o=function(t,i){this.url=i,this.node=t,this.contentNode=n.find('[data-node="content"]',t),this.status=this.WAITING,this.mark=this.node.dataset.url,this.toggle()};o.prototype={WAITING:"waiting",LOADING:"loading",LOADED:"loaded",AUTOHIDE:"autohide",ERROR:"error",HIDE:"hide",SHOW:"show",set status(t){return this.cacheStatus=t,this.node.dataset.status=t,t},get status(){return this.cacheStatus},load:function(){this.status=this.LOADING,n.iLoad(this.url,this.getContent.bind(this),this.loadFail.bind(this))},getContent:function(t){this.status=this.LOADED;try{this.contentNode.innerHTML=t.contentWindow.document.getElementById("content").innerHTML}catch(i){}this.status=this.SHOW},loadFail:function(){this.status=this.ERROR},toggle:function(){if(n.scrollTo(t.node.offsetTop,e),this.status===this.ERROR||this.status===this.WAITING)return void this.load();switch(this.status){case this.LOADED:case this.AUTOHIDE:case this.HIDE:this.status=this.SHOW;break;case this.SHOW:this.status=this.HIDE}var t=this;setTimeout(function(){[].forEach.call(n.findAll("[data-fake]",this.node),function(i){i.dataset.fake="/blog"+(t.status===t.SHOW?"":t.mark)})},0)}};var h=function(t){t.preventDefault();var i=this.getAttribute("href");a[i]?a[i].toggle():a[i]=new o(n.parent(this,'[data-node="postlist"]'),i)},c=function(){n.evt(s).on("click",'[data-act="loadBlog"]',h)};return{init:c}});</script>
+    <script>window.parent.core.initPage(window, function(window, document, wrap, $){
+    var bindUrl = window.core.on;
+    var D = window.DataBind;
+    var wrapper = $.find('#wrapper');
+
+    var storage = {};
+
+    var Post = function(node, url){
+        this.url = url;
+
+        this.node = node;
+        this.contentNode = $.find('[data-node="content"]', node);
+
+        this.status = this.WAITING;
+        this.mark = this.node.dataset.url;
+        this.toggle();
+    }
+    Post.prototype = {
+        WAITING : 'waiting',
+        LOADING : 'loading',
+        LOADED : 'loaded',
+        AUTOHIDE : 'autohide',
+        ERROR : 'error',
+        HIDE : 'hide',
+        SHOW : 'show',
+
+        set status(value){
+            this.cacheStatus = value;
+            this.node.dataset.status = value;
+            return value;
+        },
+        get status(){
+            return this.cacheStatus;
+        },
+
+        load : function(){
+            this.status = this.LOADING;
+            $.iLoad(this.url, this.getContent.bind(this), this.loadFail.bind(this));
+        },
+        getContent : function(i){
+            this.status = this.LOADED;
+            try{
+                this.contentNode.innerHTML = i.contentWindow.document.getElementById('content').innerHTML;
+            }catch(e){}
+            this.status = this.SHOW;
+        },
+        loadFail : function(){
+            this.status = this.ERROR;
+        },
+        toggle : function(){
+            $.scrollTo(this.node.offsetTop, wrapper);
+
+            if(this.status === this.ERROR || this.status === this.WAITING){
+                this.load();
+                return;
+            }
+            switch (this.status){
+                case this.LOADED : ;
+                case this.AUTOHIDE : ;
+                case this.HIDE : 
+                    this.status = this.SHOW;
+                    break;
+                case this.SHOW :
+                    this.status = this.HIDE;
+                    break;
+                default : 
+                    break;
+            }
+
+            var self = this;
+            setTimeout(function(){
+                [].forEach.call($.findAll('[data-fake]', this.node), function(btn){
+                    btn.dataset.fake = '/blog' + (self.status === self.SHOW ? '' : self.mark);
+                });
+            }, 0);
+        }
+    }
+    var togglePost = function(e){
+        e.preventDefault()
+        var url = this.getAttribute('href');
+        if(!storage[url]){
+            storage[url] = new Post($.parent(this, '[data-node="postlist"]'), url);
+        }
+        else{
+            storage[url].toggle();
+        }
+    }
+
+    var init = function(){
+        // debugger
+        $.evt(wrap)
+            .on('click', '[data-act="loadBlog"]', togglePost);
+    }
+    // init()
+    return {
+        init : init
+    }
+});</script>
 </div>

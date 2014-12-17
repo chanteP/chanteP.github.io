@@ -32,7 +32,7 @@ var $ = {};
 module.exports = $;
 var config = require('./config');
 // require('./jquery.hammer.min');
-$.isOnline = location.host != 'localhost:9000';
+$.isOnline = location.port != '9000' && location.port != '4000';
 $.isMobileMode = config.isMobileMode;
 
 $.objMerger = function(type, args){
@@ -463,7 +463,10 @@ var api = {
             loadTimer = setTimeout(function(){
                 cur && cur.switchOff() && cur.callback && cur.callback.hide && cur.callback.hide();
                 if(mod.switchOn() && mod.callback){
-                    mod.status < mod.INITED && (mod.status = mod.INITED) && mod.callback.init && mod.callback.init();
+                    if(mod.status < mod.INITED && mod.callback.init){
+                        mod.callback.init();
+                        mod.status = mod.INITED;
+                    }
                     mod.callback.show && mod.callback.show();
                 }
                 mod.setLoading(false);
@@ -503,7 +506,7 @@ module.exports = {
     set : function(url, title, data, justSet){
         if(url !== location.pathname)
             state.pushState(data, title, url);
-        justSet || runList(1, url);
+        runList(1, url);
     },
     on : function(func){
         evtList.push(func);
