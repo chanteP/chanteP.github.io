@@ -24,5 +24,5 @@ layout: page
             </li>
         </ul>
     </section>
-    <script>window.parent.core.initPage(document,function(a,n,t){var i=t.DataBind,o=t._config.apiHost+"/api/getLabData.php",c={data:null},e=function(){n.io.get(o,{onSuccess:function(a){c.data=a.data}}),new i("lab",c),i.scan(a)};return e(),{init:function(){n.lazyload(n.find("#wrapper"),a,"data-lazy")}}});</script>
+    <script>window.parent.core.initPage(document,function(a,n,t){var i=t.DataBind,o=t._config.apiHost+"/api/getLabData.php",c={data:null},e=function(){n.io.get(o,{onSuccess:function(a){c.data=a.data}}),new i("lab",c)};return e(),{init:function(){},showonce:function(){i.scan(a),n.lazyload(n.find("#wrapper"),a,"data-lazy")}}});</script>
 </div>
