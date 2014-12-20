@@ -1,0 +1,28 @@
+---
+layout: page
+---
+<div data-page="lab" class="page_lab">
+    <style>.page_lab{min-height:100%;background:#fff}.page_lab .list{margin:auto;background:url('/static/images/progressing.gif') center center no-repeat}.page_lab .unit{width:100%;height:160px;margin:2px 0;border-top:1px;border-bottom:1px;border-color:#f0f0f0;border-style:solid}.page_lab .unit[data-list]{display:none}.page_lab .unit a{text-decoration:none}.page_lab .uniwrap{position:relative;width:100%;height:100%;overflow:hidden;background:url('/static/images/progressing.gif') 25% center no-repeat}.page_lab .labtitle{display:none}.page_lab .thumbnail{position:absolute;display:block;margin:auto;width:50%;height:100%;z-index:1;opacity:1;-webkit-transition:all 0.2s ease;-moz-transition:all 0.2s ease;transition:all 0.2s ease}.page_lab .thumbnail[lazy-loading]{opacity:0}.page_lab .thumbnail[src]{height:initial}.page_lab .unit:hover .thumbnail[src]{-webkit-filter:brightness(1.2);-moz-filter:brightness(1.2);filter:brightness(1.2)}.page_lab .unit:hover dt{color:#48D3CE}.page_lab .info{position:relative;padding:0 3px 0 50%;height:100%;background:linear-gradient(90deg, rgba(255, 255, 255, 0), #fff 50%) transparent;z-index:2;overflow:hidden}.page_lab .info dt,.page_lab .info dd{color:#666}.page_lab .info dt{font-size:22px;line-height:2;-webkit-transition:all 0.2s ease;-moz-transition:all 0.2s ease;transition:all 0.2s ease;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}.page_lab .info dd{margin:0 0.5em 0.5em 0.5em;color:#a1a1a1}.page_lab .info .tags{white-space:nowrap}.page_lab .info .abst{height:6.5em;height:calc(100% - 94px);overflow-y:auto}.page_lab .info p{line-height:1.5;text-indent:2em;color:#666}@media screen and (max-width: 750px){.page_lab .thumbnail{width:auto;height:100%}.page_lab[src]{height:100%;width:initial}.page_lab .info{font-size:12px}.page_lab .info dt{font-size:20px}.page_lab .info .abst{height:calc(100% - 76px)}}</style>
+    <section class="wrap" id="labList">
+        <header class="hide">
+            <h1>np实验室</h1>
+        </header>
+        <ul data-bind="lab" class="list">
+            <li data-list="lab in data" class="unit">
+                <a href="[[link]]" target="_blank"> 
+                <figure class="uniwrap">
+                    <figcaption class="labtitle">[[lab.title]]</figcaption>
+                    <img class="thumbnail" data-lazy="[[lab.image]]" lazy-loading>
+                    <dl class="info">
+                        <dt title="[[lab.title]]">[[lab.title]]</dt>
+                        <dd>[[lab.date]]</dd>
+                        <dd class="tags">[[lab.tags]]</dd>
+                        <dd class="abst"><p>[[lab.about]]</p></dd>
+                    </dl>
+                </figure>
+                </a>
+            </li>
+        </ul>
+    </section>
+    <script>window.parent.core.initPage(document,function(a,n,t){var i=t.DataBind,o=t._config.apiHost+"/api/getLabData.php",c={data:null},e=function(){n.io.get(o,{onSuccess:function(a){c.data=a.data}}),new i("lab",c),i.scan(a)};return e(),{init:function(){n.lazyload(n.find("#wrapper"),a,"data-lazy")}}});</script>
+</div>

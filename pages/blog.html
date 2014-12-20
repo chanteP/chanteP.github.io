@@ -1,0 +1,30 @@
+---
+layout: page
+---
+<div data-page="blog" class="page_blog">
+    <style>.page_blog{min-height:100%;background:#EAEAEA}.page_blog .blog_list{padding:0 9px}.page_blog .blog_list [data-node="postlist"]{overflow:hidden}.page_blog .blog_list [data-node="postlist"] article{position:relative;margin:9px 9px;padding:20px;background:white;line-height:1.8}.page_blog .blog_list [data-node="postlist"] article .title{text-decoration:none}.page_blog .blog_list [data-node="postlist"] article .title h1{font-size:24px;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}.page_blog .blog_list [data-node="postlist"] .infobox{border-top:1px solid #ccc}.page_blog .blog_list [data-node="postlist"] .info{color:#a1a1a1;padding:8px}.page_blog .blog_list [data-node="postlist"] .content{color:#666;line-height:2;min-height:4em;max-height:4em;overflow:hidden;-webkit-transition:all 0.2s ease;-moz-transition:all 0.2s ease;transition:all 0.2s ease}.page_blog .blog_list [data-node="postlist"] .content p{text-indent:2em}.page_blog .blog_list [data-node="postlist"] .content a,.page_blog .blog_list [data-node="postlist"] .more a{color:#48D3CE}.page_blog .blog_list [data-node="postlist"] .content a:hover,.page_blog .blog_list [data-node="postlist"] .more a:hover{color:#FE7F57}.page_blog .blog_list [data-node="postlist"] .more{text-align:right}.page_blog .blog_list [data-node="postlist"] .more [data-fake]:after{content:'全部展开'}.page_blog .blog_list [data-node="postlist"] .more [data-act="toTop"]{display:none}.page_blog .blog_list [data-node="postlist"][data-status="loading"],.page_blog .blog_list [data-node="postlist"][data-status="show"]{}.page_blog .blog_list [data-node="postlist"][data-status="show"] .content{max-height:200em}.page_blog .blog_list [data-node="postlist"][data-status="show"] .more [data-fake]:after{content:'收起'}.page_blog .blog_list [data-node="postlist"][data-status="show"] .more [data-act="toTop"]{display:inline-block}.page_blog .blog_list [data-node="postlist"] article:after{content:'';position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;visibility:hidden;-webkit-transition:all 0.2s ease;-moz-transition:all 0.2s ease;transition:all 0.2s ease}.page_blog .blog_list [data-node="postlist"][data-status="loading"] article:after{opacity:1;visibility:visible;background:url('/static/images/progressing.gif') center center rgba(255,255,255,0.75) no-repeat}</style>
+    <section class="wrap">
+        <ul class="blog_list clearfix">
+        {% for post in site.posts %}
+            <li data-node="postlist" data-status data-url="#!{{ post.url }}">
+                <article>
+                    <a href="{{ post.url }}" class="title" data-fake="/blog#!{{ post.url }}" data-act="loadBlog">
+                        <h1 title="{{ post.title }}">{{ post.title }}</h1>
+                    </a>
+                    <fieldset class="infobox">
+                        <legend class="info">{{ post.date | date_to_string }}</legend>
+                    </fieldset>
+                    <div class="content" data-node="content">
+                        <p>{{ post.content | truncate : 110 | escape_once | append:'...'}}</p>
+                    </div>
+                    <p class="more">
+                        <a href="{{ post.url }}" data-fake="/blog#!{{ post.url }}" data-act="loadBlog"></a>
+                        <a href="javascript:;" data-act="toTop">回到顶部</a>
+                    </p>
+                </article>
+            </li>
+        {% endfor %}
+        </ul>
+    </section>
+    <script>window.parent.core.initPage(document,function(t,s,i){var n=(i.core.on,i.DataBind,s.find("#wrapper")),e={},a=function(t,i){this.url=i,this.node=t,this.contentNode=s.find('[data-node="content"]',t),this.status=this.WAITING,this.mark=this.node.dataset.url,this.toggle()};a.prototype={WAITING:"waiting",LOADING:"loading",LOADED:"loaded",AUTOHIDE:"autohide",ERROR:"error",HIDE:"hide",SHOW:"show",set status(t){return this.cacheStatus=t,this.node.dataset.status=t,t},get status(){return this.cacheStatus},load:function(){this.status=this.LOADING,s.iLoad(this.url,this.getContent.bind(this),this.loadFail.bind(this))},getContent:function(t){this.status=this.LOADED;try{this.contentNode.innerHTML=t.contentWindow.document.getElementById("content").innerHTML}catch(s){}this.status=this.SHOW},loadFail:function(){this.status=this.ERROR},toggle:function(){if(s.scrollTo(this.node.offsetTop,n),this.status===this.ERROR||this.status===this.WAITING)return void this.load();switch(this.status){case this.LOADED:case this.AUTOHIDE:case this.HIDE:this.status=this.SHOW;break;case this.SHOW:this.status=this.HIDE}var t=this;setTimeout(function(){[].forEach.call(s.findAll("[data-fake]",this.node),function(s){s.dataset.fake="/blog"+(t.status===t.SHOW?"":t.mark)})},0)}};var o=function(t){t.preventDefault();var i=this.getAttribute("href");e[i]?e[i].toggle():e[i]=new a(s.parent(this,'[data-node="postlist"]'),i)};return{init:function(){s.evt(t).on("click",'[data-act="loadBlog"]',o)},show:function(){alert("show")}}});</script>
+</div>
