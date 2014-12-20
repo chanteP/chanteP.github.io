@@ -69,6 +69,7 @@ $.parent    = function(node, selector){
     return null;
 }
 $.create = function(str){
+    str = str.trim();
     if(str.slice(0, 1) === '<'){
         var template = document.createElement(str.slice(0, 3) === '<tr' ? 'tbody' : 'template');
         template.innerHTML = str;

@@ -7,46 +7,42 @@ var url2Page = function(url){
     var rs = pageGrep.exec(url);
     return rs && rs[1] ? rs[1] : 'index';
 }
+var navRel = function(page){
+    $.find('#mainnav').set(page);
+}
 
 var pageStorage = {};
 var PageModule = function(page, dom){
     if(pageStorage[page]){
+        if(dom && !pageStorage[page].node){
+            pageStorage[page].node = dom;
+        }
         return pageStorage[page];
     }
     pageStorage[page] = this;
     this.page = page;
     this.node = dom;
-
+    if(!dom){
+        this.build();
+    }
 }
 
 PageModule.prototype = {
     LOADING : 0,
-    LOADINGSCRIPT : 1,
     READY : 2,
-    INITED : 3,
+    INIT : 3,
+    SHOW : 4,
+    HIDE : 5,
 
     status : 0,
 
     page : null,
     dom : null,
 
-    load : function(){
-        this.status = this.LOADING;
-    },
-    loadScript : function(){
-        this.status = this.LOADINGSCRIPT;
-        var s = document.createElement('script');
-        s.src = $.isOnline ? 
-            '/static/js/' + this.page + '.js' : 
-            '/page/' + this.page + '/init.js';
-        s.onload = function(){
-            $.remove(s);
-        }
-    },
-    build : function(url){
+    build : function(){
         var self = this;
         this.status = this.LOADING;
-        $.iLoad(url, null, function(){
+        $.iLoad('/pages/' + this.page + ($.isOnline ? '' : '.html'), null, function(){
             window.history.go(-1);
         });
     },
@@ -55,64 +51,50 @@ PageModule.prototype = {
         document.body.classList[bool ? 'add' : 'remove']('loading');
     },
     switchOn : function(){
-        this.navRel();
+        navRel(this.page);
+        this.status < this.INIT && this.fetchCallback('init');
         $.find(wrapperID).innerHTML = '';
-        $.find(wrapperID).appendChild(this.dom);
+        $.find(wrapperID).appendChild(this.node);
+        this.fetchCallback('show');
         return true;
     },
     switchOff : function(){
+        this.fetchCallback('hide');
         return true;
     },
-    navRel : function(){
-        $.find('#mainnav').set(this.page);
+    fetchCallback : function(type){
+        try{
+            this.callback && this.callback[type] && this.callback[type]();
+        }
+        catch(e){
+        }
+        this.status = this[type.toUpperCase()] || 10;
     }
 }
 
 var api = {
     load : function(url){
-        var page = url2Page(url), mod = PageModule(page);
-        if(!mod){
-            mod = new PageModule(page);
-        }
+        var page = url2Page(url), mod = new PageModule(page);
         if(page === url2Page(location.href) && mod === cur){return;}
         mod.setLoading(true);
         if(mod.status > mod.LOADING){
             clearTimeout(loadTimer);
             loadTimer = setTimeout(function(){
-                cur && cur.switchOff() && cur.callback && cur.callback.hide && cur.callback.hide();
-                if(mod.switchOn() && mod.callback){
-                    if(mod.status < mod.INITED && mod.callback.init){
-                        mod.callback.init();
-                        mod.status = mod.INITED;
-                    }
-                    mod.callback.show && mod.callback.show();
-                }
+                cur && cur.switchOff();
+                mod.switchOn()
                 mod.setLoading(false);
                 cur = mod;
             }, 400);
         }
     },
-    setDOM : function(page, dom){
-        new PageModule(page, dom);
-    },
-    init : function(dom, obj){
-        var page = dom.dataset.page;
-        var mod = PageModule(page);
-        if(!mod){
-            mod = new PageModule(page, dom, obj);
-        }
-        else{
-            mod.set(dom, obj);
-        }
-        // mod.status = mod.INITED;
-    },
-    set : function(page, callback){
-        var mod = PageModule(page);
-        mod.callback = callback(mod.dom, $);
-    },
-    init : function(page, dom){
+    init : function(page, dom, callback, inFrame){
         var mod = new PageModule(page, dom);
-        mod.loadScript();
+        mod.status = mod.READY;
+        try{
+            mod.callback = callback(dom, $, window);
+        }catch(e){
+            $.log('spa.loader', e.message, 'error')
+        }
     }
 }
 module.exports = api;

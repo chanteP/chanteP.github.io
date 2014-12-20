@@ -1,7 +1,7 @@
 
 var $ = require('../kit');
 var url = require('./url');
-var page = require('./loader');
+var loader = require('./loader');
 var api;
 var self = window.self;
 
@@ -16,50 +16,40 @@ var init = function(){
             }
             fake = this.dataset.fake;
             url.set(fake || href, document.title, null, href);
-            // page.load(href);
+            // loader.load(href);
         });
 
     url.on(function(src, dir){
-        page.load(src, dir);
+        loader.load(src, dir);
     });
-    // page.load(location.href);
+    // loader.load(location.href);
 }
 document.addEventListener('DOMContentLoaded', init);
 
 module.exports = api = {
-    loadScript : function(window, page){
-        var dom;
-        if(window != self){
-            dom = $.create($.find('#wrapper', window.document).innerHTML);
+    initPage : function(doc, callback){
+        if(document.readyState === 'loading'){
+            document.addEventListener('DOMContentLoaded', function(){
+                api.initPage(doc, callback);
+            });
+            return;
+        }
+
+        var dom, page, inFrame = doc != self.document;
+        dom = doc.querySelector('[data-page]');
+        page = dom.dataset.page;
+        if(inFrame){
+            dom = $.create($.find('#wrapper', doc).innerHTML);
+        }
+        loader.init(page, dom, callback, inFrame);
+        if(document.readyState !== 'complete'){
+            window.addEventListener('load', function(){
+                loader.load(location.href);
+            });
         }
         else{
-            dom = doc.querySelecter('[data-page="'+page+'"]');
+            loader.load(location.href);
         }
-        page.init(page, dom);
-    },
-    initPage : function(page, callback){
-        // setTimeout(function(){
-        //     var rs = callback(window, document, $.find('[data-page]'));
-        //     rs && rs.show  && rs.show();
-        // }, 0);
-        // return;
-        page.set(page, callback);
-        // if(document.readyState === 'loading'){
-        //     document.addEventListener('DOMContentLoaded', function(){
-        //         api.initPage(callback);
-        //     });
-        //     return;
-        // }
-        // page.set(wrap, callback(window, document, wrap, $));
-        // if(document.readyState !== 'complete'){
-        //     window.addEventListener('load', function(){
-        //         page.load(location.href);
-        //     });
-        // }
-        // else{
-        //     page.load(location.href);
-        // }
-        page.load(location.href);
     },
     onUrlChange : url.on
 }

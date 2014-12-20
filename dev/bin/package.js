@@ -12,6 +12,7 @@ var buildCore = function(isWatch, cb){
 
     var bundle = function(){
         h.bundle()
+            // .pipe(fs.createWriteStream('./dev/static/js/kit.js'));
             .pipe(fs.createWriteStream('./static/js/kit.js'));
     }
     h.on('update', bundle);
@@ -21,7 +22,8 @@ var buildCore = function(isWatch, cb){
 }
 var buildFiles = function(){
     packCss('./dev/static/css/global.scss', './static/css/global.css');
-    require('./dev/bin/tabs.js').forEach(function(tab){
+    // copy('./dev/static/js/kit.js', './static/js/kit.js');
+    require('./tabs').forEach(function(tab){
         copy('./dev/page/'+tab+'/init.js', './static/js/' + tab + '.js');
     });
 
@@ -45,8 +47,8 @@ var buildFiles = function(){
 
 module.exports = {
     dev : function(cb){
+        buildCore(true, cb)
         buildFiles();
-        // buildCore(true, cb)
     },
     // build : function(cb){
     //     buildFiles();

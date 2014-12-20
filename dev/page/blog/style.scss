@@ -1,4 +1,4 @@
-@import '../../resource/variable.scss';
+@import '../../static/css/variable.scss';
 .page_blog{
     min-height: 100%;
     background: #EAEAEA;
@@ -95,7 +95,7 @@
         &[data-status="loading"] article:after{
             opacity: 1;
             visibility: visible;
-            background: url('/resource/progressing.gif') center center rgba(255,255,255,.75) no-repeat;
+            background: url('/static/images/progressing.gif') center center rgba(255,255,255,.75) no-repeat;
         }
         }
     }

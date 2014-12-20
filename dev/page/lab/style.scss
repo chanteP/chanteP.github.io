@@ -1,11 +1,11 @@
-@import '../../resource/variable.scss';
+@import '../../static/css/variable.scss';
 .page_lab{
     min-height: 100%;
     background: #fff;
 
     .list{
         margin: auto;
-        background: url('/resource/progressing.gif') center center no-repeat;
+        background: url('/static/images/progressing.gif') center center no-repeat;
     }
     .unit{
         /*float: left;*/
@@ -30,7 +30,7 @@
         height: 100%;
         overflow: hidden;
 
-        background: url('/resource/progressing.gif') 25% center no-repeat;
+        background: url('/static/images/progressing.gif') 25% center no-repeat;
     }
     .labtitle{
         display: none;
