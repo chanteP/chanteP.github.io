@@ -114,14 +114,14 @@ layout: main
         }
     }
 
-    var init = function(){
-        // debugger
-        $.evt(wrap)
-            .on('click', '[data-act="loadBlog"]', togglePost);
-    }
     // init()
     return {
-        init : init
+        init : function(){
+            alert(23)
+            // debugger
+            $.evt(wrap)
+                .on('click', '[data-act="loadBlog"]', togglePost);
+        }
     }
 });</script>
 </div>
