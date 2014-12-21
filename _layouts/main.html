@@ -11,7 +11,7 @@
         
         <title>neetproject( ´・ω・｀)</title>
         
-       <link rel="shortcut icon" href="/static/images/favourite.png" />
+        <link rel="shortcut icon" href="/static/images/favourite.png" />
         <!-- <link href='http://fonts.googleapis.com/css?family=Roboto:400,100' rel='stylesheet' type='text/css'> -->
         <link rel="stylesheet" media="screen" href="/static/css/global.css" />
         <script src="/static/js/kit.js"></script>
@@ -51,9 +51,6 @@
 
             ga('create', 'UA-57857767-1', 'auto');
             ga('send', 'pageview');
-            $.evt(document.body).on('click', 'a[href^=/]', function(){
-                _gaq && _gaq.push(['_trackEvent', 'spa', 'switch', this.href]);
-            });
         </script>
     </body>
 </html>
