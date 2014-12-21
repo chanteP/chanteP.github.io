@@ -15,7 +15,7 @@ layout: page
                         <legend class="info">{{ post.date | date_to_string }}</legend>
                     </fieldset>
                     <div class="content" data-node="content">
-                        <p>{{ post.content | truncate : 110 | escape_once | append:'...'}}</p>
+                        <p>{{ post.content | strip_html | truncate : 110 | escape_once | append:'...'}}</p>
                     </div>
                     <p class="more">
                         <a href="{{ post.url }}" data-fake="/blog#!{{ post.url }}" data-act="loadBlog"></a>
