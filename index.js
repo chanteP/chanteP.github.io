@@ -1,7 +1,7 @@
 var args = process.argv.slice(2);
 if(!(__dirname.slice(-3) == 'dev')){
     if(args.indexOf('dev') >= 0){
-        require('./dev/bin/package')();
+        require('./dev/bin/package')(true);
         require('./dev/bin/build')(true);
     }
     else if(args.indexOf('publish') >= 0){
