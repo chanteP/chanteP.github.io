@@ -102,7 +102,7 @@ layout: main
         },
         setProps : function(status){
             var self = this;
-            setTimeout(function(){
+            window.setTimeout(function(){
                 [].forEach.call($.findAll('[data-fake]', this.node), function(btn){
                     btn.dataset.fake = '/blog' + (status === self.SHOW ? '' : self.mark);
                 });
