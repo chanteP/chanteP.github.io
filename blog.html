@@ -55,6 +55,7 @@ layout: main
         set status(value){
             this.cacheStatus = value;
             this.node.dataset.status = value;
+            this.setProps();
             return value;
         },
         get status(){
@@ -98,18 +99,14 @@ layout: main
                 default : 
                     break;
             }
-
+        },
+        setProps : function(){
             var self = this;
             [].forEach.call($.findAll('[data-fake]', this.node), function(btn){
                 btn.dataset.fake = '/blog' + (self.status === self.SHOW ? '' : self.mark);
             });
 
-            if(this.status === this.SHOW){
-                $.find('.content', this.node).style.height = $.find('.content', this.node).scrollHeight + 'px';
-            }
-            else{
-                $.find('.content', this.node).style.height = '';
-            }
+            this.contentNode.style.height = this.status === this.SHOW ? this.contentNode.scrollHeight + 'px' : '';
         }
     }
     var togglePost = function(e){
