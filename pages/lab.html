@@ -24,31 +24,5 @@ layout: page
             </li>
         </ul>
     </section>
-    <script>window.parent.core.initPage(document, function(wrap, $, window){
-    var D = window.DataBind;
-    var api = window._config.apiHost + '/api/getLabData.php';
-
-    var vm = {
-        data : null
-    };
-    var init = function(){
-        $.io.get(api, {
-            onSuccess : function(data){
-                vm.data = data.data;
-            }
-        });
-        new D('lab', vm);
-    }
-    init();
-    return {
-        init : function(){
-        },
-        showonce : function(){
-            D.scan(wrap);
-            $.lazyload($.find('#wrapper'), wrap, 'data-lazy', function(el, src){
-                el.src = src;
-            });
-        }
-    }
-});</script>
+    <script>window.parent.core.initPage(document,function(n,a,t){var i=t.DataBind,o=t._config.apiHost+"/api/getLabData.php",c={data:null},e=function(){a.io.get(o,{onSuccess:function(n){c.data=n.data}}),new i("lab",c)};return e(),{init:function(){},showonce:function(){i.scan(n),a.lazyload(a.find("#wrapper"),n,"data-lazy",function(n,a){n.src=a})}}});</script>
 </div>
