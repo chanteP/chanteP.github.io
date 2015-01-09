@@ -79,7 +79,7 @@ layout: main
         scrollTo : function(){
             var padding = window.getComputedStyle(wrap);
             padding = padding ? parseInt(padding['padding-top']) : 0;
-            $.scrollTo(this.node.offsetTop + padding + 8, wrapper);
+            $.scrollTo(this.node.offsetTop + padding + 8 + ($.isMobileMode ? 70 : 0), wrapper);
         },
         toggle : function(){
             this.scrollTo();
