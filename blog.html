@@ -55,7 +55,7 @@ layout: main
         set status(value){
             this.cacheStatus = value;
             this.node.dataset.status = value;
-            this.setProps();
+            this.setProps(value);
             return value;
         },
         get status(){
@@ -100,13 +100,13 @@ layout: main
                     break;
             }
         },
-        setProps : function(){
+        setProps : function(status){
             var self = this;
             [].forEach.call($.findAll('[data-fake]', this.node), function(btn){
-                btn.dataset.fake = '/blog' + (self.status === self.SHOW ? '' : self.mark);
+                btn.dataset.fake = '/blog' + (status === self.SHOW ? '' : self.mark);
             });
 
-            this.contentNode.style.height = this.status === this.SHOW ? this.contentNode.scrollHeight + 'px' : '';
+            this.contentNode.style.height = status === this.SHOW ? this.contentNode.scrollHeight + 'px' : '';
         }
     }
     var togglePost = function(e){
