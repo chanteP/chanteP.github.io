@@ -102,9 +102,11 @@ layout: page
         },
         setProps : function(status){
             var self = this;
-            [].forEach.call($.findAll('[data-fake]', this.node), function(btn){
-                btn.dataset.fake = '/blog' + (status === self.SHOW ? '' : self.mark);
-            });
+            setTimeout(function(){
+                [].forEach.call($.findAll('[data-fake]', this.node), function(btn){
+                    btn.dataset.fake = '/blog' + (status === self.SHOW ? '' : self.mark);
+                });
+            }, 0);
 
             this.contentNode.style.height = status === this.SHOW ? this.contentNode.scrollHeight + 'px' : '';
         }
