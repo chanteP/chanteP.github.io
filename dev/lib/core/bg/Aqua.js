@@ -14,6 +14,14 @@ var tan = Math.tan,
     min = Math.min,
     random = Math.random;
 
+var mainColor = 177,
+// var mainColor = 330,
+    color_lite = 'hsl('+mainColor+', 61.23%, 90%)',
+    color_base = 'hsl('+mainColor+', 61.23%, 72%)',
+    color_deep = 'hsl('+(mainColor+5)+', 71.23%, 60%)'
+    ;
+
+
 var toArc = function(deg){
     return deg * 2 * PI / 360;
 }
@@ -42,11 +50,11 @@ var initWater = function(){
 
         //TODO优化
         var gradient = npc.ctx.createLinearGradient(0, py, 0, contHeight - this.y);
-        gradient.addColorStop(0, 'hsl(177, 61.23%, 90%)');
-        gradient.addColorStop(0.5, 'hsl(177, 61.23%, 57%)');
-        gradient.addColorStop(1, 'hsl(182, 71.23%, 47%)');
+        gradient.addColorStop(0, color_lite);
+        gradient.addColorStop(0.5, color_base);
+        gradient.addColorStop(1, color_deep);
 
-        ctx.strokeStyle = 'hsl(177, 61.23%, 55%)';
+        ctx.strokeStyle = color_base;
         ctx.strokeWidth = 1;
         ctx.stroke();
 
