@@ -1,0 +1,127 @@
+@import '../../static/css/variable.scss';
+.page_lab{
+    min-height: 100%;
+
+    .list{
+        margin: auto;
+        min-height: 400px;
+        background: url('/static/images/progressing.gif') center center no-repeat;
+    }
+    .unit{
+        /*float: left;*/
+        width: 100%;
+        height: 160px;
+        margin: 2px 0;
+        border-top:1px;
+        border-bottom:1px;
+        border-color:#f0f0f0;
+        border-style: solid;
+
+        &[data-list]{
+            display: none;
+        }
+        a{
+            text-decoration: none;
+        }
+    }
+    .uniwrap{
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+
+        background: url('/static/images/progressing.gif') 25% center no-repeat;
+    }
+    .labtitle{
+        display: none;
+    }
+    .thumbnail{
+        position: absolute;
+        display: block;
+        margin: auto;
+        width: 50%;
+        height: 100%;
+        z-index: 1;
+
+        opacity: 1;
+        @include transition;
+        @include transition-property(opacity);
+
+        &[lazy-loading]{
+            opacity: 0;
+        }
+        &[src]{
+            height: initial;
+            /*@include filter(brightness(1.5));*/
+
+        }
+    }
+    .unit:hover{
+        .thumbnail[src]{
+            @include filter(brightness(1.2));
+        }
+        dt{
+            color: $color-theme;
+        }
+    }
+    .info{
+        position: relative;
+        padding: 0 3px 0 50%;
+        height: 100%;
+        background: linear-gradient(90deg, rgba(255,255,255,0), #fff 50%) transparent;
+        z-index: 2;
+        overflow: hidden;
+
+        dt,
+        dd{
+            color: #666;
+        }
+        dt{
+            font-size: 22px;
+            line-height: 2;
+            @include transition;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+        dd{
+            margin: 0 .5em .5em .5em;
+            color: $color-text-sub;
+        }
+        .tags{
+            /*text-decoration: underline;*/
+            white-space: nowrap;
+        }
+        .abst{
+            height: 6.5em;
+            height: calc(100% - 94px);
+            overflow-y: auto;
+        }
+        p{
+            line-height: 1.5;
+            text-indent: 2em;
+            color: $color-text;
+        }
+    }
+}
+@media screen and (max-width : 750px){
+    .page_lab{
+        .thumbnail{
+            width: auto;
+            height: 100%;
+        }
+        &[src]{
+            height: 100%;
+            width: initial;
+        }   
+        .info{
+            font-size: 12px;
+            dt{
+                font-size: 20px;
+            }
+            .abst{
+                height: calc(100% - 76px);
+            }
+        }
+    }
+}

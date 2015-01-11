@@ -1,0 +1,109 @@
+@import '../../static/css/variable.scss';
+.page_blog{
+    min-height: 100%;
+
+    .blog_list{
+        padding: 0 9px 100px 9px;
+
+        [data-node="postlist"]{
+            overflow: hidden;
+            /*@include transition;*/
+
+            article{
+                position: relative;
+                margin: 9px 9px;
+                padding: 20px;
+                background: rgba(255,255,255,1);
+                line-height: 1.8;
+                .title{
+                    text-decoration: none;
+
+                    h1 {
+                        font-size: 24px;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        white-space: nowrap;
+                    }
+                }
+            }
+            .infobox{
+                border-top:1px solid #ccc;
+            }
+            .info{
+                color: $color-text-sub;
+                padding: 8px;
+            }
+            .content{
+                color: $color-text;
+                line-height: 2;
+                height: 4em;
+                overflow: hidden;
+                @include transition;
+
+                p{
+                    text-indent: 2em;
+                }
+            }
+            .content a,
+            .more a{
+                color: $color-theme;
+                /*text-decoration: underline;*/
+                &:hover{
+                    color: $color-stress;
+                }
+            }
+            .more{
+                text-align: right;
+
+                [data-fake]:after{
+                    content : '全部展开';
+                }
+                [data-act="toTop"]{
+                    display: none;
+                }
+            }
+        &[data-status="loading"],
+        &[data-status="show"]{
+            /*width: 100%;*/
+        }
+        &[data-status="show"]{
+            .content{
+                /*max-height: 200em;*/
+            }
+            .more{
+                [data-fake]:after{
+                    content : '收起';
+                }
+                [data-act="toTop"]{
+                    display: inline-block;
+                }
+            }
+        }
+
+        article:after{
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            @include transition;
+        }
+        &[data-status="loading"] article:after{
+            opacity: 1;
+            visibility: visible;
+            background: url('/static/images/progressing.gif') center center rgba(255,255,255,.75) no-repeat;
+        }
+        }
+    }
+}
+@media screen and (max-width : 750px){
+    .page_blog{
+        .blog_list{
+            [data-node="postlist"]{
+            }
+        }
+    }
+}
