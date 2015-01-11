@@ -34,35 +34,37 @@ var toArc = function(deg){
 }
 
 var initWater = function(){
-    contWidth = document.documentElement.clientWidth;
-    contHeight = document.documentElement.clientHeight;
-    R = sqrt(pow(contHeight, 2) + pow(contWidth, 2));
-
+    contWidth = npc.width;
+    contHeight = npc.height;
+    R = sqrt(pow(contHeight/npc.pixelRatio, 2) + pow(contWidth/npc.pixelRatio, 2));
 
     water = npc.create(.5 * contWidth, .5 * contHeight, function(ctx, fps){
         this.rotate += this.targetRotateDis * 2 / fps;
         // this.rotate = this.targetRotate;
         this.deg += (this.targetDeg - this.deg) / fps;
 
-        ctx.rotate(toArc(this.rotate));
-        ctx.beginPath();
+        var arcTime = sin(toArc(this.timer++));
 
-        var px = R * sin(this.deg), py = R * cos(this.deg);
-        var wave = sin(toArc(this.timer++)) * min(60, R - abs(py));
+        var px = (R * sin(this.deg)) | 0, py = (R * cos(this.deg)) | 0;
+        var wave = (arcTime * min(100, R - abs(py))) | 0;
+        ctx.rotate(toArc(this.rotate));
+
+        ctx.beginPath();
 
         ctx.arc(0, 0, R, PI / 2 + this.deg, PI / 2 - this.deg, true);
         ctx.moveTo(px, py);
         ctx.bezierCurveTo(0, py + wave, 0, py - wave, -px, py);
 
         //TODO优化
-        var gradient = npc.ctx.createLinearGradient(0,py,0,R);
+        var gradient = npc.ctx.createLinearGradient(0, py, 0, contHeight - this.y);
         gradient.addColorStop(0, 'hsl(177, 61.23%, 90%)');
-        gradient.addColorStop(0.2, 'hsl(177, 61.23%, 57%)');
-        gradient.addColorStop(1, 'hsl(200, 61.23%, 52%)');
-        
-        // ctx.strokeStyle = 'hsl(177, 61.23%, 55%)';
-        // ctx.strokeWidth = 2;
-        // ctx.stroke();
+        gradient.addColorStop(0.5, 'hsl(177, 61.23%, 57%)');
+        gradient.addColorStop(1, 'hsl(182, 71.23%, 47%)');
+
+        ctx.strokeStyle = 'hsl(177, 61.23%, 55%)';
+        ctx.strokeWidth = 1;
+        ctx.stroke();
+
         ctx.fillStyle = gradient;
         ctx.fill();
         ctx.closePath();
@@ -157,9 +159,10 @@ var fitPage = function(page, prePage){
 document.addEventListener('DOMContentLoaded', function(){
     var canvas = $.find('#npc');
     if(!canvas){return;}
-    canvas.width = document.documentElement.clientWidth;
-    canvas.height = document.documentElement.clientHeight;
-    npc = canvas.engine = new NPCanvas(canvas);
+    npc = canvas.engine = new NPCanvas(canvas, {
+        autoFit : true,
+        pixelRatio : window.devicePixelRatio
+    });
     effect && effect.init(npc);
     npc.play();
     core.onPageChange(fitPage);
@@ -1411,6 +1414,10 @@ var Engine = function(canvasNode, config){
 
     this.cfg = {};
     this.config(config);
+    if(this.cfg.autoFix){
+        this.width = this.canvas.clientWidth * this.cfg.pixelRatio;
+        this.height = this.canvas.clientHeight * this.cfg.pixelRatio;
+    }
 }
 Engine.extend = CanvasObject.extend;
 Engine.create = function(x, y, shape){
@@ -1424,9 +1431,12 @@ Engine.prototype = {
 
         this.cfg = merge({
             renderCallback : function(){}
+            ,autoFix : true
+            ,pixelRatio : 1
         }, this.cfg, cfg);
 
         this.renderCallback = this.cfg.renderCallback;
+        this.pixelRatio = this.cfg.pixelRatio;
     },
     set width(value){
         this.canvas && (this.canvas.width = value);

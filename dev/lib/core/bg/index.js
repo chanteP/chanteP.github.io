@@ -15,9 +15,10 @@ var fitPage = function(page, prePage){
 document.addEventListener('DOMContentLoaded', function(){
     var canvas = $.find('#npc');
     if(!canvas){return;}
-    canvas.width = document.documentElement.clientWidth;
-    canvas.height = document.documentElement.clientHeight;
-    npc = canvas.engine = new NPCanvas(canvas);
+    npc = canvas.engine = new NPCanvas(canvas, {
+        autoFit : true,
+        pixelRatio : window.devicePixelRatio
+    });
     effect && effect.init(npc);
     npc.play();
     core.onPageChange(fitPage);
