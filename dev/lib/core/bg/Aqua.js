@@ -21,7 +21,7 @@ var toArc = function(deg){
 var initWater = function(){
     contWidth = document.documentElement.clientWidth;
     contHeight = document.documentElement.clientHeight;
-    R = (contHeight + contWidth) / 2;
+    R = sqrt(pow(contHeight, 2) + pow(contWidth, 2));
 
 
     water = npc.create(.5 * contWidth, .5 * contHeight, function(ctx, fps){
