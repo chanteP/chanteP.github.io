@@ -81,37 +81,12 @@ var setWater = function(rotate, deg){
     water.targetDeg = toArc(deg);
     // npc.canvas.style.backgroundColor = 'hsla(177, 61.23%, 55%, '+ min(.1, max(0, 1 - water.deg + 1.13 - .6))+')';
 }
-var calcHorizon = function(a,b,r){
-    // console.log(parseInt(a),parseInt(b),parseInt(r))
-    var synbr = r > 0 ? 1 : -1,
-        synbb = b > 0 ? 1 : -1;
-    r = abs(r);
-    b = abs(b);
+var calcHorizon = function(x, y, z){
+    var g1 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+    var rotate = Math.acos(y / g1) * 360 / 2 / Math.PI;
+    var deg = g1 / 9.8 * 180;
 
-    var checkr = r - 90 > 0;
-
-    var rotate = 0;
-    //最后应该不是加cos...
-    rotate = b > r ? 
-        (synbb > 0 ? 0 : 180) + (synbb > 0 ? 1 : -1) * (synbr > 0 ? -1 : 1) * r * cos(toArc(b)):
-        (synbr > 0 ? 270 : 90) + (synbb ^ synbr ? -1 : 1) * b;
-
-    // switch(true){
-    //     case synbb > 0 && synbr < 0 : //1象限
-    //         rotate = b > r ? r : 90 - b;
-    //         break;
-    //     case synbb < 0 && synbr < 0 : //2象限
-    //         rotate = b > r ? 180 - r : 90 + b;
-    //         break;
-    //     case synbb < 0 && synbr > 0 : //3象限
-    //         rotate = b > r ? 180 + r : 270 - b;
-    //         break;
-    //     case synbb > 0 && synbr > 0 : //4象限
-    //         rotate = b > r ? -r : 270 + b;
-    //         break;
-    // }
-    var deg = (r + b) | 0;
-    // deg = 90 + (deg > 90 ? 1 : -1) * 90 * pow((90 - deg) / 90, 2);
+    rotate = 180 - (x > 0 ? 1 : -1) * rotate;
     deg = max(80, min(deg, 180));
     setWater(rotate, deg);
 }
@@ -121,10 +96,21 @@ var initBase = function(engine){
     initWater();
     var counter = 0
     if (window.DeviceOrientationEvent) {
-        window.addEventListener('deviceorientation', function(e){
+        window.addEventListener('devicemotion', function(e){
+            // var x = e.accelerationIncludingGravity.x;
+            // var y = e.accelerationIncludingGravity.y;
+
+            // var g1 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+            // var deg = Math.acos(y / g1) * 360 / 2 / Math.PI;
+
+            // if(x < 0){
+            //     deg = -deg; 
+            // }
+            // deg = 180 - deg;
+
             if(counter++ > 3){
                 counter = 0;
-                calcHorizon(e.alpha, e.beta, e.gamma);
+                calcHorizon(e.accelerationIncludingGravity.x, e.accelerationIncludingGravity.y, e.accelerationIncludingGravity.z);
             }
         });
 　　}
