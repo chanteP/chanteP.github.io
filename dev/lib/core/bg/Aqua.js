@@ -33,7 +33,7 @@ var initWater = function(){
 
     water = npc.create(.5 * contWidth, .5 * contHeight, function(ctx, fps){
         this.rotate += this.targetRotateDis * 2 / fps;
-        // this.rotate = this.targetRotate;
+        // this.rotate += (this.targetRotate - this.rotate) / fps;
         this.deg += (this.targetDeg - this.deg) / fps;
 
         var arcTime = sin(toArc(this.timer++));
@@ -70,13 +70,12 @@ var initWater = function(){
 }
 
 var setWater = function(rotate, deg){
-    water.targetRotateDis = (rotate - water.rotate) % 360;
-    // document.getElementsByTagName('h1')[0].innerHTML = deg;
+    water.targetRotateDis = -rotate - water.rotate;
     if(water.targetRotateDis > 180){
-        water.targetRotateDis = water.targetRotateDis - 360;
+        water.targetRotateDis -= 360;
     }
-    if(water.targetRotateDis < -180){
-        water.targetRotateDis = 360 - water.targetRotateDis;
+    else if(water.targetRotateDis < -180){
+        water.targetRotateDis += 360;
     }
     water.targetDeg = toArc(deg);
     // npc.canvas.style.backgroundColor = 'hsla(177, 61.23%, 55%, '+ min(.1, max(0, 1 - water.deg + 1.13 - .6))+')';
@@ -84,30 +83,20 @@ var setWater = function(rotate, deg){
 var calcHorizon = function(x, y, z){
     var g1 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     var rotate = Math.acos(y / g1) * 360 / 2 / Math.PI;
-    var deg = g1 / 9.8 * 180;
+    var deg = (z < 0 ? g1 : 9.8 + g1) / 9.8 / 2 * 180;
 
     rotate = 180 - (x > 0 ? 1 : -1) * rotate;
     deg = max(80, min(deg, 180));
     setWater(rotate, deg);
+    // document.getElementsByTagName('h1')[0].innerHTML = g1 + ', ' + z;
 }
 
 var initBase = function(engine){
-	npc = engine;
+    npc = engine;
     initWater();
     var counter = 0
     if (window.DeviceOrientationEvent) {
         window.addEventListener('devicemotion', function(e){
-            // var x = e.accelerationIncludingGravity.x;
-            // var y = e.accelerationIncludingGravity.y;
-
-            // var g1 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
-            // var deg = Math.acos(y / g1) * 360 / 2 / Math.PI;
-
-            // if(x < 0){
-            //     deg = -deg; 
-            // }
-            // deg = 180 - deg;
-
             if(counter++ > 3){
                 counter = 0;
                 calcHorizon(e.accelerationIncludingGravity.x, e.accelerationIncludingGravity.y, e.accelerationIncludingGravity.z);
@@ -116,6 +105,6 @@ var initBase = function(engine){
 　　}
 }
 module.exports = {
-	init : initBase,
+    init : initBase,
     name : 'Aqua'
 }
