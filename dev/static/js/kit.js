@@ -99,12 +99,12 @@ var setWater = function(rotate, deg, force){
 var calcHorizon = function(x, y, z){
     var g1 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     var rotate = Math.acos(y / g1) * 360 / 2 / Math.PI;
-    var deg = (z < 0 ? g1 : 9.8 + g1) / 9.8 / 2 * 180;
+    // document.getElementsByTagName('h1')[0].innerHTML = g1 + ' ' +z;
+    var deg = (z < 0 ? g1 : 10 - g1 + 14) / 10 / 2 * 180;
 
     rotate = 180 - (x > 0 ? 1 : -1) * rotate;
     deg = max(80, min(deg, 180));
     setWater(rotate, deg);
-    // document.getElementsByTagName('h1')[0].innerHTML = g1 + ', ' + z;
 }
 
 var initBase = function(engine){
