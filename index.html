@@ -30,5 +30,16 @@ layout: main
         <p data-npc="pause">::theme - [[style]]::</p>
         <p>© neetproject 2015 ver.<a href="https://github.com/chanteP" target="_blank">github_pages</a> for mobile</p>
     </footer>
-    <script>window.parent.core.initPage(document,function(n,o,t){2*Math.PI;return{showonce:function(){t.DataBind.scan(o.find("footer",n))},show:function(){}}});</script>
+    <script>window.parent.core.initPage(document, function(wrap, $, window){
+    var npc, ball, group = [], PI2 = Math.PI * 2;
+
+
+    return {
+        showonce : function(){
+            window.DataBind.scan($.find('footer', wrap));
+        },
+        show : function(){
+        }
+    }
+});</script>
 </div>
