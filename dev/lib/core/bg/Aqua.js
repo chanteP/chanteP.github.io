@@ -70,6 +70,8 @@ var initWater = function(){
 }
 
 var setWater = function(rotate, deg){
+    rotate = rotate === null ? water.targetRotate : rotate;
+    water.targetRotate = rotate;
     water.targetRotateDis = -rotate - water.rotate;
     if(water.targetRotateDis > 180){
         water.targetRotateDis -= 360;
@@ -94,17 +96,44 @@ var calcHorizon = function(x, y, z){
 var initBase = function(engine){
     npc = engine;
     initWater();
-    var counter = 0
+    var lock = false;
+    var counter = 0;
     if (window.DeviceOrientationEvent) {
         window.addEventListener('devicemotion', function(e){
             if(counter++ > 3){
                 counter = 0;
+                if(lock){return;}
                 calcHorizon(e.accelerationIncludingGravity.x, e.accelerationIncludingGravity.y, e.accelerationIncludingGravity.z);
             }
         });
 　　}
+    var timer;
+    page.onPageChange(function(pageName){
+        clearTimeout(timer);
+        if(pageName === 'index'){
+            lock = false;
+            setWater(null, 90);
+            npc.play();
+        }
+        else{
+            lock = true;
+            setWater(null, 180);
+            timer = setTimeout(function(){
+                npc.pause();
+            }, 5000);
+        }
+    });
+    var battery = navigator.battery || navigator.webkitBattery;
+    if (battery) {
+        battery.addEventListener("levelchange", function (e){
+            if(battery.level < .5){
+                npc.stop();
+            }
+        });
+    }
 }
 module.exports = {
     init : initBase,
     name : 'Aqua'
 }
+var page = require('../spa');

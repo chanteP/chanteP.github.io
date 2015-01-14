@@ -75,7 +75,7 @@ window.parent.core.initPage(document, function(wrap, $, window){
         setProps : function(status){
             var self = this;
             window.setTimeout(function(){
-                [].forEach.call($.findAll('[data-fake]', this.node), function(btn){
+                [].forEach.call($.findAll('[data-fake]', self.node), function(btn){
                     btn.dataset.fake = '/blog' + (status === self.SHOW ? '' : self.mark);
                 });
             }, 0);
