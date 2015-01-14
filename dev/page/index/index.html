@@ -17,7 +17,7 @@
                 <li><a href="/about"><icon>❄</icon>about</a></li>
             </ul>
             <ul class="posts">
-                {% for post in site.posts %}
+                {% for post in site.posts limit:7 %}
                 <li><a href="{{ post.url }}" data-fake="/blog#!{{ post.url }}"><time>{{ post.date | date_to_string }}</time> - {{ post.title }}</a></li>
                 {% endfor %}
             </ul>
