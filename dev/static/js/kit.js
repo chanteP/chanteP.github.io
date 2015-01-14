@@ -35,7 +35,7 @@ var mainColor = 177,
     color_base = 'hsl('+mainColor+', 61.23%, 72%)',
     color_deep = 'hsl('+(mainColor+5)+', 71.23%, 60%)'
     ;
-
+var defaultDeg = 104;
 var toArc = function(deg){
     return deg * 2 * PI / 360;
 }
@@ -78,8 +78,8 @@ var initWater = function(){
     });
     water.timer = 0;
     water.rotate = 0;
-    water.deg = toArc(90);
-    setWater(0, 90);
+    water.deg = toArc(defaultDeg);
+    setWater(0, defaultDeg);
     npc.add(water);
 }
 
@@ -122,16 +122,17 @@ var initBase = function(engine){
         });
 　　}
     var timer;
+    //TODO
     page.onPageChange(function(pageName){
         clearTimeout(timer);
         if(pageName === 'index'){
             lock = false;
-            setWater(null, 90);
+            // setWater(null, 90);
             npc.play();
         }
         else{
             lock = true;
-            setWater(0, 180);
+            setWater(0, defaultDeg);
             timer = setTimeout(function(){
                 npc.pause();
             }, 5000);
