@@ -68,7 +68,7 @@ var initWater = function(){
     npc.add(water);
 }
 
-var setWater = function(rotate, deg){
+var setWater = function(rotate, deg, force){
     rotate = rotate === null ? water.targetRotate : rotate;
     water.targetRotate = rotate;
     water.targetRotateDis = -rotate - water.rotate;
@@ -116,7 +116,7 @@ var initBase = function(engine){
         }
         else{
             lock = true;
-            setWater(-90, 180);
+            setWater(0, 180);
             timer = setTimeout(function(){
                 npc.pause();
             }, 5000);
