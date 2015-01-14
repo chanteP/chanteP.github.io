@@ -112,12 +112,12 @@ var initBase = function(engine){
         clearTimeout(timer);
         if(pageName === 'index'){
             lock = false;
-            // setWater(null, 90);
+            setWater(null, defaultDeg);
             npc.play();
         }
         else{
             lock = true;
-            setWater(0, defaultDeg);
+            setWater(0, 180);
             timer = setTimeout(function(){
                 npc.pause();
             }, 5000);
