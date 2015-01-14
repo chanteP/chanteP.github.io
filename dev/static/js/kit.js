@@ -35,7 +35,8 @@ var mainColor = 177,
     color_base = 'hsl('+mainColor+', 61.23%, 72%)',
     color_deep = 'hsl('+(mainColor+5)+', 71.23%, 60%)'
     ;
-var defaultDeg = 104;
+var $ = require('../kit');
+var defaultDeg = $.isMobileMode ? 104 : 90;
 var toArc = function(deg){
     return deg * 2 * PI / 360;
 }
@@ -153,7 +154,7 @@ module.exports = {
 }
 var page = require('../spa');
 
-},{"../spa":9}],3:[function(require,module,exports){
+},{"../kit":6,"../spa":9}],3:[function(require,module,exports){
 var $ = require('../kit');
 var NPCanvas = require('np-canvas');
 var core = require('../spa');
