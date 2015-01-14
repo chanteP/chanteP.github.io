@@ -21,7 +21,6 @@ var mainColor = 177,
     color_deep = 'hsl('+(mainColor+5)+', 71.23%, 60%)'
     ;
 
-
 var toArc = function(deg){
     return deg * 2 * PI / 360;
 }
