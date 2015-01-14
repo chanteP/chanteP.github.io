@@ -611,6 +611,9 @@ var defaultTitle = 'neetproject @2015'
 var init = function(){
     init = function(){};
     $.evt(document.body, $.isMobileMode && {})
+        .on('click', 'a[href^="/"]', function(e){
+            e.preventDefault();
+        })
         .on($.isMobileMode ? 'tap' : 'click', 'a[href^="/"]', function(e){
             e.preventDefault();
             var href, fake;
