@@ -117,7 +117,7 @@ var initBase = function(engine){
         }
         else{
             lock = true;
-            setWater(null, 180);
+            setWater(90, 180);
             timer = setTimeout(function(){
                 npc.pause();
             }, 5000);
