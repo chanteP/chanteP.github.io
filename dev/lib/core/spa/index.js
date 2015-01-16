@@ -17,6 +17,7 @@ var init = function(){
         });
     $.evt(document.body, {})
         .on('tap', 'a[href^="/"]', function(e){
+            e.preventDefault();
             var href, fake;
             href = this.getAttribute('href');
             if(!($.isOnline)){

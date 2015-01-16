@@ -39,8 +39,8 @@ var initWater = function(){
     gradient.addColorStop(1, color_deep);
 
     water = npc.create(.5 * contWidth, .5 * contHeight, function(ctx, fps){
-        this.rotate += this.targetRotateDis * 2 / fps;
-        // this.rotate += (this.targetRotate - this.rotate) / fps;
+        // this.rotate += this.targetRotateDis * 2 / fps;
+        this.rotate += (this.targetRotate - this.rotate) / fps;
         this.deg += (this.targetDeg - this.deg) / fps;
 
         var px = (R * sin(this.deg)) | 0, py = (R * cos(this.deg)) | 0;
@@ -73,18 +73,19 @@ var initWater = function(){
     npc.add(water);
 }
 
-var setWater = function(rotate, deg, force){
+var setWater = function(rotate, deg){
     rotate = rotate === null ? water.targetRotate : rotate;
     water.rotate = water.rotate % 360;
-    if(water.rotate > 180){
-        water.rotate -= 360;
-    }
-    if(water.rotate < -180){
-        water.rotate += + 360;
-    }
     
-    water.targetRotate = rotate;
-    water.targetRotateDis = -rotate - water.rotate;
+    water.targetRotate = -rotate % 360;
+    // water.targetRotateDis = -rotate - water.rotate;
+    if(water.targetRotate > 180){
+        water.targetRotate -= 360;
+    }
+    if(water.targetRotate < -180){
+        water.targetRotate += 360;
+    }
+    // document.getElementsByTagName('h1')[0].innerHTML = water.rotate;
     water.targetDeg = toArc(deg);
     // npc.canvas.style.backgroundColor = 'hsla(177, 61.23%, 55%, '+ min(.1, max(0, 1 - water.deg + 1.13 - .6))+')';
 }
