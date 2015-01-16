@@ -90,14 +90,16 @@ var initWater = function(){
 
 var setWater = function(rotate, deg, force){
     rotate = rotate === null ? water.targetRotate : rotate;
+    water.rotate = water.rotate % 360;
+    if(water.rotate > 180){
+        water.rotate -= 360;
+    }
+    if(water.rotate < -180){
+        water.rotate += + 360;
+    }
+    
     water.targetRotate = rotate;
     water.targetRotateDis = -rotate - water.rotate;
-    if(water.targetRotateDis > 180){
-        water.targetRotateDis = water.targetRotateDis % 360 - 360;
-    }
-    else if(water.targetRotateDis < -180){
-        water.targetRotateDis = water.targetRotateDis % 360 + 360;
-    }
     water.targetDeg = toArc(deg);
     // npc.canvas.style.backgroundColor = 'hsla(177, 61.23%, 55%, '+ min(.1, max(0, 1 - water.deg + 1.13 - .6))+')';
 }
