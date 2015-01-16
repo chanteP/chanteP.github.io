@@ -104,10 +104,10 @@ window.parent.core.initPage(document, function(wrap, $, window){
     // init()
     return {
         init : function(){
-            $.evt(wrap, $.isMobileMode ? {} : undefined)
+            $.evt(wrap, {})
                 // .on('click', function(){alert(2424534)})
-                .on($.isMobileMode ? 'tap' : 'click', '[data-act="loadBlog"]', togglePost)
-                .on($.isMobileMode ? 'tap' : 'click', '[data-act="toTop"]', function(){
+                .on('tap', '[data-act="loadBlog"]', togglePost)
+                .on('tap', '[data-act="toTop"]', function(){
                     storage[$.parent(this, '[data-node="postlist"]').dataset.url.slice(2)].scrollTo();
                 });
         },
