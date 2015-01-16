@@ -18,7 +18,8 @@ var mainColor = 177,
 // var mainColor = 330,
     color_lite = 'hsl('+mainColor+', 61.23%, 90%)',
     color_base = 'hsl('+mainColor+', 61.23%, 72%)',
-    color_deep = 'hsl('+(mainColor+5)+', 71.23%, 60%)'
+    color_deep = 'hsl('+(mainColor+5)+', 71.23%, 60%)',
+    color_border = 'hsl('+mainColor+', 51.23%, 50%)'
     ;
 var $ = require('../kit');
 var defaultDeg = $.isMobileMode ? 104 : 90;
@@ -31,31 +32,34 @@ var initWater = function(){
     contHeight = npc.height;
     R = sqrt(pow(contHeight/npc.pixelRatio, 2) + pow(contWidth/npc.pixelRatio, 2));
 
+    //TODO优化
+    var gradient = npc.ctx.createLinearGradient(0, 0, 0, contHeight);
+    gradient.addColorStop(0, color_lite);
+    gradient.addColorStop(0.5, color_base);
+    gradient.addColorStop(1, color_deep);
+
     water = npc.create(.5 * contWidth, .5 * contHeight, function(ctx, fps){
         this.rotate += this.targetRotateDis * 2 / fps;
         // this.rotate += (this.targetRotate - this.rotate) / fps;
         this.deg += (this.targetDeg - this.deg) / fps;
 
-        var arcTime = sin(toArc(this.timer++));
-
         var px = (R * sin(this.deg)) | 0, py = (R * cos(this.deg)) | 0;
-        var wave = (arcTime * min(100, R - abs(py))) | 0;
+        var arcTime, wave;
+
         ctx.rotate(toArc(this.rotate));
 
         ctx.beginPath();
 
         ctx.arc(0, 0, R, PI / 2 + this.deg, PI / 2 - this.deg, true);
+
+        arcTime = sin(toArc(this.timer++));
+        wave = (arcTime * min(100, R - abs(py))) | 0;
         ctx.moveTo(px, py);
         ctx.bezierCurveTo(0, py + wave, 0, py - wave, -px, py);
 
-        //TODO优化
-        var gradient = npc.ctx.createLinearGradient(0, py, 0, contHeight - this.y);
-        gradient.addColorStop(0, color_lite);
-        gradient.addColorStop(0.5, color_base);
-        gradient.addColorStop(1, color_deep);
 
-        ctx.strokeStyle = color_base;
-        ctx.strokeWidth = 1;
+        ctx.strokeStyle = color_border;
+        ctx.lineWidth = 2;
         ctx.stroke();
 
         ctx.fillStyle = gradient;
@@ -74,10 +78,10 @@ var setWater = function(rotate, deg, force){
     water.targetRotate = rotate;
     water.targetRotateDis = -rotate - water.rotate;
     if(water.targetRotateDis > 180){
-        water.targetRotateDis -= 360;
+        water.targetRotateDis = water.targetRotateDis % 360 - 360;
     }
     else if(water.targetRotateDis < -180){
-        water.targetRotateDis += 360;
+        water.targetRotateDis = water.targetRotateDis % 360 + 360;
     }
     water.targetDeg = toArc(deg);
     // npc.canvas.style.backgroundColor = 'hsla(177, 61.23%, 55%, '+ min(.1, max(0, 1 - water.deg + 1.13 - .6))+')';
