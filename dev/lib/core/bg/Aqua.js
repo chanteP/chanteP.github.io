@@ -92,7 +92,7 @@ var setWater = function(rotate, deg){
 var calcHorizon = function(x, y, z){
     var g1 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     var rotate = Math.acos(y / g1) * 360 / 2 / Math.PI;
-    // document.getElementsByTagName('h1')[0].innerHTML = g1 + ' ' +z;
+    // document.getElementsByTagName('h1')[0].innerHTML = g1 / 10;
     var deg = (z < 0 ? g1 : 10 - g1 + 14) / 10 / 2 * 180;
 
     rotate = 180 - (x > 0 ? 1 : -1) * rotate;

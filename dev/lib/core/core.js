@@ -1,3 +1,4 @@
+require('./errorReport');
 if(!('defineProperty' in Object)){
     alert('Modern Browser Only!!!');
 }
