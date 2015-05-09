@@ -2,5 +2,8 @@
 layout: main
 ---
 <div data-page="artical" class="page_artical">
-    <script>window.parent.core.initPage(document,function(n,i,o){o.core.on,o.DataBind,i.find("#wrapper");return{init:function(){},show:function(){}}});</script>
+    <article id="articalContent">
+        
+    </article>
+    <script>window.parent.core.initPage(document,function(n,i,o){var t,c=(o.core.on,function(n){return n?void i.iLoad(n,function(n){t.innerHTML=n.contentWindow.content},function(){t.innerHTML="loadError"}):void(t.innerHTML="")});return{init:function(){t=i.find("#articalContent",n)},show:function(){c(location.hash.slice(2))},hide:function(){c("")}}});</script>
 </div>

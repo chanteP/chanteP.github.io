@@ -1,12 +1,28 @@
 window.parent.core.initPage(document, function(wrap, $, window){
     var bindUrl = window.core.on;
-    var D = window.DataBind;
-    var wrapper = $.find('#wrapper');
-    
+    var content;
+
+    var build = function(url){
+        if(!url){
+            content.innerHTML = '';
+            return;
+        }
+        $.iLoad(url, function(i){
+            content.innerHTML = i.contentWindow.content;
+        }, function(){
+            content.innerHTML = 'loadError';
+        });
+    };
+
     return {
         init : function(){
+            content = $.find('#articalContent', wrap);
         },
         show : function(){
+            build(location.hash.slice(2));
+        },
+        hide : function(){
+            build('');
         }
     }
 });
