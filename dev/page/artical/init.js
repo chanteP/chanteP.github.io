@@ -19,7 +19,7 @@ window.parent.core.initPage(document, function(wrap, $, window){
             content = $.find('#articalContent', wrap);
         },
         show : function(){
-            build(location.hash.slice(2));
+            build(window.location.hash.slice(2));
         },
         hide : function(){
             build('');
