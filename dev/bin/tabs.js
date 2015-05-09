@@ -1,1 +1,1 @@
-module.exports = ['index', 'lab', 'blog', 'about'];
+module.exports = ['index', 'lab', 'blog', 'artical', 'about'];

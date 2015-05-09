@@ -8,7 +8,7 @@ layout: page
         {% for post in site.posts %}
             <li data-node="postlist" data-status data-url="#!{{ post.url }}">
                 <article>
-                    <a href="{{ post.url }}" class="title" data-fake="/blog#!{{ post.url }}" data-act="loadBlog">
+                    <a href="{{ post.url }}" class="title" data-fake="/artical#!{{ post.url }}" data-act="loadBlog">
                         <h1 title="{{ post.title }}">{{ post.title }}</h1>
                     </a>
                     <fieldset class="infobox">
@@ -18,7 +18,7 @@ layout: page
                         <p>{{ post.content | strip_html | truncate : 110 | escape_once | append:'...'}}</p>
                     </div>
                     <p class="more">
-                        <a href="{{ post.url }}" data-fake="/blog#!{{ post.url }}" data-act="loadBlog"></a>
+                        <a href="{{ post.url }}" data-fake="/artical#!{{ post.url }}" data-act="loadBlog"></a>
                         <a href="javascript:;" data-act="toTop">回到顶部</a>
                     </p>
                 </article>
@@ -26,5 +26,5 @@ layout: page
         {% endfor %}
         </ul>
     </section>
-    <script>window.parent.core.initPage(document,function(t,s,i){var n=(i.core.on,i.DataBind,s.find("#wrapper")),e={},o=function(t,i){this.url=i,this.node=t,this.contentNode=s.find('[data-node="content"]',t),this.status=this.WAITING,this.mark=this.node.dataset.url,this.toggle()};o.prototype={WAITING:"waiting",LOADING:"loading",LOADED:"loaded",AUTOHIDE:"autohide",ERROR:"error",HIDE:"hide",SHOW:"show",set status(t){return this.cacheStatus=t,this.node.dataset.status=t,this.setProps(t),t},get status(){return this.cacheStatus},load:function(){this.status=this.LOADING,s.iLoad(this.url,this.getContent.bind(this),this.loadFail.bind(this))},getContent:function(t){this.status=this.LOADED;try{this.contentNode.innerHTML=t.contentWindow.document.getElementById("content").innerHTML}catch(s){}this.status=this.SHOW},loadFail:function(){this.status=this.ERROR},scrollTo:function(){var e=i.getComputedStyle(t);e=e?parseInt(e["padding-top"]):0,s.scrollTo(this.node.offsetTop+e+8-(s.isMobileMode?70:0),n)},toggle:function(){if(this.scrollTo(),this.status===this.ERROR||this.status===this.WAITING)return void this.load();switch(this.status){case this.LOADED:case this.AUTOHIDE:case this.HIDE:this.status=this.SHOW;break;case this.SHOW:this.status=this.HIDE}},setProps:function(t){var n=this;i.setTimeout(function(){[].forEach.call(s.findAll("[data-fake]",n.node),function(s){s.dataset.fake="/blog"+(t===n.SHOW?"":n.mark)})},0),this.contentNode.style.height=t===this.SHOW?this.contentNode.scrollHeight+"px":""}};var a=function(t){var i;if(t){"Element]"===t.toString().slice(-8)?i=t:(t.preventDefault(),i=s.parent(this,'[data-node="postlist"]'));var n=i.dataset.url.slice(2);e[n]?e[n].toggle():e[n]=new o(i,n)}};return{init:function(){s.evt(t,{}).on("tap",'[data-act="loadBlog"]',a).on("tap",'[data-act="toTop"]',function(){e[s.parent(this,'[data-node="postlist"]').dataset.url.slice(2)].scrollTo()})},show:function(){var n,e=i.location.hash;if(i.String(e).length>8){var n=s.find('[data-url="'+e+'"]',t);a(n)}}}});</script>
+    <script>window.parent.core.initPage(document,function(n,i,o){o.core.on,o.DataBind,i.find("#wrapper");return{init:function(){},show:function(){}}});</script>
 </div>
