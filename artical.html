@@ -5,5 +5,32 @@ layout: main
     <article id="articalContent">
         
     </article>
-    <script>window.parent.core.initPage(document,function(n,i,o){var t,c=(o.core.on,function(n){return n?void i.iLoad(n,function(n){t.innerHTML=n.contentWindow.content},function(){t.innerHTML="loadError"}):void(t.innerHTML="")});return{init:function(){t=i.find("#articalContent",n)},show:function(){c(location.hash.slice(2))},hide:function(){c("")}}});</script>
+    <script>window.parent.core.initPage(document, function(wrap, $, window){
+    var bindUrl = window.core.on;
+    var content;
+
+    var build = function(url){
+        if(!url){
+            content.innerHTML = '';
+            return;
+        }
+        $.iLoad(url, function(i){
+            content.innerHTML = i.contentWindow.content;
+        }, function(){
+            content.innerHTML = 'loadError';
+        });
+    };
+
+    return {
+        init : function(){
+            content = $.find('#articalContent', wrap);
+        },
+        show : function(){
+            build(location.hash.slice(2));
+        },
+        hide : function(){
+            build('');
+        }
+    }
+});</script>
 </div>
