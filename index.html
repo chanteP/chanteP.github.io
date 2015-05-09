@@ -21,7 +21,7 @@ layout: main
             </ul>
             <ul class="posts">
                 {% for post in site.posts limit:7 %}
-                <li><a href="{{ post.url }}" data-fake="/artical#!{{ post.url }}"><time>{{ post.date | date_to_string }}</time> - {{ post.title }}</a></li>
+                <li><a href="{{ post.url }}" data-fake="/article#!{{ post.url }}"><time>{{ post.date | date_to_string }}</time> - {{ post.title }}</a></li>
                 {% endfor %}
             </ul>
         </nav>

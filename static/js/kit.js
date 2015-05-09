@@ -632,11 +632,11 @@ var defaultTitle = 'neetproject @2015'
 var init = function(){
     init = function(){};
     $.evt(document.body)
-        .on('click', 'a[href^="/"]', function(e){
+        .on('click', 'a[href^="/"],a[data-fake]', function(e){
             e.preventDefault();
         });
     $.evt(document.body, {})
-        .on('tap', 'a[href^="/"]', function(e){
+        .on('tap', 'a[href^="/"],a[data-fake]', function(e){
             e.preventDefault();
             var href, fake;
             href = this.getAttribute('href');

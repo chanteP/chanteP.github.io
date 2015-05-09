@@ -5,7 +5,7 @@
         {% for post in site.posts %}
             <li data-node="postlist" data-status data-url="#!{{ post.url }}">
                 <article>
-                    <a href="{{ post.url }}" class="title" data-fake="/artical#!{{ post.url }}" data-act="loadBlog">
+                    <a href="{{ post.url }}" class="title" data-fake="/article#!{{ post.url }}" data-act="loadBlog">
                         <h1 title="{{ post.title }}">{{ post.title }}</h1>
                     </a>
                     <fieldset class="infobox">
@@ -15,7 +15,7 @@
                         <p>{{ post.content | strip_html | truncate : 110 | escape_once | append:'...'}}</p>
                     </div>
                     <p class="more">
-                        <a href="{{ post.url }}" data-fake="/artical#!{{ post.url }}" data-act="loadBlog"></a>
+                        <a href="{{ post.url }}" data-fake="/article#!{{ post.url }}" data-act="loadBlog"></a>
                         <a href="javascript:;" data-act="toTop">回到顶部</a>
                     </p>
                 </article>
