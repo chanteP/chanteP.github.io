@@ -544,7 +544,7 @@ document.addEventListener('DOMContentLoaded', function(){
     nav.set = function(page){
         var cur = $.find('.cur', nav);
         var to;
-        [].forEach.some.call($.find('[data-for]', nav), function(li){
+        [].some.call($.findAll('[data-for]', nav), function(li){
             if(li.dataset['for'].split(',').indexOf(page) >= 0){
                 to = li;
                 return true;

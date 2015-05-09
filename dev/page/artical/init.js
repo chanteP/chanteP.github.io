@@ -8,7 +8,7 @@ window.parent.core.initPage(document, function(wrap, $, window){
             return;
         }
         $.iLoad(url, function(i){
-            content.innerHTML = i.contentWindow.content;
+            content.innerHTML = i.contentWindow.content.innerHTML;
         }, function(){
             content.innerHTML = 'loadError';
         });

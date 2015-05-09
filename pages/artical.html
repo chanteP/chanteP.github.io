@@ -15,7 +15,7 @@ layout: page
             return;
         }
         $.iLoad(url, function(i){
-            content.innerHTML = i.contentWindow.content;
+            content.innerHTML = i.contentWindow.content.innerHTML;
         }, function(){
             content.innerHTML = 'loadError';
         });
