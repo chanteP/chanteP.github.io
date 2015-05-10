@@ -30,9 +30,9 @@ module.exports = function(env){
     });
     gulp.task('post', function(){
         //菠萝格
-        log('[root]复制post');
-        return gulp.src(['post/*'])
-            .pipe(gulp.dest('built/_post/'));
+        log('[root]复制posts');
+        return gulp.src(['posts/*'])
+            .pipe(gulp.dest('built/_posts/'));
     });
     gulp.task('rootConfig', function(){
         //根目录配置文件

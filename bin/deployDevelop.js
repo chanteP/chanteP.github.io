@@ -9,10 +9,10 @@ module.exports = function(env){
         return gulp.src(['dev/dec/*.html'])
             .pipe(gulp.dest('built/_layouts/'));
     });
-    gulp.task('post', function(){
+    gulp.task('posts', function(){
         //菠萝格
-        return gulp.src(['post/*'])
-            .pipe(gulp.dest('built/_post/'));
+        return gulp.src(['posts/*'])
+            .pipe(gulp.dest('built/_posts/'));
     });
     gulp.task('rootConfig', function(){
         //根目录配置文件
