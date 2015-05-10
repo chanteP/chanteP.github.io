@@ -1,6 +1,4 @@
 deploy : 
-	git add -A .
-	git ci -m "dev save"
 	git push
 	node --harmony bin/deploy -m
 	git co master
