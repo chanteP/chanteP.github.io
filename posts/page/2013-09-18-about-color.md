@@ -2,7 +2,7 @@
 layout: post
 title: 色彩模型（色彩空间）笔记
 category: 笔记
-tags: 设计
+tags: design
 ---
 ## 目录
 

@@ -2,7 +2,7 @@
 layout: post
 title: Markdown 语法说明(测试用)
 category: 笔记
-tags: FE
+tags: other
 ---
 
 Markdown 语法说明 (简体中文版)
