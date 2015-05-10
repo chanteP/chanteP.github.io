@@ -1,5 +1,4 @@
 deploy : 
-	git co dev
 	git add -A .
 	git ci -m "dev save"
 	git push
