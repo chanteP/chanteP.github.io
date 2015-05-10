@@ -36,7 +36,7 @@ module.exports = function(env){
     gulp.task('post', function(){
         //菠萝格
         log('[root]复制posts');
-        return gulp.src(['posts/**'])
+        return gulp.src(['posts/*/*'])
             .pipe(rename(function(file){
                 file.dirname = '';
             }))
