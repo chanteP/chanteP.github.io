@@ -19,7 +19,7 @@ app.set('views', './');
 app.get('/pages/*.html', views(1));
 app.get('/*.html', views(0));
 // app.get('/', views(0));
-app.use(express.static(path.normalize(__dirname + '/../../')));
+app.use(express.static(path.normalize(__dirname + '/../built/')));
 
 app.listen(app.get('port'), function(){
     console.log('server is now running at :'+app.get('port')+' DAZE✧');
