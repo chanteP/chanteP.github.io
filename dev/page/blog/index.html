@@ -1,5 +1,5 @@
 <div data-page="blog" class="page_blog">
-    <style><%style%></style>
+    <style>@import url("/static/pages/blog/style.css");</style>
     <section class="wrap">
         <ul class="blog_list">
         {% for post in site.posts %}
@@ -23,5 +23,5 @@
         {% endfor %}
         </ul>
     </section>
-    <script src="/static/js/blog.js"></script>
+    <script src="/static/pages/blog/index.js"></script>
 </div>

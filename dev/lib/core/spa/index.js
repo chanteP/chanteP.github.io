@@ -21,7 +21,7 @@ var init = function(){
             var href, fake;
             href = this.getAttribute('href');
             if(!($.isOnline)){
-                href = (href.length > 1 ? href : '/index') + '.html';
+                href = (href.length > 1 ? href : '/index');
             }
             fake = this.dataset.fake;
             url.set(fake || href, this.title || defaultTitle, null, href);

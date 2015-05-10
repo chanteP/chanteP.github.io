@@ -24,4 +24,27 @@
 //     }
 // }
 
-require('./deployResource');
+var program = require('commander');
+ 
+program
+  .version('0.0.1')
+  .option('-d, --dev', 'develop env')
+  .option('-c, --clean', 'clean development folder')
+  .option('-m, --deploy', 'deploy master')
+  .parse(process.argv);
+ 
+if(program.deploy){
+    require('./deployClean')(function(){
+        require('./deployMaster')();
+    }); 
+}
+else if(program.clean){
+    require('./deployClean')(function(){
+    }); 
+}
+else{
+    require('./deployClean')(function(){
+        require('./deployDevelop')();
+        require('./deployServer')();
+    });   
+}
