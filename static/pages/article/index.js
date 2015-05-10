@@ -1,6 +1,6 @@
 window.parent.core.initPage(document, function(wrap, $, window){
     var bindUrl = window.core.on;
-    var content, title, bread;
+    var content, title, bread, date;
 
     var build = function(url){
         if(!url){
@@ -9,6 +9,7 @@ window.parent.core.initPage(document, function(wrap, $, window){
         }
         $.iLoad(url, function(i){
             content.innerHTML = i.contentWindow.content.innerHTML;
+            date.innerHTML = i.contentWindow.content.date;
             articleBread.innerHTML = title.innerHTML = i.contentWindow.document.title;
         }, function(){
             content.innerHTML = 'loadError';
@@ -19,6 +20,7 @@ window.parent.core.initPage(document, function(wrap, $, window){
         init : function(){
             content = $.find('#articleContent', wrap);
             bread = $.find('#articleBread', wrap);
+            date = $.find('#articleTime', wrap);
             title = $.find('#articleTitle', wrap);
         },
         show : function(){
