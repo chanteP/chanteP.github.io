@@ -31,7 +31,7 @@ module.exports = function(env){
     gulp.task('include', function(){
         log('[root]复制includes');
         return gulp.src(['dev/include/*.html'])
-            .pipe(gulp.dest('built/_include/'));
+            .pipe(gulp.dest('built/_includes/'));
     });
     gulp.task('post', function(){
         //菠萝格
