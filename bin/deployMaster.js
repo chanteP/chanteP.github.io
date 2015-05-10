@@ -38,7 +38,6 @@ module.exports = function(env){
         log('[root]复制posts');
         return gulp.src(['posts/*/*'])
             .pipe(rename(function(file){
-                file.dirname = '';
             }))
             .pipe(gulp.dest('built/_posts'));
     });
