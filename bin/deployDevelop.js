@@ -7,7 +7,7 @@ module.exports = function(env){
     gulp.task('layout', function(){
         //装饰器
         return gulp.src(['dev/dec/*.html'])
-            .pipe(gulp.dest('built/_layout/'));
+            .pipe(gulp.dest('built/_layouts/'));
     });
     gulp.task('post', function(){
         //菠萝格

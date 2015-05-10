@@ -26,7 +26,7 @@ module.exports = function(env){
         log('[root]复制装饰器');
         return gulp.src(['dev/dec/*.html'])
             .pipe(replace('<%-page%>', '{{ content }}'))
-            .pipe(gulp.dest('built/_layout/'));
+            .pipe(gulp.dest('built/_layouts/'));
     });
     gulp.task('post', function(){
         //菠萝格

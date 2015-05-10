@@ -34,7 +34,7 @@ module.exports = function(){
         //     // .replace('<%style%>', sass('./dev/'+compDemo+'/style.scss'));
 
         var html = (fs.readFileSync(path.normalize('built/static/pages/'+page+'/index.html')) + '');
-        res.render('_layout/page.html', {
+        res.render('_layouts/page.html', {
             page : html
         });
         res.end();
@@ -46,7 +46,7 @@ module.exports = function(){
         var html = (fs.readFileSync(path.normalize('built/static/pages/'+page+'/index.html')) + '');
             // .replace('<%style%>', sass('./dev/'+compDemo+'/style.scss'));
 
-        res.render('_layout/main.html', {
+        res.render('_layouts/main.html', {
             page : html
         });
         res.end();
