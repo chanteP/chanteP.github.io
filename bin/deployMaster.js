@@ -25,7 +25,7 @@ module.exports = function(env){
         //装饰器
         log('[root]复制装饰器');
         return gulp.src(['dev/dec/*.html'])
-            .pipe(replace('<%-page%>'), '{{ content }}')
+            .pipe(replace('<%-page%>', '{{ content }}'))
             .pipe(gulp.dest('built/_layout/'));
     });
     gulp.task('post', function(){
