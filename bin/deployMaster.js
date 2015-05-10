@@ -28,10 +28,17 @@ module.exports = function(env){
             .pipe(replace('<%-page%>', '{{ content }}'))
             .pipe(gulp.dest('built/_layouts/'));
     });
+    gulp.task('include', function(){
+        log('[root]复制includes');
+        return gulp.src(['dev/include/*.html'])
+            .pipe(gulp.dest('built/_include/'));
+    });
     gulp.task('post', function(){
         //菠萝格
         log('[root]复制posts');
         return gulp.src(['posts/**'])
+            .pipe(rename(function(file){
+            }))
             .pipe(gulp.dest('built/_posts/'));
     });
     gulp.task('rootConfig', function(){

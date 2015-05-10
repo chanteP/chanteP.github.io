@@ -9,6 +9,7 @@ module.exports = function(env){
         //装饰器
         return gulp.src(['dev/dec/*.html'])
             .pipe(watch('dev/dec/*.html'))
+            .pipe(replace(/{% include ga\.html %}/, ''))
             .pipe(gulp.dest('built/_layouts/'));
     });
     gulp.task('post', function(){
