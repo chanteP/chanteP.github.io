@@ -1,12 +1,12 @@
 {
-  "name": "np",
+  "name": "neetproject",
   "version": "2.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node --harmony bin/deploy -m",
-    "develop": "node --harmony bin/deploy"
+    "deploy": "node --harmony bin/deploy -m",
+    "server": "node --harmony bin/deploy"
   },
   "author": "chanteP",
   "license": "ISC",
