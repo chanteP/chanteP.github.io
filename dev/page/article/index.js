@@ -10,7 +10,7 @@ window.parent.core.initPage(document, function(wrap, $, window){
         $.iLoad(url, function(i){
             content.innerHTML = i.contentWindow.content.innerHTML;
             date.innerHTML = i.contentWindow.content.date;
-            articleBread.innerHTML = title.innerHTML = i.contentWindow.document.title;
+            bread.innerHTML = title.innerHTML = i.contentWindow.document.title;
         }, function(){
             content.innerHTML = 'loadError';
         });
