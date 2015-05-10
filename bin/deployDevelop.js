@@ -13,7 +13,7 @@ module.exports = function(env){
     });
     gulp.task('post', function(){
         //菠萝格
-        return gulp.src(['posts/*'])
+        return gulp.src(['posts/**'])
             .pipe(gulp.dest('built/_posts/'));
     });
     gulp.task('rootConfig', function(){
