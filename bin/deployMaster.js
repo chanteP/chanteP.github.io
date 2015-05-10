@@ -38,9 +38,9 @@ module.exports = function(env){
         log('[root]复制posts');
         return gulp.src(['posts/**'])
             .pipe(rename(function(file){
-                file.dirname = '';
+                file.dirname = '_posts';
             }))
-            .pipe(gulp.dest('built/_posts/'));
+            .pipe(gulp.dest('built/'));
     });
     gulp.task('rootConfig', function(){
         //根目录配置文件
