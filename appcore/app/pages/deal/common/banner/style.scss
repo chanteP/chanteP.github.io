@@ -1,0 +1,39 @@
+
+/*banner*/
+.banner{
+    position: relative;
+    background: rgb(220, 238, 240);
+    z-index: 1;
+
+    .banner-pic{
+        background: #d5d5d5;
+        min-height: 1rem;
+        /*max-height: 193px;*/
+        overflow: hidden;
+        /*box-shadow: rgba(0,0,0,.6) 0 0 2px;*/
+
+        .banner-view{
+            display: block;
+            width: 100%;
+            height:3.96rem;
+            background: none center center no-repeat;
+            background-size:cover;
+        }
+
+        label{
+            display: block;
+
+            .banner-upload-tips{
+                display: block;
+                margin: .3rem;
+                height: 1.36rem;
+                color: #999;
+                font-size: .4rem;
+                text-align: center;
+                line-height: 1.36rem;
+                border:1px dashed #999;
+                border-radius: .06rem;
+            }
+        }
+    }
+}

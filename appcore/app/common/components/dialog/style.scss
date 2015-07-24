@@ -1,0 +1,117 @@
+@import "../../../css/base/variable.scss";
+$dialog-padding: .14rem;
+.m-dialog{
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
+    z-index: 1000;
+    
+    @include transition;
+    @include animation-duration(0.3s);
+
+    &[data-onshow]{
+        visibility: visible;
+    }
+
+    .dia-wrap{
+        min-width: 4.00rem;
+        margin: 0 $dialog-padding;
+        border-radius: .16rem;
+        background: $color-background-white;
+        text-align: left;
+        overflow: hidden;
+        word-break: break-all;
+    }
+    .dia-head{
+        position: relative;
+        height: .60rem;
+        line-height: .60rem;
+        padding: 0 $dialog-padding;
+        border-bottom: 1px $color-border solid;
+
+        h1{
+            font-size: .28rem;
+        }
+    }
+
+    .dia-contwrap{
+        padding:.48rem .28rem;
+        line-height: 1.5;
+    }
+    .dia-content{
+        min-height: .80rem;
+        max-height: 10.00rem;
+        overflow-x: hidden;
+        @include scroll;
+
+        &:before{
+            display: block;
+            float:left;
+            width:.66rem;
+            height: .66rem;
+            font-size: .52rem;
+            color:#fff;
+            text-align: center;
+            border-radius: 100%;
+            margin: .48rem .3rem;
+        }
+
+        &[data-type="error"]:before{
+            content: '×';
+            background: rgb(253, 105, 107);
+            line-height: .58rem;
+        }
+        &[data-type="succ"]:before{
+            content: '\f00c';
+            background: $color-main;
+            font-family: FontAwesome;
+            line-height: .66rem;
+        }
+        &[data-type="succ"],
+        &[data-type="error"] {
+            .dia-contwrap{
+                padding-left: 1.26rem;
+            }
+        }
+    }
+
+    .dia-btnbox{
+        border-top:1px solid $color-border;
+        .dia-btn{
+            display: inline-block;
+            background: #fcfcfc;
+            color:#888;
+            @include transition;
+
+            a{
+                display: block;
+                line-height: .80rem;
+                text-align: center;
+                font-size: .3rem;
+                /*font-weight: 700;*/
+                color:inherit;
+            }
+            &:active{
+                background: #e0e0e0;
+            }
+            &.active{
+                color: $color-main;
+            }
+            &.active:active{
+                background: $color-main;
+                color:#fff;
+            }
+            &.disabled{
+                background: $color-graywrite;
+                color:#999;
+            }
+            + .dia-btn a{
+                border-left: 1px solid $color-border;
+            }
+        }
+    }
+}

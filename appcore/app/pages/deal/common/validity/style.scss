@@ -1,0 +1,16 @@
+@import "../../../../css/base/variable.scss";
+.validity-outer {
+    .form-item{
+        cursor: pointer;
+    }
+    .form-item-content{
+        border: none;
+    }
+    .form-item.checkbox,
+    .form-item.checkbox .form-item-content{
+        border:none;
+    }
+    .form-item.checkbox{
+        border-bottom:1px solid #dedede;
+    }
+}

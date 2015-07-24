@@ -1,0 +1,156 @@
+//颜色
+////////////////////////////////////////////////////////////////////////////////
+$color-main: rgb(79, 203, 189);
+$color-main-dark: darken($color-main, 8%);
+$color-main-light: lighten($color-main, 10%);
+
+$color-em: rgb(251, 126, 53);
+$color-em-dark: darken($color-em, 8%);
+$color-em-light: lighten($color-em, 10%);
+
+$color-dis: rgb(213,213,213);
+$color-dis-dark: darken($color-dis, 8%);
+$color-dis-light: lighten($color-dis, 10%);
+
+$color-background: #fafafa;
+$color-background-white: #fff;
+$color-background-gray: #ddd;
+
+$color-graywrite: #f8f8f8;
+$color-dark: #aaa;
+$color-border: #ddd;
+
+$color-font-white: #aaa;
+$color-font-sub: #666;
+$color-font: #333;
+
+
+//页面边距
+////////////////////////////////////////////////////////////////////////////////
+$wrap-padding: .30rem;
+$wrap-margin: .30rem;
+
+$font-family-light: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+$switch-edge-length: .52rem;
+$checkbox-size: .24rem;
+
+//loading
+////////////////////////////////////////////////////////////////////////////////
+$icon-loading: '';
+$icon-loading-mini: url(/mobile/images/progressing.gif) no-repeat;
+
+
+@mixin loadingIcon{
+    &:before{
+        content : '\f110';
+        font-family: FontAwesome;
+        position: absolute;
+        top: 49%;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        font-size: .28rem;
+        color:#666;
+        @include animation(rotate 1s infinite 0s);
+    }
+}
+
+
+//其他
+////////////////////////////////////////////////////////////////////////////////
+
+//########################################################################## y轴滚动
+@mixin scroll{
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    -moz-overflow-scrolling: touch;
+}
+//########################################################################## x轴滚动
+@mixin scrollX{
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    -moz-overflow-scrolling: touch;
+}
+//########################################################################## 过渡动画
+@mixin transition($duration : 0.2s, $delay : 0s, $type : ease){
+    -webkit-transition: all $duration $type $delay;
+    -moz-transition: all $duration $type $delay;
+    transition: all $duration $type $delay;
+}
+@mixin transition-property($property...){
+    -webkit-transition-property: $property;
+    -moz-transition-property: $property;
+    transition-property: $property;
+}
+@mixin transition-delay($delay){
+    -webkit-transition-delay: $delay;
+    -moz-transition-delay: $delay;
+    transition-delay: $delay;
+}
+//########################################################################## 变换
+@mixin transform($value){
+    -webkit-transform: $value;
+    -moz-transform: $value;
+    transform: $value;
+}
+
+//########################################################################## 动画
+@mixin animation($data){
+    -webkit-animation: $data;
+    -moz-animation: $data;
+    animation: $data;
+}
+@mixin animation-duration($duration : 0.3s){
+    -webkit-animation-duration: $duration;
+    -moz-animation-duration: $duration;
+    animation-duration: $duration;
+}
+@mixin animation-delay($delay : 0s){
+    -webkit-animation-delay: $delay;
+    -moz-animation-delay: $delay;
+    animation-delay: $delay;
+}
+//########################################################################## 阴影
+@mixin boxShadow{
+    box-shadow: rgba(0,0,0,.4) 0 0 .08rem;
+}
+
+@mixin fontAwesome {
+    display: inline-block;
+    font: normal normal normal .28rem/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin hiddenCheckbox {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0 !important;
+    outline: none;
+    z-index: -1;
+}
+
+@mixin absoluteCenterY {
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+@mixin absoluteCenterX {
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+
+
+
+

@@ -1,0 +1,86 @@
+@import "../../../../css/base/variable.scss";
+$pic-size : 1.8rem;
+
+.picblock{
+    ul{
+        padding: .2rem .3rem;
+        @include transition;
+        line-height: 1;
+        /*overflow-x:visiable;*/
+        /*text-align: justify;*/
+        overflow: hidden;
+    }
+
+    li{
+        position: relative;
+        float: left;
+        display: block;
+        width: 33.33%;
+        padding: .12rem 0;
+        text-align: center;
+    }
+    .fa.fa-question-circle{
+        color : $color-main;
+    }
+    .picunit{
+        position: relative;
+        width: $pic-size;
+        height: $pic-size;
+        margin: auto;
+    }
+    label{
+        width: $pic-size;
+        height: $pic-size;
+        line-height: $pic-size;
+        outline:1px dashed #ccc;
+        text-align:center;
+        &:before{
+            content: '＋';
+            font-size: .6rem;
+            color:#ccc;
+        }
+    }
+    img{
+        min-width: 100%;
+        min-height: 100%;
+        &.midcont{
+            margin-left: 0;
+        }
+        background:#f0f0f0;
+    }
+    [data-act="del"]{
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 1;
+        padding: .04rem;
+        span{
+            display: block;
+            width: .48rem;
+            height: .48rem;
+            line-height: .42rem;
+            font-size: .4rem;
+            text-align: center;
+            background: rgba(0,0,0,.7);
+            border-radius: 100%;
+            color: #f0f0f0;
+        }
+    }
+
+    .scarlet-red .picunit:after{
+        content : '\f00c';
+        font-family: FontAwesome;
+        display: block;
+        position: absolute;
+        bottom: .06rem;
+        right: .06rem;
+        width: .4rem;
+        height: .4rem;
+        line-height: .4rem;
+        text-align: center;
+        color: #fff !important;
+        background: #f60;
+        border-radius: 100%;
+    }
+    
+}

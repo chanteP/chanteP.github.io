@@ -1,0 +1,93 @@
+@import "../../../../css/base/variable.scss";
+
+/*品类*/
+.category{
+    position: relative;
+    z-index: 2;
+    .form-item.text {
+        .form-item-title,
+        .form-item-content,
+        .form-toggle{
+            font-size: .26rem;
+            line-height : .6rem;
+        }
+    }
+    .tips-select:after{
+        line-height : .6rem;
+    }
+}
+.category-outer{
+    .category-desc{
+        background: #f3f3f3;
+        border-bottom: 1px #dfdfdf solid;
+
+        div {
+            padding: .2rem .3rem;
+        }
+        p{
+            color: #999;
+            line-height: 1.6;
+            font-size: .26rem;
+        }
+    }
+    .category-cont{
+        background: #f8f8f8;
+        height: 100%;
+        font-size: .28rem;
+        ul{
+            display: none;
+            float: left;
+            height: 100%;
+            @include scroll;
+
+            &.category-left{
+                display: block;
+                width: 30%;
+                background: #f3f3f3;
+                font-size: .28rem;
+                li{
+                    border-bottom: 1px solid #ededed;
+                    background: #f3f3f3;
+                    color: #666;
+
+                    &:active,
+                    &.current{
+                        background: #f8f8f8;
+                        color: #333;
+                    }
+                }
+            }
+            &.category-right{
+                display: block;
+                width: 70%;
+                background: #f8f8f8;
+                font-size: .26rem;
+                /*box-shadow: rgba(0, 0, 0, 0.4) 3px 0 3px -3px inset;*/
+                li{
+                    border-bottom: 1px solid #ededed;
+                    color: #666;
+
+                    &:active{
+                        background: #fff;
+                        color: $color-main;
+                    }
+                    &.current{
+                        color: $color-main;
+                    }
+                }
+            }
+            /*TODO 3*/
+            li{
+                display: block;
+                line-height: .9rem;
+                padding: 0 .3rem;
+                /*margin-left: 3px;*/
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                cursor: pointer;
+            }
+
+        }
+    }
+}

@@ -1,0 +1,21 @@
+@import "../../../../css/base/variable.scss";
+.buynote-outer{
+    .dynamic-form-item.radio,
+    .dynamic-form-item.checkbox{
+        .dynamic-form-item-content {
+            .mixtext input{
+                background: #e8e8e8;
+                margin: 0 .08rem;
+                padding: .12rem;
+                border: none;
+                min-width: 3em;
+            }
+        }
+        &.radio,
+        &.checkbox{
+            .mixtext{
+                line-height: 2;
+            }
+        }
+    }
+}

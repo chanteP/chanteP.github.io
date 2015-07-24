@@ -1,0 +1,44 @@
+@import "../../../css/base/variable.scss";
+.m-slidedrawer{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(248,248,248,1);
+    text-align: left;
+    z-index: 100;
+    overflow: hidden;
+
+    visibility: hidden;
+    /*@include transition;*/
+    @include transform(translate(100%, 0));
+    /*@include transform(translateX(100%));*/
+
+    @include animation-duration(0.4s);
+
+    &[data-onshow]{
+        visibility: visible;
+        @include transform(translate(0%, 0));
+        /*@include transform(translateX(0%));*/
+    }
+
+    .slide-wrap{
+        height: 100%;
+        overflow-x: hidden;
+        @include scroll;
+    }
+
+    &.animated{
+        pointer-events : none;
+        /*.slide-wrap{
+            display: none;
+        }*/
+    }
+}
+#wrapper{
+    @include transition(0.4s);
+    &.drawer-sub{
+        @include transform(translateX(-40%));
+    }   
+}
