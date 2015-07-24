@@ -27,7 +27,6 @@ var checkScrollElement = function(element){
         && element.scrollHeight > element.clientHeight
         && !(startPos <= curPos && element.scrollTop === 0)
         && !(startPos >= curPos && element.scrollHeight - element.scrollTop === window.parseInt(window.getComputedStyle(element).height));
-
         // && element.scrollHeight > element.offsetHeight;
 }
 
