@@ -1,0 +1,146 @@
+@import "../../../css/base/variable.scss";
+$thumb-size : 1.6rem;
+$thumb-pad : .16rem;
+
+$thumb-marginTop : .96rem;
+
+.m-picview{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,.9);
+    text-align: center;
+    z-index: 500;
+    
+    visibility: hidden;
+    @include transition;
+    @include animation-duration(0.3s);
+
+    &[data-onshow]{
+        visibility: visible;
+        .view-list{
+            display: block;
+        }
+    }
+
+    .view-wrap{
+        height: 100%;
+    }
+    .view-list{
+        display: none;
+    }
+    .view-thumblist{
+        /*width: 100%;*/
+        @include scrollX;
+        overflow-y: hidden;
+        ul{
+            @include transition;
+            white-space: nowrap;
+            text-align: left;
+            line-height: 1;
+
+            li{
+                position: relative;
+                display: inline-block;
+                padding: $thumb-pad;
+                vertical-align: middle;
+
+                & + li{
+                    padding-left: 0;
+                }
+                &.current img{
+                    border-color: $color-main;
+                }
+            }
+            label{
+                display: block;
+                width: #{$thumb-size - .04rem};
+                height: #{$thumb-size - .04rem};
+                line-height: #{$thumb-size - .04rem};
+                border: 1px dashed #eee;
+                text-align:center;
+                &:before{
+                    content: '＋';
+                    font-size: .6rem;
+                    color:#eee;
+                }
+            }
+            .img{
+                display: block;
+                width: #{$thumb-size - .12rem};
+                height: #{$thumb-size - .12rem};
+                border:.04rem transparent solid;
+                @include transition;
+                background: $icon-loading-mini center center;
+            }
+            [data-act="del"]{
+                position: absolute;
+                top: 0;
+                right: 0;
+                z-index: 1;
+                padding: .2rem;
+                span{
+                    display: block;
+                    width: .36rem;
+                    height: .36rem;
+                    line-height: .32rem;
+                    text-align: center;
+                    background: rgba(0,0,0,.6);
+                    border-radius: 100%;
+                    color: #f0f0f0;
+                }
+            }
+        }
+    }
+    .view-head{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        padding: .32rem 0;
+        font-size: .32rem;
+        color: #fff;
+        font-weight: 700;
+    }
+    .view-list{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+    .view-btnbox{
+        label{
+            float: left;
+            line-height: 1rem;
+            background: #f0f0f0;
+            font-size: .32rem;
+            text-align: center;
+            a{
+                display: block;
+            }
+            & + label a{
+                border-left: 1px #333 solid;
+            }
+        }
+    }
+    .view-main{
+        margin-top: $thumb-marginTop;
+        height: 60%;
+        .loading{
+            position: relative;
+            &:before {
+                color : #fff;
+            }
+        }
+        img{
+            max-width: 90%;
+            max-width: -webkit-calc(100% - #{$thumb-pad * 2});
+            max-width: calc(100% - #{$thumb-pad * 2});
+            max-height: 100%;
+            width: auto;
+        }
+    }
+}

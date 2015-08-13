@@ -1,0 +1,152 @@
+@import "../base/variable.scss";
+
+$item-padding: .3rem;
+$item-background: #fff;
+$item-border-color: #dadfdb; // 线条偏绿色
+$item-height: .9rem;
+$item-prefix: .4rem;
+$item-gray: #7a7f7b;
+$color-danger-red: #ff6868;
+$settings-margin: .32rem;
+
+.settings-attachment {
+  padding: .20rem $item-prefix;
+  font-size: .26rem;
+  color: $item-gray;
+  &.top-attached {
+    margin-bottom: 0 - $settings-margin;
+    margin-top: 0.5em;
+  }
+  &.bottom-attached {
+    margin-top: 0 - $settings-margin;
+    margin-bottom: 0.5em;
+  }
+}
+.ui-settings {
+  background: $item-background;
+  /*border: 1px solid $item-border-color;*/
+  /*border-left: 0;*/
+  /*border-right: 0;*/
+  margin-top: $settings-margin;
+  margin-bottom: $settings-margin;
+
+  .item ~ .item {
+    border-top: 1px solid $item-border-color;
+  }
+  .item {
+    margin-left: $item-prefix;
+    line-height: $item-height;
+    white-space: nowrap;
+    word-break: keep-all;
+    overflow: hidden;
+    cursor: pointer;
+
+    .ui-settings {
+      border: 0;
+      margin-top: 0;
+      margin-bottom: 0;
+      .item {
+        &:first-child {
+          border-top: 1px dashed $item-border-color;
+        }
+        border-style: dashed;
+      }
+    }
+
+    .description {
+      float: right;
+      color: $item-gray;
+      margin-right: .80rem;
+    }
+
+    &>.fa:first-child {
+      line-height: inherit;
+      font-size: .42rem;
+      margin-right: .20rem;
+      vertical-align: middle;
+      color: $color-main-dark;
+    }
+
+    &.selectable {
+      position: relative;
+      &::after {
+        @include fontAwesome;
+        content: "\f105";
+        color: $item-gray;
+        position: absolute;
+        right: 0;
+        top: 0;
+        text-align: center;
+        width: 1.60rem;
+        line-height: inherit;
+        font-size: .80rem;
+      }
+      .description {
+        margin-right: .80rem;
+      }
+    }
+
+    &.removable {
+      $remove-button-width: 1.20rem;
+      position: relative;
+      overflow: visible;
+      .item-remove-button {
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+
+        @include transition;
+        @include transform(translateX($remove-button-width));
+
+        left: auto;
+        text-align: center;
+        width: $remove-button-width;
+        background: $color-danger-red;
+        color: #fff;
+      }
+      button.fa:first-child {
+        background: none;
+        border: none;
+        outline: none;
+      }
+      .fa:first-child {
+        color: $color-danger-red;
+        transition: all .3s;
+        padding: 0;
+      }
+      &.on-remove {
+        .item-remove-button {
+          /*right: 0;*/
+          @include transform(translateX(0));
+        }
+        .fa:first-child {
+          transform: rotate(-90deg);
+          margin-left: 0 - $remove-button-width;
+        }
+      }
+    }
+
+    /*.label-checkbox.switch {
+      &>label {
+        padding-left: 0;
+        margin-right: $item-prefix;
+        &::after {
+          right: 0;
+          left: auto;
+        }
+        &::before {
+          right: $switch-edge-length + 1;
+          left: auto;
+        }
+      }
+      &>input[type=checkbox],
+      &>input[type=radio] {
+        &:checked ~ label::before {
+          right: 1px;
+          left: auto;
+        }
+      }
+    }*/
+  }
+}

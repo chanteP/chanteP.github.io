@@ -2,7 +2,7 @@ deploy :
 	node --harmony bin/deploy -m
 	git co master
 
-	rm -rf `ls | egrep -v '^(built|node_modules)'`
+	rm -rf `ls | egrep -v '^(temp|node_modules)'`
 
 	cp -rf built/* ./
 	rm -rf built/

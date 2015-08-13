@@ -1,0 +1,43 @@
+@import "../../../css/base/variable.scss";
+.m-controls{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 300;
+    background: rgba(0,0,0,.4);
+    overflow: hidden;
+
+    opacity: 1;
+    visibility: hidden;
+    /*pointer-events:none;*/
+    @include transition;
+    /*@include transition-property(visibility);*/
+    /*@include transition-delay(400ms);*/
+    @include animation-duration(0.4s);
+    @include animation-delay(0s);
+
+    /*.m-controls-content{*/
+        /*opacity: 0;*/
+        /*visibility: hidden;*/
+    /*}*/
+/*
+    .m-controls-content:empty{
+        display:none;
+    }*/
+
+    &[data-onshow]{
+        /*opacity: 1;*/
+        /*pointer-events:auto;*/
+        visibility: visible;
+        /*@include transition-delay(0s);*/
+
+
+        /*.m-controls-content{*/
+            /*opacity: 1;*/
+            /*visibility: visible;*/
+        /*}*/
+
+    }
+}

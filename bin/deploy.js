@@ -34,17 +34,17 @@ program
   .parse(process.argv);
  
 if(program.deploy){
-    require('./deployClean')(function(){
+    require('./cleanup')(function(){
         require('./deployMaster')();
     }); 
 }
 else if(program.clean){
-    require('./deployClean')(function(){
+    require('./cleanup')(function(){
     }); 
 }
 else{
-    require('./deployClean')(function(){
+    require('./cleanup')(function(){
         require('./deployDevelop')();
-        require('./deployServer')();
+        require('./server')();
     });   
 }

@@ -13,17 +13,17 @@
         
         <link rel="shortcut icon" href="/static/images/favourite.png" />
         <!-- <link href='http://fonts.googleapis.com/css?family=Roboto:400,100' rel='stylesheet' type='text/css'> -->
-        <link rel="stylesheet" media="screen" href="/static/css/global.css" />
-        <script src="/static/js/kit.js"></script>
+        <link rel="stylesheet" media="screen" href="/static/css/main.css" />
+        <script src="/static/lib/core.js"></script>
     </head>
     <body class="loading">
         <!-- <div id="bg" data-bg="/static/images/bg.jpg" lazy-loading></div> -->
-        <div id="wrapper">
+        <div id="wrapper" class="main-wrapper">
 <%-page%>
         </div>
-        <div id="syscomp">
-            <canvas id="npc"></canvas>
-            <nav id="mainnav">
+        <div id="syscomp" class="main-comp">
+            <canvas id="npc" class="main-bg"></canvas>
+            <nav id="mainnav" class="main-nav">
                 <ul>
                     <li data-for="index" data-hide="true">
                         <a href="/"><icon>✡</icon><f>home</f></a>
@@ -39,10 +39,17 @@
                     </li>
                 </ul>
             </nav>
-            <div id="loading" class="mid" onclick="history.go(-1)">
-                <img class="midcont" src="/static/images/loading.gif" alt="loading">
-            </div>
+            <div id="mainLoading" class="loading main-loading" onclick="history.go(-1)"></div>
         </div>
-        {% include ga.html %}
+        
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            var androidVer = /Android\s([\d]+)\b/i.exec(navigator.userAgent);
+            if(androidVer && +androidVer[1] < 4){
+                document.body.innerHTML = '<h3 style="padding-top:1rem;text-align:center;">安卓系统版本太低，暂不支持</h3>';
+            }
+            document.body.className = document.body.className.replace('loading', '');
+        });
+        </script>
     </body>
 </html>
