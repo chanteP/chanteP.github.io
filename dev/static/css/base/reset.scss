@@ -1,6 +1,6 @@
 /* 
 reset Stylesheet
-v1.0.0  @140412
+v1.0.0  @150814
 */
 html, body, div, span, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -83,4 +83,20 @@ table {
   text-align: left;
   border-collapse: collapse;
   border-spacing: 0; 
+}
+
+b,i{
+    font-weight:100;
+    text-decoration:none;
+}
+a,
+img {
+    -webkit-touch-callout: none;
+}
+
+input,
+select,
+textarea,
+button{
+    outline: none;
 }

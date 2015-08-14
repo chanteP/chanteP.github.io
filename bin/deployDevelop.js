@@ -18,9 +18,15 @@ var buildBrowserify = function(){
     return through2.obj(function (file, enc, next){
         browserify(file.path)
             .bundle(function(err, res){
+                // console.log('###########', file.path, res);
                 // assumes file.contents is a Buffer
-                file.contents = res;
+                file.contents = res || new Buffer('');
                 next(null, file);
+            })
+            .on('error', function(e){
+                // delete e.stream;
+                console.error('\033[31m [browserify error]', e.message, '\033[0m');
+                this.emit('end');
             });
     })
 }
@@ -28,8 +34,7 @@ module.exports = function(env){
     gulp.task('layout', function(){
         //装饰器
         return gulp.src([srcDir + 'dec/*.html'])
-            .pipe($.replace('{{', '<%'))
-            .pipe($.replace('}}', '%>'))
+            .pipe($.replace(/{{ ([\w]+) }}/g, '<%-$1%>'))
             .pipe(gulp.dest(destDir + '_layouts/'));
     });
     gulp.task('post', function(){

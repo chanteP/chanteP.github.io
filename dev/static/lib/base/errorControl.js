@@ -1,9 +1,17 @@
-module.exports = function(bool){
-    if(!bool){return;}
+module.exports = function($){
     window.onerror = function(e, filename, lineNo){
-        if(window.location.search.indexOf('debug') < 0){return;}
-        debugger
-        alert(e + '\n' + filename + '\n' + lineNo)
-        console.log(e);
+        var debugType = $.querySearch('debug');
+        if(!debugType){return;}
+        switch(debugType){
+            case 'alert' : 
+                alert(e + '\n' + filename + '\n' + lineNo)
+                break;
+            case 'console' :
+                console.log(e, filename, lineNo);
+                break;
+            case 'debugger':
+                debugger
+                break;
+        }
     }
 }

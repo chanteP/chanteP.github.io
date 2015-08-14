@@ -40,34 +40,18 @@ $icon-loading: '';
 $icon-loading-mini: url(/mobile/images/progressing.gif) no-repeat;
 
 
-@mixin loadingIcon{
-    &:before{
-        content : '\f110';
-        font-family: FontAwesome;
-        position: absolute;
-        top: 49%;
-        left: 0;
-        width: 100%;
-        text-align: center;
-        font-size: .28rem;
-        color:#666;
-        @include animation(rotate 1s infinite 0s);
-    }
-}
-
-
 //其他
 ////////////////////////////////////////////////////////////////////////////////
 
 //########################################################################## y轴滚动
-@mixin scroll{
-    overflow-y: auto;
+@mixin scroll($type : auto){
+    overflow-y: $type;
     -webkit-overflow-scrolling: touch;
     -moz-overflow-scrolling: touch;
 }
 //########################################################################## x轴滚动
-@mixin scrollX{
-    overflow-x: auto;
+@mixin scrollX($type : auto){
+    overflow-x: $type;
     -webkit-overflow-scrolling: touch;
     -moz-overflow-scrolling: touch;
 }
@@ -110,10 +94,6 @@ $icon-loading-mini: url(/mobile/images/progressing.gif) no-repeat;
     -moz-animation-delay: $delay;
     animation-delay: $delay;
 }
-//########################################################################## 阴影
-@mixin boxShadow{
-    box-shadow: rgba(0,0,0,.4) 0 0 .08rem;
-}
 
 @mixin fontAwesome {
     display: inline-block;
@@ -124,33 +104,20 @@ $icon-loading-mini: url(/mobile/images/progressing.gif) no-repeat;
     -moz-osx-font-smoothing: grayscale;
 }
 
-@mixin hiddenCheckbox {
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0 !important;
-    outline: none;
-    z-index: -1;
+
+@mixin loadingIcon{
+    &:before{
+        content : '\f110';
+        font-family: FontAwesome;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        line-height: 1;
+        font-size: .28rem;
+        margin-top: -.14rem;
+        color:#666;
+        @include animation(maware 1s infinite 0s);
+    }
 }
-
-@mixin absoluteCenterY {
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-    -moz-transform: translateY(-50%);
-    -o-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-}
-
-@mixin absoluteCenterX {
-    left: 50%;
-    -webkit-transform: translateX(-50%);
-    -moz-transform: translateX(-50%);
-    -o-transform: translateX(-50%);
-    -ms-transform: translateX(-50%);
-    transform: translateX(-50%);
-}
-
-
-
-

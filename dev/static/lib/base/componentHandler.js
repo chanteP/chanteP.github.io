@@ -17,9 +17,22 @@
 var stack = [];
 var title = window.document.title;
 
-var pushState = function(){
-    window.history.pushState && window.history.pushState(null, document.title, location.href);
-    // location.hash = Date.now();
+var findTitle = function(){
+    var lastTitle = title;
+    for(var i = stack.length - 1; i >= 0; i--){
+        if(stack[i].title){
+            lastTitle = stack[i].title;
+            break;
+        }
+    }
+    document.title = lastTitle;
+}
+var pushState = function(href, title){
+    href = href || location.href;
+    title = title || document.title;
+    window.history.pushState ?
+        window.history.pushState(null, title, href) : 
+        (location.hash = href);
 }
 
 //temp
@@ -28,52 +41,23 @@ var popState = function(e){
 
     var elem = api.get();
     if(!elem){
-        window.location.href = "merchant://webview?action=back";
+        // window.history.go(-1);
         return;
     }
-    if(elem && elem.onBack && typeof elem.onBack === 'function'){
+    if(elem.onBack && typeof elem.onBack === 'function'){
         elem.onBack();
     }
-    if(elem && (!api.block && !elem.block && !elem.component.block)){
+    if(!api.block && !elem.block && !elem.component.block){
         elem.component.hide();
-        document.title = api.get() ? api.get().title || title : title;
+        findTitle();
     }
     else{
         pushState();
     }
 }
-window.webviewBack = popState;
 
 //##############################################################################
-//不应该放这里
-var closeCheckList = [];
-window.webviewClose = function(){
-    try{
-        if(closeCheckList.every(function(checkFunc){
-            return checkFunc();
-        })){
-            window.location.href = "merchant://webview?action=back";
-        }
-    }catch(e){
-        window.location.href = "merchant://webview?action=back";
-    }
-}
 
-//##############################################################################
-document.addEventListener('DOMContentLoaded', function() {
-// window.addEventListener('load', function(){
-    setTimeout(function(){
-        if(require('../base').env === 'APP'){
-            window.location.href = "merchant://webview?customBack=webviewBack&customClose=webviewClose";
-        }
-        else{
-            window.addEventListener('popstate', popState);
-        }
-        setTimeout(function(){
-            $(api).trigger('init');
-        }, 500)
-    }, 0);
-});
 
 var api = {
     stack : stack,
@@ -95,7 +79,7 @@ var api = {
             title : cfg.title,
             onBack : cfg.onBack
         });
-        window.document.title = cfg.title || title;
+        findTitle();
         return this;
     },
     get : function(index){
@@ -111,27 +95,19 @@ var api = {
                 return true;
             }
         });
-        //TODO 改进
-        var lastTitle = title;
-        for(var i = stack.length - 1; i >= 0; i--){
-            if(stack[i].title){
-                lastTitle = stack[i].title;
-                break;
-            }
-        }
-        document.title = lastTitle;
+        findTitle();
         return this;
     },
     setTitle : function(text){
         window.document.title = title = text;
-    },
-
-    //#############################################################################
-    checkClose : function(func){
-        if(typeof func === 'function'){
-            closeCheckList.push(func)
-        }
     }
 }
 
-module.exports = api;
+module.exports = function($){
+    $.domReady(function(){
+        window.addEventListener('popstate', popState);
+    });
+    return {
+        componentHandler : api
+    };
+};
