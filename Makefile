@@ -4,8 +4,8 @@ deploy :
 
 	rm -rf `ls | egrep -v '^(temp|node_modules)'`
 
-	cp -rf built/* ./
-	rm -rf built/
+	cp -rf temp/* ./
+	rm -rf temp/
 	git add -A .
 	git ci -m "publish"
 	git push

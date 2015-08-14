@@ -1,42 +1,6 @@
 window.$config = window.$config || {};
 window.$data = window.$data || {};
 
-var api = {};
-
-//错误控制
-require('./errorControl')(true);
-
-[
-    //kit
-    require('./kit'),
-    //env
-    require('./env'),
-    //固定dom操作
-    require('./dom'),
-    //错误控制
-    require('./errorControl'),
-    //组件控制
-    require('./componentHandler'),
-    //retina优化
-    require('./pixelFix');
-    //overScroll
-    require('./preventScroll'),
-    //ga
-    require('./track-ua'),
-    //其他
-    require('./optimization');
-].forEach(function(mod){
-    return mod(api, $config);
-});
-
-module.exports = api;
-
-
-
-
-
-
-
 
 
 

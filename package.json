@@ -6,22 +6,29 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "node --harmony bin/deploy -m",
-    "server": "node --harmony bin/deploy"
+    "dev": "node --harmony bin/deploy",
+    "clean": "node --harmony bin/deploy -c"
   },
   "author": "chanteP",
   "license": "ISC",
   "devDependencies": {
+    "autoprefixer-core": "^5.2.1",
+    "babelify": "^6.1.3",
     "browserify": "^11.0.1",
     "commander": "^2.8.1",
     "ejs": "^1.0.0",
     "express": "^4.10.4",
-    "gulp": "^3.8.11",
+    "gulp": "^3.9.0",
+    "gulp-load-plugins": "^1.0.0-rc.1",
+    "gulp-postcss": "^5.1.10",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.3",
     "gulp-sass": "^2.0.0",
     "np-canvas": "^1.0.6",
     "np-databind": "^0.3.1",
     "preprocess": "^2.1.1",
+    "sassify": "^0.9.1",
+    "stringify": "^3.1.0",
     "through2": "^0.6.5",
     "uglify-js": "^2.4.16",
     "vinyl-transform": "^1.0.0",
@@ -36,7 +43,7 @@
     "extensions": [
       ".html",
       ".scss",
-      ".jsx"
+      ".js"
     ]
   },
   "sassify": {

@@ -1,2 +1,1 @@
-window.parent.core.initPage(document, function(wrap, $){
-});
+var a = 123;
