@@ -26,5 +26,21 @@
     "uglify-js": "^2.4.16",
     "vinyl-transform": "^1.0.0",
     "watchify": "^2.1.1"
+  },
+  "browserify": {
+    "transform": [
+      "stringify",
+      "sassify",
+      "babelify"
+    ],
+    "extensions": [
+      ".html",
+      ".scss",
+      ".jsx"
+    ]
+  },
+  "sassify": {
+    "auto-inject": false,
+    "sourceMap": false
   }
 }
