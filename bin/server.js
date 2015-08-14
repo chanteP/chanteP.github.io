@@ -7,7 +7,7 @@ var url = require('url');
 var path = require('path');
 
 module.exports = function(){
-    var root = path.normalize(__dirname + '/../built/');
+    var root = path.normalize(__dirname + '/../temp/');
     app.set('port', 9000);
 
     // app.use(express.compress());
@@ -17,7 +17,7 @@ module.exports = function(){
 
     // app.get('/combo', require('./combo'));
 
-    app.get(/^\/pages\/.*\.html/, function(req, res){
+    app.get(/^\/pages\/.*/, function(req, res){
         var params = url.parse(req.url, true);
 
         // var page = params.path;
@@ -33,7 +33,7 @@ module.exports = function(){
         // var html = (fs.readFileSync(path.normalize('./static/'+compDemo+'/index.html')) + '');
         //     // .replace('<%style%>', sass('./dev/'+compDemo+'/style.scss'));
 
-        var html = (fs.readFileSync(path.normalize('built/static/pages/'+page+'/index.html')) + '');
+        var html = (fs.readFileSync(path.normalize('temp/static/pages/'+page+'.html')) + '');
         res.render('_layouts/page.html', {
             page : html
         });
@@ -43,7 +43,7 @@ module.exports = function(){
         var params = url.parse(req.url, true);
         var page = params.path;
 
-        var html = (fs.readFileSync(path.normalize('built/static/pages/'+page+'/index.html')) + '');
+        var html = (fs.readFileSync(path.normalize('temp/static/pages/'+page+'.html')) + '');
             // .replace('<%style%>', sass('./dev/'+compDemo+'/style.scss'));
 
         res.render('_layouts/main.html', {
