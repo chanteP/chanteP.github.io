@@ -35,7 +35,9 @@ var buildSass = function(){
         outputStyle: 'nested', // libsass doesn't support expanded yet
         precision: 10,
         includePaths: ['.'],
-        onError: console.error.bind(console, 'Sass error:')
+        onError: function(e){
+            console.error('\033[31m [sass error]', e.message, '\033[0m');
+        }
     })
 }
 module.exports = function(env){
@@ -98,7 +100,7 @@ module.exports = function(env){
             .pipe(buildSass())
             .pipe(gulp.dest(destDir + 'static/pages/'));
         //其他渣渣资源
-        gulp.src([srcDir + 'pages/*/**', '!**/*.js' '!**/*.scss'])
+        gulp.src([srcDir + 'pages/*/**', '!**/*.js', '!**/*.scss'])
             .pipe(gulp.dest(destDir + 'static/pages/'));
     });
 
