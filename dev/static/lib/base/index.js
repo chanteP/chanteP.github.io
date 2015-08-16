@@ -19,3 +19,7 @@ module.exports = api;
 
 require('np-scrollp').bind();
 
+$.domReady(function(){
+    api.setLoading(false);
+});
+

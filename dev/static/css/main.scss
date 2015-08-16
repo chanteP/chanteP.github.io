@@ -13,3 +13,20 @@
 @import "./ui/button.scss";
 
 
+body{
+    &.loading {
+        background-color: $color-background;
+        & > .main-wrapper{
+            display:none;
+        }
+    }
+    & > .main-wrapper{
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        background: #fff;
+        /*background: transparent;*/
+    }
+}

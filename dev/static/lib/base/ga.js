@@ -9,9 +9,9 @@ function loadUA() {
     ga('create', gaAccount, 'auto');
     ga('send', 'pageview');
 }
-module.exports = function(){
+module.exports = function($){
     gaAccount = $config.cos_gaAccount;
-    if(!gaAccount){return;}
+    if(!gaAccount || $.isLocal){return;}
     loadUA();
     return ga;
 }

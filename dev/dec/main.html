@@ -14,8 +14,8 @@
         <link rel="shortcut icon" href="/static/images/fav.png" />
         <!-- <link href='http://fonts.googleapis.com/css?family=Roboto:400,100' rel='stylesheet' type='text/css'> -->
         <link rel="stylesheet" media="screen" href="/static/css/main.css" />
-        <script src="/static/lib/core.js"></script>
         <script src="/static/lib/fastclick.js"></script>
+        <script src="/static/lib/core.js"></script>
     </head>
     <body class="loading">
         <!-- <div id="bg" data-bg="/static/images/bg.jpg" lazy-loading></div> -->
@@ -43,13 +43,11 @@
             <div id="mainLoading" class="loading main-loading" onclick="history.go(-1)"></div>
         </div>
 
-        <script type="text/javascript">
+        <script>
         window.addEventListener('load', function() {
-            var androidVer = /Android\s([\d]+)\b/i.exec(navigator.userAgent);
-            if(androidVer && +androidVer[1] < 4){
-                document.body.innerHTML = '<h3 style="padding-top:1rem;text-align:center;">安卓系统版本太低，暂不支持</h3>';
+            if(!('defineProperty' in Object)){
+                document.body.innerHTML = '<h3 style="padding-top:1rem;text-align:center;">系统版本太低，暂不支持</h3>';
             }
-            document.body.className = document.body.className.replace('loading', '');
         });
         </script>
     </body>

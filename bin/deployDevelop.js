@@ -30,6 +30,14 @@ var buildBrowserify = function(){
             });
     })
 }
+var buildSass = function(){
+    return $.sass({
+        outputStyle: 'nested', // libsass doesn't support expanded yet
+        precision: 10,
+        includePaths: ['.'],
+        onError: console.error.bind(console, 'Sass error:')
+    })
+}
 module.exports = function(env){
     gulp.task('layout', function(){
         //装饰器
@@ -51,15 +59,10 @@ module.exports = function(env){
         var browserified = buildBrowserify();
         //css
         gulp.src([srcDir + 'static/css/*.scss'])
-            .pipe($.sass({
-                outputStyle: 'nested', // libsass doesn't support expanded yet
-                precision: 10,
-                includePaths: ['.'],
-                onError: console.error.bind(console, 'Sass error:')
-            }))
-            .pipe($.postcss([
-                autoprefixer({browsers: ['last 1 version']})
-            ]))
+            .pipe(buildSass())
+            // .pipe($.postcss([
+            //     autoprefixer({browsers: ['last 1 version']})
+            // ]))
             .pipe(gulp.dest(destDir + 'static/css/'));
         gulp.src(srcDir + 'static/css/*.css')
             .pipe(gulp.dest(destDir + 'static/css/'));
@@ -88,13 +91,15 @@ module.exports = function(env){
     gulp.task('pageResources', function(){
         //commonjs用browserify打包
         var browserified = buildBrowserify();
-        gulp.src([srcDir + 'pages/*/index.js'])
+        gulp.src([srcDir + 'pages/*/*.js'])
             .pipe(browserified)
-            .pipe($.rename(shrinkDir))
+            .pipe(gulp.dest(destDir + 'static/pages/'));
+        gulp.src([srcDir + 'pages/*/*.scss'])
+            .pipe(buildSass())
             .pipe(gulp.dest(destDir + 'static/pages/'));
         //其他渣渣资源
-        // gulp.src([srcDir + 'pages/*/**', '!**/*.js', '!**/*.css', '!**/*.scss'])
-        //     .pipe(gulp.dest('built/static/pages/'));
+        gulp.src([srcDir + 'pages/*/**', '!**/*.js' '!**/*.scss'])
+            .pipe(gulp.dest(destDir + 'static/pages/'));
     });
 
 
