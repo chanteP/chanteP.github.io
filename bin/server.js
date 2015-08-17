@@ -15,15 +15,15 @@ module.exports = function(){
     app.set('views', root);
 
 
-    app.get(/^\/pages\/.*/, function(req, res){
+    app.get(/^\/page\/.*/, function(req, res){
         var params = url.parse(req.url, true);
 
-        var page = /\/pages\/(.*)$/.exec(params.path)[1];
+        var page = /\/page\/(.*)$/.exec(params.path)[1];
       
         var html = (fs.readFileSync(path.normalize('temp/pages/'+page+'.html')) + '');
         res.render('_layouts/page.html', {
             page : html,
-            content : ''
+            content : html
         });
         res.end();
     });

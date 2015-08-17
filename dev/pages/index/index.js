@@ -1,12 +1,11 @@
-window.parent.core.initPage(document, function(wrap, $, window){
-    var npc, ball, group = [], PI2 = Math.PI * 2;
-
-
+core.register('index', function($, wrap){
+    console.log(wrap)
     return {
-        showonce : function(){
-            window.DataBind.scan($.find('footer', wrap));
-        },
         show : function(){
+            console.log('index show')
+        },
+        hide : function(){
+            console.log('index hide')
         }
-    }
+    };
 });

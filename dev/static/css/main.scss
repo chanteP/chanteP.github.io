@@ -27,6 +27,134 @@ body{
         height: 100%;
         width: 100%;
         background: #fff;
+        z-index: 4;
         /*background: transparent;*/
+    }
+}
+
+$navsize : 4rem;
+
+.wrap{
+    padding-left: $navsize;
+}
+
+.main-nav{
+    position: fixed;
+    top:0;
+    left: 0;
+    height: 100%;
+    background: #fafafa;
+    box-shadow: rgba(0,0,0,.4) 0 0 .08rem;
+    visibility: hidden;
+    z-index: 10;
+    @include transform(translate(-100%, 0));
+    @include transition;
+
+    &.show{
+        visibility: visible;
+        @include transform(translate(0, 0));
+    }
+    ul{
+        position: relative;
+        top:40%;
+        width: $navsize;
+    }
+
+    li{
+        a{
+            display: block;
+            padding-left: 1.4rem;
+            line-height: .64rem;
+            font-size: .28rem;
+            /*text-align: center;*/
+            text-decoration: none;
+            color: #666;
+
+            border: 0 solid transparent;
+            border-top-width:1px;
+            border-bottom-width:1px;
+            /*overflow-x: hidden;*/
+            @include transition;
+        }
+        &:hover a,
+        &.cur a{
+            color: $color-main;
+        }
+        &.cur a{
+            background: #fff;
+            border-color: #ccc;
+            /*box-shadow: rgba(0,0,0,.4) 0 0 4px;*/
+        }
+        f{
+            display: inline-block;
+        }
+    }
+}
+.main-bg{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+.main-loading{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 20;
+
+    opacity: 0;
+    visibility: hidden;
+    @include transition;
+    background: rgba(0,0,0,.05);
+}
+body.loading{
+    & > .wrapper{
+        @include filter(blur(4px));
+        @include transform(scale(.95));
+    }
+    .main-nav{
+        @include filter(blur(2px));
+    }
+    .main-loading{
+        visibility: visible;
+        opacity: 1;
+    }
+}
+@media screen and (max-width : 750px){
+    #mainnav{
+        position: absolute;
+        top:0;
+        left: 0;
+        width: 100%;
+        height: auto;
+        @include transform(translate(0, -100%));
+        
+        ul{
+            position: relative;
+            top:0;
+            padding-top: .6rem;
+            height: auto;
+            width: auto;
+            text-align: center;
+        }
+        li{
+            padding: 0 .16rem;
+            height: .7rem;
+            display: inline-block;
+
+            a{
+                padding: 0;
+            }
+            &.cur a{
+                background: none;
+                border-color: transparent;
+            }
+        }
+    }
+    .wrap{
+        padding-left: 0;
+        padding-top: 1.3rem;
     }
 }

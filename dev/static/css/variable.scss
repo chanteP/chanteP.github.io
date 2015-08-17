@@ -77,6 +77,11 @@ $icon-loading-mini: url(/mobile/images/progressing.gif) no-repeat;
     -moz-transform: $value;
     transform: $value;
 }
+@mixin filter($value){
+    -webkit-filter: $value;
+    -moz-filter: $value;
+    filter: $value;
+}
 
 //########################################################################## 动画
 @mixin animation($data){

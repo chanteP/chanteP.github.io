@@ -71,7 +71,7 @@ var api = {
         cfg = cfg || {};
         this.remove(component);
         
-        pushState();
+        pushState(cfg.href, cfg.title);
 
         stack.push({
             component : component,
