@@ -9,7 +9,7 @@ var curPageName,
 var data = {
     set page(value){
         curPageName = value;
-        
+
     },
     get page(){
         return curPageName;
@@ -23,18 +23,6 @@ var check = function(pageName){
     }
 }
 
-var loadPageScript = function(scriptSrc){
-    scriptSrc ?
-        $.load(scriptSrc, null, {
-            onload : function(){
-                check();
-            },
-            onerror : function(){
-                check();
-            }
-        }) : 
-        check();
-}
 var api;
 module.exports = function(){
     return api = {
@@ -55,22 +43,22 @@ module.exports = function(){
             var page = new Page(pageName);
             page.register(factory ? factory($, page.contentNode) : {});
         },
-        loadPage : function(pageName, pageKey, contentNode, scriptSrc){
+        loadPage : function(pageName, pageKey, contentNode, script){
             api.setPageKey(pageName, pageKey);
 
-            if(!(contentNode instanceof Node)){
-                var template = contentNode.innerHTML;
-                contentNode = $.create(template);
-            }else{
-                contentNode = contentNode.firstElementChild;
+            var page = new Page(pageName);
+            var template = contentNode.innerHTML;
+
+            if(contentNode instanceof Node){
+                $.find('#wrapper').innerHTML = '';
             }
 
-
-            var page = new Page(pageName, contentNode);
             if(pageKey){
-                page.extend(pageName, contentNode);
+                page = page.extend(pageName);
             }
-            loadPageScript(scriptSrc);
+            page.setContent(template);
+
+            script && eval(script);
         }
     }
 }
