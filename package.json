@@ -25,6 +25,7 @@
     "gulp-replace": "^0.5.3",
     "gulp-sass": "^2.0.0",
     "np-canvas": "^1.1.0",
+    "np-history": "^1.0.2",
     "np-kit": "^2.0.9",
     "np-scrollp": "^2.0.2",
     "preprocess": "^2.1.1",

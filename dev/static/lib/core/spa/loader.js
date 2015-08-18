@@ -1,51 +1,62 @@
 var $ = require('np-kit');
 var Page = require('./page');
-var toggle = require('./effect');
+var history = require('np-history');
 
 
-var curPageName,
-    curPageKey, 
-    curInitedPage;
-var data = {
-    set page(value){
-        curPageName = value;
-
-    },
-    get page(){
-        return curPageName;
-    }
-};
-
-var check = function(pageName){
-    if(curPageKey !== curInitedPage){
-        toggle(new Page(curPageKey), new Page(curInitedPage));
-        curInitedPage = curPageKey;
+var parseHref = function(href){
+    href = href.split('?')[0];
+    var match = /^\/([^\/]+)\/?([\w\-\/]+)?/.exec(href) || [];
+    return {
+        page : match[1] || 'index',
+        key : match[2] ? match[0] : null
     }
 }
 
+var loadIframe = function(page, url){
+    page.loading = true;
+
+    var i = document.createElement('iframe');
+    i.classList.add('hide');
+    document.body.appendChild(i);
+    i.onload = i.onerror = function(e){
+        page.loading = false;
+        page.loaded = e.type === 'error';
+        $.remove(i);
+    }
+    i.src = url;
+};
 var api;
 module.exports = function(){
     return api = {
-        setPageKey : function(pageName, pageKey){
-            curPageName = pageName;
-            curPageKey = pageKey || pageName;
+        init : function(){
+            api.load(location.pathname, true);
         },
-        loadIframe : function(url){
-            var i = document.createElement('iframe');
-            i.classList.add('hide');
-            document.body.appendChild(i);
-            i.onload = i.onerror = function(){
-                $.remove(i);
+        load : function(href, replace){
+            var {page, key} = parseHref(href);
+            var pageName = page;
+            page = new Page(pageName);
+
+            if(!page.loaded && !page.loading){
+                loadIframe(page, '/page' + href);
             }
-            i.src = url;
+            //loading
+            history[replace ? 'replaceState' : 'pushState'](null, '', href, function(state){
+                console.log(state.page)
+                    Page.show(state.page);
+                }, function(state){
+                    // Page.show(state.page);
+                }, {
+                    page : pageName
+                });
         },
         register : function(pageName, factory){
             var page = new Page(pageName);
             page.register(factory ? factory($, page.contentNode) : {});
+            if(page.state === page.SHOW){
+                page.run('show');
+            }
         },
-        loadPage : function(pageName, pageKey, contentNode, script){
-            api.setPageKey(pageName, pageKey);
-
+        loadPage : function(pageName, pageKey, contentNode, scriptUrl){
             var page = new Page(pageName);
             var template = contentNode.innerHTML;
 
@@ -58,7 +69,9 @@ module.exports = function(){
             }
             page.setContent(template);
 
-            script && eval(script);
+            $.load(scriptUrl).onload = function(){
+                $.remove(this);
+            };
         }
     }
 }

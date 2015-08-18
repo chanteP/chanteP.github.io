@@ -8,11 +8,12 @@
 @import "./base/fastclick.scss";
 /* ui
 ----------------------------------*/
-@import "./ui/icon.scss";
+@import "./ui/font-awesome.scss";
 @import "./ui/checkbox.scss";
 @import "./ui/button.scss";
 
-
+/* custom
+----------------------------------*/
 body{
     &.loading {
         background-color: $color-background;
@@ -33,7 +34,13 @@ body{
 }
 
 $navsize : 4rem;
-
+.page-wrap{
+    position:absolute;
+    top:0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
 .wrap{
     padding-left: $navsize;
 }
