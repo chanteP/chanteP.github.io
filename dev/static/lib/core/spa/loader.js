@@ -51,7 +51,7 @@ module.exports = function(){
         },
         register : function(pageName, factory){
             var page = new Page(pageName);
-            page.register(factory ? factory($, page.contentNode) : {});
+            page.register(factory ? factory($, page) : {});
             if(page.state === page.SHOW){
                 page.run('show');
             }
