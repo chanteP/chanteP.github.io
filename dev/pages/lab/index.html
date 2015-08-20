@@ -1,9 +1,9 @@
 <div class="page_lab">
-    <link rel="stylesheet" href="/static/pages/lab/style.css" />
     <section class="wrap" id="labList">
         <header class="hide">
             <h1>np实验室</h1>
         </header>
+        <a href="/index" style="display:inline-block;padding:30px;">123123</a>
         <ul data-bind="lab" class="list">
             <li data-list="lab in data" class="unit">
                 <a href="[[lab.link]]" target="_blank"> 
@@ -21,5 +21,5 @@
             </li>
         </ul>
     </section>
-    <script>window.parent.core.loadPage('lab', null, wrapper, '/static/pages/lab/index.js');</script>
+    <script>window.parent.core.loadPage('/lab', wrapper, {scripts:['/static/pages/lab/index.js'],styles:['/static/pages/lab/style.css']});</script>
 </div>
