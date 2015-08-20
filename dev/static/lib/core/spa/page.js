@@ -8,8 +8,8 @@ var parseUrl = function(url){
     url = url.split('#')[0].split('?')[0];
     var match = /^(?:[\w]+\:\/\/[^\/]+)?(\/?([^\/]+)[\s\S]*)$/.exec(url);
     return {
-        controller : match ? match[2] : 'page',
-        uri : match ? match[1] : '/page/index'
+        controller : match ? match[2] : 'index',
+        uri : match ? match[1] : '/index'
     };
 }
 //#################################################################################
