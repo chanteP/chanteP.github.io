@@ -1,7 +1,7 @@
 <div class="page_blog">
     <section class="wrap">
         <ul class="blog_list">
-        {% for post in site.posts %}
+        {% for post in site.categories.article %}
             <li data-node="postlist" data-status data-url="#!{{ post.url }}">
                 <article>
                     <a href="{{ post.url }}" class="title" data-fake="/article#!{{ post.url }}" data-act="loadBlog">

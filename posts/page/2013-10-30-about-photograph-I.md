@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 摄影学习笔记 – 对焦原理篇
-category: 笔记
+category: article
 tags: photograph
 ---
 ## 每篇标准的序
