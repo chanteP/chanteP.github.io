@@ -85,7 +85,7 @@
         }
     }
 }
-@media screen and (max-width : 750px){
+@media screen and (max-width : 1200px){
     .page_index{
         .main{
             top:25%;
@@ -95,15 +95,16 @@
             padding-left: .24rem;
         }
         ul{
-            float: left;
-            margin: 2%;
 
             &.pages{
+                float: left;
                 width: 40%;
             }
+            &.event,
             &.posts{
-                width: 52%;
-                margin-right: 0;
+                float: right;
+                width: 60%;
+                margin-bottom: .3rem;
             }
             time{
                 width: 3.3em;
