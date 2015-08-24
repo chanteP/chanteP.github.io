@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Markdown 语法说明(测试用)
-category: 笔记
+category: article
 tags: other
 ---
 

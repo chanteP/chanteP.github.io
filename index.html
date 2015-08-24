@@ -19,20 +19,20 @@ layout: main
                 <li><a href="/about"><icon>❄</icon>about</a></li>
             </ul>
             <ul class="event">
-                {% for post in site.posts limit:7 %}
+                {% for post in site.categories.event limit:5 %}
                 <li><a href="{{ post.url }}" data-fake="/article#!{{ post.url }}"><time>{{ post.date | date_to_string }}</time> - {{ post.title }}</a></li>
                 {% endfor %}
             </ul>
             <ul class="posts">
-                {% for post in site.posts limit:7 %}
+                {% for post in site.categories.article limit:7 %}
                 <li><a href="{{ post.url }}" data-fake="/article#!{{ post.url }}"><time>{{ post.date | date_to_string }}</time> - {{ post.title }}</a></li>
                 {% endfor %}
             </ul>
         </nav>
     </section>
     <footer class="sub">
-        <p data-npc="pause">::theme - [[style]]::</p>
-        <p>© neetproject 2015 ver.<a href="https://github.com/chanteP" target="_blank">github_pages</a> for mobile</p>
+        <p data-npc="pause">::theme - Aqua::</p>
+        <p>© neetproject 2015 ver.<a href="https://github.com/chanteP" target="_blank">github_pages</a></p>
     </footer>
 
     <script>

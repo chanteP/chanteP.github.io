@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 音频作成（上篇）
-category: web前端
+category: article
 tags: FE
 ---
 ## 目录

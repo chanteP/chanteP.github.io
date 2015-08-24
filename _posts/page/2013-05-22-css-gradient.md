@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 我们仍未知道那天看到的格子渐变css的写法
-category: web前端
+category: article
 tags: FE
 ---
 
