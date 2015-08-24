@@ -1,0 +1,171 @@
+@import "./variable.scss";
+html{
+    font-size: 100%; 
+    height:100%;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    -webkit-user-select: none;   /* 禁止选中文本（如无文本选中需求，此为必选项） */
+    user-select: none;
+    background: $color-graywrite;
+}
+@media screen and (max-width : 750px){
+    html{
+        -webkit-font-smoothing: antialiased;
+    }
+}
+/* 1px 战略, js修改meta和rem base
+----------------------------------------------------------------------------------------*/
+html{font-size: 32px;}
+@media screen and (min-device-width : 1px) {
+   html{font-size: 100px;}
+}
+
+/* body loading状态
+----------------------------------------------------------------------------------------*/
+body{
+    min-height:100%;
+    height:100%;
+    color:#333;
+    font-size: .26rem;
+    /*font-family: 'Open Sans', 'Benton Sans', 'Microsoft YaHei', sans-serif;*/
+    font-family: "Helvetica Neue", Helvetica, STHeiTi, 'Microsoft YaHei', sans-serif;
+    background: none $color-graywrite center center no-repeat;
+    overflow: hidden;
+}
+
+body.loading {
+    background-color: $color-background;
+    .wrapper{
+        display:none;
+    }
+}
+
+.loading{
+    @include loadingIcon;
+}
+.wrapper{
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    @include scroll;
+    background: $color-graywrite;
+    /*background: transparent;*/
+
+    &:after{
+        content : '';
+        display: block;
+        height: 1px;
+        overflow: hidden;
+        clear: none;
+    }
+}
+
+/* 下拉刷新备用
+----------------------------------------------------------------------------------------*/
+.drag-reload:not(.loading){
+    &:before{
+        content : '继续下拉刷新 ↓';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        color: #999;
+        text-align: center;
+        font-size: .24rem;
+        line-height: 2;
+    }
+
+    &.done:before{
+        content: '松开即可刷新 ↑';
+    }
+}
+
+/* 通用预设
+----------------------------------------------------------------------------------------*/
+
+b,
+i{
+    font-weight:100;
+    text-decoration:none;
+}
+a,
+img {
+    -webkit-touch-callout: none; /* 禁止长按链接与图片弹出菜单 */
+}
+a{
+    cursor:pointer;
+}
+hr {
+    display:block;
+    height:0;
+    border:0;
+    margin:0;
+    padding:0;
+    clear:both;
+}
+::selection{
+    background: $color-em;
+    color: #fff;
+    text-shadow: none;
+}
+input,
+select,
+textarea,
+button{
+    outline: none;
+}
+/*common
+----------------------------------------------------------------------------------------*/
+.hide{display: none!important;}
+.hidden{
+    display: block;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+}
+.clearfix:after{
+    content: '';
+    display:block;
+    height: 0;
+    overflow: hidden;
+    clear: both;
+}
+.mid{
+    text-align:center;
+}
+.mid:before{
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+.mid > .midcont{
+    display:inline-block;
+    width:100%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+@for $i from 1 through 12{
+  .g-#{$i}{
+    width: percentage($i/12);
+    float: left;
+  }
+}
+
+[data-touchable] {
+    cursor: pointer;
+}
+
+@-webkit-keyframes rotate {
+  0% {
+    @include transform(rotate(0));
+  }
+
+  100% {
+    @include transform(rotate(360deg));
+  }
+}

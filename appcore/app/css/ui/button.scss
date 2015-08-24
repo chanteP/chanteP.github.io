@@ -1,0 +1,34 @@
+/*
+    button
+*/
+@import "../base/variable.scss";
+
+.btn{
+    display: block;
+    margin: .12rem .14rem;
+    padding: .24rem .30rem;
+    border-radius: .08rem;
+    color: #fff;
+    text-align: center;
+    font-size: .28rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    background: #06c1ae;
+    border: 1px solid #06c1ae;
+
+    &.line {
+        color: #06c1ae;
+        background: transparent;
+    }
+    &.mark {
+        color: #fff;
+        background: #ff9d3c;
+        border-color: #ff9d3c;
+    }
+    &.dis {
+        color: #fff;
+        background: #d5d5d5;
+        border-color: #d5d5d5;
+    }
+}
