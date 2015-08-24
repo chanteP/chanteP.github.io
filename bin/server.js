@@ -22,7 +22,6 @@ module.exports = function(){
       
         var html = (fs.readFileSync(path.normalize('temp/pages/'+page+'.html')) + '');
         res.render('_layouts/page.html', {
-            page : html,
             content : html
         });
         res.end();
@@ -34,8 +33,7 @@ module.exports = function(){
         var html = (fs.readFileSync(path.normalize('temp/pages/'+page+'.html')) + '');
 
         res.render('_layouts/main.html', {
-            page : html,
-            content : ''
+            content : html
         });
         res.end();
     });
