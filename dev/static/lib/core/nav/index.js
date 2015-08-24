@@ -6,7 +6,7 @@ module.exports = function($){
             if(!nav){return;}
             [].forEach.call($.findAll('.cur', nav), function(node){node.classList.remove('cur');});
             [].some.call($.findAll('[data-for]', nav), function(li){
-                if(li.dataset['for'].split(',').indexOf(page) >= 0){
+                if(li.dataset['for'].split(',').indexOf(page) >= 0 && !+li.dataset['hide']){
                     li.classList.add('cur');
                     return true;
                 }
