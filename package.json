@@ -19,7 +19,7 @@
     "ejs": "^1.0.0",
     "express": "^4.10.4",
     "gulp": "^3.9.0",
-    "gulp-header": "^1.5.0",
+    "gulp-header": "^1.2.2",
     "gulp-load-plugins": "^1.0.0-rc.1",
     "gulp-postcss": "^5.1.10",
     "gulp-rename": "^1.2.2",

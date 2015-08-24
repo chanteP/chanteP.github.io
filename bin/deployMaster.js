@@ -88,7 +88,7 @@ module.exports = function(env){
                 'layout: page',
                 '---',
                 ''
-                ].join('\n')))
+                ].join('\n'), {}))
             .pipe($.rename(function(file){
                 file.basename = file.dirname;
                 file.dirname = '';
@@ -101,7 +101,7 @@ module.exports = function(env){
                 'layout: main',
                 '---',
                 ''
-                ].join('\n')))
+                ].join('\n'), {}))
             .pipe($.rename(function(file){
                 file.basename = file.dirname;
                 file.dirname = '';
