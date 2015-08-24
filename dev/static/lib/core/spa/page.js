@@ -78,7 +78,7 @@ Page.prototype = {
                         document.body.removeChild(i);
                         self.loader = e.type === 'load' ? self.LOADED : self.FAILED;
                     }
-                    i.src = '/page' + self.uri;
+                    i.src = '/pages' + self.uri;
                     document.body.appendChild(i);
                 }, 0);
                 break;
