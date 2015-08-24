@@ -40,20 +40,23 @@ var Page = function(url){
 Page.list = pages;
 Page.parseUrl = parseUrl;
 Page.current = null;
+Page.currentController = null;
 Page.show = function(url){
     var {controller, uri} = parseUrl(url);
     if(Page.current === uri){
         return;
     }
+    $.trigger(Page, 'beforechange', [uri, controller]);
     if(Page.current){
         Page(Page.current).state = Page.prototype.HIDE;
     }
 
     Page.current = uri;
+    Page.currentController = controller;
 
     (new Page(url)).state = Page.prototype.SHOW;
 
-    $.trigger(Page, 'change');
+    $.trigger(Page, 'change', [uri, controller]);
 };
 Page.prototype = {
     get loader(){
