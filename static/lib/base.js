@@ -249,9 +249,9 @@ var setMeta = function setMeta(metaNode, content) {
     metaNode.content = content;
     metaNode.setAttribute('content', content);
 };
-var scaleRoot = function scaleRoot(scale) {
+var scaleRoot = function scaleRoot(os, scale) {
     var meta = document.querySelector('meta[name="viewport"]');
-    switch (require('../base').os) {
+    switch (os) {
         case 'IOS':
             setMeta(meta, 'width=device-width, initial-scale=' + scale + ', maximum-scale=' + scale + ', user-scalable=no');
             // setMeta(meta, `width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no`);
@@ -267,7 +267,7 @@ var scaleRoot = function scaleRoot(scale) {
 var setRootFontSize = function setRootFontSize(rpx) {
     document.documentElement.style.fontSize = rpx + 'px';
 };
-module.exports = function () {
+module.exports = function ($) {
     var pixelRatio = window.devicePixelRatio || 1;
     pixelRatio = pixelRatio | 0;
 
@@ -285,7 +285,7 @@ module.exports = function () {
     var fontSize = 50 * pixelRatio,
         scale = 1 / pixelRatio;
     setRootFontSize(fontSize);
-    scaleRoot(scale);
+    scaleRoot($.os, scale);
     var api = {
         pixelRatio: pixelRatio,
         font: fontSize,
