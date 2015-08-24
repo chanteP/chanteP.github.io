@@ -79,6 +79,6 @@
   .page_index ul.posts {
     float: right;
     width: 60%;
-    margin-bottom: .3rem; }
+    /*margin-bottom: .3rem;*/ }
   .page_index ul time {
     width: 3.3em; } }
