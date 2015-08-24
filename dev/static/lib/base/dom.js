@@ -5,16 +5,14 @@ module.exports = function($){
             node.classList.add(type);
             var evt = 'AnimationEvent' in window ? 'animationend' : 'webkitAnimationEnd';
             //var evt = 'webkitAnimationEnd';
-            node.addEventListener(evt, listenerAnimate);
-
-            function listenerAnimate(e){
+            node.addEventListener(evt, function(e){
                 if(e.target === node){
                     node.classList.remove('animated');
                     node.classList.remove(type);
-                    node.removeEventListener(evt, listenerAnimate);
+                    node.removeEventListener(evt, arguments.callee);
                     callback && callback(this);
                 }
-            }
+            });
         },
         setLoading : function(bool, node){
             (node || document.body).classList[bool ? 'add' : 'remove']('loading');

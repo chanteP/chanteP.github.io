@@ -1,4 +1,4 @@
-core.register('lab', function($, wrap){
+core.register('lab', function($){
     return {
         show : function(){
             console.log('lab show')

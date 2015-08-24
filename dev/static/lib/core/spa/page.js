@@ -1,8 +1,6 @@
 var $ = require('np-kit');
-
-var contentTemplate = [
-    '<div class="page-wrap" data-page>...</div>'
-].join('');
+var Controller = require('./controller');
+var effect = require('./effect');
 
 var parseUrl = function(url){
     url = url.split('#')[0].split('?')[0];
@@ -12,31 +10,6 @@ var parseUrl = function(url){
         uri : match ? match[1] : '/index'
     };
 }
-//#################################################################################
-var controllers = {}
-var Controller = function(name){
-    if(controllers[name]){
-        return controllers[name];
-    }
-
-    controllers[name] = this;
-
-    this.name = name;
-    this.list = [];
-    this.lifecycle = {};
-}
-Controller.list = controllers;
-Controller.prototype = {
-    add : function(page){
-        this.list.push(page);
-    },
-    set : function(conf){
-        $.merge(this.lifecycle, conf, true);
-    },
-    get : function(name){
-        return this.lifecycle[name];
-    }
-};
 //#################################################################################
 var pages = {};
 var Page = function(url){
@@ -50,16 +23,14 @@ var Page = function(url){
 
     pages[uri] = this;
 
-    if(!controllers[controller]){
-        new Controller(controller);
-    }
-    controllers[controller].add(this);
-
-    this.controller = controllers[controller];
+    this.controller = Controller(controller);
     this.controllerKey = controller;
     this.name = this.uri = uri;
 
-    this.node = $.create(contentTemplate);
+    this.controller.add(this);
+
+
+    this.node = effect.build();
     this.node.dataset.page = this.controllerKey;
     this.node.dataset.uri = this.uri;
 
@@ -81,13 +52,15 @@ Page.show = function(url){
     Page.current = uri;
 
     (new Page(url)).state = Page.prototype.SHOW;
+
+    $.trigger(Page, 'change');
 };
 Page.prototype = {
     get loader(){
         return this._loader;
     },
     set loader(value){
-        if(this._loader === this.LOADING || this._loader === this.LOADED){
+        if(value <= this.loader){
             return value;
         }
         var self = this;
@@ -95,7 +68,7 @@ Page.prototype = {
             case this.WAIT :
                 this.loader = this.LOADING;
                 setTimeout(function(){
-                    if(self._loader === self.LOADING || self._loader === self.LOADED){return;}
+                    if(self.loader === self.LOADING){return;}
                     var i = document.createElement('iframe');
                     i.style.cssText = 'display:block;visibility:hidden;overflow:hidden;width:0;height:0;';
                     i.onload = i.onerror = function(e){
@@ -112,6 +85,8 @@ Page.prototype = {
                 break;
             case this.FAILED :
                 break;
+            case this.INITED :
+                break;
             default :
                 return value;
         }
@@ -125,11 +100,10 @@ Page.prototype = {
     set state(value){
         switch(value){
             case this.SHOW :
-                $.find('#wrapper').innerHTML = '';
-                $.find('#wrapper').appendChild(this.node);
+                effect.show(this);
                 break;
             case this.HIDE :
-                $.remove(this.node);
+                effect.hide(this);
                 break;
             default : 
                 return value;
@@ -165,4 +139,4 @@ Page.prototype = {
     }
 }
 
-module.exports = {Controller, Page};
+module.exports = Page;

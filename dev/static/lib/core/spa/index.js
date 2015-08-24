@@ -1,7 +1,8 @@
 var $ = require('np-kit');
 var histroy = require('np-history');
 
-var {Controller, Page} = require('./page');
+var Controller = require('./controller'),
+    Page = require('./page');
 
 var loadPage = function(uri, contentNode, option){
     var scripts = option.scripts || [],
@@ -16,6 +17,10 @@ var loadPage = function(uri, contentNode, option){
 var register = function(controller, factory){
     controller = new Controller(controller);
     controller.set(factory.call(controller, $));
+    controller.check();
+}
+var go = function(href){
+    histroy.pushState(null, '', href);
 }
 
 module.exports = function(){
@@ -25,18 +30,22 @@ module.exports = function(){
             var href = this.getAttribute('href');
             var target = this.getAttribute('target');
             if(target){return;}
-            histroy.pushState(null, '', href);
+            go(href);
         });
 
     $.domReady(function(){
-        histroy.replaceState(null, '', location.pathname);
         histroy.onstatechange(function(){
             new Page(location.pathname).show();
         });
+        histroy.replaceState(null, '', location.pathname);
     });
     return {
         register : register,
         loadPage : loadPage,
+        load : go,
+
+        Page : Page,
+        Controller : Controller,
 
         controllers : Controller.list,
         pages : Page.list
