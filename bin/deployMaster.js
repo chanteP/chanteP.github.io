@@ -83,12 +83,30 @@ module.exports = function(env){
     gulp.task('pages', function(){
         //一个页面对应一个文件夹
         gulp.src([srcDir + 'pages/*/index.html'])
+            .pipe($.header([
+                '---',
+                'layout: page',
+                '---',
+                ''
+                ].join('\n')))
             .pipe($.rename(function(file){
                 file.basename = file.dirname;
                 file.dirname = '';
             }))
             .pipe(gulp.dest(destDir + 'pages/'));
-        //sass编译
+
+        gulp.src([srcDir + 'pages/*/index.html'])
+            .pipe($.header([
+                '---',
+                'layout: main',
+                '---',
+                ''
+                ].join('\n')))
+            .pipe($.rename(function(file){
+                file.basename = file.dirname;
+                file.dirname = '';
+            }))
+            .pipe(gulp.dest(destDir));
     });
     gulp.task('pageResources', function(){
         //commonjs用browserify打包
