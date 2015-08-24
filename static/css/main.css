@@ -4767,7 +4767,7 @@ body.loading .main-loading {
   visibility: visible;
   opacity: 1; }
 
-@media screen and (min-width: 1001px) {
+@media screen and (min-width: 1201px) {
   .wrap {
     padding-left: 4rem; }
   .main-nav {
@@ -4819,7 +4819,7 @@ body.loading .main-loading {
     .main-nav li span {
       display: inline-block; } }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1200px) {
   .wrap {
     padding-top: 1.3rem; }
   .main-nav {

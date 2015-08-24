@@ -7,7 +7,7 @@ layout: page
             <h1>np实验室</h1>
         </header>
         <ul data-bind="lab" class="list">
-        {% for post in site.posts %}
+        {% for post in site.categories.lab %}
             <li class="unit">
                 <a href="{{ post.link }}" target="_blank"> 
                     <figure class="uniwrap">
