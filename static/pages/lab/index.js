@@ -1,27 +1,15 @@
-window.parent.core.initPage(document, function(wrap, $, window){
-    var D = window.DataBind;
-    var api = window._config.apiHost + '/api/getLabData.php';
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict';
 
-    var vm = {
-        data : null
-    };
-    var init = function(){
-        $.io.get(api, {
-            onSuccess : function(data){
-                vm.data = data.data;
-            }
-        });
-        new D('lab', vm);
-    }
-    init();
+core.register('lab', function ($) {
     return {
-        init : function(){
+        show: function show() {
+            console.log('lab show');
         },
-        showonce : function(){
-            D.scan(wrap);
-            $.lazyload($.find('#wrapper'), wrap, 'data-lazy', function(el, src){
-                el.src = src;
-            });
+        hide: function hide() {
+            console.log('lab hide');
         }
-    }
+    };
 });
+
+},{}]},{},[1]);

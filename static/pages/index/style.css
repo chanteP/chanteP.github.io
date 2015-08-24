@@ -6,41 +6,41 @@
     top: 37%;
     padding: 0 3%; }
   .page_index h1 {
-    font-size: 100px;
+    font-size: 2rem;
     font-weight: 100;
     line-height: 1; }
   .page_index .descbox {
-    margin-bottom: 8px;
-    padding-left: 12px;
-    border-top: 1px solid #a1a1a1; }
+    margin-bottom: .16rem;
+    padding-left: .24rem;
+    border-top: 1px solid #666; }
   .page_index .desc {
-    padding: 0 12px;
-    font-size: 12px;
-    color: #a1a1a1;
+    padding: 0 0.24rem;
+    font-size: .24rem;
+    color: #666;
     line-height: 1.8;
     font-weight: 400; }
   .page_index ul {
     float: left;
-    width: 190px; }
+    width: 3.8rem; }
     .page_index ul.posts {
       width: 30em; }
     .page_index ul time {
-      font-size: 12px;
+      font-size: .24rem;
       display: inline-block;
       width: 6em;
       overflow: hidden; }
   .page_index li {
-    border-left: #333 solid 3px;
-    margin: 0 0 0 6px;
+    border-left: #333 solid 0.06rem;
+    margin: 0 0 0 0.12rem;
     -webkit-transition: all 0.2s ease 0s;
     -moz-transition: all 0.2s ease 0s;
     transition: all 0.2s ease 0s; }
     .page_index li:first-child,
     .page_index li:hover {
-      border-color: #48D3CE; }
+      border-color: #4fcbbd; }
     .page_index li a {
       display: block;
-      padding: 4px 0 4px 12px;
+      padding: 0.08rem 0 0.08rem 0.24rem;
       text-decoration: none;
       color: #666;
       -webkit-transition: all 0.2s ease 0s;
@@ -50,28 +50,28 @@
       text-overflow: ellipsis;
       overflow: hidden; }
       .page_index li a:hover {
-        color: #48D3CE; }
+        color: #4fcbbd; }
   .page_index footer {
     position: absolute;
-    bottom: 4px;
+    bottom: .08rem;
     padding: 0 3%; }
     .page_index footer p {
-      margin: 0 6px;
-      font-size: 12px;
+      margin: 0 0.12rem;
+      font-size: .24rem;
       line-height: 1.4;
-      color: #e0e0e0; }
+      color: #666; }
     .page_index footer a {
-      color: #e0e0e0;
+      color: #666;
       text-decoration: underline; }
       .page_index footer a:hover {
-        color: #e0e0e0; }
+        color: #666; }
 
 @media screen and (max-width: 750px) {
   .page_index .main {
     top: 25%; }
   .page_index h1 {
-    font-size: 40px;
-    padding-left: 12px; }
+    font-size: .8rem;
+    padding-left: .24rem; }
   .page_index ul {
     float: left;
     margin: 2%; }

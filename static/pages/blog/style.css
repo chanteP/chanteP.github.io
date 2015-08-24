@@ -22,10 +22,10 @@
       .page_blog .blog_list [data-node="postlist"] .infobox {
         border-top: 1px solid #ccc; }
       .page_blog .blog_list [data-node="postlist"] .info {
-        color: #a1a1a1;
+        color: #666;
         padding: 8px; }
       .page_blog .blog_list [data-node="postlist"] .content {
-        color: #666;
+        color: #333;
         line-height: 2;
         height: 4em;
         overflow: hidden;
@@ -36,11 +36,11 @@
           text-indent: 2em; }
       .page_blog .blog_list [data-node="postlist"] .content a,
       .page_blog .blog_list [data-node="postlist"] .more a {
-        color: #48D3CE;
+        color: #4fcbbd;
         /*text-decoration: underline;*/ }
         .page_blog .blog_list [data-node="postlist"] .content a:hover,
         .page_blog .blog_list [data-node="postlist"] .more a:hover {
-          color: #FE7F57; }
+          color: #fb7e35; }
       .page_blog .blog_list [data-node="postlist"] .more {
         text-align: right; }
         .page_blog .blog_list [data-node="postlist"] .more [data-fake]:after {

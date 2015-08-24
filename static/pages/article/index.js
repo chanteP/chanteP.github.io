@@ -1,33 +1,18 @@
-window.parent.core.initPage(document, function(wrap, $, window){
-    var bindUrl = window.core.on;
-    var content, title, bread, date;
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict';
 
-    var build = function(url){
-        if(!url){
-            content.innerHTML = '';
-            return;
-        }
-        $.iLoad(url, function(i){
-            content.innerHTML = i.contentWindow.content.innerHTML;
-            date.innerHTML = i.contentWindow.content.date;
-            bread.innerHTML = title.innerHTML = i.contentWindow.document.title;
-        }, function(){
-            content.innerHTML = 'loadError';
-        });
-    };
-
+core.register('artical', function ($) {
     return {
-        init : function(){
-            content = $.find('#articleContent', wrap);
-            bread = $.find('#articleBread', wrap);
-            date = $.find('#articleTime', wrap);
-            title = $.find('#articleTitle', wrap);
+        init: function init() {
+            console.log('artical init');
         },
-        show : function(){
-            build(window.location.hash.slice(2));
+        show: function show() {
+            console.log('artical show');
         },
-        hide : function(){
-            build('');
+        hide: function hide() {
+            console.log('artical hide');
         }
-    }
+    };
 });
+
+},{}]},{},[1]);

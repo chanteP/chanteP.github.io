@@ -11,38 +11,44 @@
         
         <title>neetproject( ´・ω・｀)</title>
         
-        <link rel="shortcut icon" href="/static/images/favourite.png" />
+        <link rel="shortcut icon" href="/static/images/fav.png" />
         <!-- <link href='http://fonts.googleapis.com/css?family=Roboto:400,100' rel='stylesheet' type='text/css'> -->
-        <link rel="stylesheet" media="screen" href="/static/css/global.css" />
-        <script src="/static/js/kit.js"></script>
+        <link rel="stylesheet" media="screen" href="/static/css/main.css" />
+        <script src="/static/lib/fastclick.js"></script>
+        <script src="/static/lib/core.js"></script>
     </head>
     <body class="loading">
         <!-- <div id="bg" data-bg="/static/images/bg.jpg" lazy-loading></div> -->
-        <div id="wrapper">
-{{ content }}
+        <div id="wrapper" class="main-wrapper">
+<%-page%>
         </div>
-        <div id="syscomp">
-            <canvas id="npc"></canvas>
-            <nav id="mainnav">
+        <div id="syscomp" class="main-comp">
+            <canvas id="npc" class="main-bg"></canvas>
+            <nav id="mainnav" class="main-nav">
                 <ul>
-                    <li data-for="index" data-hide="true">
-                        <a href="/"><icon>✡</icon><f>home</f></a>
+                    <li data-for="index" data-hide="1">
+                        <a href="/"><icon>✡</icon><span>home</span></a>
                     </li>
                     <li data-for="lab">
-                        <a href="/lab"><icon>〄</icon><f>lab</f></a>
+                        <a href="/lab"><icon>〄</icon><span>lab</span></a>
                     </li>
                     <li data-for="blog,article">
-                        <a href="/blog"><icon>⌸</icon><f>blog</f></a>
+                        <a href="/blog"><icon>⌸</icon><span>blog</span></a>
                     </li>
                     <li data-for="about">
-                        <a href="/about"><icon>❄</icon><f>about</f></a>
+                        <a href="/about"><icon>❄</icon><span>about</span></a>
                     </li>
                 </ul>
             </nav>
-            <div id="loading" class="mid" onclick="history.go(-1)">
-                <img class="midcont" src="/static/images/loading.gif" alt="loading">
-            </div>
+            <div id="mainLoading" class="loading main-loading" onclick="history.go(-1)"></div>
         </div>
-        {% include ga.html %}
+
+        <script>
+        window.addEventListener('load', function() {
+            if(!('defineProperty' in Object)){
+                document.body.innerHTML = '<h3 style="padding-top:1rem;text-align:center;">系统版本太低，暂不支持</h3>';
+            }
+        });
+        </script>
     </body>
 </html>

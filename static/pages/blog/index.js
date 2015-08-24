@@ -1,26 +1,18 @@
-window.parent.core.initPage(document, function(wrap, $, window){
-    var bindUrl = window.core.on;
-    var D = window.DataBind;
-    var wrapper = $.find('#wrapper');
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict';
 
-    var storage = {};
-
-    // init()
+core.register('blog', function ($) {
     return {
-        init : function(){
-            // $.evt(wrap, {})
-            //     // .on('click', function(){alert(2424534)})
-            //     .on('tap', '[data-act="loadBlog"]', togglePost)
-            //     .on('tap', '[data-act="toTop"]', function(){
-            //         storage[$.parent(this, '[data-node="postlist"]').dataset.url.slice(2)].scrollTo();
-            //     });
+        init: function init() {
+            console.log('blog init');
         },
-        show : function(){
-            // var checkHash = window.location.hash, artical;
-            // if(window.String(checkHash).length > 8){
-            //     var artical = $.find('[data-url="'+checkHash+'"]', wrap);
-            //     togglePost(artical);
-            // }
+        show: function show() {
+            console.log('blog show');
+        },
+        hide: function hide() {
+            console.log('blog hide');
         }
-    }
+    };
 });
+
+},{}]},{},[1]);
