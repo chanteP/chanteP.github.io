@@ -3,6 +3,7 @@ var $ = require('np-kit');
 
 var spaCore = require('./spa')($);
 var nav = require('./nav')($);
+var background = require('./background')($);
 
 $.listener(spaCore.Page).on('beforechange', function(uri, controller){
     nav.set(controller);
