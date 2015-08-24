@@ -15,7 +15,7 @@ module.exports = function(){
     app.set('views', root);
 
 
-    app.get(/^\/pagep\/.*/, function(req, res){
+    app.get(/^\/pages\/.*/, function(req, res){
         var params = url.parse(req.url, true);
 
         var page = /\/pages\/(.*)$/.exec(params.path)[1];

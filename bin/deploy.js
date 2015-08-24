@@ -31,6 +31,7 @@ program
   .option('-d, --dev', 'develop env')
   .option('-c, --clean', 'clean development folder')
   .option('-m, --deploy', 'deploy master')
+  .option('-k, --fake', 'deploy master with server')
   .parse(process.argv);
  
 if(program.deploy){
@@ -39,6 +40,10 @@ if(program.deploy){
     }); 
 }
 else if(program.clean){
+    require('./cleanup')(function(){
+    }); 
+}
+else if(program.fake){
     require('./cleanup')(function(){
     }); 
 }

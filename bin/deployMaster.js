@@ -44,7 +44,6 @@ module.exports = function(env){
     gulp.task('layout', function(){
         //装饰器
         return gulp.src([srcDir + 'dec/*.html'])
-            .pipe($.replace(/{{ ([\w]+) }}/g, '<%-$1%>'))
             .pipe(gulp.dest(destDir + '_layouts/'));
     });
     gulp.task('post', function(){
