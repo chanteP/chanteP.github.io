@@ -1,33 +1,13 @@
-window.parent.core.initPage(document, function(wrap, $, window){
-    var bindUrl = window.core.on;
-    var content, title, bread, date;
-
-    var build = function(url){
-        if(!url){
-            content.innerHTML = '';
-            return;
-        }
-        $.iLoad(url, function(i){
-            content.innerHTML = i.contentWindow.content.innerHTML;
-            date.innerHTML = i.contentWindow.content.date;
-            bread.innerHTML = title.innerHTML = i.contentWindow.document.title;
-        }, function(){
-            content.innerHTML = 'loadError';
-        });
-    };
-
+core.register('artical', function($){
     return {
         init : function(){
-            content = $.find('#articleContent', wrap);
-            bread = $.find('#articleBread', wrap);
-            date = $.find('#articleTime', wrap);
-            title = $.find('#articleTitle', wrap);
+            console.log('artical init')
         },
         show : function(){
-            build(window.location.hash.slice(2));
+            console.log('artical show')
         },
         hide : function(){
-            build('');
+            console.log('artical hide')
         }
-    }
+    };
 });

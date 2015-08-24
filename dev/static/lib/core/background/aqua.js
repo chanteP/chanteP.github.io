@@ -21,8 +21,7 @@ var mainColor = 177,
     color_deep = 'hsl('+(mainColor+5)+', 71.23%, 60%)',
     color_border = 'hsl('+mainColor+', 51.23%, 50%)'
     ;
-var $ = require('../kit');
-var defaultDeg = $.isMobileMode ? 104 : 90;
+var defaultDeg = 90;
 var toArc = function(deg){
     return deg * 2 * PI / 360;
 }
@@ -30,7 +29,7 @@ var toArc = function(deg){
 var initWater = function(){
     contWidth = npc.width;
     contHeight = npc.height;
-    R = sqrt(pow(contHeight/npc.pixelRatio, 2) + pow(contWidth/npc.pixelRatio, 2));
+    R = sqrt(pow(contHeight, 2) + pow(contWidth, 2));
 
     //TODO优化
     var gradient = npc.ctx.createLinearGradient(0, 0, 0, contHeight);
@@ -114,23 +113,7 @@ var initBase = function(engine){
             }
         });
 　　}
-    var timer;
-    //TODO
-    page.onPageChange(function(pageName){
-        clearTimeout(timer);
-        if(pageName === 'index'){
-            lock = false;
-            setWater(null, defaultDeg);
-            npc.play();
-        }
-        else{
-            lock = true;
-            setWater(0, 180);
-            timer = setTimeout(function(){
-                npc.pause();
-            }, 5000);
-        }
-    });
+
     var battery = navigator.battery || navigator.webkitBattery;
     if (battery) {
         battery.addEventListener("levelchange", function (e){

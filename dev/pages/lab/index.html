@@ -3,23 +3,29 @@
         <header class="hide">
             <h1>np实验室</h1>
         </header>
-        <a href="/index" style="display:inline-block;padding:30px;">123123</a>
         <ul data-bind="lab" class="list">
-            <li data-list="lab in data" class="unit">
-                <a href="[[lab.link]]" target="_blank"> 
-                <figure class="uniwrap">
-                    <figcaption class="labtitle">[[lab.title]]</figcaption>
-                    <img class="thumbnail" data-lazy="[[lab.image]]" lazy-loading>
-                    <dl class="info">
-                        <dt title="[[lab.title]]">[[lab.title]]</dt>
-                        <dd>[[lab.date]]</dd>
-                        <dd class="tags">[[lab.tags]]</dd>
-                        <dd class="abst"><p>[[lab.about]]</p></dd>
-                    </dl>
-                </figure>
+        {% for post in site.posts %}
+            <li class="unit">
+                <a href="{{ post.link }}" target="_blank"> 
+                    <figure class="uniwrap">
+                        <figcaption class="labtitle">{{ post.title }}</figcaption>
+                        <img class="thumbnail" data-lazy="{{ post.image }}" lazy-loading>
+                        <dl class="info">
+                            <dt title="{{ post.title }}">{{ post.title }}</dt>
+                            <dd>{{ post.date }}</dd>
+                            <dd class="tags">{{ post.tags }}</dd>
+                            <dd class="abst"><p>{{ post.content | strip_html | truncate : 110 | escape_once | append:'...'}}</p></dd>
+                        </dl>
+                    </figure>
                 </a>
             </li>
+        {% endfor %}
         </ul>
     </section>
-    <script>window.parent.core.loadPage('/lab', wrapper, {scripts:['/static/pages/lab/index.js'],styles:['/static/pages/lab/style.css']});</script>
+    <script>
+        window.parent.core.loadPage('/lab', wrapper, {
+            scripts:['/static/pages/lab/index.js'],
+            styles:['/static/pages/lab/style.css']
+        });
+    </script>
 </div>

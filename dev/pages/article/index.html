@@ -1,5 +1,4 @@
-<div data-page="article" class="page_article">
-    <style>@import url("/static/pages/article/style.css");</style>
+<div class="page_article">
     <section class="wrap">
         <div class="bread-crumb">
             <ul>
@@ -15,5 +14,10 @@
             </article>
         </div>
     </section>
-    <script src="/static/pages/article/index.js"></script>
+    <script>
+        window.parent.core.loadPage('/article', wrapper, {
+            scripts:['/static/pages/article/index.js'],
+            styles:['/static/pages/article/style.css']
+        });
+    </script>
 </div>

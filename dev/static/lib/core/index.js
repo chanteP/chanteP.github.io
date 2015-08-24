@@ -1,20 +1,19 @@
 var base = require('../base');
 var $ = require('np-kit');
 
-var spaCore = require('./spa')($);
-var nav = require('./nav')($);
-var background = require('./background')($);
+var spaCore = require('./spa')($, base);
+var nav = require('./nav')($, base);
+var background = require('./background')($, base);
 
 $.listener(spaCore.Page).on('beforechange', function(uri, controller){
     nav.set(controller);
 });
 
-var core = {
+module.exports = window.core = $.merge(base, {
     loadPage : spaCore.loadPage,
     register : spaCore.register,
     controllers : spaCore.controllers,
     pages : spaCore.pages,
 
     nav : nav
-}
-window.core  = core;
+}, true);

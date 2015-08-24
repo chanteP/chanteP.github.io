@@ -18,16 +18,33 @@ var buildBrowserify = function(){
     return through2.obj(function (file, enc, next){
         browserify(file.path)
             .bundle(function(err, res){
+                // console.log('###########', file.path, res);
                 // assumes file.contents is a Buffer
-                file.contents = res;
+                file.contents = res || new Buffer('');
                 next(null, file);
+            })
+            .on('error', function(e){
+                // delete e.stream;
+                console.error('\033[31m [browserify error]', e.message, '\033[0m');
+                this.emit('end');
             });
+    })
+}
+var buildSass = function(){
+    return $.sass({
+        outputStyle: 'nested', // libsass doesn't support expanded yet
+        precision: 10,
+        includePaths: ['.'],
+        onError: function(e){
+            console.error('\033[31m [sass error]', e.message, '\033[0m');
+        }
     })
 }
 module.exports = function(env){
     gulp.task('layout', function(){
         //装饰器
         return gulp.src([srcDir + 'dec/*.html'])
+            .pipe($.replace(/{{ ([\w]+) }}/g, '<%-$1%>'))
             .pipe(gulp.dest(destDir + '_layouts/'));
     });
     gulp.task('post', function(){
@@ -44,15 +61,10 @@ module.exports = function(env){
         var browserified = buildBrowserify();
         //css
         gulp.src([srcDir + 'static/css/*.scss'])
-            .pipe($.sass({
-                outputStyle: 'nested', // libsass doesn't support expanded yet
-                precision: 10,
-                includePaths: ['.'],
-                onError: console.error.bind(console, 'Sass error:')
-            }))
-            .pipe($.postcss([
-                autoprefixer({browsers: ['last 1 version']})
-            ]))
+            .pipe(buildSass())
+            // .pipe($.postcss([
+            //     autoprefixer({browsers: ['last 1 version']})
+            // ]))
             .pipe(gulp.dest(destDir + 'static/css/'));
         gulp.src(srcDir + 'static/css/*.css')
             .pipe(gulp.dest(destDir + 'static/css/'));
@@ -81,13 +93,15 @@ module.exports = function(env){
     gulp.task('pageResources', function(){
         //commonjs用browserify打包
         var browserified = buildBrowserify();
-        gulp.src([srcDir + 'pages/*/index.js'])
+        gulp.src([srcDir + 'pages/*/*.js'])
             .pipe(browserified)
-            .pipe($.rename(shrinkDir))
+            .pipe(gulp.dest(destDir + 'static/pages/'));
+        gulp.src([srcDir + 'pages/*/*.scss'])
+            .pipe(buildSass())
             .pipe(gulp.dest(destDir + 'static/pages/'));
         //其他渣渣资源
-        // gulp.src([srcDir + 'pages/*/**', '!**/*.js', '!**/*.css', '!**/*.scss'])
-        //     .pipe(gulp.dest('built/static/pages/'));
+        gulp.src([srcDir + 'pages/*/**', '!**/*.js', '!**/*.scss'])
+            .pipe(gulp.dest(destDir + 'static/pages/'));
     });
 
 

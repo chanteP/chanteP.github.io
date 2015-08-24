@@ -1,9 +1,14 @@
-<div data-page="about" class="page_about">
-    <link rel="stylesheet" href="/static/pages/index/style.css" />
+<div class="page_about">
     <section class="wrap">
     	<div class="content">
     		<p>just a game...</p>
     	</div>
     </section>
-    <script>window.parent.core.loadPage('about', null, wrapper, '/static/pages/about/index.js');</script>
+
+    <script>
+        window.parent.core.loadPage('/about', wrapper, {
+            scripts:['/static/pages/about/index.js'],
+            styles:['/static/pages/about/style.css']
+        });
+    </script>
 </div>

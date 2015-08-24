@@ -1,5 +1,4 @@
-<div data-page="blog" class="page_blog">
-    <style>@import url("/static/pages/blog/style.css");</style>
+<div class="page_blog">
     <section class="wrap">
         <ul class="blog_list">
         {% for post in site.posts %}
@@ -23,5 +22,11 @@
         {% endfor %}
         </ul>
     </section>
-    <script src="/static/pages/blog/index.js"></script>
+
+    <script>
+        window.parent.core.loadPage('/blog', wrapper, {
+            scripts:['/static/pages/blog/index.js'],
+            styles:['/static/pages/blog/style.css']
+        });
+    </script>
 </div>
