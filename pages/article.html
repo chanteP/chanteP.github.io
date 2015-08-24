@@ -1,0 +1,26 @@
+---
+layout: page
+---
+<div class="page_article">
+    <section class="wrap">
+        <div class="bread-crumb">
+            <ul>
+                <li><a href="/blog">blog</a></li>
+                <li><a id="articleBread"></a></li>
+            </ul>
+        </div>
+        <div class="wrap_fix">
+            <article>
+                <h1 id="articleTitle"></h1>
+                <div id="articalTime"></div>
+                <div id="articleContent"></div>
+            </article>
+        </div>
+    </section>
+    <script>
+        window.parent.core.loadPage('/article', wrapper, {
+            scripts:['/static/pages/article/index.js'],
+            styles:['/static/pages/article/style.css']
+        });
+    </script>
+</div>
