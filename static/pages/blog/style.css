@@ -20,7 +20,7 @@
         .page_blog .blog_list [data-node="postlist"] article .title {
           text-decoration: none; }
           .page_blog .blog_list [data-node="postlist"] article .title h1 {
-            font-size: .48rem;
+            font-size: .3rem;
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap; }
@@ -77,3 +77,7 @@
         opacity: 1;
         visibility: visible;
         background: url("/static/images/progressing.gif") center center rgba(255, 255, 255, 0.75) no-repeat; }
+
+@media screen and (max-width: 1200px) {
+  .page_blog .blog_list {
+    padding: 0 0 2rem 0; } }

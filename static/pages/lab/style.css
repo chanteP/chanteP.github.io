@@ -75,7 +75,6 @@
       white-space: nowrap; }
     .page_lab .info .abst {
       height: 6.5em;
-      height: calc(100% - 94px);
       overflow-y: auto; }
     .page_lab .info p {
       line-height: 1.5;
@@ -86,12 +85,10 @@
   .page_lab .thumbnail {
     width: auto;
     height: 100%; }
-  .page_lab[src] {
+  .page_lab .thumbnail[src] {
     height: 100%;
     width: initial; }
   .page_lab .info {
     font-size: .24rem; }
     .page_lab .info dt {
-      font-size: .4rem; }
-    .page_lab .info .abst {
-      height: calc(100% - 1.52rem); } }
+      font-size: .4rem; } }
