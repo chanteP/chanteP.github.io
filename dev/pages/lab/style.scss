@@ -2,25 +2,24 @@
 .page_lab{
     height: 100%;
     @include scroll(scroll);
-}
-@media screen and (max-width : 750px){
-    .page_lab{
-        .thumbnail{
-            width: auto;
-            height: 100%;
+
+    .thumbnail{
+        width: auto;
+        height: 100%;
+    }
+    &[src]{
+        height: 100%;
+        width: initial;
+    }   
+    .info{
+        font-size: .24rem;
+        dt{
+            font-size: .4rem;
         }
-        &[src]{
-            height: 100%;
-            width: initial;
-        }   
-        .info{
-            font-size: 12px;
-            dt{
-                font-size: 20px;
-            }
-            .abst{
-                height: calc(100% - 76px);
-            }
+        .abst{
+            height: calc(100% - 1.52rem);
         }
     }
+}
+@media screen and (max-width : 1200px){
 }

@@ -4,23 +4,26 @@
     @include scroll(scroll);
 
     .blog_list{
-        padding: 0 9px 100px 9px;
+        padding: 0 .18rem 2rem .18rem;
 
         [data-node="postlist"]{
             overflow: hidden;
             /*@include transition;*/
 
+            .title{
+                color:#333;
+            }
             article{
                 position: relative;
-                margin: 9px 9px;
-                padding: 20px;
+                margin: .18rem .18rem;
+                padding: .4rem;
                 background: rgba(255,255,255,.8);
                 line-height: 1.8;
                 .title{
                     text-decoration: none;
 
                     h1 {
-                        font-size: 24px;
+                        font-size: .48rem;
                         text-overflow: ellipsis;
                         overflow: hidden;
                         white-space: nowrap;
@@ -32,7 +35,7 @@
             }
             .info{
                 color: $color-font-sub;
-                padding: 8px;
+                padding: .16rem;
             }
             .content{
                 color: $color-font;
@@ -100,7 +103,7 @@
         }
     }
 }
-@media screen and (max-width : 750px){
+@media screen and (max-width : 1200px){
     .page_blog{
         .blog_list{
             [data-node="postlist"]{
