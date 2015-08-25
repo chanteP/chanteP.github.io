@@ -44,6 +44,7 @@
         border-left: #333 solid .06rem; 
         margin:0 0 0 .12rem;
         @include transition;
+        @include transition-property(border-color);
 
         &:first-child,
         &:hover{
