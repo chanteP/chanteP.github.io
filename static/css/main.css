@@ -4767,7 +4767,7 @@ body.loading .main-loading {
   visibility: visible;
   opacity: 1; }
 
-@media screen and (min-width: 1201px) {
+@media screen and (min-width: 1001px) {
   .wrap {
     padding-left: 4rem; }
   .main-nav {
@@ -4819,7 +4819,7 @@ body.loading .main-loading {
     .main-nav li span {
       display: inline-block; } }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1000px) {
   .wrap {
     padding-top: 1.3rem; }
   .main-nav {
@@ -4845,13 +4845,13 @@ body.loading .main-loading {
     .main-nav ul {
       text-align: center; }
     .main-nav li {
-      display: inline-block;
-      height: .7rem;
-      padding: 0.6rem 0.16rem 0; }
+      display: inline-block; }
       .main-nav li a {
+        display: inline-block;
         line-height: .64rem;
+        height: .7rem;
+        padding: 0.6rem 0.16rem 0;
         font-size: .28rem;
-        padding: 0;
         text-decoration: none;
         color: #666;
         -webkit-transition: all 0.2s ease 0s;

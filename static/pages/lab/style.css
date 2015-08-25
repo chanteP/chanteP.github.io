@@ -83,7 +83,7 @@
       text-indent: 2em;
       color: #333; }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1000px) {
   .page_lab .thumbnail {
     width: auto;
     height: 100%; }

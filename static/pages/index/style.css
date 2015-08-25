@@ -66,7 +66,7 @@
       .page_index footer a:hover {
         color: #666; }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1000px) {
   .page_index .main {
     top: 25%; }
   .page_index h1 {

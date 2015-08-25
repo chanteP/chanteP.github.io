@@ -78,6 +78,6 @@
         visibility: visible;
         background: url("/static/images/progressing.gif") center center rgba(255, 255, 255, 0.75) no-repeat; }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1000px) {
   .page_blog .blog_list {
     padding: 0 0 2rem 0; } }
