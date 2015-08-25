@@ -265,8 +265,10 @@ module.exports = function ($) {
         });
     };
     window.addEventListener('mousewheel', bindEvt);
+
     window.addEventListener('click', check);
     window.addEventListener('scrollend', check);
+    $.domReady(check);
 };
 
 },{}],9:[function(require,module,exports){
@@ -1127,7 +1129,7 @@ module.exports = {
     listener : listener,
     trigger : trigger,
     _check : function(name, arg){
-        if(name === 'trigger' && !$.isEventTarget(arg)){
+        if(name === 'trigger' && !$.isEventTarget(arg[0])){
             return true;
         }
     }
