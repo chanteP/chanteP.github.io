@@ -7,18 +7,20 @@ module.exports = function($){
         }, 100);
     }
     var check = function(){
-        $.each($.findAll('[data-lazyload]:not(.lazyloading)'), function(node){
-            var src = node.dataset.lazyload;
-            if(!src){
-                return;
-            }
-            node.classList.add('lazyloading');
-            $.load(src, '').onload = function(){
-                node.src = src;
-                node.classList.remove('lazyloading');
-                node.dataset.lazyload = '';
-            }
-        });
+        setTimeout(function(){
+            $.each($.findAll('[data-lazyload]:not(.lazyloading)'), function(node){
+                var src = node.dataset.lazyload;
+                if(!src){
+                    return;
+                }
+                node.classList.add('lazyloading');
+                $.load(src, '').onload = function(){
+                    node.src = src;
+                    node.classList.remove('lazyloading');
+                    node.dataset.lazyload = '';
+                }
+            });
+        }, 200);
     }
     window.addEventListener('mousewheel', bindEvt);
 
