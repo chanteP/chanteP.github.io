@@ -23,7 +23,7 @@
                     text-decoration: none;
 
                     h1 {
-                        font-size: .48rem;
+                        font-size: .3rem;
                         text-overflow: ellipsis;
                         overflow: hidden;
                         white-space: nowrap;
@@ -106,6 +106,7 @@
 @media screen and (max-width : 1200px){
     .page_blog{
         .blog_list{
+            padding: 0 0 2rem 0;
             [data-node="postlist"]{
             }
         }

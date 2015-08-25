@@ -90,7 +90,6 @@
         }
         .abst{
             height: 6.5em;
-            height: calc(100% - 94px);
             overflow-y: auto;
         }
         p{
@@ -106,7 +105,7 @@
             width: auto;
             height: 100%;
         }
-        &[src]{
+        .thumbnail[src]{
             height: 100%;
             width: initial;
         }   
@@ -116,7 +115,6 @@
                 font-size: .4rem;
             }
             .abst{
-                height: calc(100% - 1.52rem);
             }
         }
     }
