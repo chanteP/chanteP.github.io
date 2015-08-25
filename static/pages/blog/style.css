@@ -5,20 +5,22 @@
   -webkit-overflow-scrolling: touch;
   -moz-overflow-scrolling: touch; }
   .page_blog .blog_list {
-    padding: 0 9px 100px 9px; }
+    padding: 0 0.18rem 2rem 0.18rem; }
     .page_blog .blog_list [data-node="postlist"] {
       overflow: hidden;
       /*@include transition;*/ }
+      .page_blog .blog_list [data-node="postlist"] .title {
+        color: #333; }
       .page_blog .blog_list [data-node="postlist"] article {
         position: relative;
-        margin: 9px 9px;
-        padding: 20px;
+        margin: 0.18rem 0.18rem;
+        padding: .4rem;
         background: rgba(255, 255, 255, 0.8);
         line-height: 1.8; }
         .page_blog .blog_list [data-node="postlist"] article .title {
           text-decoration: none; }
           .page_blog .blog_list [data-node="postlist"] article .title h1 {
-            font-size: 24px;
+            font-size: .48rem;
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap; }
@@ -26,7 +28,7 @@
         border-top: 1px solid #ccc; }
       .page_blog .blog_list [data-node="postlist"] .info {
         color: #666;
-        padding: 8px; }
+        padding: .16rem; }
       .page_blog .blog_list [data-node="postlist"] .content {
         color: #333;
         line-height: 2;

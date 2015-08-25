@@ -115,7 +115,11 @@ module.exports = function ($) {
 'use strict';
 
 module.exports = function ($) {
-    return {
+    var api;
+    $.domReady(function () {
+        api.setLoading(false);
+    });
+    return api = {
         animate: function animate(node, type, callback) {
             node.classList.add('animated');
             node.classList.add(type);
@@ -130,8 +134,8 @@ module.exports = function ($) {
                 }
             });
         },
-        setLoading: function setLoading(bool, node) {
-            (node || document.body).classList[bool ? 'add' : 'remove']('loading');
+        setLoading: function setLoading(bool) {
+            document.body.classList[bool ? 'add' : 'remove']('loading');
         },
         //插入样式
         insertStyle: function insertStyle(css) {
@@ -208,7 +212,7 @@ window.$data = window.$data || {};
 
 var $ = require('np-kit');
 var api = {};
-[require('./errorControl'), require('./dom'), require('./componentHandler'), require('./fastclick'), require('./keyboardHandler'), require('./pixelFix'), require('./ga')].forEach(function (mod) {
+[require('./errorControl'), require('./dom'), require('./componentHandler'), require('./fastclick'), require('./keyboardHandler'), require('./lazyload'), require('./pixelFix'), require('./ga')].forEach(function (mod) {
     $.merge(api, mod($), true);
 });
 
@@ -216,11 +220,7 @@ module.exports = api;
 
 require('np-scrollp').bind();
 
-$.domReady(function () {
-    api.setLoading(false);
-});
-
-},{"./componentHandler":1,"./dom":2,"./errorControl":3,"./fastclick":4,"./ga":5,"./keyboardHandler":7,"./pixelFix":8,"np-kit":9,"np-scrollp":18}],7:[function(require,module,exports){
+},{"./componentHandler":1,"./dom":2,"./errorControl":3,"./fastclick":4,"./ga":5,"./keyboardHandler":7,"./lazyload":8,"./pixelFix":9,"np-kit":10,"np-scrollp":19}],7:[function(require,module,exports){
 'use strict';
 
 module.exports = function ($) {
@@ -240,6 +240,36 @@ module.exports = function ($) {
 };
 
 },{}],8:[function(require,module,exports){
+'use strict';
+
+module.exports = function ($) {
+    var scrollTimer;
+    var bindEvt = function bindEvt() {
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(function () {
+            $.trigger(window, 'scrollend');
+        }, 100);
+    };
+    var check = function check() {
+        $.each($.findAll('[data-lazyload]:not(.lazyloading)'), function (node) {
+            var src = node.dataset.lazyload;
+            if (!src) {
+                return;
+            }
+            node.classList.add('lazyloading');
+            $.load(src, '').onload = function () {
+                node.src = src;
+                node.classList.remove('lazyloading');
+                node.dataset.lazyload = '';
+            };
+        });
+    };
+    window.addEventListener('mousewheel', bindEvt);
+    window.addEventListener('click', check);
+    window.addEventListener('scrollend', check);
+};
+
+},{}],9:[function(require,module,exports){
 'use strict';
 
 var setMeta = function setMeta(metaNode, content) {
@@ -298,7 +328,7 @@ module.exports = function ($) {
     return api;
 };
 
-},{"../base":6}],9:[function(require,module,exports){
+},{"../base":6}],10:[function(require,module,exports){
 var $ = {};
 module.exports = $;
 
@@ -325,8 +355,8 @@ var buildFunc = function(mt){
 
 var mods = {
     array : require('./src/array'),
-    object : require('./src/object'),
     listener : require('./src/listener'),
+    object : require('./src/object'),
     dom : require('./src/dom'),
     string : require('./src/string'),
     env : require('./src/env'),
@@ -334,8 +364,8 @@ var mods = {
 };
 var modList = [
     'array',
-    'object',
     'listener',
+    'object',
     'dom',
     'string',
     'env',
@@ -363,7 +393,7 @@ $.log = function(e){
 };
 
 window.np = $;
-},{"./src/array":11,"./src/cache":12,"./src/dom":13,"./src/env":14,"./src/listener":15,"./src/object":16,"./src/string":17,"np-tween-ani":10}],10:[function(require,module,exports){
+},{"./src/array":12,"./src/cache":13,"./src/dom":14,"./src/env":15,"./src/listener":16,"./src/object":17,"./src/string":18,"np-tween-ani":11}],11:[function(require,module,exports){
 var parse = function(){
     var type = 0, args = arguments
     var hold = false, rsObj, curObj;
@@ -642,7 +672,7 @@ tweenAniAnchor.types = tween = (function(){
 })();
 module.exports = tweenAniAnchor;
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 module.exports = {
     unique : function(arr){
         for(var i = arr.length - 1; i >= 0; i--){
@@ -655,6 +685,9 @@ module.exports = {
         }
         return arr;
     },
+    each : function(arr, func){
+        arr.forEach(func);
+    },
     remove : function(arr, elem){
         var index = arr.indexOf(elem);
         if(index >= 0) arr.splice(index, 1);
@@ -666,7 +699,7 @@ module.exports = {
 }
 var $ = require('../');
 
-},{"../":9}],12:[function(require,module,exports){
+},{"../":10}],13:[function(require,module,exports){
 var defPrefix = '';
 //默认存1个月
 var defExp = 30 * 24 * 3600 * 1000;
@@ -771,7 +804,7 @@ module.exports = {
 
 
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 
 
 module.exports = {
@@ -787,6 +820,9 @@ module.exports = {
     },
     isNode : function(node){
         return node && typeof node === 'object' && (node.nodeType === 1 || node.nodeType === 9) && typeof node.nodeName === 'string';
+    },
+    isEventTarget : function(node){
+        return node && node.addEventListener;
     },
     inScreen : function(node){
         var t;
@@ -871,9 +907,10 @@ module.exports = {
         document.head.appendChild(s);
         return s;
     },
-    load : function(url, contentNode, conf){
+    load : function(url, contentNode){
         var type = /\.([\w]+)$/.exec(url);
         type = type ? type[1] : '';
+        typeof contentNode === 'string' && (type = contentNode, 1) && (contentNode = null);
         contentNode = contentNode || document.head;
 
         var returnValue;
@@ -881,24 +918,30 @@ module.exports = {
             case 'js' : 
                 returnValue = document.createElement('script');
                 returnValue.src = url;
+                contentNode.appendChild(returnValue);
                 break;
             case 'css' : 
                 returnValue = document.createElement('link');
                 returnValue.rel = 'stylesheet';
                 returnValue.href = url;
+                contentNode.appendChild(returnValue);
+                break;
+            case 'document' : 
+                returnValue = document.createElement('iframe');
+                returnValue.style.cssText = 'border:0;margin:0;padding:0;visibility:hidden;height:0;width:0;overflow:hidden;';
+                returnValue.src = url;
+                contentNode.appendChild(returnValue);
                 break;
             default : 
+                returnValue = new Image;
+                returnValue.src = url;
                 break;
-        }
-        if(returnValue){
-            $.merge(returnValue, conf, true);
-            contentNode.appendChild(returnValue);
         }
         return returnValue;
     }
 }
 var $ = require('../');
-},{"../":9}],14:[function(require,module,exports){
+},{"../":10}],15:[function(require,module,exports){
 module.exports = {
     envList : ['browser', 'APP'],
     env : (function(){
@@ -951,7 +994,7 @@ module.exports = {
 }
 var $ = require('../');
 
-},{"../":9}],15:[function(require,module,exports){
+},{"../":10}],16:[function(require,module,exports){
 var parseEvtArgs = function(args){
     var params = {}, arg;
     for(var i = 0, j = args.length; i < j; i++){
@@ -971,6 +1014,7 @@ var parseEvtArgs = function(args){
     }
     return params;
 }
+
 var evtObject = {
     element : null,
     _add : function(evt, key, obj){
@@ -1004,7 +1048,7 @@ var evtObject = {
             capture = args.capture;
         var element = this.element;
         if(!element){return this;}
-        if(!$.isNode(element)){
+        if(!$.isEventTarget(element)){
             this._add(evt, '@', callback);
             return this;
         }
@@ -1038,7 +1082,7 @@ var evtObject = {
             capture = args.capture;
         var element = this.element;
         if(!element){return this;}
-        if(!$.isNode(element)){
+        if(!$.isEventTarget(element)){
             $._remove(evt, '@', function(obj){
                 return obj === callback;
             });
@@ -1083,14 +1127,14 @@ module.exports = {
     listener : listener,
     trigger : trigger,
     _check : function(name, arg){
-        if(name === 'trigger' && !$.isNode(arg)){
+        if(name === 'trigger' && !$.isEventTarget(arg)){
             return true;
         }
     }
 };
 var $ = require('../');
 
-},{"../":9}],16:[function(require,module,exports){
+},{"../":10}],17:[function(require,module,exports){
 var objMerger = function(needFilter, args){
     var isHold = 0, 
         resultObject, 
@@ -1155,6 +1199,16 @@ module.exports = {
         }
         return rs;
     },
+    each : function(obj, func){
+        if(obj.hasOwnProperty('length')){
+            return Array.prototype.forEach.call(obj, func);
+        }
+        for(var key in obj){
+            if(obj.hasOwnProperty(key)){
+                func.call(obj, obj[key], key, obj);
+            }
+        }
+    },
     objectType : function(obj){
         return Object.prototype.toString.call(obj).slice(8, -1);
     },
@@ -1175,7 +1229,7 @@ module.exports = {
 }
 var $ = require('../');
 
-},{"../":9}],17:[function(require,module,exports){
+},{"../":10}],18:[function(require,module,exports){
 module.exports = {
     queryStringify : function(obj, notEncode){
         if(typeof obj === 'string'){return obj;}
@@ -1249,7 +1303,7 @@ module.exports = {
 }
 var $ = require('../');
 
-},{"../":9}],18:[function(require,module,exports){
+},{"../":10}],19:[function(require,module,exports){
 /**
  * 单例
  *
