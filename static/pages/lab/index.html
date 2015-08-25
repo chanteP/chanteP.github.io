@@ -12,7 +12,7 @@
                         <img class="thumbnail" data-lazyload="{{ post.image }}" />
                         <dl class="info">
                             <dt title="{{ post.title }}">{{ post.title }}</dt>
-                            <dd>{{ post.date }}</dd>
+                            <dd>{{ post.date | date_to_string }}</dd>
                             <dd class="tags">{{ post.tags }}</dd>
                             <dd class="abst"><p>{{ post.content | strip_html | truncate : 110 | escape_once | append:'...'}}</p></dd>
                         </dl>

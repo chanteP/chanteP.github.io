@@ -13,7 +13,7 @@
         color: #333; }
       .page_blog .blog_list [data-node="postlist"] article {
         position: relative;
-        margin: 0.18rem 0.18rem;
+        margin: .04rem 0;
         padding: .4rem;
         background: rgba(255, 255, 255, 0.8);
         line-height: 1.8; }

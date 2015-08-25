@@ -75,7 +75,9 @@
       white-space: nowrap; }
     .page_lab .info .abst {
       height: 6.5em;
-      overflow-y: auto; }
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      -moz-overflow-scrolling: touch; }
     .page_lab .info p {
       line-height: 1.5;
       text-indent: 2em;
