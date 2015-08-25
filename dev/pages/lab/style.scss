@@ -90,7 +90,7 @@
         }
         .abst{
             height: 6.5em;
-            overflow-y: auto;
+            @include scroll;
         }
         p{
             line-height: 1.5;

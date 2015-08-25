@@ -21,13 +21,12 @@ $navsize : 1.3rem;
         @include transform(translateY(0));
     }
     ul{
-        padding-top: .6rem;
         text-align: center;
     }
     li{
         display: inline-block;
         height: .7rem;
-        padding: 0 .16rem;
+        padding: 0.6rem .16rem 0;
 
         a{
             line-height: .64rem;
