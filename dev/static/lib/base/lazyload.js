@@ -21,6 +21,8 @@ module.exports = function($){
         });
     }
     window.addEventListener('mousewheel', bindEvt);
+
     window.addEventListener('click', check);
     window.addEventListener('scrollend', check);
+    $.domReady(check);
 }
