@@ -72,9 +72,9 @@ body.loading{
         opacity: 1;
     }
 }
-@media screen and (min-width : 1201px){
+@media screen and (min-width : 1001px){
     @import "./mediaquery/main_normal.scss";
 }
-@media screen and (max-width : 1200px){
+@media screen and (max-width : 1000px){
     @import "./mediaquery/main_mobile.scss";
 }

@@ -25,13 +25,12 @@ $navsize : 1.3rem;
     }
     li{
         display: inline-block;
-        height: .7rem;
-        padding: 0.6rem .16rem 0;
-
         a{
+            display: inline-block;
             line-height: .64rem;
+            height: .7rem;
+            padding: 0.6rem .16rem 0;
             font-size: .28rem;
-            padding: 0;
             text-decoration: none;
             color: $color-font-sub;
             @include transition;
