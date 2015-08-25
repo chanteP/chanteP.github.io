@@ -1,5 +1,9 @@
 module.exports = function($){
-    return {
+    var api;
+    $.domReady(function(){
+        api.setLoading(false);
+    });
+    return api = {
         animate : function(node, type, callback){
             node.classList.add('animated');
             node.classList.add(type);
@@ -14,8 +18,8 @@ module.exports = function($){
                 }
             });
         },
-        setLoading : function(bool, node){
-            (node || document.body).classList[bool ? 'add' : 'remove']('loading');
+        setLoading : function(bool){
+            document.body.classList[bool ? 'add' : 'remove']('loading');
         },
         //插入样式
         insertStyle : function(css){

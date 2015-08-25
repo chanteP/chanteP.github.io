@@ -9,6 +9,7 @@ var api = {};
     require('./componentHandler'),
     require('./fastclick'),
     require('./keyboardHandler'),
+    require('./lazyload'),
     require('./pixelFix'),
     require('./ga')
 ].forEach(function(mod){
@@ -18,8 +19,3 @@ var api = {};
 module.exports = api;
 
 require('np-scrollp').bind();
-
-$.domReady(function(){
-    api.setLoading(false);
-});
-
