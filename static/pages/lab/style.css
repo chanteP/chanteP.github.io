@@ -88,8 +88,8 @@
     width: auto;
     height: 100%; }
   .page_lab .thumbnail[src] {
-    height: 100%;
-    width: initial; }
+    min-height: 100%;
+    min-width: 50%; }
   .page_lab .info {
     font-size: .24rem; }
     .page_lab .info dt {

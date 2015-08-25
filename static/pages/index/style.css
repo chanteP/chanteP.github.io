@@ -34,7 +34,10 @@
     margin: 0 0 0 0.12rem;
     -webkit-transition: all 0.2s ease 0s;
     -moz-transition: all 0.2s ease 0s;
-    transition: all 0.2s ease 0s; }
+    transition: all 0.2s ease 0s;
+    -webkit-transition-property: border-color;
+    -moz-transition-property: border-color;
+    transition-property: border-color; }
     .page_index li:first-child,
     .page_index li:hover {
       border-color: #4fcbbd; }
