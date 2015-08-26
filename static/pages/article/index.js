@@ -1,18 +1,1 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-'use strict';
-
-core.register('artical', function ($) {
-    return {
-        init: function init() {
-            console.log('artical init');
-        },
-        show: function show() {
-            console.log('artical show');
-        },
-        hide: function hide() {
-            console.log('artical hide');
-        }
-    };
-});
-
-},{}]},{},[1]);
+!function r(n,o,t){function e(u,c){if(!o[u]){if(!n[u]){var f="function"==typeof require&&require;if(!c&&f)return f(u,!0);if(i)return i(u,!0);var a=new Error("Cannot find module '"+u+"'");throw a.code="MODULE_NOT_FOUND",a}var l=o[u]={exports:{}};n[u][0].call(l.exports,function(r){var o=n[u][1][r];return e(o?o:r)},l,l.exports,r,n,o,t)}return o[u].exports}for(var i="function"==typeof require&&require,u=0;u<t.length;u++)e(t[u]);return e}({1:[function(r,n,o){"use strict";core.register("artical",function(r){return{init:function(){console.log("artical init")},show:function(){console.log("artical show")},hide:function(){console.log("artical hide")}}})},{}]},{},[1]);
