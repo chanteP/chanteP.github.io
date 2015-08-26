@@ -108,12 +108,20 @@ $icon-loading-mini: url(/mobile/images/progressing.gif) no-repeat;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+@mixin themify {
+    display: inline-block;
+    font: normal normal normal .28rem/1 themify;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 
 
 @mixin loadingIcon{
     &:before{
-        content : '\f110';
-        font-family: FontAwesome;
+        content : '\e619';
+        font-family: themify;
         position: absolute;
         top: 50%;
         left: 0;

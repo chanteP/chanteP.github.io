@@ -8,7 +8,8 @@
 @import "./base/fastclick.scss";
 /* ui
 ----------------------------------*/
-@import "./ui/font-awesome.scss";
+// @import "./ui/font-awesome.scss";
+@import "./ui/themify.scss";
 @import "./ui/checkbox.scss";
 @import "./ui/button.scss";
 
@@ -60,6 +61,9 @@ body{
     background: rgba(0,0,0,.05);
 }
 body.loading{
+    :before{
+        content:'';
+    }
     & > .wrapper{
         @include filter(blur(4px));
         @include transform(scale(.95));

@@ -68,9 +68,9 @@ module.exports = function(env){
             .pipe(gulp.dest(destDir + 'static/css/'));
         gulp.src(srcDir + 'static/css/*.css')
             .pipe(gulp.dest(destDir + 'static/css/'));
-        //images下面所有
-        gulp.src([srcDir + 'static/images/*'])
-            .pipe(gulp.dest(destDir + 'static/images/'));
+        //其他所有
+        gulp.src([srcDir + 'static/**/*', '!' + srcDir + 'static/lib/', '!' + srcDir + 'static/css/'])
+            .pipe(gulp.dest(destDir + 'static/'));
         //lib下面
         gulp.src([srcDir + 'static/lib/*/index.js'])
             .pipe(browserified)
