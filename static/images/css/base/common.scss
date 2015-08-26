@@ -1,0 +1,91 @@
+@import "../variable.scss";
+html{
+    font-size: 100%; 
+    height:100%;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    -webkit-user-select: none;
+    user-select: none;
+    background: $color-graywrite;
+}
+@media screen and (max-width : 750px){
+    html{
+        -webkit-font-smoothing: antialiased;
+    }
+}
+/* body loading状态
+----------------------------------------------------------------------------------------*/
+body{
+    height:100%;
+    color:#333;
+    font-size: .26rem;
+    /*font-family: 'Open Sans', 'Benton Sans', 'Microsoft YaHei', sans-serif;*/
+    font-family: "Helvetica Neue", Helvetica, STHeiTi, 'Microsoft YaHei', sans-serif;
+    background: none $color-graywrite center center no-repeat;
+    overflow: hidden;
+}
+
+/* 通用预设
+----------------------------------------------------------------------------------------*/
+hr {
+    display:block;
+    height:0;
+    border:0;
+    margin:0;
+    padding:0;
+    clear:both;
+}
+::selection{
+    background: $color-em;
+    color: #fff;
+    text-shadow: none;
+}
+/*common
+----------------------------------------------------------------------------------------*/
+.hide{display: none!important;}
+.hidden{
+    display: block;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+}
+.clearfix:after{
+    content: '';
+    display:block;
+    height: 0;
+    overflow: hidden;
+    clear: both;
+}
+
+.mid{
+    text-align:center;
+}
+.mid:before{
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+.mid > .midcont{
+    display:inline-block;
+    width:100%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.loading{
+    @include loadingIcon;
+    &:before{
+        @include animation(maware 1s infinite 0s);
+    }
+}
+@-webkit-keyframes maware {
+    0% {
+        @include transform(rotate(0));
+    }
+
+    100% {
+        @include transform(rotate(360deg));
+    }
+}

@@ -1,0 +1,84 @@
+/* base
+----------------------------------*/
+@import "./base/reset.scss";
+@import "./base/animate.scss";
+@import "./base/common.scss";
+@import "./base/grid.scss";
+@import "./base/pixelfix.scss";
+@import "./base/fastclick.scss";
+/* ui
+----------------------------------*/
+// @import "./ui/font-awesome.scss";
+@import "./ui/themify.scss";
+@import "./ui/checkbox.scss";
+@import "./ui/button.scss";
+
+/* custom
+----------------------------------*/
+body{
+    &.loading {
+        background-color: $color-background;
+        & > .main-wrapper{
+            display:none;
+        }
+    }
+    & > .main-wrapper{
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        z-index: 4;
+        background: transparent;
+    }
+}
+
+.page-wrap{
+    position:absolute;
+    top:0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.main-bg{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+.main-loading{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 20;
+
+    opacity: 0;
+    visibility: hidden;
+    @include transition;
+    background: rgba(0,0,0,.05);
+}
+body.loading{
+    :before{
+        content:'';
+    }
+    & > .wrapper{
+        @include filter(blur(4px));
+        @include transform(scale(.95));
+    }
+    .main-nav{
+        @include filter(blur(2px));
+    }
+    .main-loading{
+        visibility: visible;
+        opacity: 1;
+    }
+}
+@media screen and (min-width : 1001px){
+    @import "./mediaquery/main_normal.scss";
+}
+@media screen and (max-width : 1000px){
+    @import "./mediaquery/main_mobile.scss";
+}
