@@ -43,10 +43,6 @@ else if(program.clean){
     require('./cleanup')(function(){
     }); 
 }
-else if(program.fake){
-    require('./cleanup')(function(){
-    }); 
-}
 else{
     require('./cleanup')(function(){
         require('./deployDevelop')();
