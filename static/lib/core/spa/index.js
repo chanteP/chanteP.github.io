@@ -9,6 +9,7 @@ var loadPage = function(uri, contentNode, option){
         styles = option.styles || [];
 
     var page = new Page(uri);
+    if(page.loader > page.LOADING){return;}
     page.setContent(contentNode.innerHTML);
     scripts.concat(styles).forEach(function(url){
         $.load(url);

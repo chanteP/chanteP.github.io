@@ -3762,12 +3762,7 @@ html {
 
 /* custom
 ----------------------------------*/
-body.loading {
-  background-color: #fafafa; }
-  body.loading > .main-wrapper {
-    display: none; }
-
-body > .main-wrapper {
+.main-wrapper {
   position: absolute;
   left: 0;
   top: 0;
@@ -3803,18 +3798,16 @@ body > .main-wrapper {
   transition: all 0.2s ease 0s;
   background: rgba(0, 0, 0, 0.05); }
 
-body.loading :before {
+body.loading:before {
   content: ''; }
 
-body.loading > .wrapper {
-  -webkit-filter: blur(4px);
-  -moz-filter: blur(4px);
-  filter: blur(4px);
+body.loading .main-wrapper {
   -webkit-transform: scale(0.95);
   -moz-transform: scale(0.95);
   transform: scale(0.95); }
 
-body.loading .main-nav {
+body.loading .main-nav,
+body.loading .main-bg {
   -webkit-filter: blur(2px);
   -moz-filter: blur(2px);
   filter: blur(2px); }

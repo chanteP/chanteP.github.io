@@ -16,23 +16,16 @@
 /* custom
 ----------------------------------*/
 body{
-    &.loading {
-        background-color: $color-background;
-        & > .main-wrapper{
-            display:none;
-        }
-    }
-    & > .main-wrapper{
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        width: 100%;
-        z-index: 4;
-        background: transparent;
-    }
 }
-
+.main-wrapper{
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 4;
+    background: transparent;
+}
 .page-wrap{
     position:absolute;
     top:0;
@@ -61,14 +54,14 @@ body{
     background: rgba(0,0,0,.05);
 }
 body.loading{
-    :before{
+    &:before{
         content:'';
     }
-    & > .wrapper{
-        @include filter(blur(4px));
+    .main-wrapper{
         @include transform(scale(.95));
     }
-    .main-nav{
+    .main-nav,
+    .main-bg{
         @include filter(blur(2px));
     }
     .main-loading{

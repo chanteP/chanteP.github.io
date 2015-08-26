@@ -392,9 +392,23 @@ modList.forEach(function(modName){
 });
 
 $.tween = require('np-tween-ani');
-$.log = function(e){
-    console && console.log(e);
+var logTypes = ['log', 'error', 'info', 'warn', 'debug'];
+$.log = function(){
+    var message = [], mod, type = 'log';
+    for(var i = 0; i < arguments.length; i++){
+        if(arguments[i] instanceof window.Error){
+            type = 'error';
+            message.push(e);
+        }
+        else if(logTypes.indexOf(arguments[i])){
+            type = arguments[i];
+        }
+    }
+    if(type !== 'log' || $.debug){
+        console && console[type].apply(console, message);
+    }
 };
+$.debug = false;
 
 window.np = $;
 },{"./src/array":12,"./src/cache":13,"./src/dom":14,"./src/env":15,"./src/listener":16,"./src/object":17,"./src/string":18,"np-tween-ani":11}],11:[function(require,module,exports){

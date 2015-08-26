@@ -660,6 +660,9 @@ var loadPage = function loadPage(uri, contentNode, option) {
         styles = option.styles || [];
 
     var page = new Page(uri);
+    if (page.loader > page.LOADING) {
+        return;
+    }
     page.setContent(contentNode.innerHTML);
     scripts.concat(styles).forEach(function (url) {
         $.load(url);
@@ -814,21 +817,16 @@ Page.prototype = Object.defineProperties({
             switch (value) {
                 case this.WAIT:
                     this.loader = this.LOADING;
-                    setTimeout(function () {
-                        if (self.loader === self.LOADING) {
-                            return;
-                        }
-                        var i = document.createElement('iframe');
-                        i.style.cssText = 'display:block;visibility:hidden;overflow:hidden;width:0;height:0;';
-                        i.onload = i.onerror = function (e) {
-                            document.body.removeChild(i);
-                            self.loader = e.type === 'load' ? self.LOADED : self.FAILED;
-                        };
-                        i.src = '/pages' + self.uri;
-                        document.body.appendChild(i);
-                    }, 0);
                     break;
                 case this.LOADING:
+                    var i = document.createElement('iframe');
+                    i.style.cssText = 'display:block;visibility:hidden;overflow:hidden;width:0;height:0;';
+                    i.onload = i.onerror = function (e) {
+                        document.body.removeChild(i);
+                        self.loader = e.type === 'load' ? self.LOADED : self.FAILED;
+                    };
+                    i.src = '/pages' + self.uri;
+                    document.body.appendChild(i);
                     break;
                 case this.LOADED:
                     break;
@@ -852,9 +850,11 @@ Page.prototype = Object.defineProperties({
         set: function set(value) {
             switch (value) {
                 case this.SHOW:
+                    $.log('show:' + this.name, 'info');
                     effect.show(this);
                     break;
                 case this.HIDE:
+                    $.log('hide:' + this.name, 'info');
                     effect.hide(this);
                     break;
                 default:
@@ -1368,9 +1368,23 @@ modList.forEach(function(modName){
 });
 
 $.tween = require('np-tween-ani');
-$.log = function(e){
-    console && console.log(e);
+var logTypes = ['log', 'error', 'info', 'warn', 'debug'];
+$.log = function(){
+    var message = [], mod, type = 'log';
+    for(var i = 0; i < arguments.length; i++){
+        if(arguments[i] instanceof window.Error){
+            type = 'error';
+            message.push(e);
+        }
+        else if(logTypes.indexOf(arguments[i])){
+            type = arguments[i];
+        }
+    }
+    if(type !== 'log' || $.debug){
+        console && console[type].apply(console, message);
+    }
 };
+$.debug = false;
 
 window.np = $;
 },{"./src/array":25,"./src/cache":26,"./src/dom":27,"./src/env":28,"./src/listener":29,"./src/object":30,"./src/string":31,"np-tween-ani":24}],24:[function(require,module,exports){
