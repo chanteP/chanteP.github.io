@@ -1,3 +1,4 @@
+var React = require('../../react');
 module.exports = function(node, list, current){
     list = Array.isArray(list) ? list : [];
     return React.render(

@@ -4,13 +4,13 @@
     3. 展示低index的时候把高index都隐藏
 */
 
-var base = require('../../../lib/base');
+var core = require('../../core');
 var template = require('./template.html'),
     css = require('./style.scss');
 
 // var $ = require('jquery');
 
-base.insertStyle(css);
+core.insertStyle(css);
 
 var mask = {}, maskStack = [], current;
 var touchMarker = 'data-touch';
@@ -57,7 +57,7 @@ var func = {
     show : function(zIndex){
         var node = mask[zIndex];
         if(node){
-            base.animate(node, 'fadeIn');
+            core.animate(node, 'fadeIn');
             node.setAttribute('data-onshow', '1');
         }
         return this;
@@ -65,7 +65,7 @@ var func = {
     hide : function(zIndex){
         var node = mask[zIndex];
         if(node){
-            base.animate(node, 'fadeOut');
+            core.animate(node, 'fadeOut');
             node.removeAttribute('data-onshow');
         }
         return this;

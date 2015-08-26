@@ -1,5 +1,4 @@
-var base = require('../../../lib/base');
-
+var core = require('../../core');
 var html = require('./template.html'),
     css = require('./style.scss');
 
@@ -7,7 +6,7 @@ var html = require('./template.html'),
 // var mask = require('../../components/mask');
 
 //添加样式
-base.insertStyle(css);
+core.insertStyle(css);
 
 var func = {
     buildWrap : function(obj){
@@ -61,18 +60,18 @@ Drawer.prototype = {
         this.isShown = true;
         this.node.setAttribute('data-onshow', '1');
         $('#wrapper').addClass('drawer-sub');
-        base.animate(this.node, 'slideInRight');
-        base.componentHandler.push(this, config);
+        core.animate(this.node, 'slideInRight');
+        core.componentHandler.push(this, config);
         $(this).triggerHandler('show');
         return this;
     },
     hide : function(){
         // mask.hide();
         this.isShown = false;
-        base.animate(this.node, 'slideOutRight');
+        core.animate(this.node, 'slideOutRight');
         this.node.removeAttribute('data-onshow');
         $('#wrapper').removeClass('drawer-sub');
-        base.componentHandler.remove(this);
+        core.componentHandler.remove(this);
         $(this).triggerHandler('hide');
         return this;
     },

@@ -2,8 +2,7 @@
     唯一
     btn状态： '' || disabled || active
 */
-var base = require('../../../lib/base');
-
+var core = require('../../core');
 var css = require('./style.scss');
 
 var mask = require('../mask');
@@ -18,7 +17,7 @@ var defaultBtn = [{
     }
 }];
 //添加样式
-base.insertStyle(css);
+core.insertStyle(css);
 
 var commonDialog;
 
@@ -110,8 +109,8 @@ Dialog.prototype = {
 
         mask.show(999);
         this.isShown = true;
-        base.animate(this.node, 'zoomIn');
-        base.componentHandler.push(this, cfg);
+        core.animate(this.node, 'zoomIn');
+        core.componentHandler.push(this, cfg);
         this.node.setAttribute('data-onshow', '1');
         $(this).triggerHandler('show');
         return this;
@@ -119,9 +118,9 @@ Dialog.prototype = {
     hide : function(){
         mask.hide();
         this.isShown = false;
-        base.animate(this.node, 'zoomOut');
+        core.animate(this.node, 'zoomOut');
         this.node.removeAttribute('data-onshow');
-        base.componentHandler.remove(this);
+        core.componentHandler.remove(this);
         $(this).triggerHandler('hide');
         return this;
     },

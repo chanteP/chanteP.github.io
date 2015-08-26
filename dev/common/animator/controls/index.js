@@ -1,9 +1,8 @@
-var base = require('../../../lib/base');
-
+var core = require('../../core');
 var html = require('./template.html'),
     css = require('./style.scss');
 
-base.insertStyle(css);
+core.insertStyle(css);
 
 var func = {
     buildWrap : function(obj){
@@ -61,16 +60,16 @@ Controls.prototype = {
         // }
         this.isShown = true;
         this.outer.setAttribute('data-onshow', '1');
-        base.animate(this.outer, 'fadeIn');
-        base.componentHandler.push(this, config);
+        core.animate(this.outer, 'fadeIn');
+        core.componentHandler.push(this, config);
         $(this).triggerHandler('show');
         return this;
     },
     hide : function(){
         this.isShown = false;
-        base.animate(this.outer, 'fadeOut');
+        core.animate(this.outer, 'fadeOut');
         this.outer.removeAttribute('data-onshow');
-        base.componentHandler.remove(this);
+        core.componentHandler.remove(this);
         $(this).triggerHandler('hide');
         //TODO 太挫...还是把继承写好吧
         // if(this.instance && arguments.callee.caller !== this.instance.hide){

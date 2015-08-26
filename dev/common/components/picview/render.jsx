@@ -1,3 +1,4 @@
+var React = require('../../react');
 module.exports = function(base){
     return function(node, list, index, config){
         var btnStyle = {

@@ -1,3 +1,4 @@
+var React = require('../../react');
 module.exports = function(node, config){
     var btnStyle = {
             width : 100 / config.button.length + '%' 

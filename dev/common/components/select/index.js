@@ -1,7 +1,7 @@
-var base = require('../../../lib/base');
+var core = require('../../core');
 
 var css = require('./style.scss');
-base.insertStyle(css);
+core.insertStyle(css);
 
 var Controls = require('../../animator/controls');
 
@@ -104,11 +104,11 @@ Select.prototype = {
 
             $('.m-controls-select', self.node)[0].scrollTop = 45 * current;
 
-            base.animate($('.m-controls-select', self.node)[0], 'slideInUp');
+            core.animate($('.m-controls-select', self.node)[0], 'slideInUp');
         }, 0)
     },
     hide : function(){
-        base.animate($('.m-controls-select', this.node)[0], 'slideOutDown');
+        core.animate($('.m-controls-select', this.node)[0], 'slideOutDown');
         this.controls.hide();
     }
 }

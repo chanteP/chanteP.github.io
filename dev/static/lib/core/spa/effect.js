@@ -33,7 +33,8 @@ module.exports = {
         else{
             document.body.classList.remove('loading');
         }
-        if(page.loader !== page.INITED){
+        debugger
+        if(page.loader < page.INITED){
             page.run('init');
             page.loader = page.INITED;
         }

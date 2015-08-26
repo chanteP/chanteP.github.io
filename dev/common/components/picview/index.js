@@ -8,30 +8,30 @@
         ...
     ]
 */
+var core = require('../../core');
 var style = require('./style.scss');
-var base = require('../../../lib/base');
 var tweenAni = require('../../../lib/tweenAni/tweenAni');
 
-var render = require('./render.jsx')(base);
+var render = require('./render.jsx')(core);
 
 var node;
 var ani;
 
-base.insertStyle(style);
+core.insertStyle(style);
 var buildNode = function(){
     node = document.createElement('div');
     node.className = 'm-picview';
     document.body.appendChild(node);
 
     $(node)
-        .on('tap', '[data-actid]', function(){
+        .on('click', '[data-actid]', function(){
             var index = this.getAttribute('data-actid');
             api.btnList && api.btnList[index] && api.btnList[index].callback.call(api, api.current);
         })
-        .on('tap', '[data-act="select"]', function(){
+        .on('click', '[data-act="select"]', function(){
             build(api.photoList, +this.getAttribute('data-value'), api.config);
         })
-        .on('tap', '[data-act="del"]', function(){
+        .on('click', '[data-act="del"]', function(){
             if(!api.config.delCallback){return;}
             api.config.delCallback.call(api, this.parentNode.getAttribute('data-value'));
         })
@@ -111,8 +111,8 @@ var api = module.exports = {
 
         build(photoList, index, config);
 
-        base.animate(this.node, 'fadeIn');
-        base.componentHandler.push(this);
+        core.animate(this.node, 'fadeIn');
+        core.componentHandler.push(this);
         this.node.setAttribute('data-onshow', '1');
         $(this).triggerHandler('show');
         return this;
@@ -124,8 +124,8 @@ var api = module.exports = {
     hide : function(){
         if(!this.isShown){return;}
         this.isShown = false;
-        base.animate(this.node, 'fadeOut');
-        base.componentHandler.remove(this);
+        core.animate(this.node, 'fadeOut');
+        core.componentHandler.remove(this);
         this.node.removeAttribute('data-onshow');
         $(this).triggerHandler('hide');
         return this;
