@@ -8,10 +8,12 @@ var path = require('path');
 
 var renderPage = function(dec, page, res){
     var html = (fs.readFileSync(path.normalize('temp/pages/'+page+'.html')) + '');
-    res.render('_layouts/'+dec+'.html', {
-        content : html
-    });
-    res.end();
+    // setTimeout(function(){
+        res.render('_layouts/'+dec+'.html', {
+            content : html
+        });
+        res.end();
+    // }, 2000);
 }
 
 module.exports = function(){

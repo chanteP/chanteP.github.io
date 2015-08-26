@@ -70,19 +70,16 @@ Page.prototype = {
         switch(value){
             case this.WAIT :
                 this.loader = this.LOADING;
-                setTimeout(function(){
-                    if(self.loader === self.LOADING){return;}
-                    var i = document.createElement('iframe');
-                    i.style.cssText = 'display:block;visibility:hidden;overflow:hidden;width:0;height:0;';
-                    i.onload = i.onerror = function(e){
-                        document.body.removeChild(i);
-                        self.loader = e.type === 'load' ? self.LOADED : self.FAILED;
-                    }
-                    i.src = '/pages' + self.uri;
-                    document.body.appendChild(i);
-                }, 0);
                 break;
             case this.LOADING :
+                var i = document.createElement('iframe');
+                i.style.cssText = 'display:block;visibility:hidden;overflow:hidden;width:0;height:0;';
+                i.onload = i.onerror = function(e){
+                    document.body.removeChild(i);
+                    self.loader = e.type === 'load' ? self.LOADED : self.FAILED;
+                }
+                i.src = '/pages' + self.uri;
+                document.body.appendChild(i);
                 break;
             case this.LOADED :
                 break;
@@ -103,9 +100,11 @@ Page.prototype = {
     set state(value){
         switch(value){
             case this.SHOW :
+                $.log('show:' + this.name, 'info');
                 effect.show(this);
                 break;
             case this.HIDE :
+                $.log('hide:' + this.name, 'info');
                 effect.hide(this);
                 break;
             default : 
