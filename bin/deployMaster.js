@@ -69,13 +69,15 @@ module.exports = function(env){
             .pipe(gulp.dest(destDir + 'static/css/'));
         //其他所有
         gulp.src([srcDir + 'static/**/*', '!' + srcDir + 'static/lib/', '!' + srcDir + 'static/css/'])
-            .pipe(gulp.dest(destDir + 'static/images/'));
+            .pipe(gulp.dest(destDir + 'static/'));
         //lib下面
         gulp.src([srcDir + 'static/lib/*/index.js'])
             .pipe(browserified)
+            .pipe($.uglify())
             .pipe($.rename(shrinkDir))
             .pipe(gulp.dest(destDir + 'static/lib'));
         gulp.src([srcDir + 'static/lib/*.js'])
+            .pipe($.uglify())
             .pipe(gulp.dest(destDir + 'static/lib'));
     });
 
@@ -112,6 +114,7 @@ module.exports = function(env){
         var browserified = buildBrowserify();
         gulp.src([srcDir + 'pages/*/*.js'])
             .pipe(browserified)
+            .pipe($.uglify())
             .pipe(gulp.dest(destDir + 'static/pages/'));
         gulp.src([srcDir + 'pages/*/*.scss'])
             .pipe(buildSass())
