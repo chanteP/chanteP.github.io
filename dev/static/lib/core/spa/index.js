@@ -10,8 +10,9 @@ var loadPage = function(uri, contentNode, option){
 
     var page = new Page(uri);
     if(page.loader > page.LOADING){return;}
+    page.needInit = !!scripts.length;
     page.setContent(contentNode.innerHTML);
-    scripts.concat(styles).forEach(function(url){
+    styles.concat(scripts).forEach(function(url){
         $.load(url);
     });
 }

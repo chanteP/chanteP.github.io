@@ -42,7 +42,9 @@
     "transform": [
       "stringify",
       "sassify",
-      "babelify"
+      ["babelify", {
+        "blacklist":["strict"]
+        }]
     ],
     "extensions": [
       ".html",

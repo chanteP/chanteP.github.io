@@ -36,34 +36,42 @@ var Page = function(url){
 
     this._state = this.HIDE;
     this.loader = this.WAIT;
+    this.needInit = false;
 };
 Page.list = pages;
 Page.parseUrl = parseUrl;
 Page.current = null;
 Page.currentController = null;
-Page.show = function(url){
+Page.show = function(url, force){
     var {controller, uri} = parseUrl(url);
-    if(Page.current === uri){
+    var pageHide, pageShow;
+    pageHide = Page.current && Page(Page.current);
+    pageShow = new Page(url);
+
+    if(Page.current === uri && !force){
         return;
     }
     $.trigger(Page, 'beforechange', [uri, controller]);
-    if(Page.current){
-        Page(Page.current).state = Page.prototype.HIDE;
+    if(pageHide){
+        pageHide.state = Page.prototype.HIDE;
     }
 
     Page.current = uri;
     Page.currentController = controller;
 
-    (new Page(url)).state = Page.prototype.SHOW;
+    pageShow.state = Page.prototype.SHOW;
 
     $.trigger(Page, 'change', [uri, controller]);
 };
 Page.prototype = {
     get loader(){
+        if(this._loader === this.DOMREADY && this.controller.state){
+            this._loader = this.LOADED;
+        }
         return this._loader;
     },
     set loader(value){
-        if(value <= this.loader){
+        if(value <= this._loader){
             return value;
         }
         var self = this;
@@ -76,10 +84,12 @@ Page.prototype = {
                 i.style.cssText = 'display:block;visibility:hidden;overflow:hidden;width:0;height:0;';
                 i.onload = i.onerror = function(e){
                     document.body.removeChild(i);
-                    self.loader = e.type === 'load' ? self.LOADED : self.FAILED;
+                    self.loader = e.type === 'load' ? self.DOMREADY : self.FAILED;
                 }
                 i.src = '/pages' + self.uri;
                 document.body.appendChild(i);
+                break;
+            case this.DOMREADY : 
                 break;
             case this.LOADED :
                 break;
@@ -100,11 +110,9 @@ Page.prototype = {
     set state(value){
         switch(value){
             case this.SHOW :
-                $.log('show:' + this.name, 'info');
                 effect.show(this);
                 break;
             case this.HIDE :
-                $.log('hide:' + this.name, 'info');
                 effect.hide(this);
                 break;
             default : 
@@ -116,28 +124,30 @@ Page.prototype = {
 
     WAIT : 0,
     LOADING : 1,
-    LOADED : 2,
-    FAILED : 3,
-    INITED : 4,
+    DOMREADY : 2,
+    LOADED : 4,
+    FAILED : 5,
+    INITED : 9,
 
-    SHOW : 5,
-    HIDE : 6,
+    SHOW : 8,
+    HIDE : 9,
 
     run : function(lifecycle){
         var func = this.controller.get(lifecycle);
         if(typeof func === 'function'){
+            $.log('page ' + lifecycle + ':' + this.name, 'info');
             func.apply(this, arguments);
         }
     },
-    show : function(){
-        Page.show(this.uri);
+    show : function(force){
+        Page.show(this.uri, force);
     },
     load : function(){
         this.state = this.WAIT;
     },
     setContent : function(html){
         this.node.innerHTML = html;
-        this.loader = this.LOADED;
+        this.loader = this.DOMREADY;
     }
 }
 

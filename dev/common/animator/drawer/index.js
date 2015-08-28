@@ -1,88 +1,61 @@
-var core = require('../../core');
-var html = require('./template.html'),
-    css = require('./style.scss');
-
-// var $ = require('jquery');
-// var mask = require('../../components/mask');
-
+import $ from '../../core';
+import html from './template.html';
+import css from './style.scss';
 //添加样式
-core.insertStyle(css);
+$.insertStyle(css);
 
-var func = {
-    buildWrap : function(obj){
-        obj.node = $(html)[0];
-        obj.contentNode = $('[data-node="scrollCont"]', obj.node)[0];
-        document.body.appendChild(obj.node);
-    },
-    bind : function(obj){
-        // $(obj.contentNode).on('swipeRight', function(){
-            // obj.hide();
-        // });
+export default class Drawer {
+    constructor(content){
+
+        this.outer = $.create(html);
+        this.node = $.find('[data-node="scrollCont"]', this.outer);
+        document.body.appendChild(this.outer);
+
+        this.setContent(content);
     }
-}
+    // outer = null;
+    // node = null;
 
-var Drawer = function(content){
-    if(!(this instanceof Drawer)){
-        return new Drawer(content);
-    }
-    func.buildWrap(this);
-    func.bind(this);
-    this.setContent(content);
-}
-
-Drawer.prototype = {
-    constructor : Drawer,
-
-    node : null,
-    contentNode : null,
-
-    setContent : function(content){
+    setContent(content){
         if(typeof content === 'string'){
-            this.contentNode.innerHTML = content;
+            this.node.innerHTML = content;
         }
-        if(content && content.nodeType){
-            this.contentNode.appendChild(content);
+        if($.isNode(content)){
+            this.node.appendChild(content);
         }
         return this;
-    },
+    };
 
-    on : function(evt, func){
-        return $(this).on(evt, func);
-    },
-    off : function(evt, func){
-        return $(this).off(evt, func);
-    },
+    get isShown(){
+        return this._isShown;
+    };
+    set isShown(value){
+        if(!!this._isShown === !!value){
+            return this._isShown;
+        }
+        this.outer[value ? 'setAttribute' : 'removeAttribute']('data-show', '1');
+        $.animate(this.outer, value ? 'slideInRight' : 'slideOutRight');
+        document.body.classList[value ? 'add' : 'remove']('drawer-sub');
+        return this._isShown = !!value;
+    };
 
-    isShown : false,
-    show : function(config){
+    show(config){
         if(this.isShown){return;}
         // mask.show(90);
         this.isShown = true;
-        this.node.setAttribute('data-onshow', '1');
-        $('#wrapper').addClass('drawer-sub');
-        core.animate(this.node, 'slideInRight');
         core.componentHandler.push(this, config);
-        $(this).triggerHandler('show');
+        $.trigger(this, 'show');
         return this;
-    },
-    hide : function(){
+    };
+    hide(){
         // mask.hide();
         this.isShown = false;
-        core.animate(this.node, 'slideOutRight');
-        this.node.removeAttribute('data-onshow');
-        $('#wrapper').removeClass('drawer-sub');
         core.componentHandler.remove(this);
-        $(this).triggerHandler('hide');
+        $.trigger(this, 'hide');
         return this;
-    },
+    };
 
-    extend : function(constructor){
-    },
-
-    destroy : function(){
-        this.node.parentNode && this.node.parentNode.removeChild(this.node);
-    }
+    destroy(){
+        this.outer.parentNode && this.outer.parentNode.removeChild(this.outer);
+    };
 }
-
-
-module.exports = Drawer;

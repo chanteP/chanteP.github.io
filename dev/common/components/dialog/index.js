@@ -7,7 +7,7 @@ var css = require('./style.scss');
 
 var mask = require('../mask');
 var render = require('./render.jsx');
-// var $ = require('jquery');
+var $ = require('../../core');
 
 var defaultBtn = [{
     text : '确定',
@@ -29,7 +29,7 @@ var func = {
         func.bind(obj);
     },
     bind : function(obj){
-        $(obj.node).on('click', '[data-node="btnbox"] [data-diabtnid]', function(){
+        $.evt(obj.node).on('click', '[data-node="btnbox"] [data-diabtnid]', function(){
             var id = +this.getAttribute('data-diabtnid');
             obj.configData.button[id] && obj.configData.button[id].callback && obj.configData.button[id].callback.call(obj);
         });
@@ -57,11 +57,11 @@ Dialog.prototype = {
     setContent : function(content, noWrap){
         this.configData.content = content || '';
         if(content && content.nodeType){
-            $('[data-node="content"]', this.node)[0].appendChild(content);
+            $.find('[data-node="content"]', this.node).appendChild(content);
         }
         else{
             content = typeof content === 'string' ? content : '';
-            $('[data-node="content"]', this.node)[0].innerHTML = noWrap ? content : '<div class="dia-contwrap">' + content + '</div>';
+            $.find('[data-node="content"]', this.node).innerHTML = noWrap ? content : '<div class="dia-contwrap">' + content + '</div>';
         }
     },
     setPosition : function(x, y){
@@ -85,10 +85,10 @@ Dialog.prototype = {
     },
 
     on : function(evt, func){
-        $(this).on(evt, func);
+        $.evt(this).on(evt, func);
     },
     off : function(evt, func){
-        $(this).off(evt, func);
+        $.evt(this).off(evt, func);
     },
 
     isShown : false,
@@ -99,7 +99,7 @@ Dialog.prototype = {
                     title : '',
                     content : cfg,
                     button : defaultBtn
-                } : $.extend({
+                } : $.merge({
                     title : '',
                     content : '',
                     button : defaultBtn
@@ -112,7 +112,7 @@ Dialog.prototype = {
         core.animate(this.node, 'zoomIn');
         core.componentHandler.push(this, cfg);
         this.node.setAttribute('data-onshow', '1');
-        $(this).triggerHandler('show');
+        $.trigger(this, 'show');
         return this;
     },
     hide : function(){
@@ -121,7 +121,7 @@ Dialog.prototype = {
         core.animate(this.node, 'zoomOut');
         this.node.removeAttribute('data-onshow');
         core.componentHandler.remove(this);
-        $(this).triggerHandler('hide');
+        $.trigger(this, 'hide');
         return this;
     },
 

@@ -1,1 +1,3 @@
-module.exports = require('../../animator/drawer');
+var Drawer = require('../../animator/drawer');
+
+module.exports = Drawer;

@@ -10,7 +10,7 @@ $.listener(spaCore.Page).on('beforechange', function(uri, controller){
     nav.set(controller);
 });
 
-module.exports = window.core = window.alpha = $.merge(base, {
+module.exports = window.core = window.alpha = $.merge($, base, {
     loadPage : spaCore.loadPage,
     register : spaCore.register,
     controllers : spaCore.controllers,
