@@ -1,25 +1,25 @@
 var nav, api;
 
-export default ($) => {
+module.exports = function($){
     api = {
-        set(page){
+        set : function(page){
             if(!nav){return;}
-            [].forEach.call($.findAll('.cur', nav), (node) => {node.classList.remove('cur');});
-            [].some.call($.findAll('[data-for]', nav), (li) => {
+            [].forEach.call($.findAll('.cur', nav), function(node){node.classList.remove('cur');});
+            [].some.call($.findAll('[data-for]', nav), function(li){
                 if(li.dataset['for'].split(',').indexOf(page) >= 0 && !+li.dataset['hide']){
                     li.classList.add('cur');
                     return true;
                 }
             }) ? api.show() : api.hide();
         },
-        show(){
+        show : function(){
             nav && nav.classList.add('show');
         },
-        hide(){
+        hide : function(){
             nav && nav.classList.remove('show');
         }
     }
-    $.domReady(() => {
+    $.domReady(function(){
         nav = $.find('#mainnav');
 
         nav.set = api.set;

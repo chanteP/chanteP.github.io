@@ -1,14 +1,30 @@
-import $ from 'np-kit'
-import histroy from 'np-history'
+var $ = require('np-kit');
+var histroy = require('np-history');
 
-import Controller from './controller'
-import Page from './page'
+var Controller = require('./controller'),
+    Page = require('./page');
 
-var go = (href) => {
+var loadPage = function(uri, contentNode, option){
+    var scripts = option.scripts || [],
+        styles = option.styles || [];
+
+    var page = new Page(uri);
+    if(page.loader > page.LOADING){return;}
+    page.setContent(contentNode.innerHTML);
+    scripts.concat(styles).forEach(function(url){
+        $.load(url);
+    });
+}
+var register = function(controller, factory){
+    controller = new Controller(controller);
+    controller.set(factory.call(controller, $));
+    controller.check();
+}
+var go = function(href){
     histroy.pushState(null, '', href);
 }
 
-export default function(){
+module.exports = function(){
     $.evt(document)
         .on('click', 'a[href^="/"]', function(e){
             e.preventDefault();
@@ -18,30 +34,15 @@ export default function(){
             go(href);
         });
 
-    $.domReady(() => {
-        histroy.onstatechange(() => {
+    $.domReady(function(){
+        histroy.onstatechange(function(){
             new Page(location.pathname).show();
         });
         histroy.replaceState(null, '', location.pathname);
     });
     return {
-        register(controller, factory){
-            controller = new Controller(controller);
-            controller.set(factory.call(controller, $));
-            controller.check();
-        },
-        loadPage(uri, contentNode, option){
-            var scripts = option.scripts || [],
-                styles = option.styles || [];
-
-            var page = new Page(uri);
-            if(page.loader > page.LOADING){return;}
-            page.needInit = !!scripts.length;
-            page.setContent(contentNode.innerHTML);
-            styles.concat(scripts).forEach(function(url){
-                $.load(url);
-            });
-        },
+        register : register,
+        loadPage : loadPage,
         load : go,
 
         Page : Page,

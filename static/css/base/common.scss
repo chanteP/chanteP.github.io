@@ -82,10 +82,10 @@ hr {
 }
 @-webkit-keyframes maware {
     0% {
-        @include transform(rotate(360deg));
+        @include transform(rotate(0));
     }
 
     100% {
-        @include transform(rotate(0deg));
+        @include transform(rotate(360deg));
     }
 }

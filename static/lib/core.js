@@ -125,15 +125,14 @@ module.exports = function ($) {
             node.classList.add(type);
             var evt = 'AnimationEvent' in window ? 'animationend' : 'webkitAnimationEnd';
             //var evt = 'webkitAnimationEnd';
-            var func = function func(e) {
+            node.addEventListener(evt, function (e) {
                 if (e.target === node) {
                     node.classList.remove('animated');
                     node.classList.remove(type);
-                    node.removeEventListener(evt, func);
+                    node.removeEventListener(evt, arguments.callee);
                     callback && callback(this);
                 }
-            };
-            node.addEventListener(evt, func);
+            });
         },
         setLoading: function setLoading(bool) {
             document.body.classList[bool ? 'add' : 'remove']('loading');
@@ -336,9 +335,6 @@ module.exports = function ($) {
 },{"../base":6}],10:[function(require,module,exports){
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
 var npc;
 
 var contWidth,
@@ -469,42 +465,30 @@ var initBase = function initBase(engine) {
         });
     }
 };
-exports['default'] = {
+module.exports = {
     init: initBase,
     name: 'Aqua'
 };
-module.exports = exports['default'];
+var page = require('../spa');
 
-},{}],11:[function(require,module,exports){
+},{"../spa":16}],11:[function(require,module,exports){
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _npCanvas = require('np-canvas');
-
-var _npCanvas2 = _interopRequireDefault(_npCanvas);
-
-var _aqua = require('./aqua');
-
-var _aqua2 = _interopRequireDefault(_aqua);
-
+var NPCanvas = require('np-canvas');
+var effect = require('./aqua');
 var npc;
 
-exports['default'] = function ($, core) {
+module.exports = function ($, core) {
     $.domReady(function () {
         var canvas = $.find('#npc');
         if (!canvas) {
             return;
         }
-        npc = canvas.engine = new _npCanvas2['default'](canvas, {
+        npc = canvas.engine = new NPCanvas(canvas, {
             fitSize: true,
             pixelRatio: 1
         });
-        _aqua2['default'] && _aqua2['default'].init(npc);
+        effect && effect.init(npc);
         npc.play();
 
         $.evt(document.body).on('click', '[data-npc]', function () {
@@ -520,68 +504,35 @@ exports['default'] = function ($, core) {
     return npc;
 };
 
-module.exports = exports['default'];
-
 },{"./aqua":10,"np-canvas":21}],12:[function(require,module,exports){
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
+var base = require('../base');
+var $ = require('np-kit');
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+var spaCore = require('./spa')($, base);
+var nav = require('./nav')($, base);
+var background = require('./background')($, base);
 
-var _base = require('../base');
-
-var _base2 = _interopRequireDefault(_base);
-
-var _npKit = require('np-kit');
-
-var _npKit2 = _interopRequireDefault(_npKit);
-
-var _spa = require('./spa');
-
-var _spa2 = _interopRequireDefault(_spa);
-
-var _nav = require('./nav');
-
-var _nav2 = _interopRequireDefault(_nav);
-
-var _background = require('./background');
-
-var _background2 = _interopRequireDefault(_background);
-
-_npKit2['default'].debug = true;
-
-var spa = (0, _spa2['default'])(_npKit2['default'], _base2['default']);
-var nav = (0, _nav2['default'])(_npKit2['default'], _base2['default']);
-var background = (0, _background2['default'])(_npKit2['default'], _base2['default']);
-
-_npKit2['default'].listener(spa.Page).on('beforechange', function (uri, controller) {
+$.listener(spaCore.Page).on('beforechange', function (uri, controller) {
     nav.set(controller);
 });
 
-window.alpha = _npKit2['default'].merge(_npKit2['default'], _base2['default'], {
-    loadPage: spa.loadPage,
-    register: spa.register,
-    controllers: spa.controllers,
-    pages: spa.pages,
+module.exports = window.core = $.merge(base, {
+    loadPage: spaCore.loadPage,
+    register: spaCore.register,
+    controllers: spaCore.controllers,
+    pages: spaCore.pages,
 
     nav: nav
 }, true);
 
-exports['default'] = alpha;
-module.exports = exports['default'];
-
 },{"../base":6,"./background":11,"./nav":13,"./spa":16,"np-kit":23}],13:[function(require,module,exports){
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
 var nav, api;
 
-exports['default'] = function ($) {
+module.exports = function ($) {
     api = {
         set: function set(page) {
             if (!nav) {
@@ -614,105 +565,65 @@ exports['default'] = function ($) {
     return api;
 };
 
-module.exports = exports['default'];
-
 },{}],14:[function(require,module,exports){
 'use strict';
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var _npKit = require('np-kit');
-
-var _npKit2 = _interopRequireDefault(_npKit);
-
+var $ = require('np-kit');
 var controllers = {};
-
-var Controller = (function () {
-    function Controller(name) {
-        _classCallCheck(this, Controller);
-
-        if (controllers[name]) {
-            return controllers[name];
-        }
-        if (!(this instanceof Controller)) {
-            return new Controller(name);
-        }
-
-        controllers[name] = this;
-
-        this.name = name;
-        this.list = [];
-        this.lifecycle = {};
-        this.state = 0;
+var Controller = function Controller(name) {
+    if (controllers[name]) {
+        return controllers[name];
+    }
+    if (!(this instanceof Controller)) {
+        return new Controller(name);
     }
 
-    _createClass(Controller, [{
-        key: 'add',
-        value: function add(page) {
-            this.list.push(page);
-        }
-    }, {
-        key: 'set',
-        value: function set(conf) {
-            this.state = 1;
-            _npKit2['default'].merge(this.lifecycle, conf, true);
-        }
-    }, {
-        key: 'get',
-        value: function get(name) {
-            return this.lifecycle[name];
-        }
-    }, {
-        key: 'check',
-        value: function check() {
-            this.list.forEach(function (page) {
-                if (page.state === page.SHOW && page.loader !== page.INITED) {
-                    page.show(true);
-                }
-            });
-        }
-    }]);
+    controllers[name] = this;
 
-    return Controller;
-})();
-
-;
+    this.name = name;
+    this.list = [];
+    this.lifecycle = {};
+};
 Controller.list = controllers;
-
+Controller.prototype = {
+    add: function add(page) {
+        this.list.push(page);
+    },
+    set: function set(conf) {
+        $.merge(this.lifecycle, conf, true);
+    },
+    get: function get(name) {
+        return this.lifecycle[name];
+    },
+    check: function check() {
+        this.list.forEach(function (page) {
+            if (page.state === page.SHOW && page.loader !== page.INITED) {
+                page.state = page.SHOW;
+            }
+        });
+    }
+};
 module.exports = Controller;
 
 },{"np-kit":23}],15:[function(require,module,exports){
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _npKit = require('np-kit');
-
-var _npKit2 = _interopRequireDefault(_npKit);
-
+var $ = require('np-kit');
 var contentTemplate = ['<div class="page-wrap" data-page>', '<div class="loading" style="width:100%;height:100%;"></div>', '</div>'].join('');
 
 var wrapper;
 
 var getWrapper = function getWrapper() {
-    return wrapper || (wrapper = _npKit2['default'].find('#wrapper'));
+    return wrapper || (wrapper = $.find('#wrapper'));
 };
 
-exports['default'] = {
+module.exports = {
     build: function build(page) {
-        return _npKit2['default'].create(contentTemplate);
+        return $.create(contentTemplate);
     },
     hide: function hide(page) {
         page.run('hide');
-        _npKit2['default'].remove(page.node);
+        $.remove(page.node);
         page.run('afterHide');
     },
     show: function show(page) {
@@ -727,46 +638,47 @@ exports['default'] = {
         } else {
             document.body.classList.remove('loading');
         }
-        if (page.loader < page.INITED) {
+        if (page.loader !== page.INITED) {
             page.run('init');
             page.loader = page.INITED;
         }
         page.run('show');
     }
 };
-module.exports = exports['default'];
 
 },{"np-kit":23}],16:[function(require,module,exports){
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
+var $ = require('np-kit');
+var histroy = require('np-history');
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+var Controller = require('./controller'),
+    Page = require('./page');
 
-var _npKit = require('np-kit');
+var loadPage = function loadPage(uri, contentNode, option) {
+    var scripts = option.scripts || [],
+        styles = option.styles || [];
 
-var _npKit2 = _interopRequireDefault(_npKit);
-
-var _npHistory = require('np-history');
-
-var _npHistory2 = _interopRequireDefault(_npHistory);
-
-var _controller = require('./controller');
-
-var _controller2 = _interopRequireDefault(_controller);
-
-var _page = require('./page');
-
-var _page2 = _interopRequireDefault(_page);
-
+    var page = new Page(uri);
+    if (page.loader > page.LOADING) {
+        return;
+    }
+    page.setContent(contentNode.innerHTML);
+    scripts.concat(styles).forEach(function (url) {
+        $.load(url);
+    });
+};
+var register = function register(controller, factory) {
+    controller = new Controller(controller);
+    controller.set(factory.call(controller, $));
+    controller.check();
+};
 var go = function go(href) {
-    _npHistory2['default'].pushState(null, '', href);
+    histroy.pushState(null, '', href);
 };
 
-exports['default'] = function () {
-    _npKit2['default'].evt(document).on('click', 'a[href^="/"]', function (e) {
+module.exports = function () {
+    $.evt(document).on('click', 'a[href^="/"]', function (e) {
         e.preventDefault();
         var href = this.getAttribute('href');
         var target = this.getAttribute('target');
@@ -776,68 +688,31 @@ exports['default'] = function () {
         go(href);
     });
 
-    _npKit2['default'].domReady(function () {
-        _npHistory2['default'].onstatechange(function () {
-            new _page2['default'](location.pathname).show();
+    $.domReady(function () {
+        histroy.onstatechange(function () {
+            new Page(location.pathname).show();
         });
-        _npHistory2['default'].replaceState(null, '', location.pathname);
+        histroy.replaceState(null, '', location.pathname);
     });
     return {
-        register: function register(controller, factory) {
-            controller = new _controller2['default'](controller);
-            controller.set(factory.call(controller, _npKit2['default']));
-            controller.check();
-        },
-        loadPage: function loadPage(uri, contentNode, option) {
-            var scripts = option.scripts || [],
-                styles = option.styles || [];
-
-            var page = new _page2['default'](uri);
-            if (page.loader > page.LOADING) {
-                return;
-            }
-            page.needInit = !!scripts.length;
-            page.setContent(contentNode.innerHTML);
-            styles.concat(scripts).forEach(function (url) {
-                _npKit2['default'].load(url);
-            });
-        },
+        register: register,
+        loadPage: loadPage,
         load: go,
 
-        Page: _page2['default'],
-        Controller: _controller2['default'],
+        Page: Page,
+        Controller: Controller,
 
-        controllers: _controller2['default'].list,
-        pages: _page2['default'].list
+        controllers: Controller.list,
+        pages: Page.list
     };
 };
-
-module.exports = exports['default'];
 
 },{"./controller":14,"./page":17,"np-history":22,"np-kit":23}],17:[function(require,module,exports){
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var _npKit = require('np-kit');
-
-var _npKit2 = _interopRequireDefault(_npKit);
-
-var _controller = require('./controller');
-
-var _controller2 = _interopRequireDefault(_controller);
-
-var _effect = require('./effect');
-
-var _effect2 = _interopRequireDefault(_effect);
+var $ = require('np-kit');
+var Controller = require('./controller');
+var effect = require('./effect');
 
 var parseUrl = function parseUrl(url) {
     url = url.split('#')[0].split('?')[0];
@@ -849,75 +724,93 @@ var parseUrl = function parseUrl(url) {
 };
 //#################################################################################
 var pages = {};
+var Page = function Page(url) {
+    var _parseUrl = parseUrl(url);
 
-var Page = (function () {
-    function Page(url) {
-        _classCallCheck(this, Page);
+    var controller = _parseUrl.controller;
+    var uri = _parseUrl.uri;
 
-        var _parseUrl = parseUrl(url);
-
-        var controller = _parseUrl.controller;
-        var uri = _parseUrl.uri;
-
-        if (!(this instanceof Page) && !pages[uri]) {
-            return null;
-        }
-        if (pages[uri]) {
-            return pages[uri];
-        }
-
-        pages[uri] = this;
-
-        this.controller = new _controller2['default'](controller);
-        this.controllerKey = controller;
-        this.name = this.uri = uri;
-
-        this.controller.add(this);
-
-        this.node = _effect2['default'].build();
-        this.node.dataset.page = this.controllerKey;
-        this.node.dataset.uri = this.uri;
-
-        this._state = this.HIDE;
-        this.loader = this.WAIT;
-        this.needInit = false;
+    if (!(this instanceof Page) && !pages[uri]) {
+        return null;
+    }
+    if (pages[uri]) {
+        return pages[uri];
     }
 
-    _createClass(Page, [{
-        key: 'run',
-        value: function run(lifecycle) {
-            var func = this.controller.get(lifecycle);
-            if (typeof func === 'function') {
-                _npKit2['default'].log('page ' + lifecycle + ':' + this.name, 'info');
-                func.apply(this, arguments);
-            }
+    pages[uri] = this;
+
+    this.controller = Controller(controller);
+    this.controllerKey = controller;
+    this.name = this.uri = uri;
+
+    this.controller.add(this);
+
+    this.node = effect.build();
+    this.node.dataset.page = this.controllerKey;
+    this.node.dataset.uri = this.uri;
+
+    this._state = this.HIDE;
+    this.loader = this.WAIT;
+};
+Page.list = pages;
+Page.parseUrl = parseUrl;
+Page.current = null;
+Page.currentController = null;
+Page.show = function (url) {
+    var _parseUrl2 = parseUrl(url);
+
+    var controller = _parseUrl2.controller;
+    var uri = _parseUrl2.uri;
+
+    if (Page.current === uri) {
+        return;
+    }
+    $.trigger(Page, 'beforechange', [uri, controller]);
+    if (Page.current) {
+        Page(Page.current).state = Page.prototype.HIDE;
+    }
+
+    Page.current = uri;
+    Page.currentController = controller;
+
+    new Page(url).state = Page.prototype.SHOW;
+
+    $.trigger(Page, 'change', [uri, controller]);
+};
+Page.prototype = Object.defineProperties({
+
+    WAIT: 0,
+    LOADING: 1,
+    LOADED: 2,
+    FAILED: 3,
+    INITED: 4,
+
+    SHOW: 5,
+    HIDE: 6,
+
+    run: function run(lifecycle) {
+        var func = this.controller.get(lifecycle);
+        if (typeof func === 'function') {
+            func.apply(this, arguments);
         }
-    }, {
-        key: 'show',
-        value: function show(force) {
-            Page.show(this.uri, force);
-        }
-    }, {
-        key: 'load',
-        value: function load() {
-            this.state = this.WAIT;
-        }
-    }, {
-        key: 'setContent',
-        value: function setContent(html) {
-            this.node.innerHTML = html;
-            this.loader = this.DOMREADY;
-        }
-    }, {
-        key: 'loader',
+    },
+    show: function show() {
+        Page.show(this.uri);
+    },
+    load: function load() {
+        this.state = this.WAIT;
+    },
+    setContent: function setContent(html) {
+        this.node.innerHTML = html;
+        this.loader = this.LOADED;
+    }
+}, {
+    loader: {
         get: function get() {
-            if (this._loader === this.DOMREADY && this.controller.state) {
-                this._loader = this.LOADED;
-            }
             return this._loader;
         },
         set: function set(value) {
-            if (value <= this._loader) {
+            if (value <= this.loader) {
                 return value;
             }
             var self = this;
@@ -930,12 +823,10 @@ var Page = (function () {
                     i.style.cssText = 'display:block;visibility:hidden;overflow:hidden;width:0;height:0;';
                     i.onload = i.onerror = function (e) {
                         document.body.removeChild(i);
-                        self.loader = e.type === 'load' ? self.DOMREADY : self.FAILED;
+                        self.loader = e.type === 'load' ? self.LOADED : self.FAILED;
                     };
                     i.src = '/pages' + self.uri;
                     document.body.appendChild(i);
-                    break;
-                case this.DOMREADY:
                     break;
                 case this.LOADED:
                     break;
@@ -948,75 +839,36 @@ var Page = (function () {
             }
             this._loader = value;
             return value;
-        }
-    }, {
-        key: 'state',
+        },
+        configurable: true,
+        enumerable: true
+    },
+    state: {
         get: function get() {
             return this._state;
         },
         set: function set(value) {
             switch (value) {
                 case this.SHOW:
-                    _effect2['default'].show(this);
+                    $.log('show:' + this.name, 'info');
+                    effect.show(this);
                     break;
                 case this.HIDE:
-                    _effect2['default'].hide(this);
+                    $.log('hide:' + this.name, 'info');
+                    effect.hide(this);
                     break;
                 default:
                     return value;
             }
             this._state = value;
             return value;
-        }
-    }], [{
-        key: 'show',
-        value: function show(url, force) {
-            var _parseUrl2 = parseUrl(url);
+        },
+        configurable: true,
+        enumerable: true
+    }
+});
 
-            var controller = _parseUrl2.controller;
-            var uri = _parseUrl2.uri;
-
-            var pageHide, pageShow;
-            pageHide = Page.current && new Page(Page.current);
-            pageShow = new Page(url);
-
-            if (Page.current === uri && !force) {
-                return;
-            }
-            _npKit2['default'].trigger(Page, 'beforechange', [uri, controller]);
-            if (pageHide) {
-                pageHide.state = pageHide.HIDE;
-            }
-
-            Page.current = uri;
-            Page.currentController = controller;
-
-            pageShow.state = pageShow.SHOW;
-
-            _npKit2['default'].trigger(Page, 'change', [uri, controller]);
-        }
-    }]);
-
-    return Page;
-})();
-
-Page.list = pages;
-Page.parseUrl = parseUrl;
-Page.current = null;
-Page.currentController = null;
-
-Page.prototype.WAIT = 0;
-Page.prototype.LOADING = 1;
-Page.prototype.DOMREADY = 2;
-Page.prototype.LOADED = 4;
-Page.prototype.FAILED = 5;
-Page.prototype.INITED = 9;
-
-Page.prototype.SHOW = 8;
-Page.prototype.HIDE = 9;
-
-exports['default'] = Page;
-module.exports = exports['default'];
+module.exports = Page;
 
 },{"./controller":14,"./effect":15,"np-kit":23}],18:[function(require,module,exports){
 var requestAnimationFrame = require('./kit').requestAnimationFrame;
@@ -1522,19 +1374,17 @@ $.log = function(){
     for(var i = 0; i < arguments.length; i++){
         if(arguments[i] instanceof window.Error){
             type = 'error';
+            message.push(e);
         }
-        else if(logTypes.indexOf(arguments[i]) >= 0){
+        else if(logTypes.indexOf(arguments[i])){
             type = arguments[i];
-        }
-        else{
-            message.push(arguments[i]);
         }
     }
     if(type !== 'log' || $.debug){
         console && console[type].apply(console, message);
     }
 };
-$.debug = $.querySearch('debug') || false;
+$.debug = false;
 
 window.np = $;
 },{"./src/array":25,"./src/cache":26,"./src/dom":27,"./src/env":28,"./src/listener":29,"./src/object":30,"./src/string":31,"np-tween-ani":24}],24:[function(require,module,exports){

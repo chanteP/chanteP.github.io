@@ -2513,13 +2513,13 @@ hr {
 
 @-webkit-keyframes maware {
   0% {
+    -webkit-transform: rotate(0);
+    -moz-transform: rotate(0);
+    transform: rotate(0); }
+  100% {
     -webkit-transform: rotate(360deg);
     -moz-transform: rotate(360deg);
-    transform: rotate(360deg); }
-  100% {
-    -webkit-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    transform: rotate(0deg); } }
+    transform: rotate(360deg); } }
 
 .g-1 {
   width: 8.3333333333%;

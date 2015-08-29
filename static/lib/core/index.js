@@ -1,28 +1,19 @@
-import base from '../base'
-import $ from 'np-kit'
-$.debug = true
+var base = require('../base');
+var $ = require('np-kit');
 
-import mod_spa from './spa'
-import mod_nav from './nav'
-import mod_background from './background'
+var spaCore = require('./spa')($, base);
+var nav = require('./nav')($, base);
+var background = require('./background')($, base);
 
-
-var spa = mod_spa($, base);
-var nav = mod_nav($, base);
-var background = mod_background($, base);
-
-$.listener(spa.Page).on('beforechange', (uri, controller) => {
+$.listener(spaCore.Page).on('beforechange', function(uri, controller){
     nav.set(controller);
 });
 
-
-window.alpha = $.merge($, base, {
-    loadPage : spa.loadPage,
-    register : spa.register,
-    controllers : spa.controllers,
-    pages : spa.pages,
+module.exports = window.core = $.merge(base, {
+    loadPage : spaCore.loadPage,
+    register : spaCore.register,
+    controllers : spaCore.controllers,
+    pages : spaCore.pages,
 
     nav : nav
 }, true);
-
-export default alpha

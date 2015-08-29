@@ -9,15 +9,14 @@ module.exports = function($){
             node.classList.add(type);
             var evt = 'AnimationEvent' in window ? 'animationend' : 'webkitAnimationEnd';
             //var evt = 'webkitAnimationEnd';
-            var func = function(e){
+            node.addEventListener(evt, function(e){
                 if(e.target === node){
                     node.classList.remove('animated');
                     node.classList.remove(type);
-                    node.removeEventListener(evt, func);
+                    node.removeEventListener(evt, arguments.callee);
                     callback && callback(this);
                 }
-            }
-            node.addEventListener(evt, func);
+            });
         },
         setLoading : function(bool){
             document.body.classList[bool ? 'add' : 'remove']('loading');

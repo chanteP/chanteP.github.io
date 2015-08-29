@@ -1,8 +1,8 @@
-import $ from 'np-kit'
-import Controller from './controller'
-import effect from './effect'
+var $ = require('np-kit');
+var Controller = require('./controller');
+var effect = require('./effect');
 
-var parseUrl = (url) => {
+var parseUrl = function(url){
     url = url.split('#')[0].split('?')[0];
     var match = /^(?:[\w]+\:\/\/[^\/]+)?(\/?([^\/]+)[\s\S]*)$/.exec(url);
     return {
@@ -12,65 +12,58 @@ var parseUrl = (url) => {
 }
 //#################################################################################
 var pages = {};
-
-class Page{
-    constructor(url){
-        var {controller, uri} = parseUrl(url);
-        if(!(this instanceof Page) && !pages[uri]){
-            return null;
-        }
-        if(pages[uri]){
-            return pages[uri];
-        }
-
-        pages[uri] = this;
-
-        this.controller = new Controller(controller);
-        this.controllerKey = controller;
-        this.name = this.uri = uri;
-
-        this.controller.add(this);
-
-
-        this.node = effect.build();
-        this.node.dataset.page = this.controllerKey;
-        this.node.dataset.uri = this.uri;
-
-        this._state = this.HIDE;
-        this.loader = this.WAIT;
-        this.needInit = false;
+var Page = function(url){
+    var {controller, uri} = parseUrl(url);
+    if(!(this instanceof Page) && !pages[uri]){
+        return null;
+    }
+    if(pages[uri]){
+        return pages[uri];
     }
 
-    static show(url, force){
-        var {controller, uri} = parseUrl(url);
-        var pageHide, pageShow;
-        pageHide = Page.current && new Page(Page.current);
-        pageShow = new Page(url);
+    pages[uri] = this;
 
-        if(Page.current === uri && !force){
-            return;
-        }
-        $.trigger(Page, 'beforechange', [uri, controller]);
-        if(pageHide){
-            pageHide.state = pageHide.HIDE;
-        }
+    this.controller = Controller(controller);
+    this.controllerKey = controller;
+    this.name = this.uri = uri;
 
-        Page.current = uri;
-        Page.currentController = controller;
+    this.controller.add(this);
 
-        pageShow.state = pageShow.SHOW;
 
-        $.trigger(Page, 'change', [uri, controller]);
-    };
+    this.node = effect.build();
+    this.node.dataset.page = this.controllerKey;
+    this.node.dataset.uri = this.uri;
 
+    this._state = this.HIDE;
+    this.loader = this.WAIT;
+};
+Page.list = pages;
+Page.parseUrl = parseUrl;
+Page.current = null;
+Page.currentController = null;
+Page.show = function(url){
+    var {controller, uri} = parseUrl(url);
+    if(Page.current === uri){
+        return;
+    }
+    $.trigger(Page, 'beforechange', [uri, controller]);
+    if(Page.current){
+        Page(Page.current).state = Page.prototype.HIDE;
+    }
+
+    Page.current = uri;
+    Page.currentController = controller;
+
+    (new Page(url)).state = Page.prototype.SHOW;
+
+    $.trigger(Page, 'change', [uri, controller]);
+};
+Page.prototype = {
     get loader(){
-        if(this._loader === this.DOMREADY && this.controller.state){
-            this._loader = this.LOADED;
-        }
         return this._loader;
-    }
+    },
     set loader(value){
-        if(value <= this._loader){
+        if(value <= this.loader){
             return value;
         }
         var self = this;
@@ -83,12 +76,10 @@ class Page{
                 i.style.cssText = 'display:block;visibility:hidden;overflow:hidden;width:0;height:0;';
                 i.onload = i.onerror = function(e){
                     document.body.removeChild(i);
-                    self.loader = e.type === 'load' ? self.DOMREADY : self.FAILED;
+                    self.loader = e.type === 'load' ? self.LOADED : self.FAILED;
                 }
                 i.src = '/pages' + self.uri;
                 document.body.appendChild(i);
-                break;
-            case this.DOMREADY : 
                 break;
             case this.LOADED :
                 break;
@@ -101,17 +92,19 @@ class Page{
         }
         this._loader = value;
         return value;
-    }
+    },
 
     get state(){
         return this._state;
-    }
+    },
     set state(value){
         switch(value){
             case this.SHOW :
+                $.log('show:' + this.name, 'info');
                 effect.show(this);
                 break;
             case this.HIDE :
+                $.log('hide:' + this.name, 'info');
                 effect.hide(this);
                 break;
             default : 
@@ -119,41 +112,33 @@ class Page{
         }
         this._state = value;
         return value;
-    }
+    },
 
+    WAIT : 0,
+    LOADING : 1,
+    LOADED : 2,
+    FAILED : 3,
+    INITED : 4,
 
-    run(lifecycle){
+    SHOW : 5,
+    HIDE : 6,
+
+    run : function(lifecycle){
         var func = this.controller.get(lifecycle);
         if(typeof func === 'function'){
-            $.log('page ' + lifecycle + ':' + this.name, 'info');
             func.apply(this, arguments);
         }
-    }
-    show(force){
-        Page.show(this.uri, force);
-    }
-    load(){
+    },
+    show : function(){
+        Page.show(this.uri);
+    },
+    load : function(){
         this.state = this.WAIT;
-    }
-    setContent(html){
+    },
+    setContent : function(html){
         this.node.innerHTML = html;
-        this.loader = this.DOMREADY;
+        this.loader = this.LOADED;
     }
 }
 
-Page.list = pages;
-Page.parseUrl = parseUrl;
-Page.current = null;
-Page.currentController = null;
-
-Page.prototype.WAIT = 0
-Page.prototype.LOADING = 1
-Page.prototype.DOMREADY = 2
-Page.prototype.LOADED = 4
-Page.prototype.FAILED = 5
-Page.prototype.INITED = 9
-
-Page.prototype.SHOW = 8
-Page.prototype.HIDE = 9
-
-export default Page
+module.exports = Page;

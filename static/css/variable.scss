@@ -42,11 +42,7 @@ $icon-loading-mini: url(/mobile/images/progressing.gif) no-repeat;
 
 //其他
 ////////////////////////////////////////////////////////////////////////////////
-@mixin textEllipsis{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+
 //########################################################################## y轴滚动
 @mixin scroll($type : auto){
     overflow-y: $type;
@@ -86,11 +82,6 @@ $icon-loading-mini: url(/mobile/images/progressing.gif) no-repeat;
     -moz-filter: $value;
     filter: $value;
 }
-@mixin perspective($value : 800px){
-    -webkit-perspective: $value;
-    perspective: $value;
-}
-
 
 //########################################################################## 动画
 @mixin animation($data){
