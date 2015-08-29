@@ -1,12 +1,13 @@
-core.register('index', function($){
+import $ from '../core'
+$.register('index', ($) => {
     return {
-        init : function(){
+        init(){
             console.log('index init')
         },
-        show : function(){
+        show(){
             console.log('index show')
         },
-        hide : function(){
+        hide(){
             console.log('index hide')
         }
     };

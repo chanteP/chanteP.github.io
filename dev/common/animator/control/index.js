@@ -1,32 +1,29 @@
 import $ from '../../core';
 import html from './template.html';
 import css from './style.scss';
+import toggleBase from '../toggleBase';
 //添加样式
 $.insertStyle(css);
 
-var checkTarget = function(){
-    
-}
+var typeList = ['middle', 'bottom', 'right', 'left', 'top'];
 
-class Control {
-    constructor(type, content){
-        obj.outer = $.create(html);
-        obj.node = $.find('[data-node="content"]', obj.outer);
-        window.document.body.appendChild(obj.outer);
+export default class Control extends toggleBase {
+    constructor(type = typeList[0], content = ''){
+        super(['fadeIn', 'fadeOut']);
 
-        obj.outer.addEventListener('click', function(e){
-            e.target === obj.outer && obj.hide();
+        this.outer = $.create(html);
+        this.node = $.find('[data-node="content"]', this.outer);
+        window.document.body.appendChild(this.outer);
+
+        this.outer.addEventListener('click', (e) => {
+            e.target === this.outer && this.hide();
         });
         this.type = type;
         this.setContent(content);
     }
 
-    public static typeList = ['middle', 'bottom', 'right', 'left', 'top'];
 
-    public outer = null;
-    public node = null;
-
-    public setContent(content){
+    setContent(content){
         if(typeof content === 'string'){
             this.node.innerHTML = content;
         }
@@ -37,49 +34,30 @@ class Control {
     }
 
 
-    var _type = 'middle';
     get type(){
         return this._type;
-    };
+    }
     set type(value){
-        if(this.typeList.indexOf(value) < 0){
-            return this._type;
+        if(typeList.indexOf(value) < 0){
+            value = this._type || typeList[0];
         }
-        this.node.classList.add('type-'+value);
+        this.outer.dataset.type = value;
         return this._type = value;
-    };
+    }
 
-
-    var _isShown = false,
-    get isShown(){
-        return this._isShown;
-    },
-    set isShown(value){
-        if(this._isShown === !!value){
-            return this._isShown;
-        }
-        this.outer[value ? 'setAttribute' : 'removeAttribute']('data-show', '1');
-        $.animate(this.outer, value ? 'fadeIn' : 'fadeOut');
-        return this._isShown = !!value;
-    },
-
-    public show(config){
-        this.isShown = true;
+    show(config){
+        if(!super.show(true)){return;}
         $.componentHandler.push(this, config);
-        $(this).triggerHandler('show');
-        return this;
+        $.trigger(this, 'show');
     }
-    public hide(){
-        this.isShown = false;
+    hide(){
+        if(!super.hide(true)){return;}
         $.componentHandler.remove(this);
-        $(this).triggerHandler('hide');
-        return this;
+        $.trigger(this, 'hide');
     }
 
-    public destroy(){
+    destroy(){
         this.outer.parentNode && this.outer.parentNode.removeChild(this.outer);
     }
 }
 
-
-module.exports = Control;

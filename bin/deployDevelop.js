@@ -2,11 +2,14 @@ var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 
 var browserify = require('browserify');
+var watchify = require('watchify');
 var through2 = require('through2');
 var autoprefixer = require('autoprefixer-core');
 
 var srcDir = './dev/',
     destDir = './temp/';
+
+var needWatch = true;
 
 var shrinkDir = function(file){
     var filename;
@@ -14,21 +17,34 @@ var shrinkDir = function(file){
     file.dirname = '';
     file.basename = file.basename.replace(/index/, filename);
 };
-var buildBrowserify = function(){
-    return through2.obj(function (file, enc, next){
-        browserify(file.path)
-            .bundle(function(err, res){
+var buildBrowserify = function(src){
+    var returnValue = through2.obj(function (file, enc, next){
+        var b = browserify(file.path)
+        var bundle = function(){
+            b.bundle(function(err, res){
                 // console.log('###########', file.path, res);
                 // assumes file.contents is a Buffer
                 file.contents = res || new Buffer('');
                 next(null, file);
             })
-            .on('error', function(e){
-                // delete e.stream;
-                console.error('\033[31m [browserify error]', e.message, '\033[0m');
-                this.emit('end');
-            });
-    })
+        }
+        if(needWatch){
+            b = watchify(b, {});
+            b.on('update', function(){
+                console.log('update@ ' + Date.now());
+                gulp.src(src)
+                    .pipe(returnValue);
+                // bundle();
+            })
+        }
+        b.on('error', function(e){
+            // delete e.stream;
+            console.error('\033[31m [browserify error]', e.message, '\033[0m');
+            this.emit('end');
+        });
+        bundle();
+    });
+    return returnValue;
 }
 var buildSass = function(){
     return $.sass({
@@ -58,7 +74,6 @@ module.exports = function(env){
             .pipe(gulp.dest(destDir));
     });
     gulp.task('static', function(){
-        var browserified = buildBrowserify();
         //css
         gulp.src([srcDir + 'static/css/*.scss'])
             .pipe(buildSass())
@@ -73,7 +88,7 @@ module.exports = function(env){
             .pipe(gulp.dest(destDir + 'static/'));
         //lib下面
         gulp.src([srcDir + 'static/lib/*/index.js'])
-            .pipe(browserified)
+            .pipe(buildBrowserify([srcDir + 'static/lib/*/index.js']))
             .pipe($.rename(shrinkDir))
             .pipe(gulp.dest(destDir + 'static/lib'));
         gulp.src([srcDir + 'static/lib/*.js'])
@@ -92,9 +107,8 @@ module.exports = function(env){
     });
     gulp.task('pageResources', function(){
         //commonjs用browserify打包
-        var browserified = buildBrowserify();
         gulp.src([srcDir + 'pages/*/*.js'])
-            .pipe(browserified)
+            .pipe(buildBrowserify([srcDir + 'pages/*/*.js']))
             .pipe(gulp.dest(destDir + 'static/pages/'));
         gulp.src([srcDir + 'pages/*/*.scss'])
             .pipe(buildSass())

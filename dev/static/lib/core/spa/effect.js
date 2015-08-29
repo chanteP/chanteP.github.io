@@ -1,4 +1,4 @@
-var $ = require('np-kit');
+import $ from 'np-kit'
 var contentTemplate = [
     '<div class="page-wrap" data-page>',
         '<div class="loading" style="width:100%;height:100%;"></div>',
@@ -7,20 +7,20 @@ var contentTemplate = [
 
 var wrapper;
 
-var getWrapper = function(){
+var getWrapper = () => {
     return wrapper || (wrapper = $.find('#wrapper'));
 }
 
-module.exports = {
-    build : function(page){
+export default {
+    build(page){
         return $.create(contentTemplate);
     },
-    hide : function(page){
+    hide(page){
         page.run('hide');
         $.remove(page.node);
         page.run('afterHide');
     },
-    show : function(page){
+    show(page){
         getWrapper().innerHTML = '';
         page.run('beforeShow');
         if(page.node.parentNode !== getWrapper()){

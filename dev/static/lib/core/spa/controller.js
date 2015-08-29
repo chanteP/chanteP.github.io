@@ -1,38 +1,40 @@
-var $ = require('np-kit');
+import $ from 'np-kit'
 var controllers = {}
-var Controller = function(name){
-    if(controllers[name]){
-        return controllers[name];
-    }
-    if(!(this instanceof Controller)){
-        return new Controller(name);
-    }
 
-    controllers[name] = this;
+class Controller{
+    constructor(name){
+        if(controllers[name]){
+            return controllers[name];
+        }
+        if(!(this instanceof Controller)){
+            return new Controller(name);
+        }
 
-    this.name = name;
-    this.list = [];
-    this.lifecycle = {};
-    this.state = 0;
-}
-Controller.list = controllers;
-Controller.prototype = {
-    add : function(page){
+        controllers[name] = this;
+
+        this.name = name;
+        this.list = [];
+        this.lifecycle = {};
+        this.state = 0;
+    }
+    add(page){
         this.list.push(page);
-    },
-    set : function(conf){
+    }
+    set(conf){
         this.state = 1;
         $.merge(this.lifecycle, conf, true);
-    },
-    get : function(name){
+    }
+    get(name){
         return this.lifecycle[name];
-    },
-    check : function(){
-        this.list.forEach(function(page){
+    }
+    check(){
+        this.list.forEach((page) => {
             if(page.state === page.SHOW && page.loader !== page.INITED){
                 page.show(true);
             }
         });
     }
 };
+Controller.list = controllers;
+
 module.exports = Controller;

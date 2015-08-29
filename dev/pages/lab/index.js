@@ -1,9 +1,13 @@
-core.register('lab', function($){
+import $ from '../core'
+$.register('lab', ($) => {
     return {
-        show : function(){
+        init(){
+            console.log('lab init')
+        },
+        show(){
             console.log('lab show')
         },
-        hide : function(){
+        hide(){
             console.log('lab hide')
         }
     };

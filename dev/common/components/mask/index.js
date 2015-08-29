@@ -1,66 +1,44 @@
-/*
-    1. mask只会展示一个
-    2. 高index比低index优先
-    3. 展示低index的时候把高index都隐藏
-*/
+import $ from '../../core';
+import css from './style.scss';
+import toggleBase from '../../animator/toggleBase';
+//添加样式
+$.insertStyle(css);
 
-var template = require('./template.html'),
-    css = require('./style.scss');
+var masks = {}, maskStack = [], current = [];
 
-var $ = require('../../core');
-
-core.insertStyle(css);
-
-var mask = {}, maskStack = [], current;
-var touchMarker = 'data-touch';
-
-var func = {
-    show : function(zIndex){
-        var node = mask[zIndex];
-        if(node){
-            core.animate(node, 'fadeIn');
-            node.setAttribute('data-onshow', '1');
-        }
-        return this;
-    },
-    hide : function(zIndex){
-        var node = mask[zIndex];
-        if(node){
-            core.animate(node, 'fadeOut');
-            node.removeAttribute('data-onshow');
-        }
-        return this;
+export default class Mask extends toggleBase{
+    constructor(zIndex = 50){
+        super(['fadeIn', 'fadeOut']);
+        this.zIndex = zIndex;
+        this.outer = this.node = $.create(`<div class="m-mask" style="z-index:${zIndex};"></div>`);
+        document.body.appendChild(this.node);
+        masks[zIndex] = this;
     }
-};
-// func.get();
-
-var api = module.exports = {
-    stack : maskStack,
-    //zIndex, 提示文本, icon或配置, 配置
-    show : function(){
-        var args = func.parseArg(arguments);
-        var maskNode = func.get(args.zIndex);
-
-        $.find('[data-node="content"]', maskNode)[0].innerHTML = args.text;
-        $.find('[data-node="content"]', maskNode)[0].style.display = args.text ? '' : 'none';
-        maskNode[args.config.touch ? 'setAttribute' : 'removeAttribute'](touchMarker, '1');
-        if(current && current === args.zIndex){
-            return this;
+    show(){
+        if(!super.show(true)){return;}
+        current.push(this);
+        this.stackIndex = maskStack.length - 1;
+    }
+    hide(){
+        if(!super.hide(true)){return;}
+        // if(this.stackIndex === maskStack.length - 1){
+        current.splice(this.stackIndex, 1);
+        // }
+    }
+    static show(zIndex = 50){
+        if(!masks[zIndex]){
+            new Mask(zIndex);
         }
-        // $('[data-node="content"]', maskNode)[0].innerHTML = args.text;
-
-        if(!func.check(args.zIndex)){
-            maskStack.push(args.zIndex);
-            func.show(args.zIndex);
+        masks[zIndex].show();
+    }
+    static hide(zIndex){
+        if(!zIndex){
+            current.forEach((item) => item.hide());
+            return;
         }
-        current = args.zIndex;
-        return this;
-    },
-    hide : function(){
-        maskStack.pop();
-        func.hide(current);
-        current = maskStack[maskStack.length - 1];
-        func.show(current);
-        return this;
+        if(!masks[zIndex]){
+            return;
+        }
+        masks[zIndex].hide();
     }
 }

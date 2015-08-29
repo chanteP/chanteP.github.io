@@ -1,12 +1,13 @@
 import $ from '../../core';
 import html from './template.html';
 import css from './style.scss';
+import toggleBase from '../toggleBase';
 //添加样式
 $.insertStyle(css);
 
-export default class Drawer {
-    constructor(content){
-
+export default class Drawer extends toggleBase {
+    constructor(content = ''){
+        super(['slideInRight', 'slideOutRight']);
         this.outer = $.create(html);
         this.node = $.find('[data-node="scrollCont"]', this.outer);
         document.body.appendChild(this.outer);
@@ -26,31 +27,17 @@ export default class Drawer {
         return this;
     };
 
-    get isShown(){
-        return this._isShown;
-    };
-    set isShown(value){
-        if(!!this._isShown === !!value){
-            return this._isShown;
-        }
-        this.outer[value ? 'setAttribute' : 'removeAttribute']('data-show', '1');
-        $.animate(this.outer, value ? 'slideInRight' : 'slideOutRight');
-        document.body.classList[value ? 'add' : 'remove']('drawer-sub');
-        return this._isShown = !!value;
-    };
-
     show(config){
-        if(this.isShown){return;}
-        // mask.show(90);
-        this.isShown = true;
-        core.componentHandler.push(this, config);
+        if(!super.show(true)){return;}
+        document.body.classList.add('drawer-sub');
+        $.componentHandler.push(this, config);
         $.trigger(this, 'show');
         return this;
     };
     hide(){
-        // mask.hide();
-        this.isShown = false;
-        core.componentHandler.remove(this);
+        if(!super.hide(true)){return;}
+        document.body.classList.remove('drawer-sub');
+        $.componentHandler.remove(this);
         $.trigger(this, 'hide');
         return this;
     };

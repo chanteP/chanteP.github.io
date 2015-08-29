@@ -18,21 +18,11 @@
     @include animation-duration(0.3s);
     @include animation-delay(0.3s);
 
-    &[data-onshow]{
+    &[data-show]{
         /*opacity: 1;*/
         /*pointer-events:auto;*/
         visibility: visible;
         @include animation-delay(0s);
         @include transition-delay(0s);
-    }
-
-    [data-node=content]{
-        display: inline-block;
-        width: auto;
-        max-width: 80%;
-        text-align: justify;
-        line-height: 1.8;
-        font-weight: 400;
-        color: #fff;
     }
 }

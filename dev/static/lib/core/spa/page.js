@@ -1,8 +1,8 @@
-var $ = require('np-kit');
-var Controller = require('./controller');
-var effect = require('./effect');
+import $ from 'np-kit'
+import Controller from './controller'
+import effect from './effect'
 
-var parseUrl = function(url){
+var parseUrl = (url) => {
     url = url.split('#')[0].split('?')[0];
     var match = /^(?:[\w]+\:\/\/[^\/]+)?(\/?([^\/]+)[\s\S]*)$/.exec(url);
     return {
@@ -12,64 +12,63 @@ var parseUrl = function(url){
 }
 //#################################################################################
 var pages = {};
-var Page = function(url){
-    var {controller, uri} = parseUrl(url);
-    if(!(this instanceof Page) && !pages[uri]){
-        return null;
-    }
-    if(pages[uri]){
-        return pages[uri];
-    }
 
-    pages[uri] = this;
+class Page{
+    constructor(url){
+        var {controller, uri} = parseUrl(url);
+        if(!(this instanceof Page) && !pages[uri]){
+            return null;
+        }
+        if(pages[uri]){
+            return pages[uri];
+        }
 
-    this.controller = Controller(controller);
-    this.controllerKey = controller;
-    this.name = this.uri = uri;
+        pages[uri] = this;
 
-    this.controller.add(this);
+        this.controller = new Controller(controller);
+        this.controllerKey = controller;
+        this.name = this.uri = uri;
+
+        this.controller.add(this);
 
 
-    this.node = effect.build();
-    this.node.dataset.page = this.controllerKey;
-    this.node.dataset.uri = this.uri;
+        this.node = effect.build();
+        this.node.dataset.page = this.controllerKey;
+        this.node.dataset.uri = this.uri;
 
-    this._state = this.HIDE;
-    this.loader = this.WAIT;
-    this.needInit = false;
-};
-Page.list = pages;
-Page.parseUrl = parseUrl;
-Page.current = null;
-Page.currentController = null;
-Page.show = function(url, force){
-    var {controller, uri} = parseUrl(url);
-    var pageHide, pageShow;
-    pageHide = Page.current && Page(Page.current);
-    pageShow = new Page(url);
-
-    if(Page.current === uri && !force){
-        return;
-    }
-    $.trigger(Page, 'beforechange', [uri, controller]);
-    if(pageHide){
-        pageHide.state = Page.prototype.HIDE;
+        this._state = this.HIDE;
+        this.loader = this.WAIT;
+        this.needInit = false;
     }
 
-    Page.current = uri;
-    Page.currentController = controller;
+    static show(url, force){
+        var {controller, uri} = parseUrl(url);
+        var pageHide, pageShow;
+        pageHide = Page.current && new Page(Page.current);
+        pageShow = new Page(url);
 
-    pageShow.state = Page.prototype.SHOW;
+        if(Page.current === uri && !force){
+            return;
+        }
+        $.trigger(Page, 'beforechange', [uri, controller]);
+        if(pageHide){
+            pageHide.state = pageHide.HIDE;
+        }
 
-    $.trigger(Page, 'change', [uri, controller]);
-};
-Page.prototype = {
+        Page.current = uri;
+        Page.currentController = controller;
+
+        pageShow.state = pageShow.SHOW;
+
+        $.trigger(Page, 'change', [uri, controller]);
+    };
+
     get loader(){
         if(this._loader === this.DOMREADY && this.controller.state){
             this._loader = this.LOADED;
         }
         return this._loader;
-    },
+    }
     set loader(value){
         if(value <= this._loader){
             return value;
@@ -102,11 +101,11 @@ Page.prototype = {
         }
         this._loader = value;
         return value;
-    },
+    }
 
     get state(){
         return this._state;
-    },
+    }
     set state(value){
         switch(value){
             case this.SHOW :
@@ -120,35 +119,41 @@ Page.prototype = {
         }
         this._state = value;
         return value;
-    },
+    }
 
-    WAIT : 0,
-    LOADING : 1,
-    DOMREADY : 2,
-    LOADED : 4,
-    FAILED : 5,
-    INITED : 9,
 
-    SHOW : 8,
-    HIDE : 9,
-
-    run : function(lifecycle){
+    run(lifecycle){
         var func = this.controller.get(lifecycle);
         if(typeof func === 'function'){
             $.log('page ' + lifecycle + ':' + this.name, 'info');
             func.apply(this, arguments);
         }
-    },
-    show : function(force){
+    }
+    show(force){
         Page.show(this.uri, force);
-    },
-    load : function(){
+    }
+    load(){
         this.state = this.WAIT;
-    },
-    setContent : function(html){
+    }
+    setContent(html){
         this.node.innerHTML = html;
         this.loader = this.DOMREADY;
     }
 }
 
-module.exports = Page;
+Page.list = pages;
+Page.parseUrl = parseUrl;
+Page.current = null;
+Page.currentController = null;
+
+Page.prototype.WAIT = 0
+Page.prototype.LOADING = 1
+Page.prototype.DOMREADY = 2
+Page.prototype.LOADED = 4
+Page.prototype.FAILED = 5
+Page.prototype.INITED = 9
+
+Page.prototype.SHOW = 8
+Page.prototype.HIDE = 9
+
+export default Page

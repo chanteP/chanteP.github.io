@@ -1,13 +1,11 @@
-core.register('about', function($){
+import $ from '../core'
+$.register('about', ($) => {
     return {
-        init : function(){
-            console.log('about init')
+        init(){
         },
-        show : function(){
-            console.log('about show')
+        show(){
         },
-        hide : function(){
-            console.log('about hide')
+        hide(){
         }
     };
 });

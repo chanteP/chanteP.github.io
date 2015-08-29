@@ -1,13 +1,11 @@
-core.register('blog', function($){
+import $ from '../core'
+$.register('blog', ($) => {
     return {
-        init : function(){
-            console.log('blog init')
+        init(){
         },
-        show : function(){
-            console.log('blog show')
+        show(){
         },
-        hide : function(){
-            console.log('blog hide')
+        hide(){
         }
     };
 });

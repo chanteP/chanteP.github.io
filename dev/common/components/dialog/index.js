@@ -2,12 +2,13 @@
     唯一
     btn状态： '' || disabled || active
 */
-var core = require('../../core');
-var css = require('./style.scss');
-
-var mask = require('../mask');
-var render = require('./render.jsx');
-var $ = require('../../core');
+import $ from '../../core';
+import css from './style.scss';
+import toggleBase from '../../animator/toggleBase';
+import mask from '../mask';
+import render from './render.jsx';
+//添加样式
+$.insertStyle(css);
 
 var defaultBtn = [{
     text : '确定',
@@ -16,120 +17,52 @@ var defaultBtn = [{
         this.hide();
     }
 }];
-//添加样式
-core.insertStyle(css);
 
-var commonDialog;
+export default class Dialog extends toggleBase{
+    constructor(cfg, simple){
+        super(['zoomIn', 'zoomOut']);
 
-var func = {
-    buildWrap : function(obj){
-        obj.node = document.createElement('div');
-        obj.node.className = 'm-dialog mid';
-        document.body.appendChild(obj.node);
-        func.bind(obj);
-    },
-    bind : function(obj){
-        $.evt(obj.node).on('click', '[data-node="btnbox"] [data-diabtnid]', function(){
-            var id = +this.getAttribute('data-diabtnid');
-            obj.configData.button[id] && obj.configData.button[id].callback && obj.configData.button[id].callback.call(obj);
-        });
+        this.outer = this.node = document.createElement('div');
+        this.node.className = 'm-dialog mid';
+        document.body.appendChild(this.node);
+
+        this.config(cfg, simple);
     }
-}
 
-var Dialog = function(cfg){
-    if(!(this instanceof Dialog)){
-        commonDialog.config(cfg);
-        return commonDialog;
+    config(cfg = {}, simple){
+        this.title = cfg.title || '';
+        this.content = cfg.content || '';
+        this.button = simple ? defaultBtn : cfg.button;
+        render(this.node, this);
     }
-    func.buildWrap(this);
-    this.configData = {};
-    this.config(cfg);
-}
 
-Dialog.prototype = {
-    constructor : Dialog,
-
-    node : null,
-    titleNode : null,
-    contentNode : null,
-    btnNode : null,
-
-    setContent : function(content, noWrap){
-        this.configData.content = content || '';
-        if(content && content.nodeType){
-            $.find('[data-node="content"]', this.node).appendChild(content);
-        }
-        else{
-            content = typeof content === 'string' ? content : '';
-            $.find('[data-node="content"]', this.node).innerHTML = noWrap ? content : '<div class="dia-contwrap">' + content + '</div>';
-        }
-    },
-    setPosition : function(x, y){
-        if(!arguments.length){
-            var height = this.node.scrollHeight;
-        }
-        //TODO
-    },
-
-    config : function(cfg){
-        if(!cfg){return;}
-        this.configData = {
-            title : 'title' in cfg ? cfg.title : this.configData.title || '',
-            content : 'content' in cfg ? cfg.content : this.configData.content || '',
-            button : 'button' in cfg ? cfg.button : this.configData.button || [],
-            type : 'type' in cfg ? cfg.type : '',
-            noWrap : 'noWrap' in cfg ? cfg.noWrap : this.configData.noWrap
-        };
-        render(this.node, this.configData);
-        this.setContent(this.configData.content, this.configData.noWrap);
-    },
-
-    on : function(evt, func){
-        $.evt(this).on(evt, func);
-    },
-    off : function(evt, func){
-        $.evt(this).off(evt, func);
-    },
-
-    isShown : false,
-    show : function(cfg, simple){
+    show(cfg, simple){
         //写默认太累...加一个simple参数...
-        if(simple){
-            cfg = typeof cfg === 'string' ? {
-                    title : '',
-                    content : cfg,
-                    button : defaultBtn
-                } : $.merge({
-                    title : '',
-                    content : '',
-                    button : defaultBtn
-                }, cfg);
+        if(cfg){
+            this.config(cfg, simple);
         }
-        this.config(cfg);
-
         mask.show(999);
-        this.isShown = true;
-        core.animate(this.node, 'zoomIn');
-        core.componentHandler.push(this, cfg);
-        this.node.setAttribute('data-onshow', '1');
+        super.show();
+        $.componentHandler.push(this, cfg);
         $.trigger(this, 'show');
-        return this;
-    },
-    hide : function(){
-        mask.hide();
-        this.isShown = false;
-        core.animate(this.node, 'zoomOut');
-        this.node.removeAttribute('data-onshow');
-        core.componentHandler.remove(this);
+    }
+    hide(){
+        mask.hide(999);
+        super.hide();
+        $.componentHandler.remove(this);
         $.trigger(this, 'hide');
-        return this;
-    },
+    }
 
-    destroy : function(){
+    destroy(){
         this.node.parentNode && this.node.parentNode.removeChild(this.node);
     }
+
+    static show(...args){
+        return commonDialog.show(...args);
+    }
+    static hide(...args){
+        return commonDialog.hide(...args);
+    }
 }
 
-commonDialog = new Dialog();
-
-module.exports = Dialog;
+var commonDialog = new Dialog();

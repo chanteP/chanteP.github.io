@@ -1,13 +1,11 @@
-core.register('artical', function($){
+import $ from '../core'
+$.register('article', ($) => {
     return {
-        init : function(){
-            console.log('artical init')
+        init(){
         },
-        show : function(){
-            console.log('artical show')
+        show(){
         },
-        hide : function(){
-            console.log('artical hide')
+        hide(){
         }
     };
 });
