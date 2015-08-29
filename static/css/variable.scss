@@ -1,0 +1,144 @@
+//颜色
+////////////////////////////////////////////////////////////////////////////////
+$color-main: rgb(79, 203, 189);
+$color-main-dark: darken($color-main, 8%);
+$color-main-light: lighten($color-main, 10%);
+
+$color-em: rgb(251, 126, 53);
+$color-em-dark: darken($color-em, 8%);
+$color-em-light: lighten($color-em, 10%);
+
+$color-dis: rgb(213,213,213);
+$color-dis-dark: darken($color-dis, 8%);
+$color-dis-light: lighten($color-dis, 10%);
+
+$color-background: #fafafa;
+$color-background-white: #fff;
+$color-background-gray: #ddd;
+
+$color-graywrite: #f8f8f8;
+$color-dark: #aaa;
+$color-border: #ddd;
+
+$color-font-white: #aaa;
+$color-font-sub: #666;
+$color-font: #333;
+
+
+//页面边距
+////////////////////////////////////////////////////////////////////////////////
+$wrap-padding: .30rem;
+$wrap-margin: .30rem;
+
+$font-family-light: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+$switch-edge-length: .52rem;
+$checkbox-size: .24rem;
+
+//loading
+////////////////////////////////////////////////////////////////////////////////
+$icon-loading: '';
+$icon-loading-mini: url(/mobile/images/progressing.gif) no-repeat;
+
+
+//其他
+////////////////////////////////////////////////////////////////////////////////
+@mixin textEllipsis{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+//########################################################################## y轴滚动
+@mixin scroll($type : auto){
+    overflow-y: $type;
+    -webkit-overflow-scrolling: touch;
+    -moz-overflow-scrolling: touch;
+}
+//########################################################################## x轴滚动
+@mixin scrollX($type : auto){
+    overflow-x: $type;
+    -webkit-overflow-scrolling: touch;
+    -moz-overflow-scrolling: touch;
+}
+//########################################################################## 过渡动画
+@mixin transition($duration : 0.2s, $delay : 0s, $type : ease){
+    -webkit-transition: all $duration $type $delay;
+    -moz-transition: all $duration $type $delay;
+    transition: all $duration $type $delay;
+}
+@mixin transition-property($property...){
+    -webkit-transition-property: $property;
+    -moz-transition-property: $property;
+    transition-property: $property;
+}
+@mixin transition-delay($delay){
+    -webkit-transition-delay: $delay;
+    -moz-transition-delay: $delay;
+    transition-delay: $delay;
+}
+//########################################################################## 变换
+@mixin transform($value){
+    -webkit-transform: $value;
+    -moz-transform: $value;
+    transform: $value;
+}
+@mixin filter($value){
+    -webkit-filter: $value;
+    -moz-filter: $value;
+    filter: $value;
+}
+@mixin perspective($value : 800px){
+    -webkit-perspective: $value;
+    perspective: $value;
+}
+
+
+//########################################################################## 动画
+@mixin animation($data){
+    -webkit-animation: $data;
+    -moz-animation: $data;
+    animation: $data;
+}
+@mixin animation-duration($duration : 0.3s){
+    -webkit-animation-duration: $duration;
+    -moz-animation-duration: $duration;
+    animation-duration: $duration;
+}
+@mixin animation-delay($delay : 0s){
+    -webkit-animation-delay: $delay;
+    -moz-animation-delay: $delay;
+    animation-delay: $delay;
+}
+
+@mixin fontAwesome {
+    display: inline-block;
+    font: normal normal normal .28rem/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+@mixin themify {
+    display: inline-block;
+    font: normal normal normal .28rem/1 themify;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+@mixin loadingIcon{
+    &:before{
+        content : '\e619';
+        font-family: themify;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        line-height: 1;
+        font-size: .28rem;
+        margin-top: -.14rem;
+        color:#666;
+    }
+}

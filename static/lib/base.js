@@ -125,14 +125,15 @@ module.exports = function ($) {
             node.classList.add(type);
             var evt = 'AnimationEvent' in window ? 'animationend' : 'webkitAnimationEnd';
             //var evt = 'webkitAnimationEnd';
-            node.addEventListener(evt, function (e) {
+            var func = function func(e) {
                 if (e.target === node) {
                     node.classList.remove('animated');
                     node.classList.remove(type);
-                    node.removeEventListener(evt, arguments.callee);
+                    node.removeEventListener(evt, func);
                     callback && callback(this);
                 }
-            });
+            };
+            node.addEventListener(evt, func);
         },
         setLoading: function setLoading(bool) {
             document.body.classList[bool ? 'add' : 'remove']('loading');
@@ -392,9 +393,25 @@ modList.forEach(function(modName){
 });
 
 $.tween = require('np-tween-ani');
-$.log = function(e){
-    console && console.log(e);
+var logTypes = ['log', 'error', 'info', 'warn', 'debug'];
+$.log = function(){
+    var message = [], mod, type = 'log';
+    for(var i = 0; i < arguments.length; i++){
+        if(arguments[i] instanceof window.Error){
+            type = 'error';
+        }
+        else if(logTypes.indexOf(arguments[i]) >= 0){
+            type = arguments[i];
+        }
+        else{
+            message.push(arguments[i]);
+        }
+    }
+    if(type !== 'log' || $.debug){
+        console && console[type].apply(console, message);
+    }
 };
+$.debug = $.querySearch('debug') || false;
 
 window.np = $;
 },{"./src/array":12,"./src/cache":13,"./src/dom":14,"./src/env":15,"./src/listener":16,"./src/object":17,"./src/string":18,"np-tween-ani":11}],11:[function(require,module,exports){

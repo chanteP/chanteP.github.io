@@ -1,0 +1,20 @@
+<div class="page_demo">
+    <style type="text/css">
+    .page_demo a{
+        display: block;
+        line-height: 1rem;
+    }
+    </style>
+    <a id="callDrawer">Drawer</a>
+    <a id="callSelect">Select</a>
+    <a id="callDialog">Dialog</a>
+    <a id="callPicview">Picview</a>
+    <a id="callMask">Mask</a>
+    <a id="callMaskTips">MaskTips</a>
+
+    <script>
+        window.parent.alpha.loadPage('/demo', wrapper, {
+            scripts:['/static/pages/demo/index.js']
+        });
+    </script>
+</div>
