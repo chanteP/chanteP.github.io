@@ -1,9 +1,10 @@
-var NPCanvas = require('np-canvas');
-var effect = require('./aqua');
+import NPCanvas from 'np-canvas'
+import effect from './aqua'
+
 var npc;
 
-module.exports = function($, core){
-    $.domReady(function(){
+export default ($, core) => {
+    $.domReady(() => {
         var canvas = $.find('#npc');
         if(!canvas){return;}
         npc = canvas.engine = new NPCanvas(canvas, {

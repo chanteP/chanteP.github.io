@@ -22,11 +22,11 @@ var mainColor = 177,
     color_border = 'hsl('+mainColor+', 51.23%, 50%)'
     ;
 var defaultDeg = 90;
-var toArc = function(deg){
+var toArc = (deg) => {
     return deg * 2 * PI / 360;
 }
 
-var initWater = function(){
+var initWater = () => {
     contWidth = npc.width;
     contHeight = npc.height;
     R = sqrt(pow(contHeight, 2) + pow(contWidth, 2));
@@ -72,7 +72,7 @@ var initWater = function(){
     npc.add(water);
 }
 
-var setWater = function(rotate, deg){
+var setWater = (rotate, deg) => {
     rotate = rotate === null ? water.targetRotate : rotate;
     water.rotate = water.rotate % 360;
     
@@ -88,7 +88,7 @@ var setWater = function(rotate, deg){
     water.targetDeg = toArc(deg);
     // npc.canvas.style.backgroundColor = 'hsla(177, 61.23%, 55%, '+ min(.1, max(0, 1 - water.deg + 1.13 - .6))+')';
 }
-var calcHorizon = function(x, y, z){
+var calcHorizon = (x, y, z) => {
     var g1 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     var rotate = Math.acos(y / g1) * 360 / 2 / Math.PI;
     // document.getElementsByTagName('h1')[0].innerHTML = g1 / 10;
@@ -99,13 +99,13 @@ var calcHorizon = function(x, y, z){
     setWater(rotate, deg);
 }
 
-var initBase = function(engine){
+var initBase = (engine) => {
     npc = engine;
     initWater();
     var lock = false;
     var counter = 0;
     if (window.DeviceOrientationEvent) {
-        window.addEventListener('devicemotion', function(e){
+        window.addEventListener('devicemotion', (e) => {
             if(counter++ > 3){
                 counter = 0;
                 if(lock){return;}
@@ -116,15 +116,14 @@ var initBase = function(engine){
 
     var battery = navigator.battery || navigator.webkitBattery;
     if (battery) {
-        battery.addEventListener("levelchange", function (e){
+        battery.addEventListener("levelchange", (e) => {
             if(battery.level < .5){
                 npc.stop();
             }
         });
     }
 }
-module.exports = {
+export default {
     init : initBase,
     name : 'Aqua'
 }
-var page = require('../spa');
