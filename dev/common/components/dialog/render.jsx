@@ -15,23 +15,25 @@ var Dialog = React.createClass({
         func && func.call(this.props.component, this.props.component, e.currentTarget);
     },
     render(){
+        var buttons = this.props.button || [];
         var btnStyle = {
-            width : 100 / this.state.button.length + '%' 
+            width : 100 / buttons.length + '%' 
         };
+
         return (
             <div className="midcont">
                 <div className="dia-wrap">
                     <div style={{display : this.props.title ? '' : 'none'}}>
-                        <h1 className="dia-head">{this.state.title}</h1>
+                        <h1 className="dia-head">{this.props.title}</h1>
                     </div>
                     <div className="dia-content">
                         <div className="dia-contwrap">
-                            {this.state.content}
+                            {this.props.content}
                         </div>
                     </div>
                     <div className="dia-btnbox">
                         {
-                            this.state.button.map(function(btn, i){
+                            buttons.map((btn, i) => {
                                 return (
                                     <div key={i} className={"dia-btn " + btn.style} style={btnStyle}>
                                         <a data-diabtnid={i} onClick={this.btnClick}>

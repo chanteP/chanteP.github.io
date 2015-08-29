@@ -8,7 +8,7 @@ $.insertStyle(css);
 var typeList = ['middle', 'bottom', 'right', 'left', 'top'];
 
 export default class Control extends toggleBase {
-    constructor(type = typeList[0], content = ''){
+    constructor(type = typeList[0], touchable = true){
         super(['fadeIn', 'fadeOut']);
 
         this.outer = $.create(html);
@@ -16,10 +16,11 @@ export default class Control extends toggleBase {
         window.document.body.appendChild(this.outer);
 
         this.outer.addEventListener('click', (e) => {
-            e.target === this.outer && this.hide();
+            this.touchable && e.target === this.outer && this.hide();
         });
+
+        this.touchable = touchable;
         this.type = type;
-        this.setContent(content);
     }
 
 

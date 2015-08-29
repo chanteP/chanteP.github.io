@@ -31,11 +31,13 @@ export default class toggleBase{
             return false;
         }
         this.isShown = true;
+        return true;
     }
     hide(check){
         if(check && !this.isShown){
             return false;
         }
         this.isShown = false;
+        return true;
     }
 }

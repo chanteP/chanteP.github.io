@@ -2,6 +2,7 @@ import $ from '../core'
 var Drawer = require('../../common/components/drawer'),
     Select = require('../../common/components/select'),
     Mask = require('../../common/components/Mask'),
+    MaskTips = require('../../common/components/MaskTips'),
     Dialog = require('../../common/components/dialog');
 $.register('demo', ($) => {
     return {
@@ -27,6 +28,9 @@ $.register('demo', ($) => {
             // var select = new Select;
             callMask.addEventListener('click', (e) => {
                 Mask.show(50);
+                setTimeout(()=>{
+                    Mask.hide();
+                }, 1200)
             });
 
             // var select = new Select;
@@ -36,7 +40,14 @@ $.register('demo', ($) => {
                     content : '什么鬼'
                 }, true);
             });
-            alert(453656)
+
+            // var select = new Select;
+            callMaskTips.addEventListener('click', (e) => {
+                MaskTips.show({
+                    icon : 'loading',
+                    text : '什么鬼'
+                }, true);
+            });
         },
         show(){
         },

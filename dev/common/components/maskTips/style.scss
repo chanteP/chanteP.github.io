@@ -1,0 +1,29 @@
+@import "../../variable.scss";
+
+.m-masktips{
+    background: rgba(0,0,0,.6);
+    border-radius: .12rem;
+    text-align: center;
+    color: #e0e0e0;
+    width: 25%;
+    max-width: 24%;
+    margin: auto;
+    padding:.24rem;
+    pointer-events:none;
+
+    .m-masktips-icon{
+        margin:.24rem;
+
+        span{
+            @include themify;
+            font-size: .8rem;
+        }
+        .ti-reload{
+            animation: maware 1s infinite 0s;
+        }
+    }
+    .m-masktips-text{
+        
+    }
+}
+

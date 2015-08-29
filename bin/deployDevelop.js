@@ -9,7 +9,7 @@ var autoprefixer = require('autoprefixer-core');
 var srcDir = './dev/',
     destDir = './temp/';
 
-var needWatch = true;
+var needWatch = false;
 
 var shrinkDir = function(file){
     var filename;
@@ -88,8 +88,10 @@ module.exports = function(env){
             .pipe(gulp.dest(destDir + 'static/'));
         //lib下面
         gulp.src([srcDir + 'static/lib/*/index.js'])
+            .pipe($.sourcemaps.init())
             .pipe(buildBrowserify([srcDir + 'static/lib/*/index.js']))
             .pipe($.rename(shrinkDir))
+            .pipe($.sourcemaps.write())
             .pipe(gulp.dest(destDir + 'static/lib'));
         gulp.src([srcDir + 'static/lib/*.js'])
             .pipe(gulp.dest(destDir + 'static/lib'));
@@ -108,7 +110,9 @@ module.exports = function(env){
     gulp.task('pageResources', function(){
         //commonjs用browserify打包
         gulp.src([srcDir + 'pages/*/*.js'])
+            .pipe($.sourcemaps.init())
             .pipe(buildBrowserify([srcDir + 'pages/*/*.js']))
+            .pipe($.sourcemaps.write())
             .pipe(gulp.dest(destDir + 'static/pages/'));
         gulp.src([srcDir + 'pages/*/*.scss'])
             .pipe(buildSass())
