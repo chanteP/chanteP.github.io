@@ -135,7 +135,8 @@ module.exports = function(env){
     });
 
 
-    gulp.task('default', ['layout','post','rootConfig','static','pageResources', 'pages'], function(){
+    gulp.task('default', ['layout','post','rootConfig','static','pageResources'], function(){
+        gulp.start('pages');
     });
     gulp.start('default');
 }
