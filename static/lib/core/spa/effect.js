@@ -1,10 +1,10 @@
 import $ from 'np-kit'
 import base from '../../base'
 
-var loadingTemplate = '<div data-node="pageloading" class="loading" style="position:absolute;top:0;left:0;width:100%;height:100%;"></div>';
+// var loadingTemplate = '<div data-node="pageloading" class="loading" style="position:absolute;top:0;left:0;width:100%;height:100%;"></div>';
 var contentTemplate = [
     '<div class="page-wrap" data-page>',
-    loadingTemplate,
+    // loadingTemplate,
     '</div>'
 ].join('');
 

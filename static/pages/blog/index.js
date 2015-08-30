@@ -208,8 +208,11 @@ _core2['default'].register('blog', function ($) {
     return {
         init: function init() {
             $.evt(this.node).on('click', '[data-act="open"]', function (e) {
+                e.preventDefault();
+                var href = this.getAttribute('href');
+                $.find('[name=blogPage]', drawer.node).src = href;
                 drawer.show({
-                    href: this.getAttribute('href')
+                    href: href
                 });
             });
         },

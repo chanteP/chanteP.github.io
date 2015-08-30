@@ -713,8 +713,10 @@ var _base = require('../../base');
 
 var _base2 = _interopRequireDefault(_base);
 
-var loadingTemplate = '<div data-node="pageloading" class="loading" style="position:absolute;top:0;left:0;width:100%;height:100%;"></div>';
-var contentTemplate = ['<div class="page-wrap" data-page>', loadingTemplate, '</div>'].join('');
+// var loadingTemplate = '<div data-node="pageloading" class="loading" style="position:absolute;top:0;left:0;width:100%;height:100%;"></div>';
+var contentTemplate = ['<div class="page-wrap" data-page>',
+// loadingTemplate,
+'</div>'].join('');
 
 var wrapper;
 
