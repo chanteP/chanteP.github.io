@@ -55,7 +55,7 @@ body{
 }
 body.loading{
     &:before{
-        content:'';
+        display: none;
     }
     .main-wrapper{
         @include transform(scale(.95));

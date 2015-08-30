@@ -5,6 +5,7 @@ var browserify = require('browserify');
 var watchify = require('watchify');
 var through2 = require('through2');
 var autoprefixer = require('autoprefixer-core');
+var fs = require('fs');
 
 var srcDir = './dev/',
     destDir = './temp/';
@@ -56,6 +57,16 @@ var buildSass = function(){
         }
     })
 }
+var insertStyle = function(){
+    return $.replace(/<style>@import\surl\(\'([\w\.\/\-\+]+)\'\);<\/style>/g, function(str, url){
+        var uri = destDir.slice(0, -1) + url;
+        var content = '';
+        if(fs.existsSync(uri)){
+            content = fs.readFileSync(uri);
+        }
+        return '<style>' + content + '</style>';
+    })
+}
 module.exports = function(env){
     gulp.task('layout', function(){
         //装饰器
@@ -97,13 +108,14 @@ module.exports = function(env){
             .pipe(gulp.dest(destDir + 'static/lib'));
     });
 
-    gulp.task('pages', function(){
+    gulp.task('pages', ['pageResources'], function(){
         //一个页面对应一个文件夹
         gulp.src([srcDir + 'pages/*/index.html'])
             .pipe($.rename(function(file){
                 file.basename = file.dirname;
                 file.dirname = '';
             }))
+            .pipe(insertStyle())
             .pipe(gulp.dest(destDir + 'pages/'));
         //sass编译
     });
@@ -123,7 +135,7 @@ module.exports = function(env){
     });
 
 
-    gulp.task('default', ['layout','post','rootConfig','static','pages','pageResources']);
-    // gulp.task('default', ['layout','post','rootConfig','static','pages']);
+    gulp.task('default', ['layout','post','rootConfig','static','pageResources', 'pages'], function(){
+    });
     gulp.start('default');
 }
