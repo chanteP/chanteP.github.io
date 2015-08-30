@@ -1,5 +1,7 @@
 .IGNORE : save
 
+run : save deploy
+
 save : 
 	git add -A .
 	git ci -m "backup"
