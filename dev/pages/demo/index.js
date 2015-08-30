@@ -1,9 +1,10 @@
 import $ from '../core'
-var Drawer = require('../../common/components/drawer'),
-    Select = require('../../common/components/select'),
-    Mask = require('../../common/components/Mask'),
-    MaskTips = require('../../common/components/MaskTips'),
-    Dialog = require('../../common/components/dialog');
+import Drawer from '../../common/components/drawer'
+import Select from '../../common/components/select'
+import Mask from '../../common/components/Mask'
+import MaskTips from '../../common/components/MaskTips'
+import Dialog from '../../common/components/dialog'
+
 $.register('demo', ($) => {
     return {
         init(){

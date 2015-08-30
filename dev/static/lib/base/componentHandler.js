@@ -17,6 +17,8 @@
 var stack = [];
 var title = window.document.title;
 
+var history = require('np-history');
+
 var findTitle = function(){
     var lastTitle = title;
     for(var i = stack.length - 1; i >= 0; i--){
@@ -28,11 +30,7 @@ var findTitle = function(){
     document.title = lastTitle;
 }
 var pushState = function(href, title){
-    href = href || location.href;
-    title = title || document.title;
-    window.history.pushState ?
-        window.history.pushState(null, title, href) : 
-        (location.hash = href);
+    history.pushState(null, title || '', href || location.pathname);
 }
 
 //temp
@@ -77,7 +75,8 @@ var api = {
             component : component,
             block : cfg.block,
             title : cfg.title,
-            onBack : cfg.onBack
+            onBack : cfg.onBack,
+            href : cfg.href
         });
         findTitle();
         return this;
@@ -105,7 +104,9 @@ var api = {
 
 module.exports = function($){
     $.domReady(function(){
+        // debugger
         window.addEventListener('popstate', popState);
+        // history.onback(popState);
     });
     return {
         componentHandler : api

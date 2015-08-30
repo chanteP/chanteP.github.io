@@ -11,18 +11,20 @@ var go = (href) => {
 export default function(){
     $.evt(document)
         .on('click', 'a[href^="/"]', function(e){
-            e.preventDefault();
-            var href = this.getAttribute('href');
             var target = this.getAttribute('target');
             if(target){return;}
+            e.preventDefault();
+            var href = this.getAttribute('href');
             go(href);
+            new Page(location.pathname).show();
         });
 
     $.domReady(() => {
-        histroy.onstatechange(() => {
+        histroy.onpopstate(() => {
             new Page(location.pathname).show();
         });
         histroy.replaceState(null, '', location.pathname);
+        new Page(location.pathname).show();
     });
     return {
         register(controller, factory){

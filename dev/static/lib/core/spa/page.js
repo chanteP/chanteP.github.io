@@ -122,11 +122,11 @@ class Page{
     }
 
 
-    run(lifecycle){
+    run(lifecycle, ...args){
         var func = this.controller.get(lifecycle);
         if(typeof func === 'function'){
             $.log('page ' + lifecycle + ':' + this.name, 'info');
-            func.apply(this, arguments);
+            func.call(this, ...args);
         }
     }
     show(force){
