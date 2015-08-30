@@ -1,5 +1,8 @@
 import $ from '../core'
 import Drawer from '../../common/components/drawer'
+import css from './frame.scss'
+
+$.insertStyle(css);
 
 $.register('blog', ($) => {
 	var drawer = new Drawer;
