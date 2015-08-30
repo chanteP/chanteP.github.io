@@ -1,16 +1,38 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="content-language" content="zh-CN" />
-        
         <title>{{ page.title }}</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+        <meta content="telephone=no" name="format-detection" />
+        
+        <link type="text/css" rel="stylesheet" href="/static/css/markdown.css"/>
+        <script src="/static/lib/base.js"></script>
     </head>
-    <body>
-        <div id="date"></div>
-        <div id="content">
+<body>
+    <div id="wrapper" class="main-wrapper">
+        <div class="wrap post">
 {{ content }}
         </div>
-        <script>window.fin = true;</script>
-    </body>
+    </div>
+    <div id="syscomp" class="main-comp">
+        <nav id="mainnav" class="main-nav show">
+            <ul>
+                <li data-for="index" data-hide="1">
+                    <a href="/"><icon>✡</icon><span>home</span></a>
+                </li>
+                <li data-for="lab">
+                    <a href="/lab"><icon>〄</icon><span>lab</span></a>
+                </li>
+                <li data-for="blog,article" class="cur">
+                    <a href="/blog"><icon>⌸</icon><span>blog</span></a>
+                </li>
+                <li data-for="about">
+                    <a href="/about"><icon>❄</icon><span>about</span></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</body>
 </html>

@@ -13,6 +13,7 @@
 @import "./ui/themify.scss";
 @import "./ui/checkbox.scss";
 @import "./ui/button.scss";
+@import "./ui/markdown.scss";
 
 /* custom
 ----------------------------------*/
@@ -26,49 +27,8 @@ body{
     width: 100%;
     z-index: 4;
     background: transparent;
-}
-.page-wrap{
-    position:absolute;
-    top:0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-}
-
-.main-bg{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-}
-.main-loading{
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 20;
-
-    opacity: 0;
-    visibility: hidden;
-    @include transition;
-    background: rgba(0,0,0,.05);
-}
-body.loading{
-    &:before{
-        display: none;
-    }
-    .main-wrapper{
-        @include transform(scale(.95));
-    }
-    .main-nav,
-    .main-bg{
-        @include filter(blur(2px));
-    }
-    .main-loading{
-        visibility: visible;
-        opacity: 1;
-    }
+    @include scroll(scroll);
+    overflow-x: hidden;
 }
 @media screen and (min-width : 1001px){
     @import "./mediaquery/main_normal.scss";
