@@ -60,6 +60,7 @@ body.loading{
     }
     .main-wrapper{
         @include transform(scale(.95));
+        @include filter(blur(4px));
     }
     .main-nav,
     .main-bg{
