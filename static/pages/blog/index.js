@@ -204,7 +204,7 @@ var _commonComponentsDrawer2 = _interopRequireDefault(_commonComponentsDrawer);
 
 _core2['default'].register('blog', function ($) {
     var drawer = new _commonComponentsDrawer2['default']();
-    drawer.setContent('<iframe class="blog-drawer" name="blogPage" id="blogPage"></iframe>');
+    drawer.setContent('<iframe class="blog-drawer" name="blogPage"></iframe>');
     return {
         init: function init() {
             $.evt(this.node).on('click', '[data-act="open"]', function (e) {
