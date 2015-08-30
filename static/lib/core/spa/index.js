@@ -6,6 +6,7 @@ import Page from './page'
 
 var go = (href) => {
     histroy.pushState(null, '', href);
+    new Page(location.pathname).show();
 }
 
 export default function(){
@@ -16,7 +17,6 @@ export default function(){
             e.preventDefault();
             var href = this.getAttribute('href');
             go(href);
-            new Page(location.pathname).show();
         });
 
     $.domReady(() => {
@@ -37,6 +37,7 @@ export default function(){
             if(page.loader > page.LOADING){return;}
             page.needInit = !!scripts.length;
             page.setContent(contentNode.innerHTML);
+            contentNode.innerHTML = '';
             styles.forEach(function(url){
                 if(url[0] === '/' || url[0] === '.'){
                     $.load(url);

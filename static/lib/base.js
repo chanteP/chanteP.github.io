@@ -123,7 +123,7 @@ module.exports = function ($) {
         api.setLoading(false);
     });
     return api = {
-        animate: function animate(node, type, callback) {
+        animate: function animate(node, type, callback, unique) {
             node.classList.add('animated');
             node.classList.add(type);
             var evt = 'AnimationEvent' in window ? 'animationend' : 'webkitAnimationEnd';
@@ -132,10 +132,18 @@ module.exports = function ($) {
                 if (e.target === node) {
                     node.classList.remove('animated');
                     node.classList.remove(type);
+                    // console.info('del', node, evt, callback);
                     node.removeEventListener(evt, func);
                     callback && callback(this);
                 }
             };
+            if (unique) {
+                if (node.bindAnimatedFunc) {
+                    node.removeEventListener(evt, node.bindAnimatedFunc);
+                }
+                node.bindAnimatedFunc = func;
+            }
+            // console.info('add', node, evt, callback);
             node.addEventListener(evt, func);
         },
         setLoading: function setLoading(bool) {

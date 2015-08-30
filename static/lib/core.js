@@ -123,7 +123,7 @@ module.exports = function ($) {
         api.setLoading(false);
     });
     return api = {
-        animate: function animate(node, type, callback) {
+        animate: function animate(node, type, callback, unique) {
             node.classList.add('animated');
             node.classList.add(type);
             var evt = 'AnimationEvent' in window ? 'animationend' : 'webkitAnimationEnd';
@@ -132,10 +132,18 @@ module.exports = function ($) {
                 if (e.target === node) {
                     node.classList.remove('animated');
                     node.classList.remove(type);
+                    // console.info('del', node, evt, callback);
                     node.removeEventListener(evt, func);
                     callback && callback(this);
                 }
             };
+            if (unique) {
+                if (node.bindAnimatedFunc) {
+                    node.removeEventListener(evt, node.bindAnimatedFunc);
+                }
+                node.bindAnimatedFunc = func;
+            }
+            // console.info('add', node, evt, callback);
             node.addEventListener(evt, func);
         },
         setLoading: function setLoading(bool) {
@@ -701,7 +709,12 @@ var _npKit = require('np-kit');
 
 var _npKit2 = _interopRequireDefault(_npKit);
 
-var contentTemplate = ['<div class="page-wrap" data-page>', '<div class="loading" style="width:100%;height:100%;"></div>', '</div>'].join('');
+var _base = require('../../base');
+
+var _base2 = _interopRequireDefault(_base);
+
+var loadingTemplate = '<div data-node="pageloading" class="loading" style="position:absolute;top:0;left:0;width:100%;height:100%;"></div>';
+var contentTemplate = ['<div class="page-wrap" data-page>', loadingTemplate, '</div>'].join('');
 
 var wrapper;
 
@@ -715,14 +728,17 @@ exports['default'] = {
     },
     hide: function hide(page) {
         page.run('hide');
-        _npKit2['default'].remove(page.node);
-        page.run('afterHide');
+        _base2['default'].animate(page.node, 'fadeOutDown', function () {
+            _npKit2['default'].remove(page.node);
+            page.run('afterHide');
+        }, true);
     },
     show: function show(page) {
-        getWrapper().innerHTML = '';
+        // getWrapper().innerHTML = '';
         page.run('beforeShow');
         if (page.node.parentNode !== getWrapper()) {
             getWrapper().appendChild(page.node);
+            _base2['default'].animate(page.node, 'fadeInDown', null, true);
         }
         if (page.loader < page.LOADED) {
             document.body.classList.add('loading');
@@ -739,7 +755,7 @@ exports['default'] = {
 };
 module.exports = exports['default'];
 
-},{"np-kit":23}],16:[function(require,module,exports){
+},{"../../base":6,"np-kit":23}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -766,6 +782,7 @@ var _page2 = _interopRequireDefault(_page);
 
 var go = function go(href) {
     _npHistory2['default'].pushState(null, '', href);
+    new _page2['default'](location.pathname).show();
 };
 
 exports['default'] = function () {
@@ -777,7 +794,6 @@ exports['default'] = function () {
         e.preventDefault();
         var href = this.getAttribute('href');
         go(href);
-        new _page2['default'](location.pathname).show();
     });
 
     _npKit2['default'].domReady(function () {
@@ -805,6 +821,7 @@ exports['default'] = function () {
             }
             page.needInit = !!scripts.length;
             page.setContent(contentNode.innerHTML);
+            contentNode.innerHTML = '';
             styles.forEach(function (url) {
                 if (url[0] === '/' || url[0] === '.') {
                     _npKit2['default'].load(url);
@@ -1007,7 +1024,7 @@ var Page = (function () {
                 return;
             }
             _npKit2['default'].trigger(Page, 'beforechange', [uri, controller]);
-            if (pageHide) {
+            if (Page.current !== uri && pageHide) {
                 pageHide.state = pageHide.HIDE;
             }
 

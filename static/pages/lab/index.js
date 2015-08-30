@@ -17,17 +17,7 @@ var _core = require('../core');
 var _core2 = _interopRequireDefault(_core);
 
 _core2['default'].register('lab', function ($) {
-    return {
-        init: function init() {
-            console.log('lab init');
-        },
-        show: function show() {
-            console.log('lab show');
-        },
-        hide: function hide() {
-            console.log('lab hide');
-        }
-    };
+    return {};
 });
 
 },{"../core":1}]},{},[2]);

@@ -1,7 +1,10 @@
 import $ from 'np-kit'
+import base from '../../base'
+
+var loadingTemplate = '<div data-node="pageloading" class="loading" style="position:absolute;top:0;left:0;width:100%;height:100%;"></div>';
 var contentTemplate = [
     '<div class="page-wrap" data-page>',
-        '<div class="loading" style="width:100%;height:100%;"></div>',
+    loadingTemplate,
     '</div>'
 ].join('');
 
@@ -17,14 +20,17 @@ export default {
     },
     hide(page){
         page.run('hide');
-        $.remove(page.node);
-        page.run('afterHide');
+        base.animate(page.node, 'fadeOutDown', function(){
+            $.remove(page.node);
+            page.run('afterHide');
+        }, true);
     },
     show(page){
-        getWrapper().innerHTML = '';
+        // getWrapper().innerHTML = '';
         page.run('beforeShow');
         if(page.node.parentNode !== getWrapper()){
             getWrapper().appendChild(page.node);
+            base.animate(page.node, 'fadeInDown', null, true);
         }
         if(page.loader < page.LOADED){
             document.body.classList.add('loading');

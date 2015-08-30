@@ -216,7 +216,7 @@ _core2['default'].register('index', function ($) {
     drawer.setContent('<iframe class="blog-drawer" name="blogPage"></iframe>');
     return {
         init: function init() {
-            $.evt(this.node).on('click', '[data-act="open"]', function (e) {
+            $.evt($.find('#posts', this.node)).on('click', '[data-act="open"]', function (e) {
                 drawer.show({
                     href: this.getAttribute('href')
                 });
