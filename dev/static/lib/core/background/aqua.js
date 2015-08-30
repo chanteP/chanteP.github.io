@@ -66,14 +66,16 @@ var initWater = () => {
         // document.getElementsByTagName('h1')[0] && (document.getElementsByTagName('h1')[0].innerHTML = 
         //     [deltaH].map((n)=>n.toFixed(2))
         // );
-        var px = (0) | 0, 
-            py = (deltaH) | 0;
+        // var px = (contWidth / 2) | 0, 
+        //     py = (deltaH) | 0;
 
         // var arcTime, wave;
         // arcTime = sin(toArc(this.timer));
-        // wave = (arcTime * min(100, R - abs(py))) | 0;
+        // wave = (arcTime * 100) | 0;
         // ctx.moveTo(px, py);
+        // console.log(px, py, wave, arcTime)
         // ctx.bezierCurveTo(0, py + wave, 0, py - wave, -px, py);
+
         // ctx.strokeStyle = color_border;
         // ctx.lineWidth = 2;
         // ctx.stroke();
@@ -82,8 +84,9 @@ var initWater = () => {
         ctx.fill();
         ctx.closePath();
 
+
         // ctx.strokeStyle = '#000';
-        // ctx.strokeRect(px, py, 4, 4);
+        // ctx.strokeRect(0, 0, 4, 4);
     });
     water.timer = 0;
     water.rotate = 0;
