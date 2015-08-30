@@ -190,6 +190,8 @@ module.exports = Drawer;
 module.exports = alpha;
 
 },{}],7:[function(require,module,exports){
+module.exports = ".blog-drawer {\n  width: 100%;\n  height: 100%;\n  border: 0;\n  padding: 0;\n  margin: 0; }\n";
+},{}],8:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -201,6 +203,12 @@ var _core2 = _interopRequireDefault(_core);
 var _commonComponentsDrawer = require('../../common/components/drawer');
 
 var _commonComponentsDrawer2 = _interopRequireDefault(_commonComponentsDrawer);
+
+var _frameScss = require('./frame.scss');
+
+var _frameScss2 = _interopRequireDefault(_frameScss);
+
+_core2['default'].insertStyle(_frameScss2['default']);
 
 _core2['default'].register('blog', function ($) {
     var drawer = new _commonComponentsDrawer2['default']();
@@ -221,7 +229,7 @@ _core2['default'].register('blog', function ($) {
     };
 });
 
-},{"../../common/components/drawer":5,"../core":8}],8:[function(require,module,exports){
+},{"../../common/components/drawer":5,"../core":9,"./frame.scss":7}],9:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -230,4 +238,4 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = window.alpha;
 module.exports = exports["default"];
 
-},{}]},{},[7]);
+},{}]},{},[8]);
