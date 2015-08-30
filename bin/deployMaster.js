@@ -4,6 +4,7 @@ var $ = require('gulp-load-plugins')();
 var browserify = require('browserify');
 var through2 = require('through2');
 var autoprefixer = require('autoprefixer-core');
+var fs = require('fs');
 
 var srcDir = './dev/',
     destDir = './temp/';
