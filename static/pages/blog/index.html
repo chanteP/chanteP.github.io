@@ -1,4 +1,5 @@
 <div class="page_blog">
+    <style>@import url('/static/pages/blog/style.css');</style>
     <section class="wrap">
         <ul class="blog_list">
         {% for post in site.categories.article %}
@@ -24,8 +25,7 @@
 
     <script>
         window.parent.alpha.loadPage('/blog', wrapper, {
-            scripts:['/static/pages/blog/index.js'],
-            styles:['/static/pages/blog/style.css']
+            scripts:['/static/pages/blog/index.js']
         });
     </script>
 </div>

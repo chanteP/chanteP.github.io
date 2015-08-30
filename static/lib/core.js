@@ -788,9 +788,11 @@ exports['default'] = function () {
             controller.set(factory.call(controller, _npKit2['default']));
             controller.check();
         },
-        loadPage: function loadPage(uri, contentNode, option) {
-            var scripts = option.scripts || [],
-                styles = option.styles || [];
+        loadPage: function loadPage(uri, contentNode, _ref) {
+            var _ref$scripts = _ref.scripts;
+            var scripts = _ref$scripts === undefined ? [] : _ref$scripts;
+            var _ref$styles = _ref.styles;
+            var styles = _ref$styles === undefined ? [] : _ref$styles;
 
             var page = new _page2['default'](uri);
             if (page.loader > page.LOADING) {
@@ -798,8 +800,19 @@ exports['default'] = function () {
             }
             page.needInit = !!scripts.length;
             page.setContent(contentNode.innerHTML);
-            styles.concat(scripts).forEach(function (url) {
-                _npKit2['default'].load(url);
+            styles.forEach(function (url) {
+                if (url[0] === '/' || url[0] === '.') {
+                    _npKit2['default'].load(url);
+                } else {
+                    _npKit2['default'].insertStyle(url);
+                }
+            });
+            scripts.forEach(function (url) {
+                if (url[0] === '/' || url[0] === '.') {
+                    _npKit2['default'].load(url);
+                } else {
+                    eval(url);
+                }
             });
         },
         load: go,

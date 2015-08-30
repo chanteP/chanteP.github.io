@@ -3799,7 +3799,7 @@ html {
   background: rgba(0, 0, 0, 0.05); }
 
 body.loading:before {
-  content: ''; }
+  display: none; }
 
 body.loading .main-wrapper {
   -webkit-transform: scale(0.95);

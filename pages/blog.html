@@ -2,6 +2,90 @@
 layout: page
 ---
 <div class="page_blog">
+    <style>@charset "UTF-8";
+.page_blog {
+  height: 100%;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  -moz-overflow-scrolling: touch; }
+  .page_blog .blog_list {
+    padding: 0 0.18rem 2rem 0.18rem; }
+    .page_blog .blog_list [data-node="postlist"] {
+      overflow: hidden;
+      /*@include transition;*/ }
+      .page_blog .blog_list [data-node="postlist"] .title {
+        color: #333; }
+      .page_blog .blog_list [data-node="postlist"] article {
+        position: relative;
+        margin: .04rem 0;
+        padding: .4rem;
+        background: rgba(255, 255, 255, 0.8);
+        line-height: 1.8; }
+        .page_blog .blog_list [data-node="postlist"] article .title {
+          text-decoration: none; }
+          .page_blog .blog_list [data-node="postlist"] article .title h1 {
+            font-size: .3rem;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap; }
+      .page_blog .blog_list [data-node="postlist"] .infobox {
+        border-top: 1px solid #ccc; }
+      .page_blog .blog_list [data-node="postlist"] .info {
+        color: #666;
+        padding: .16rem; }
+      .page_blog .blog_list [data-node="postlist"] .content {
+        color: #333;
+        line-height: 2;
+        height: 4em;
+        overflow: hidden;
+        -webkit-transition: all 0.2s ease 0s;
+        -moz-transition: all 0.2s ease 0s;
+        transition: all 0.2s ease 0s; }
+        .page_blog .blog_list [data-node="postlist"] .content p {
+          text-indent: 2em; }
+      .page_blog .blog_list [data-node="postlist"] .content a,
+      .page_blog .blog_list [data-node="postlist"] .more a {
+        color: #4fcbbd;
+        /*text-decoration: underline;*/ }
+        .page_blog .blog_list [data-node="postlist"] .content a:hover,
+        .page_blog .blog_list [data-node="postlist"] .more a:hover {
+          color: #fb7e35; }
+      .page_blog .blog_list [data-node="postlist"] .more {
+        text-align: right; }
+        .page_blog .blog_list [data-node="postlist"] .more [data-fake]:after {
+          content: '全部展开'; }
+        .page_blog .blog_list [data-node="postlist"] .more [data-act="toTop"] {
+          display: none; }
+      .page_blog .blog_list [data-node="postlist"][data-status="loading"],
+      .page_blog .blog_list [data-node="postlist"][data-status="show"] {
+        /*width: 100%;*/ }
+      .page_blog .blog_list [data-node="postlist"][data-status="show"] .content {
+        /*max-height: 200em;*/ }
+      .page_blog .blog_list [data-node="postlist"][data-status="show"] .more [data-fake]:after {
+        content: '收起'; }
+      .page_blog .blog_list [data-node="postlist"][data-status="show"] .more [data-act="toTop"] {
+        display: inline-block; }
+      .page_blog .blog_list [data-node="postlist"] article:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        visibility: hidden;
+        -webkit-transition: all 0.2s ease 0s;
+        -moz-transition: all 0.2s ease 0s;
+        transition: all 0.2s ease 0s; }
+      .page_blog .blog_list [data-node="postlist"][data-status="loading"] article:after {
+        opacity: 1;
+        visibility: visible;
+        background: url("/static/images/progressing.gif") center center rgba(255, 255, 255, 0.75) no-repeat; }
+
+@media screen and (max-width: 1000px) {
+  .page_blog .blog_list {
+    padding: 0 0 2rem 0; } }
+</style>
     <section class="wrap">
         <ul class="blog_list">
         {% for post in site.categories.article %}
@@ -27,8 +111,7 @@ layout: page
 
     <script>
         window.parent.alpha.loadPage('/blog', wrapper, {
-            scripts:['/static/pages/blog/index.js'],
-            styles:['/static/pages/blog/style.css']
+            scripts:['/static/pages/blog/index.js']
         });
     </script>
 </div>

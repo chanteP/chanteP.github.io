@@ -30,16 +30,26 @@ export default function(){
             controller.set(factory.call(controller, $));
             controller.check();
         },
-        loadPage(uri, contentNode, option){
-            var scripts = option.scripts || [],
-                styles = option.styles || [];
-
+        loadPage(uri, contentNode, {scripts = [], styles = []}){
             var page = new Page(uri);
             if(page.loader > page.LOADING){return;}
             page.needInit = !!scripts.length;
             page.setContent(contentNode.innerHTML);
-            styles.concat(scripts).forEach(function(url){
-                $.load(url);
+            styles.forEach(function(url){
+                if(url[0] === '/' || url[0] === '.'){
+                    $.load(url);
+                }
+                else{
+                    $.insertStyle(url);
+                }
+            });
+            scripts.forEach(function(url){
+                if(url[0] === '/' || url[0] === '.'){
+                    $.load(url);
+                }
+                else{
+                    eval(url);
+                }
             });
         },
         load : go,
