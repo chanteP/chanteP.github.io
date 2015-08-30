@@ -36,8 +36,12 @@
     </div>
     <script>
     if(window.parent !== window){
+        window.addEventListener('onbeforeunload', function(){
+            window.parent.history.go(-1);
+        });
         document.getElementById('mainnav').addEventListener('click', function(e){
             if(e.target.tagName === 'A'){
+                e.preventDefault();
                 window.parent.history.go(-1);
                 window.parent.alpha && window.parent.alpha.go(e.target.getAttribtue('href'));
             }

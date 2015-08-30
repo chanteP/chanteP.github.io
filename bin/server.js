@@ -17,10 +17,12 @@ var renderPage = function(dec, page, req, res){
     if(/.md$/.test(url)){
         html = markdown(html);
     }
-    res.render('_layouts/'+dec+'.html', {
-        content : html
-    });
-    res.end();
+    setTimeout(function(){
+        res.render('_layouts/'+dec+'.html', {
+            content : html
+        });
+        res.end();
+    }, req.param.delay || 0);
 }
 
 module.exports = function(){

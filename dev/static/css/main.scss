@@ -26,6 +26,7 @@ body{
     width: 100%;
     z-index: 4;
     background: transparent;
+    @include transition(.4s, .5s);
 }
 .page-wrap{
     position:absolute;
@@ -33,6 +34,7 @@ body{
     left: 0;
     height: 100%;
     width: 100%;
+    @include animation-duration(.4s);
 }
 
 .main-bg{
@@ -49,16 +51,15 @@ body{
     height: 100%;
     z-index: 20;
 
-    opacity: 0;
     visibility: hidden;
     @include transition;
-    background: rgba(0,0,0,.05);
 }
 body.loading{
     &:before{
         display: none;
     }
     .main-wrapper{
+        @include transition-delay(.5s);
         @include transform(scale(.95));
         @include filter(blur(4px));
     }
@@ -68,7 +69,6 @@ body.loading{
     }
     .main-loading{
         visibility: visible;
-        opacity: 1;
     }
 }
 @media screen and (min-width : 1001px){

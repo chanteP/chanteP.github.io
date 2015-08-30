@@ -51,7 +51,7 @@ class Page{
             return;
         }
         $.trigger(Page, 'beforechange', [uri, controller]);
-        if(pageHide){
+        if(Page.current !== uri && pageHide){
             pageHide.state = pageHide.HIDE;
         }
 

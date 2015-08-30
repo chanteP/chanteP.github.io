@@ -6,7 +6,7 @@ $.register('index', ($) => {
     drawer.setContent('<iframe class="blog-drawer" name="blogPage"></iframe>');
     return {
         init(){
-            $.evt(this.node)
+            $.evt($.find('#posts', this.node))
                 .on('click', '[data-act="open"]', function(e){
                     drawer.show({
                         href : this.getAttribute('href')

@@ -16,14 +16,14 @@
                 <li><a href="/blog"><icon>⌸</icon>blog</a></li>
                 <li><a href="/about"><icon>❄</icon>about</a></li>
             </ul>
-            <ul class="event">
+            <ul class="events" id="events">
                 {% for post in site.categories.event limit:5 %}
-                <li><a href="{{ post.url }}" data-fake="/article#!{{ post.url }}"><time>{{ post.date | date_to_string }}</time> - {{ post.title }}</a></li>
+                <li><a href="{{ post.link }}"><time>{{ post.date | date_to_string }}</time> - {{ post.title }}</a></li>
                 {% endfor %}
             </ul>
-            <ul class="posts">
+            <ul class="posts" id="posts">
                 {% for post in site.categories.article limit:7 %}
-                <li><a href="{{ post.url }}" data-fake="/article#!{{ post.url }}"><time>{{ post.date | date_to_string }}</time> - {{ post.title }}</a></li>
+                <li><a href="{{ post.url }}" data-act="open"><time>{{ post.date | date_to_string }}</time> - {{ post.title }}</a></li>
                 {% endfor %}
             </ul>
         </nav>
