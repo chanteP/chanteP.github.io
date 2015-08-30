@@ -3804,7 +3804,10 @@ body.loading:before {
 body.loading .main-wrapper {
   -webkit-transform: scale(0.95);
   -moz-transform: scale(0.95);
-  transform: scale(0.95); }
+  transform: scale(0.95);
+  -webkit-filter: blur(4px);
+  -moz-filter: blur(4px);
+  filter: blur(4px); }
 
 body.loading .main-nav,
 body.loading .main-bg {
