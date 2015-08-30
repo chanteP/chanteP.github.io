@@ -6,7 +6,7 @@ save :
 	git add -A .
 	git ci -m "backup"
 
-deploy : 
+deploy : save
 	node --harmony bin/deploy -m
 	git co master
 
