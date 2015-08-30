@@ -1,18 +1,24 @@
 var npc;
 
-var contWidth, contHeight, contPercent = .6, R;
 var water;
+var contWidth, contHeight, R;
 
 var tan = Math.tan, 
     cos = Math.cos,
+    acos = Math.acos,
     sin = Math.sin,
+    asin = Math.asin,
     PI = Math.PI, 
     abs = Math.abs,
     sqrt = Math.sqrt,
     pow = Math.pow,
     max = Math.max,
     min = Math.min,
-    random = Math.random;
+    log = Math.log,
+    random = Math.random,
+    sign = Math.sign;
+
+var g = 9.8;
 
 var mainColor = 177,
 // var mainColor = 330,
@@ -21,9 +27,12 @@ var mainColor = 177,
     color_deep = 'hsl('+(mainColor+5)+', 71.23%, 60%)',
     color_border = 'hsl('+mainColor+', 51.23%, 50%)'
     ;
-var defaultDeg = 90;
+var defaultFill = 0.5;
 var toArc = (deg) => {
     return deg * 2 * PI / 360;
+}
+var toDeg = (arc) => {
+    return arc / 2 / PI * 360;
 }
 
 var initWater = () => {
@@ -37,93 +46,97 @@ var initWater = () => {
     gradient.addColorStop(0.5, color_base);
     gradient.addColorStop(1, color_deep);
 
+
     water = npc.create(.5 * contWidth, .5 * contHeight, function(ctx, fps){
-        // this.rotate += this.targetRotateDis * 2 / fps;
-        this.rotate += (this.targetRotate - this.rotate) / fps;
-        this.deg += (this.targetDeg - this.deg) / fps;
-
-        var px = (R * sin(this.deg)) | 0, py = (R * cos(this.deg)) | 0;
-        var arcTime, wave;
-
+        //speed +-[0, 10]
+        this.rotateSpeed = this.rotateSpeed + (this.targetRotate - this.rotate) / fps;
+        this.rotateSpeed *= .97;
+        this.rotate += this.rotateSpeed;
         ctx.rotate(toArc(this.rotate));
 
+        this.fill += (this.targetFill - this.fill) / fps;
+        let deltaH = R - 2 * R * this.fill;
+        let rsDeg = asin(deltaH / R);
+
         ctx.beginPath();
+        ctx.arc(0, 0, R, PI - rsDeg, rsDeg, true);
+        
+        this.timer++;
 
-        ctx.arc(0, 0, R, PI / 2 + this.deg, PI / 2 - this.deg, true);
+        // document.getElementsByTagName('h1')[0] && (document.getElementsByTagName('h1')[0].innerHTML = 
+        //     [deltaH].map((n)=>n.toFixed(2))
+        // );
+        // var px = (contWidth / 2) | 0, 
+        //     py = (deltaH) | 0;
 
-        arcTime = sin(toArc(this.timer++));
-        wave = (arcTime * min(100, R - abs(py))) | 0;
-        ctx.moveTo(px, py);
-        ctx.bezierCurveTo(0, py + wave, 0, py - wave, -px, py);
+        // var arcTime, wave;
+        // arcTime = sin(toArc(this.timer));
+        // wave = (arcTime * 100) | 0;
+        // ctx.moveTo(px, py);
+        // console.log(px, py, wave, arcTime)
+        // ctx.bezierCurveTo(0, py + wave, 0, py - wave, -px, py);
 
-
-        ctx.strokeStyle = color_border;
-        ctx.lineWidth = 2;
-        ctx.stroke();
+        // ctx.strokeStyle = color_border;
+        // ctx.lineWidth = 2;
+        // ctx.stroke();
 
         ctx.fillStyle = gradient;
         ctx.fill();
         ctx.closePath();
+
+
+        // ctx.strokeStyle = '#000';
+        // ctx.strokeRect(0, 0, 4, 4);
     });
     water.timer = 0;
     water.rotate = 0;
-    water.deg = toArc(defaultDeg);
-    setWater(0, defaultDeg);
+    water.rotateSpeed = 0;
+    water.fill = defaultFill;
+    setWater(0, defaultFill);
     npc.add(water);
 }
 
-var setWater = (rotate, deg) => {
+var setWater = (rotate, fill) => {
     rotate = rotate === null ? water.targetRotate : rotate;
     water.rotate = water.rotate % 360;
     
-    water.targetRotate = -rotate % 360;
-    // water.targetRotateDis = -rotate - water.rotate;
-    if(water.targetRotate > 180){
-        water.targetRotate -= 360;
-    }
-    if(water.targetRotate < -180){
-        water.targetRotate += 360;
-    }
-    // document.getElementsByTagName('h1')[0].innerHTML = water.rotate;
-    water.targetDeg = toArc(deg);
-    // npc.canvas.style.backgroundColor = 'hsla(177, 61.23%, 55%, '+ min(.1, max(0, 1 - water.deg + 1.13 - .6))+')';
+    rotate = -rotate % 360;
+
+    water.targetRotate = rotate + (
+        rotate > 180 ? -360 : 
+        rotate < -180 ? +360 : 
+        0);
+
+    water.targetFill = fill;
 }
-var calcHorizon = (x, y, z) => {
-    var g1 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
-    var rotate = Math.acos(y / g1) * 360 / 2 / Math.PI;
-    // document.getElementsByTagName('h1')[0].innerHTML = g1 / 10;
-    var deg = (z < 0 ? g1 : 10 - g1 + 14) / 10 / 2 * 180;
+var calcHorizon = ({x, y, z}) => {
+    var g1 = sqrt(pow(x, 2) + pow(y, 2));
+
+    var rotate = acos(y / g1) * 360 / 2 / PI;
+    var fill = (z < 0 ? g1 : 2 * g - g1) / 2 / g;
+    fill = asin(fill * 2 - 1) / 2 / asin(1) + .5;
 
     rotate = 180 - (x > 0 ? 1 : -1) * rotate;
-    deg = max(80, min(deg, 180));
-    setWater(rotate, deg);
+    // fill = max(80, min(fill, 180));
+    return {rotate, fill};
 }
 
-var initBase = (engine) => {
-    npc = engine;
-    initWater();
-    var lock = false;
-    var counter = 0;
-    if (window.DeviceOrientationEvent) {
-        window.addEventListener('devicemotion', (e) => {
-            if(counter++ > 3){
-                counter = 0;
-                if(lock){return;}
-                calcHorizon(e.accelerationIncludingGravity.x, e.accelerationIncludingGravity.y, e.accelerationIncludingGravity.z);
-            }
-        });
-　　}
-
-    var battery = navigator.battery || navigator.webkitBattery;
-    if (battery) {
-        battery.addEventListener("levelchange", (e) => {
-            if(battery.level < .5){
-                npc.stop();
-            }
-        });
-    }
-}
 export default {
-    init : initBase,
+    init : (engine) => {
+        npc = engine;
+        initWater();
+        var lock = false;
+        var counter = 0;
+        if (window.DeviceOrientationEvent) {
+            window.addEventListener('devicemotion', (e) => {
+                if(counter++ > 3){
+                    counter = 0;
+                    if(lock){return;}
+                    var {rotate, fill} = calcHorizon(e.accelerationIncludingGravity);
+                    setWater(rotate, fill);
+                }
+            });
+    　　}
+    },
     name : 'Aqua'
 }

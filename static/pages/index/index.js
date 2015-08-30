@@ -222,12 +222,17 @@ _core2['default'].insertStyle(_blogFrameScss2['default']);
 _core2['default'].register('index', function ($) {
     var drawer = new _commonComponentsDrawer2['default']();
     drawer.setContent('<iframe class="blog-drawer" name="blogPage"></iframe>');
+    var iframe = $.find('[name=blogPage]', drawer.node);
+    iframe.onload = iframe.onerror = function () {
+        drawer.node.classList.remove('loading');
+    };
     return {
         init: function init() {
             $.evt($.find('#posts', this.node)).on('click', '[data-act="open"]', function (e) {
                 e.preventDefault();
                 var href = this.getAttribute('href');
-                $.find('[name=blogPage]', drawer.node).src = href;
+                iframe.src = href;
+                drawer.node.classList.add('loading');
                 drawer.show({
                     href: href
                 });

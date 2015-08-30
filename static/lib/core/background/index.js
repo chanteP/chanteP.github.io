@@ -11,6 +11,9 @@ export default ($, core) => {
             fitSize : true,
             pixelRatio : 1
         });
+        npc.width = Math.min(canvas.clientWidth, 1000);
+        npc.height = npc.width / canvas.clientWidth * canvas.clientHeight;
+
         effect && effect.init(npc);
         npc.play();
 
@@ -25,6 +28,15 @@ export default ($, core) => {
                     this.dataset.npc = 'pause';
                 }
             });
+            
+        var battery = navigator.battery || navigator.webkitBattery;
+        if (battery) {
+            battery.addEventListener("levelchange", (e) => {
+                if(battery.level < .5){
+                    npc.stop();
+                }
+            });
+        }
     });
     return npc;
 };
