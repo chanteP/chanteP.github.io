@@ -1,7 +1,10 @@
-deploy : 
+.IGNORE : save
+
+save : 
 	git add -A .
 	git ci -m "backup"
 
+deploy : 
 	node --harmony bin/deploy -m
 	git co master
 
