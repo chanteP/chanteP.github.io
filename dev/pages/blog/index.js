@@ -3,7 +3,7 @@ import Drawer from '../../common/components/drawer'
 
 $.register('blog', ($) => {
 	var drawer = new Drawer;
-	drawer.setContent('<iframe class="blog-drawer" name="blogPage" id="blogPage"></iframe>');
+	drawer.setContent('<iframe class="blog-drawer" name="blogPage"></iframe>');
     return {
         init(){
         	$.evt(this.node)
