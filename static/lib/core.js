@@ -20,6 +20,8 @@
 var stack = [];
 var title = window.document.title;
 
+var history = require('np-history');
+
 var findTitle = function findTitle() {
     var lastTitle = title;
     for (var i = stack.length - 1; i >= 0; i--) {
@@ -31,9 +33,7 @@ var findTitle = function findTitle() {
     document.title = lastTitle;
 };
 var pushState = function pushState(href, title) {
-    href = href || location.href;
-    title = title || document.title;
-    window.history.pushState ? window.history.pushState(null, title, href) : location.hash = href;
+    history.pushState(null, title || '', href || location.pathname);
 };
 
 //temp
@@ -76,7 +76,8 @@ var api = {
             component: component,
             block: cfg.block,
             title: cfg.title,
-            onBack: cfg.onBack
+            onBack: cfg.onBack,
+            href: cfg.href
         });
         findTitle();
         return this;
@@ -104,14 +105,16 @@ var api = {
 
 module.exports = function ($) {
     $.domReady(function () {
+        // debugger
         window.addEventListener('popstate', popState);
+        // history.onback(popState);
     });
     return {
         componentHandler: api
     };
 };
 
-},{}],2:[function(require,module,exports){
+},{"np-history":22}],2:[function(require,module,exports){
 'use strict';
 
 module.exports = function ($) {
@@ -767,20 +770,22 @@ var go = function go(href) {
 
 exports['default'] = function () {
     _npKit2['default'].evt(document).on('click', 'a[href^="/"]', function (e) {
-        e.preventDefault();
-        var href = this.getAttribute('href');
         var target = this.getAttribute('target');
         if (target) {
             return;
         }
+        e.preventDefault();
+        var href = this.getAttribute('href');
         go(href);
+        new _page2['default'](location.pathname).show();
     });
 
     _npKit2['default'].domReady(function () {
-        _npHistory2['default'].onstatechange(function () {
+        _npHistory2['default'].onpopstate(function () {
             new _page2['default'](location.pathname).show();
         });
         _npHistory2['default'].replaceState(null, '', location.pathname);
+        new _page2['default'](location.pathname).show();
     });
     return {
         register: function register(controller, factory) {
@@ -902,7 +907,12 @@ var Page = (function () {
             var func = this.controller.get(lifecycle);
             if (typeof func === 'function') {
                 _npKit2['default'].log('page ' + lifecycle + ':' + this.name, 'info');
-                func.apply(this, arguments);
+
+                for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+                    args[_key - 1] = arguments[_key];
+                }
+
+                func.call.apply(func, [this].concat(args));
             }
         }
     }, {

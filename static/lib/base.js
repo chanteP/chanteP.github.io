@@ -20,6 +20,8 @@
 var stack = [];
 var title = window.document.title;
 
+var history = require('np-history');
+
 var findTitle = function findTitle() {
     var lastTitle = title;
     for (var i = stack.length - 1; i >= 0; i--) {
@@ -31,9 +33,7 @@ var findTitle = function findTitle() {
     document.title = lastTitle;
 };
 var pushState = function pushState(href, title) {
-    href = href || location.href;
-    title = title || document.title;
-    window.history.pushState ? window.history.pushState(null, title, href) : location.hash = href;
+    history.pushState(null, title || '', href || location.pathname);
 };
 
 //temp
@@ -76,7 +76,8 @@ var api = {
             component: component,
             block: cfg.block,
             title: cfg.title,
-            onBack: cfg.onBack
+            onBack: cfg.onBack,
+            href: cfg.href
         });
         findTitle();
         return this;
@@ -104,14 +105,16 @@ var api = {
 
 module.exports = function ($) {
     $.domReady(function () {
+        // debugger
         window.addEventListener('popstate', popState);
+        // history.onback(popState);
     });
     return {
         componentHandler: api
     };
 };
 
-},{}],2:[function(require,module,exports){
+},{"np-history":10}],2:[function(require,module,exports){
 'use strict';
 
 module.exports = function ($) {
@@ -221,7 +224,7 @@ module.exports = api;
 
 require('np-scrollp').bind();
 
-},{"./componentHandler":1,"./dom":2,"./errorControl":3,"./fastclick":4,"./ga":5,"./keyboardHandler":7,"./lazyload":8,"./pixelFix":9,"np-kit":10,"np-scrollp":19}],7:[function(require,module,exports){
+},{"./componentHandler":1,"./dom":2,"./errorControl":3,"./fastclick":4,"./ga":5,"./keyboardHandler":7,"./lazyload":8,"./pixelFix":9,"np-kit":11,"np-scrollp":20}],7:[function(require,module,exports){
 'use strict';
 
 module.exports = function ($) {
@@ -334,6 +337,111 @@ module.exports = function ($) {
 };
 
 },{"../base":6}],10:[function(require,module,exports){
+var ai = 0;
+var curState;
+var historyStateMap = [];
+
+var backFuncList = [],
+    forwardFuncList = [],
+    changeList = [];
+
+var fetch = function(historyId, method){
+    var state = historyStateMap[historyId];
+    state && typeof state[method] === 'function' && state[method](state.state);
+}
+var runList = function(list){
+    list.forEach(function(func){
+        func();
+    });
+}
+
+//push(push进去之后执行的func，被pop出来之后执行的func)
+var changeState = function(method){
+    return function(state, title, url, forwardFunc, backFunc, stateData){
+        if(method === 'replaceState'){
+            curState && fetch(curState.$id, 'pop');
+            curState = {
+                $id : ai
+            };
+        }
+        else{
+            curState = {
+                $id : ++ai
+            };
+        }
+
+        history[method](curState, document.title = title || document.title, url || location.href);
+
+        if(stateData){
+            for(var key in stateData){
+                if(stateData.hasOwnProperty(key)){
+                    curState[key] = stateData[key];
+                }
+            }   
+        }
+
+        historyStateMap.splice(ai);
+        historyStateMap[curState.$id] = {
+            push : forwardFunc,
+            pop : backFunc,
+            state : curState
+        }
+        fetch(curState.$id, 'push');
+
+        runList(forwardFuncList);
+        runList(changeList);
+    }
+}
+var replaceState = changeState('replaceState');
+var pushState = changeState('pushState');
+var popState = function(state){
+    if(!state){return;}
+    var stateObj;
+    //back
+    if(state.$id < ai - 1){
+        fetch(curState.$id, 'pop');
+        runList(backFuncList);
+    }
+    //forward
+    else{
+        fetch(state.$id, 'push');
+        runList(forwardFuncList);
+    }
+    runList(changeList);
+    ai = state.$id + 1;
+}
+window.addEventListener('popstate', function(e){
+    popState(e.state);
+    curState = history.state;
+});
+
+module.exports = {
+    pushState : pushState,
+    replaceState : replaceState,
+    back : history.back,
+    forward : history.forward,
+    onpopstate : function(func){
+        window.addEventListener('popstate', func);
+    },
+    onstatechange : function(func){
+        changeList.push(func);
+    },
+    onback : function(func){
+        if(typeof func === 'function'){
+            backFuncList.push(func);
+        }
+    },
+    onforward : function(func){
+        if(typeof func === 'function'){
+            forwardFuncList.push(func);
+        }
+    },
+    reload : window.location.reload,
+    stack : historyStateMap
+}
+
+
+},{}],11:[function(require,module,exports){
 var $ = {};
 module.exports = $;
 
@@ -414,7 +522,7 @@ $.log = function(){
 $.debug = $.querySearch('debug') || false;
 
 window.np = $;
-},{"./src/array":12,"./src/cache":13,"./src/dom":14,"./src/env":15,"./src/listener":16,"./src/object":17,"./src/string":18,"np-tween-ani":11}],11:[function(require,module,exports){
+},{"./src/array":13,"./src/cache":14,"./src/dom":15,"./src/env":16,"./src/listener":17,"./src/object":18,"./src/string":19,"np-tween-ani":12}],12:[function(require,module,exports){
 var parse = function(){
     var type = 0, args = arguments
     var hold = false, rsObj, curObj;
@@ -693,7 +801,7 @@ tweenAniAnchor.types = tween = (function(){
 })();
 module.exports = tweenAniAnchor;
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 module.exports = {
     unique : function(arr){
         for(var i = arr.length - 1; i >= 0; i--){
@@ -720,7 +828,7 @@ module.exports = {
 }
 var $ = require('../');
 
-},{"../":10}],13:[function(require,module,exports){
+},{"../":11}],14:[function(require,module,exports){
 var defPrefix = '';
 //默认存1个月
 var defExp = 30 * 24 * 3600 * 1000;
@@ -825,7 +933,7 @@ module.exports = {
 
 
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 
 
 module.exports = {
@@ -962,7 +1070,7 @@ module.exports = {
     }
 }
 var $ = require('../');
-},{"../":10}],15:[function(require,module,exports){
+},{"../":11}],16:[function(require,module,exports){
 module.exports = {
     envList : ['browser', 'APP'],
     env : (function(){
@@ -1015,7 +1123,7 @@ module.exports = {
 }
 var $ = require('../');
 
-},{"../":10}],16:[function(require,module,exports){
+},{"../":11}],17:[function(require,module,exports){
 var parseEvtArgs = function(args){
     var params = {}, arg;
     for(var i = 0, j = args.length; i < j; i++){
@@ -1155,7 +1263,7 @@ module.exports = {
 };
 var $ = require('../');
 
-},{"../":10}],17:[function(require,module,exports){
+},{"../":11}],18:[function(require,module,exports){
 var objMerger = function(needFilter, args){
     var isHold = 0, 
         resultObject, 
@@ -1250,7 +1358,7 @@ module.exports = {
 }
 var $ = require('../');
 
-},{"../":10}],18:[function(require,module,exports){
+},{"../":11}],19:[function(require,module,exports){
 module.exports = {
     queryStringify : function(obj, notEncode){
         if(typeof obj === 'string'){return obj;}
@@ -1324,7 +1432,7 @@ module.exports = {
 }
 var $ = require('../');
 
-},{"../":10}],19:[function(require,module,exports){
+},{"../":11}],20:[function(require,module,exports){
 /**
  * 单例
  *

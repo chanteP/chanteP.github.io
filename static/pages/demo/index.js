@@ -1105,15 +1105,30 @@ var _core = require('../core');
 
 var _core2 = _interopRequireDefault(_core);
 
-var Drawer = require('../../common/components/drawer'),
-    Select = require('../../common/components/select'),
-    Mask = require('../../common/components/Mask'),
-    MaskTips = require('../../common/components/MaskTips'),
-    Dialog = require('../../common/components/dialog');
+var _commonComponentsDrawer = require('../../common/components/drawer');
+
+var _commonComponentsDrawer2 = _interopRequireDefault(_commonComponentsDrawer);
+
+var _commonComponentsSelect = require('../../common/components/select');
+
+var _commonComponentsSelect2 = _interopRequireDefault(_commonComponentsSelect);
+
+var _commonComponentsMask = require('../../common/components/Mask');
+
+var _commonComponentsMask2 = _interopRequireDefault(_commonComponentsMask);
+
+var _commonComponentsMaskTips = require('../../common/components/MaskTips');
+
+var _commonComponentsMaskTips2 = _interopRequireDefault(_commonComponentsMaskTips);
+
+var _commonComponentsDialog = require('../../common/components/dialog');
+
+var _commonComponentsDialog2 = _interopRequireDefault(_commonComponentsDialog);
+
 _core2['default'].register('demo', function ($) {
     return {
         init: function init() {
-            var drawer = new Drawer();
+            var drawer = new _commonComponentsDrawer2['default']();
             callDrawer.addEventListener('click', function (e) {
                 drawer.setContent('123123123');
                 drawer.show();
@@ -1121,22 +1136,22 @@ _core2['default'].register('demo', function ($) {
 
             // var select = new Select;
             callSelect.addEventListener('click', function (e) {
-                Select.show(3, [1, 2, 3, 5, 6, '吃饭吃饭场景非常非常规范郭富城不会 v 个 v ', 457, 898, 90909, 8878, 676767], function (item, index) {
+                _commonComponentsSelect2['default'].show(3, [1, 2, 3, 5, 6, '吃饭吃饭场景非常非常规范郭富城不会 v 个 v ', 457, 898, 90909, 8878, 676767], function (item, index) {
                     console.log(item, index);
                 }, 'fxxk');
             });
 
             // var select = new Select;
             callMask.addEventListener('click', function (e) {
-                Mask.show(50);
+                _commonComponentsMask2['default'].show(50);
                 setTimeout(function () {
-                    Mask.hide();
+                    _commonComponentsMask2['default'].hide();
                 }, 1200);
             });
 
             // var select = new Select;
             callDialog.addEventListener('click', function (e) {
-                Dialog.show({
+                _commonComponentsDialog2['default'].show({
                     title: '什么鬼',
                     content: '什么鬼'
                 }, true);
@@ -1144,7 +1159,7 @@ _core2['default'].register('demo', function ($) {
 
             // var select = new Select;
             callMaskTips.addEventListener('click', function (e) {
-                MaskTips.show({
+                _commonComponentsMaskTips2['default'].show({
                     icon: 'loading',
                     text: '什么鬼'
                 }, true);
