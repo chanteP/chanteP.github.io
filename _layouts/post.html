@@ -34,5 +34,15 @@
             </ul>
         </nav>
     </div>
+    <script>
+    if(window.parent !== window){
+        document.getElementById('mainnav').addEventListener('click', function(e){
+            if(e.target.tagName === 'A'){
+                window.parent.history.go(-1);
+                window.parent.alpha && window.parent.alpha.go(e.target.getAttribtue('href'));
+            }
+        });
+    }
+    </script>
 </body>
 </html>
