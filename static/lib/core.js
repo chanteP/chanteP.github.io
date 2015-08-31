@@ -583,7 +583,7 @@ var initNPC = function initNPC(canvasNode, cfg) {
         fitSize: true,
         pixelRatio: 1
     }, cfg, true));
-    npc.width = _npKit2['default'].os === 'IOS' || _npKit2['default'].os === 'Acdroid' ? canvasNode.clientWidth : canvasNode.clientWidth;
+    npc.width = _npKit2['default'].os === 'IOS' || _npKit2['default'].os === 'Acdroid' ? canvasNode.clientWidth : canvasNode.clientWidth / 2;
     npc.height = npc.width / canvasNode.clientWidth * canvasNode.clientHeight;
     npcStorage.push(npc);
     return npc;
