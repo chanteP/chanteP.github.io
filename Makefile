@@ -1,4 +1,4 @@
-.IGNORE : save
+.IGNORE : save deploy
 
 run : save deploy
 
