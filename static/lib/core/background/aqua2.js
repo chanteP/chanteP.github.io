@@ -31,7 +31,7 @@ var toDeg = (arc) => {
 }
 var createGradient = function(npc, height, color){
 
-    var mainColor = color || 177,
+    var mainColor = color,
     // var mainColor = 330,
         colorLite = 'hsla('+mainColor+', 61.23%, 90%, .8)',
         colorBase = 'hsl('+mainColor+', 61.23%, 72%)',
@@ -52,7 +52,7 @@ var initWater = (npc, index) => {
     R = sqrt(pow(contHeight, 2) + pow(contWidth, 2));
     r = R / 2;
 
-    var {gradient, color, colorBorder} = createGradient(npc, R, index ? 177 : 200);
+    var {gradient, color, colorBorder} = createGradient(npc, R, index ? 177 : 220);
 
     var w = npc.create(contWidth / 2, contHeight / 2, function(ctx, fps){
         //speed +-[0, 10]
@@ -81,7 +81,7 @@ var initWater = (npc, index) => {
         ctx.lineTo(-r, curH);
 
         ctx.strokeStyle = colorBorder;
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 1;
         ctx.stroke();
 
         ctx.fillStyle = gradient;

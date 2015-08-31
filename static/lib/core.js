@@ -382,7 +382,7 @@ var toDeg = function toDeg(arc) {
 };
 var createGradient = function createGradient(npc, height, color) {
 
-    var mainColor = color || 177,
+    var mainColor = color,
 
     // var mainColor = 330,
     colorLite = 'hsla(' + mainColor + ', 61.23%, 90%, .8)',
@@ -403,7 +403,7 @@ var initWater = function initWater(npc, index) {
     R = sqrt(pow(contHeight, 2) + pow(contWidth, 2));
     r = R / 2;
 
-    var _createGradient = createGradient(npc, R, index ? 177 : 200);
+    var _createGradient = createGradient(npc, R, index ? 177 : 220);
 
     var gradient = _createGradient.gradient;
     var color = _createGradient.color;
@@ -436,7 +436,7 @@ var initWater = function initWater(npc, index) {
         ctx.lineTo(-r, curH);
 
         ctx.strokeStyle = colorBorder;
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 1;
         ctx.stroke();
 
         ctx.fillStyle = gradient;
