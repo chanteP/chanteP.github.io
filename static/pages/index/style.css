@@ -75,13 +75,13 @@
   .page_index h1 {
     font-size: .8rem;
     padding-left: .24rem; }
-  .page_index ul.pages {
+  .page_index ul {
     float: left;
     width: 40%; }
-  .page_index ul.events,
-  .page_index ul.posts {
-    float: right;
-    width: 60%;
-    /*margin-bottom: .3rem;*/ }
-  .page_index ul time {
-    width: 3.3em; } }
+    .page_index ul.events,
+    .page_index ul.posts {
+      float: right;
+      width: 60%;
+      /*margin-bottom: .3rem;*/ }
+    .page_index ul time {
+      width: 3.3em; } }

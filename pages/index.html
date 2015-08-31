@@ -79,16 +79,16 @@ layout: page
   .page_index h1 {
     font-size: .8rem;
     padding-left: .24rem; }
-  .page_index ul.pages {
+  .page_index ul {
     float: left;
     width: 40%; }
-  .page_index ul.events,
-  .page_index ul.posts {
-    float: right;
-    width: 60%;
-    /*margin-bottom: .3rem;*/ }
-  .page_index ul time {
-    width: 3.3em; } }
+    .page_index ul.events,
+    .page_index ul.posts {
+      float: right;
+      width: 60%;
+      /*margin-bottom: .3rem;*/ }
+    .page_index ul time {
+      width: 3.3em; } }
 </style>
     <section class="main">
         <header>
@@ -101,10 +101,7 @@ layout: page
         </header>
         <nav class="clearfix">
             <ul class="pages">
-                <li><a href="/"><icon>✡</icon>home</a></li>
-                <li><a href="/lab"><icon>〄</icon>lab</a></li>
-                <li><a href="/blog"><icon>⌸</icon>blog</a></li>
-                <li><a href="/about"><icon>❄</icon>about</a></li>
+{% include nav.inc %}
             </ul>
             <ul class="events" id="events">
                 {% for post in site.categories.event limit:5 %}

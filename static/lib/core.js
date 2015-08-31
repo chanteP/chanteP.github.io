@@ -1027,9 +1027,8 @@ var Page = (function () {
         key: 'run',
         value: function run(lifecycle) {
             var func = this.controller.get(lifecycle);
+            _npKit2['default'].log('page ' + lifecycle + ':' + this.name, 'info');
             if (typeof func === 'function') {
-                _npKit2['default'].log('page ' + lifecycle + ':' + this.name, 'info');
-
                 for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
                     args[_key - 1] = arguments[_key];
                 }
