@@ -38,6 +38,7 @@
         width: 50%;
         height: 100%;
         z-index: 1;
+        pointer-events: none;
 
         opacity: 1;
         @include transition;
