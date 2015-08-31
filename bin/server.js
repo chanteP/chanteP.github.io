@@ -17,12 +17,19 @@ var renderPage = function(dec, page, req, res){
     if(/.md$/.test(url)){
         html = markdown(html);
     }
-    setTimeout(function(){
-        res.render('_layouts/'+dec+'.html', {
-            content : html
+    html = html
+        .replace(/\{%\sfor\s\w+\sin\s[\w\.]+\s?(?:limit\:(\d))?\s%\}([\s\S]*?)\{%\sendfor\s%\}/g, function(text, num, content){
+            var html = '';
+            num = +num || 10;
+            while(num--){
+                html += content
+            }
+            return html;
         });
-        res.end();
-    }, req.param.delay || 0);
+    res.render('_layouts/'+dec+'.html', {
+        content : html
+    });
+    res.end();
 }
 
 module.exports = function(){

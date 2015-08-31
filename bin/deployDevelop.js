@@ -89,12 +89,22 @@ var insertStyle = function(){
         return '<style>' + content + '</style>';
     })
 }
+var parseInclude = function(){
+    return $.replace(/\{%\sinclude\s([\w\/\.\-\+]+)\s%\}/g, function(text, file){
+        var url = srcDir + 'includes/' + file;
+        if(!fs.existsSync(url)){
+            return text;
+        }
+        return fs.readFileSync(url);
+    })
+}
 module.exports = function(watch){
     needWatch = watch;
     gulp.task('layout', function(){
         //装饰器
         gulp.src([srcDir + 'dec/*'])
             .pipe($.replace(/{{ ([\w]+) }}/g, '<%-$1%>'))
+            .pipe(parseInclude())
             .pipe(gulp.dest(destDir + '_layouts/'));
         gulp.src([srcDir + 'includes/*'])
             .pipe(gulp.dest(destDir + '_includes/'));
@@ -136,6 +146,7 @@ module.exports = function(watch){
     gulp.task('pages', ['pageResources'], function(){
         //一个页面对应一个文件夹
         gulp.src([srcDir + 'pages/*/index.html'])
+            .pipe(parseInclude())
             .pipe($.rename(function(file){
                 file.basename = file.dirname;
                 file.dirname = '';

@@ -96,11 +96,9 @@
             padding-left: .24rem;
         }
         ul{
+            float: left;
+            width: 40%;
 
-            &.pages{
-                float: left;
-                width: 40%;
-            }
             &.events,
             &.posts{
                 float: right;
