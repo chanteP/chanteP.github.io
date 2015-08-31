@@ -30,6 +30,7 @@
     width: 50%;
     height: 100%;
     z-index: 1;
+    pointer-events: none;
     opacity: 1;
     -webkit-transition: all 0.2s ease 0s;
     -moz-transition: all 0.2s ease 0s;

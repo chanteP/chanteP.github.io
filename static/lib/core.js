@@ -438,7 +438,7 @@ var initWater = function initWater(npc, index) {
         }
         //sync
         else {
-                curH = curH + sin(toArc(this.timer)) * 18 - this.rotateSpeed * 20;
+                curH = curH + sin(toArc(this.timer)) * 18 - this.rotateSpeed * 10;
             }
 
         ctx.moveTo(-r, curH);
