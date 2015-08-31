@@ -1,6 +1,6 @@
 .IGNORE : save deploy
 
-run : save deploy
+run : save deploy back
 
 save : 
 	git add -A .
@@ -17,3 +17,6 @@ deploy : save
 	git add -A .
 	git ci -m "publish"
 	git push
+
+back : 
+	git co dev
