@@ -1,30 +1,37 @@
 import NPCanvas from 'np-canvas'
-import effect from './aqua'
+import effect from './aqua2'
+import $ from 'np-kit'
 
-var npc;
+var npcStorage = [];
+
+var initNPC = (canvasNode, cfg) => {
+    var npc;
+    npc = canvasNode.engine = new NPCanvas(canvasNode, $.merge({
+        fitSize : true,
+        pixelRatio : 1
+    }, cfg, true));
+    npc.width = Math.min(canvasNode.clientWidth, 1000);
+    npc.height = npc.width / canvasNode.clientWidth * canvasNode.clientHeight;
+    npcStorage.push(npc);
+    return npc;
+}
 
 export default ($, core) => {
     $.domReady(() => {
-        var canvas = $.find('#npc');
-        if(!canvas){return;}
-        npc = canvas.engine = new NPCanvas(canvas, {
-            fitSize : true,
-            pixelRatio : 1
-        });
-        npc.width = Math.min(canvas.clientWidth, 1000);
-        npc.height = npc.width / canvas.clientWidth * canvas.clientHeight;
-
-        effect && effect.init(npc);
-        npc.play();
+        var canvas = $.findAll('[id^="canvas"]', $.find('#syscomp'));
+        if(!canvas && !canvas.length){return;}
+        
+        effect && effect.init(canvas, initNPC);
+        npcStorage.forEach((npc) => npc.play());
 
         $.evt(document.body)
             .on('click', '[data-npc]', function(){
                 if(this.dataset.npc === 'pause'){
-                    npc.pause();
+                    npcStorage.forEach((npc) => npc.pause());
                     this.dataset.npc = 'play';
                 }
                 else if(this.dataset.npc === 'play'){
-                    npc.play();
+                    npcStorage.forEach((npc) => npc.play());
                     this.dataset.npc = 'pause';
                 }
             });
@@ -33,10 +40,10 @@ export default ($, core) => {
         if (battery) {
             battery.addEventListener("levelchange", (e) => {
                 if(battery.level < .5){
-                    npc.stop();
+                    npcStorage.forEach((npc) => npc.stop());
                 }
             });
         }
     });
-    return npc;
+    return npcStorage;
 };

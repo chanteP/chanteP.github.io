@@ -350,10 +350,10 @@ module.exports = function ($) {
 Object.defineProperty(exports, '__esModule', {
     value: true
 });
-var npc;
+var npcLayers;
 
-var water;
-var contWidth, contHeight, R;
+var water = [];
+var contWidth, contHeight, R, r;
 
 var tan = Math.tan,
     cos = Math.cos,
@@ -372,13 +372,6 @@ var tan = Math.tan,
 
 var g = 9.8;
 
-var mainColor = 177,
-
-// var mainColor = 330,
-color_lite = 'hsl(' + mainColor + ', 61.23%, 90%)',
-    color_base = 'hsl(' + mainColor + ', 61.23%, 72%)',
-    color_deep = 'hsl(' + (mainColor + 5) + ', 71.23%, 60%)',
-    color_border = 'hsl(' + mainColor + ', 51.23%, 50%)';
 var defaultFill = 0.5;
 var toArc = function toArc(deg) {
     return deg * 2 * PI / 360;
@@ -386,19 +379,36 @@ var toArc = function toArc(deg) {
 var toDeg = function toDeg(arc) {
     return arc / 2 / PI * 360;
 };
+var createGradient = function createGradient(npc, height, color) {
 
-var initWater = function initWater() {
+    var mainColor = color || 177,
+
+    // var mainColor = 330,
+    colorLite = 'hsl(' + mainColor + ', 61.23%, 90%)',
+        colorBase = 'hsl(' + mainColor + ', 61.23%, 72%)',
+        colorDeep = 'hsl(' + (mainColor + 5) + ', 71.23%, 60%)',
+        colorBorder = 'hsl(' + mainColor + ', 51.23%, 50%)';
+
+    var gradient = npc.ctx.createLinearGradient(0, 0, 0, height);
+    gradient.addColorStop(0, colorLite);
+    gradient.addColorStop(0.5, colorBase);
+    gradient.addColorStop(1, colorDeep);
+    return { gradient: gradient, color: color, colorBorder: colorBorder };
+};
+
+var initWater = function initWater(npc, index) {
     contWidth = npc.width;
     contHeight = npc.height;
     R = sqrt(pow(contHeight, 2) + pow(contWidth, 2));
+    r = R / 2;
 
-    //TODO优化
-    var gradient = npc.ctx.createLinearGradient(0, 0, 0, contHeight);
-    gradient.addColorStop(0, color_lite);
-    gradient.addColorStop(0.5, color_base);
-    gradient.addColorStop(1, color_deep);
+    var _createGradient = createGradient(npc, R, index ? 177 : 200);
 
-    water = npc.create(.5 * contWidth, .5 * contHeight, function (ctx, fps) {
+    var gradient = _createGradient.gradient;
+    var color = _createGradient.color;
+    var colorBorder = _createGradient.colorBorder;
+
+    var w = npc.create(contWidth / 2, contHeight / 2, function (ctx, fps) {
         //speed +-[0, 10]
         this.rotateSpeed = this.rotateSpeed + (this.targetRotate - this.rotate) / fps;
         this.rotateSpeed *= .97;
@@ -406,30 +416,31 @@ var initWater = function initWater() {
         ctx.rotate(toArc(this.rotate));
 
         this.fill += (this.targetFill - this.fill) / fps;
-        var deltaH = R - 2 * R * this.fill;
-        var rsDeg = asin(deltaH / R);
+        var curH = R * (this.fill - 0.5);
+        var wave = 20;
+        this.timer += 1 + index / 2;
+
+        // document.title = (
+        //     [this.fill].map((n)=>n.toFixed(2))
+        // );
+        // document.getElementsByTagName('h1')[0] && (document.getElementsByTagName('h1')[0].innerHTML =
+        //     [this.fill].map((n)=>n.toFixed(2))
+        // );
 
         ctx.beginPath();
-        ctx.arc(0, 0, R, PI - rsDeg, rsDeg, true);
+        ctx.moveTo(-r, curH);
+        var step = R * 2,
+            stepWidth = R / step;
+        for (var i = 0, j = step; i < j; i++) {
+            ctx.lineTo(-r + i * stepWidth, curH + sin(toArc(i + this.timer * 2)) * (window.wave || 6));
+        }
+        ctx.lineTo(R, r);
+        ctx.lineTo(-r, r);
+        ctx.lineTo(-r, curH);
 
-        this.timer++;
-
-        // document.getElementsByTagName('h1')[0] && (document.getElementsByTagName('h1')[0].innerHTML =
-        //     [deltaH].map((n)=>n.toFixed(2))
-        // );
-        // var px = (contWidth / 2) | 0,
-        //     py = (deltaH) | 0;
-
-        // var arcTime, wave;
-        // arcTime = sin(toArc(this.timer));
-        // wave = (arcTime * 100) | 0;
-        // ctx.moveTo(px, py);
-        // console.log(px, py, wave, arcTime)
-        // ctx.bezierCurveTo(0, py + wave, 0, py - wave, -px, py);
-
-        // ctx.strokeStyle = color_border;
-        // ctx.lineWidth = 2;
-        // ctx.stroke();
+        ctx.strokeStyle = colorBorder;
+        ctx.lineWidth = 2;
+        ctx.stroke();
 
         ctx.fillStyle = gradient;
         ctx.fill();
@@ -438,23 +449,46 @@ var initWater = function initWater() {
         // ctx.strokeStyle = '#000';
         // ctx.strokeRect(0, 0, 4, 4);
     });
-    water.timer = 0;
-    water.rotate = 0;
-    water.rotateSpeed = 0;
-    water.fill = defaultFill;
-    setWater(0, defaultFill);
-    npc.add(water);
+
+    water.push(w);
+
+    w.canvas = npc.canvas;
+    w.timer = 0;
+    w.rotate = 0;
+    w.rotateSpeed = 0;
+    w.fill = defaultFill;
+    setWater(0, defaultFill, w);
+    npc.add(w);
 };
 
-var setWater = function setWater(rotate, fill) {
-    rotate = rotate === null ? water.targetRotate : rotate;
-    water.rotate = water.rotate % 360;
+var setWater = function setWater(rotate, fill, w) {
+    // w = w ? [w] : water;
+    // let y = (fill - .5) * 100 + '%';
+    // w.forEach((w) => {
+    //     let r = rotate === null ? 0 : rotate;
+    //     w.rotate = w.rotate % 360;
 
-    rotate = -rotate % 360;
+    //     r = -r % 360;
 
-    water.targetRotate = rotate + (rotate > 180 ? -360 : rotate < -180 ? +360 : 0);
+    //     let targetR = r + (
+    //         r > 180 ? -360 :
+    //         r < -180 ? +360 :
+    //         0);
 
-    water.targetFill = fill;
+    //     w.canvas.style.webkitTransform = 'translateY('+y+') scale(1.5) rotateY('+targetR+'deg)';
+    // });
+
+    w = w ? [w] : water;
+    w.forEach(function (w) {
+        var r = rotate === null ? w.targetRotate : rotate;
+        w.rotate = w.rotate % 360;
+
+        r = -r % 360;
+
+        w.targetRotate = r + (r > 180 ? -360 : r < -180 ? +360 : 0);
+
+        w.targetFill = fill;
+    });
 };
 var calcHorizon = function calcHorizon(_ref) {
     var x = _ref.x;
@@ -473,9 +507,19 @@ var calcHorizon = function calcHorizon(_ref) {
 };
 
 exports['default'] = {
-    init: function init(engine) {
-        npc = engine;
-        initWater();
+    init: function init(canvasNodes, initFunc) {
+        // defaultFill = .8;
+        npcLayers = [].map.call(canvasNodes, function (node, index) {
+            // node.style.webkitTransformOrigin = '50% 50%';
+            // node.style.webkitTransform = 'scale(1.5)';
+            return initFunc(node);
+        });
+        npcLayers.forEach(function (npc, index) {
+            initWater(npc, index);
+            // npc.static = true;
+            npc.play();
+        });
+
         var lock = false;
         var counter = 0;
         if (window.DeviceOrientationEvent) {
@@ -513,34 +557,50 @@ var _npCanvas = require('np-canvas');
 
 var _npCanvas2 = _interopRequireDefault(_npCanvas);
 
-var _aqua = require('./aqua');
+var _aqua2 = require('./aqua2');
 
-var _aqua2 = _interopRequireDefault(_aqua);
+var _aqua22 = _interopRequireDefault(_aqua2);
 
-var npc;
+var _npKit = require('np-kit');
+
+var _npKit2 = _interopRequireDefault(_npKit);
+
+var npcStorage = [];
+
+var initNPC = function initNPC(canvasNode, cfg) {
+    var npc;
+    npc = canvasNode.engine = new _npCanvas2['default'](canvasNode, _npKit2['default'].merge({
+        fitSize: true,
+        pixelRatio: 1
+    }, cfg, true));
+    npc.width = Math.min(canvasNode.clientWidth, 1000);
+    npc.height = npc.width / canvasNode.clientWidth * canvasNode.clientHeight;
+    npcStorage.push(npc);
+    return npc;
+};
 
 exports['default'] = function ($, core) {
     $.domReady(function () {
-        var canvas = $.find('#npc');
-        if (!canvas) {
+        var canvas = $.findAll('[id^="canvas"]', $.find('#syscomp'));
+        if (!canvas && !canvas.length) {
             return;
         }
-        npc = canvas.engine = new _npCanvas2['default'](canvas, {
-            fitSize: true,
-            pixelRatio: 1
-        });
-        npc.width = Math.min(canvas.clientWidth, 1000);
-        npc.height = npc.width / canvas.clientWidth * canvas.clientHeight;
 
-        _aqua2['default'] && _aqua2['default'].init(npc);
-        npc.play();
+        _aqua22['default'] && _aqua22['default'].init(canvas, initNPC);
+        npcStorage.forEach(function (npc) {
+            return npc.play();
+        });
 
         $.evt(document.body).on('click', '[data-npc]', function () {
             if (this.dataset.npc === 'pause') {
-                npc.pause();
+                npcStorage.forEach(function (npc) {
+                    return npc.pause();
+                });
                 this.dataset.npc = 'play';
             } else if (this.dataset.npc === 'play') {
-                npc.play();
+                npcStorage.forEach(function (npc) {
+                    return npc.play();
+                });
                 this.dataset.npc = 'pause';
             }
         });
@@ -549,17 +609,19 @@ exports['default'] = function ($, core) {
         if (battery) {
             battery.addEventListener("levelchange", function (e) {
                 if (battery.level < .5) {
-                    npc.stop();
+                    npcStorage.forEach(function (npc) {
+                        return npc.stop();
+                    });
                 }
             });
         }
     });
-    return npc;
+    return npcStorage;
 };
 
 module.exports = exports['default'];
 
-},{"./aqua":10,"np-canvas":21}],12:[function(require,module,exports){
+},{"./aqua2":10,"np-canvas":21,"np-kit":23}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
