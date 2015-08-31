@@ -21,29 +21,29 @@ var shrinkDir = function(file){
 var buildBrowserify = function(src){
     var returnValue = through2.obj(function (file, enc, next){
         var b = browserify(file.path)
-        var bundle = function(){
+        // var bundle = function(){
             b.bundle(function(err, res){
                 // console.log('###########', file.path, res);
                 // assumes file.contents is a Buffer
                 file.contents = res || new Buffer('');
                 next(null, file);
             })
-        }
-        if(needWatch){
-            b = watchify(b, {});
-            b.on('update', function(){
-                console.log('update@ ' + Date.now());
-                gulp.src(src)
-                    .pipe(returnValue);
-                // bundle();
-            })
-        }
-        b.on('error', function(e){
+        // }
+        // if(needWatch){
+        //     b = watchify(b, {});
+        //     b.on('update', function(){
+        //         console.log('update@ ' + Date.now());
+        //         gulp.src(src)
+        //             .pipe(returnValue);
+        //         // bundle();
+        //     })
+        // }
+        .on('error', function(e){
             // delete e.stream;
             console.error('\033[31m [browserify error]', e.message, '\033[0m');
             this.emit('end');
         });
-        bundle();
+        // bundle();
     });
     return returnValue;
 }
