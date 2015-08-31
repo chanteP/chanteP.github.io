@@ -5,6 +5,7 @@ run : save deploy
 save : 
 	git add -A .
 	git ci -m "backup"
+	git push
 
 deploy : save
 	node --harmony bin/deploy -m
