@@ -190,7 +190,7 @@ module.exports = Drawer;
 module.exports = alpha;
 
 },{}],7:[function(require,module,exports){
-module.exports = ".blog-drawer {\n  width: 100%;\n  height: 100%;\n  border: 0;\n  padding: 0;\n  margin: 0; }\n";
+module.exports = ".blog-drawer {\n  display: block;\n  width: 100%;\n  height: 100%;\n  border: 0;\n  padding: 0;\n  margin: 0; }\n";
 },{}],8:[function(require,module,exports){
 "use strict";
 
