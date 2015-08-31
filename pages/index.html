@@ -113,7 +113,7 @@ layout: page
             </ul>
             <ul class="posts" id="posts">
                 {% for post in site.categories.article limit:7 %}
-                <li><a href="{{ post.url }}" data-act="open"><time>{{ post.date | date_to_string }}</time> - {{ post.title }}</a></li>
+                <li><a href="{{ post.url }}" data-act="open" target="blogPage"><time>{{ post.date | date_to_string }}</time> - {{ post.title }}</a></li>
                 {% endfor %}
             </ul>
         </nav>

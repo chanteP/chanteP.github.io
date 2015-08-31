@@ -222,7 +222,7 @@ _core2['default'].insertStyle(_blogFrameScss2['default']);
 _core2['default'].register('index', function ($) {
     var drawer = new _commonComponentsDrawer2['default']();
     drawer.setContent('<iframe class="blog-drawer" name="blogPage"></iframe>');
-    var iframe = $.find('[name=blogPage]', drawer.node);
+    var iframe = $.find('[name="blogPage"]', drawer.node);
     iframe.onload = iframe.onerror = function () {
         drawer.node.classList.remove('loading');
     };

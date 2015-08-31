@@ -1,3 +1,5 @@
+
+
 var npcLayers;
 
 var water = [];
@@ -31,7 +33,7 @@ var createGradient = function(npc, height, color){
 
     var mainColor = color || 177,
     // var mainColor = 330,
-        colorLite = 'hsl('+mainColor+', 61.23%, 90%)',
+        colorLite = 'hsla('+mainColor+', 61.23%, 90%, .8)',
         colorBase = 'hsl('+mainColor+', 61.23%, 72%)',
         colorDeep = 'hsl('+(mainColor+5)+', 71.23%, 60%)',
         colorBorder = 'hsl('+mainColor+', 51.23%, 50%)'
@@ -55,7 +57,7 @@ var initWater = (npc, index) => {
     var w = npc.create(contWidth / 2, contHeight / 2, function(ctx, fps){
         //speed +-[0, 10]
         this.rotateSpeed = this.rotateSpeed + (this.targetRotate - this.rotate) / fps;
-        this.rotateSpeed *= .97;
+        this.rotateSpeed *= .9;
         this.rotate += this.rotateSpeed;
         ctx.rotate(toArc(this.rotate));
 
@@ -64,20 +66,15 @@ var initWater = (npc, index) => {
         let wave = 20;
         this.timer += 1 + index / 2;
 
-        // document.title = (
-        //     [this.fill].map((n)=>n.toFixed(2))
-        // );
-        // document.getElementsByTagName('h1')[0] && (document.getElementsByTagName('h1')[0].innerHTML = 
-        //     [this.fill].map((n)=>n.toFixed(2))
-        // );
-
-
         ctx.beginPath();
+
+        curH += sin(toArc(this.timer)) * 10;
+
         ctx.moveTo(-r, curH);
-        let step = R * 2,
+        let step = R * 1,
             stepWidth = R / step;
         for(let i = 0, j = step; i < j; i++){
-            ctx.lineTo(-r + i * stepWidth, curH + sin(toArc(i + this.timer * 2)) * (window.wave || 6));
+            ctx.lineTo(-r + i * stepWidth, curH + sin(toArc(i + this.timer * 2) + index) * (window.wave || 6));
         }
         ctx.lineTo(R, r);
         ctx.lineTo(-r, r);
@@ -90,10 +87,6 @@ var initWater = (npc, index) => {
         ctx.fillStyle = gradient;
         ctx.fill();
         ctx.closePath();
-
-
-        // ctx.strokeStyle = '#000';
-        // ctx.strokeRect(0, 0, 4, 4);
     });
 
     water.push(w);
@@ -108,22 +101,6 @@ var initWater = (npc, index) => {
 }
 
 var setWater = (rotate, fill, w) => {
-    // w = w ? [w] : water;
-    // let y = (fill - .5) * 100 + '%';
-    // w.forEach((w) => {
-    //     let r = rotate === null ? 0 : rotate;
-    //     w.rotate = w.rotate % 360;
-        
-    //     r = -r % 360;
-
-    //     let targetR = r + (
-    //         r > 180 ? -360 : 
-    //         r < -180 ? +360 : 
-    //         0);
-
-    //     w.canvas.style.webkitTransform = 'translateY('+y+') scale(1.5) rotateY('+targetR+'deg)';
-    // });
-
     w = w ? [w] : water;
     w.forEach((w) => {
         let r = rotate === null ? w.targetRotate : rotate;
@@ -153,15 +130,14 @@ var calcHorizon = ({x, y, z}) => {
 
 export default {
     init : (canvasNodes, initFunc) => {
-        // defaultFill = .8;
         npcLayers = [].map.call(canvasNodes, (node, index) => {
-            // node.style.webkitTransformOrigin = '50% 50%';
-            // node.style.webkitTransform = 'scale(1.5)';
-            return initFunc(node);
+            var npc = initFunc(node);
+            npc.width /= 2;
+            npc.height /= 2;
+            return npc;
         });
         npcLayers.forEach((npc, index) => {
             initWater(npc, index);
-            // npc.static = true;
             npc.play();
         });
 
