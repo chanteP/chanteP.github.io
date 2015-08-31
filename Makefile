@@ -14,7 +14,6 @@ deploy : save
 	rm -rf `ls | egrep -v '^(temp|node_modules)'`
 
 	cp -rf temp/* ./
-	rm -rf temp/
 	git add -A .
 	git ci -m "publish"
 	git push
