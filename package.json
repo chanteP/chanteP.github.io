@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "node --harmony bin/deploy -m",
-    "dev": "node --harmony bin/deploy",
+    "dev": "node --harmony bin/deploy -d",
+    "server": "node --harmony bin/deploy -s",
     "clean": "node --harmony bin/deploy -c"
   },
   "author": "chanteP",

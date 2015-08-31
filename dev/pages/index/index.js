@@ -6,7 +6,7 @@ $.insertStyle(css);
 $.register('index', ($) => {
     var drawer = new Drawer;
     drawer.setContent('<iframe class="blog-drawer" name="blogPage"></iframe>');
-    var iframe = $.find('[name=blogPage]', drawer.node);
+    var iframe = $.find('[name="blogPage"]', drawer.node);
     iframe.onload = iframe.onerror = function(){
         drawer.node.classList.remove('loading');
     }

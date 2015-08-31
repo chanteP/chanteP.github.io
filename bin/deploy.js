@@ -29,6 +29,7 @@ var program = require('commander');
 program
   .version('0.0.1')
   .option('-d, --dev', 'develop env')
+  .option('-s, --server', 'develop server')
   .option('-c, --clean', 'clean development folder')
   .option('-m, --deploy', 'deploy master')
   .option('-k, --fake', 'deploy master with server')
@@ -43,9 +44,12 @@ else if(program.clean){
     require('./cleanup')(function(){
     }); 
 }
-else{
+else if(program.dev){
     require('./cleanup')(function(){
         require('./deployDevelop')();
-        require('./server')();
     });   
+}
+
+if(program.server){
+    require('./server')();
 }
