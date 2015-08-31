@@ -45,5 +45,5 @@ export default ($, core) => {
             });
         }
     });
-    return npcStorage;
+    return effect;
 };
