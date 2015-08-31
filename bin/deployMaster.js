@@ -55,8 +55,10 @@ var insertStyle = function(){
 module.exports = function(env){
     gulp.task('layout', function(){
         //装饰器
-        return gulp.src([srcDir + 'dec/*.html'])
+        gulp.src([srcDir + 'dec/*'])
             .pipe(gulp.dest(destDir + '_layouts/'));
+        gulp.src([srcDir + 'includes/*'])
+            .pipe(gulp.dest(destDir + '_includes/'));
     });
     gulp.task('post', function(){
         //菠萝格

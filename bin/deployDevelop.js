@@ -93,9 +93,11 @@ module.exports = function(watch){
     needWatch = watch;
     gulp.task('layout', function(){
         //装饰器
-        return gulp.src([srcDir + 'dec/*.html'])
+        gulp.src([srcDir + 'dec/*'])
             .pipe($.replace(/{{ ([\w]+) }}/g, '<%-$1%>'))
             .pipe(gulp.dest(destDir + '_layouts/'));
+        gulp.src([srcDir + 'includes/*'])
+            .pipe(gulp.dest(destDir + '_includes/'));
     });
     gulp.task('post', function(){
         //菠萝格
