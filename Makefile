@@ -1,6 +1,4 @@
 deploy : 
-	git add -A .
-	git ci -m "backup"
 
 	node --harmony bin/deploy -m
 	git co master
