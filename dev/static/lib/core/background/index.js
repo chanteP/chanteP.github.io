@@ -12,7 +12,7 @@ var initNPC = (canvasNode, cfg) => {
     }, cfg, true));
     npc.width = ($.os === 'IOS' || $.os === 'Acdroid') ? 
         canvasNode.clientWidth : 
-        canvasNode.clientWidth;
+        canvasNode.clientWidth / 2;
     npc.height = npc.width / canvasNode.clientWidth * canvasNode.clientHeight;
     npcStorage.push(npc);
     return npc;
