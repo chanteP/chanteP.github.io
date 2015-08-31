@@ -31,8 +31,11 @@
         window.parent.alpha && window.parent.alpha.evt(document.getElementById('mainnav'))
             .on('click', 'a', function(e){
                 e.preventDefault();
-                window.parent.history.go(-1);
-                window.parent.alpha.load(this.getAttribute('href'));
+                var href = this.getAttribute('href');
+                setTimeout(function(){
+                    window.parent.alpha.load(href);
+                }, 0);
+                window.parent.history.go(-2);
             });
     }
     </script>
