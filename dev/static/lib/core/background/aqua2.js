@@ -24,7 +24,7 @@ var g = 9.8;
 
 var defaultFill = 0;
 var rotateSpeedShrink = .95;
-var wavePointAbs = 45;
+var wavePointAbs = 40;
 
 
 var toArc = (deg) => {
@@ -33,21 +33,27 @@ var toArc = (deg) => {
 var toDeg = (arc) => {
     return arc * PIbd180;
 }
-var createGradient = function(npc, height, color){
+var createGradient = function(npc, height, index){
+    if(index){
+        var mainColor = 177,
+            colorLite = 'hsla('+mainColor+', 61.23%, 90%, .5)',
+            colorBase = 'hsl('+mainColor+', 61.23%, 72%)',
+            colorDeep = 'hsl('+(mainColor+5)+', 71.23%, 60%)',
+            colorBorder = 'hsl('+mainColor+', 51.23%, 50%)'
+            ;
+        // var gradient = 'hsla('+mainColor+', 61.23%, 90%, .8)';
 
-    var mainColor = color,
-    // var mainColor = 330,
-        colorLite = 'hsla('+mainColor+', 61.23%, 90%, .8)',
-        colorBase = 'hsl('+mainColor+', 61.23%, 72%)',
-        colorDeep = 'hsl('+(mainColor+5)+', 71.23%, 60%)',
-        colorBorder = 'hsl('+mainColor+', 51.23%, 50%)'
-        ;
-
-    var gradient = npc.ctx.createLinearGradient(0, 0, 0, height);
-    gradient.addColorStop(0, colorLite);
-    gradient.addColorStop(0.5, colorBase);
-    gradient.addColorStop(1, colorDeep);
-    return {gradient, color, colorBorder};
+        var gradient = npc.ctx.createLinearGradient(0, 0, 0, height);
+        gradient.addColorStop(0, colorLite);
+        gradient.addColorStop(0.5, colorBase);
+        gradient.addColorStop(1, colorDeep);
+    }
+    else{
+        var mainColor = 190,
+            gradient = 'hsla('+mainColor+', 61.23%, 90%, .8)',
+            colorBorder = 'hsl('+mainColor+', 51.23%, 50%)';
+    }
+    return {gradient, colorBorder};
 }
 
 var initWater = (npc, index) => {
@@ -61,7 +67,7 @@ var initWater = (npc, index) => {
     stepWidth = R / step;
     var timerStep = index ? 2 : 1.5;
 
-    var {gradient, color, colorBorder} = createGradient(npc, R, index ? 177 : 200);
+    var {gradient, colorBorder} = createGradient(npc, R, index);
 
     var w = npc.create(contWidth / 2, contHeight / 2, function(ctx, fps){
         this.rotateSpeed = (this.rotateSpeed + (this.targetRotate - this.rotate) / fps) * rotateSpeedShrink;
