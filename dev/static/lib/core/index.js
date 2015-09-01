@@ -1,7 +1,7 @@
 import base from '../base'
 import kit from 'np-kit'
 
-var $ = $.merge(kit, base, true);
+var $ = kit.merge(kit, base, true);
 $.debug = true;
 
 import mod_spa from './spa'
