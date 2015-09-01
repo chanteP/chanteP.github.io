@@ -73,7 +73,6 @@ var initWater = (npc, index) => {
 
         this.timer += timerStep;
 
-        ctx.beginPath();
 
         let curH = R * this.fill;
 
@@ -87,6 +86,7 @@ var initWater = (npc, index) => {
         }
 
         ctx.moveTo(-r, curH);
+        ctx.beginPath();
         for(let i = 0, j = step; i <= j; i++){
             ctx.lineTo(
                 (-r + i * stepWidth) | 0, 
@@ -95,16 +95,16 @@ var initWater = (npc, index) => {
         }
         // document.getElementsByTagName('h1')[0] && (document.getElementsByTagName('h1')[0].innerHTML = this.fill.toFixed(2))
         
-        ctx.lineTo(R, r);
+        ctx.lineTo(R + 1, r);
         ctx.lineTo(-r, r);
         ctx.lineTo(-r, curH);
 
         ctx.strokeStyle = colorBorder;
         ctx.fillStyle = gradient;
         ctx.lineWidth = 1;
-        ctx.stroke();
         ctx.fill();
         ctx.closePath();
+        ctx.stroke();
     });
 
     water.push(w);
@@ -133,6 +133,7 @@ var setWater = (rotate, fill) => {
         w.targetFill = fill;
     });
 }
+
 var calcHorizon = ({x, y, z}) => {
     var g1 = sqrt(pow(x, 2) + pow(y, 2));
 
@@ -163,7 +164,7 @@ var api = {
         });
 
         var counter = 0;
-        if (window.DeviceOrientationEvent) {
+        if (window.DeviceOrientationEvent && /\biphone\b/i.test(navigator.userAgent)) {
             window.addEventListener('devicemotion', (e) => {
                 if(counter++ > 3){
                     counter = 0;

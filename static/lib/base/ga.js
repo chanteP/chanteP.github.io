@@ -13,6 +13,8 @@ module.exports = function($){
     gaAccount = $config.cos_gaAccount;
     if(!gaAccount || $.isLocal){return;}
     loadUA();
-    return ga;
+    return {
+        ga : ga
+    }
 }
 

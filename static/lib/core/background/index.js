@@ -1,30 +1,34 @@
 import NPCanvas from 'np-canvas'
-import effect from './aqua2'
-import $ from 'np-kit'
+import aqua2 from './aqua2'
 
-var npcStorage = [];
+export default ($) => {
+    var npcStorage = [];
+    var effect;
 
-var initNPC = (canvasNode, cfg) => {
-    var npc;
-    npc = canvasNode.engine = new NPCanvas(canvasNode, $.merge({
-        fitSize : true,
-        pixelRatio : 1
-    }, cfg, true));
-    npc.width = ($.os === 'IOS' || $.os === 'Acdroid') ? 
-        canvasNode.clientWidth : 
-        canvasNode.clientWidth / 2;
-    npc.height = npc.width / canvasNode.clientWidth * canvasNode.clientHeight;
-    npcStorage.push(npc);
-    return npc;
-}
-
-export default ($, core) => {
+    var initNPC = (canvasNode, cfg) => {
+        var npc;
+        npc = canvasNode.engine = new NPCanvas(canvasNode, $.merge({
+            fitSize : true,
+            pixelRatio : 1
+        }, cfg, true));
+        npc.width = ($.os === 'IOS' || $.os === 'Acdroid') ? 
+            canvasNode.clientWidth : 
+            canvasNode.clientWidth / 2;
+        npc.height = npc.width / canvasNode.clientWidth * canvasNode.clientHeight;
+        npcStorage.push(npc);
+        return npc;
+    }
+    var runEffect = function(effect, api, ...args){
+        effect && effect[api] && effect[api](...args);
+    }
     $.domReady(() => {
         var canvas = $.findAll('[id^="canvas"]', $.find('#syscomp'));
         if(!canvas && !canvas.length){return;}
-        
-        effect && effect.init && effect.init(canvas, initNPC);
-        effect.play();
+
+        effect = aqua2;
+
+        runEffect(effect, 'init', canvas, initNPC);
+        runEffect(effect, 'play');
 
         $.evt(document.body)
             .on('click', '[data-npc]', function(){
@@ -49,7 +53,7 @@ export default ($, core) => {
         if (battery){
             battery.addEventListener("levelchange", (e) => {
                 if(battery.level < .5){
-                    effect && effect.stop && effect.stop();
+                    runEffect(effect, 'stop');
                 }
             });
         }

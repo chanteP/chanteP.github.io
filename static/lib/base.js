@@ -216,7 +216,9 @@ module.exports = function ($) {
         return;
     }
     loadUA();
-    return ga;
+    return {
+        ga: ga
+    };
 };
 
 },{}],6:[function(require,module,exports){

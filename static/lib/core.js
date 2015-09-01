@@ -216,7 +216,9 @@ module.exports = function ($) {
         return;
     }
     loadUA();
-    return ga;
+    return {
+        ga: ga
+    };
 };
 
 },{}],6:[function(require,module,exports){
@@ -431,8 +433,6 @@ var initWater = function initWater(npc, index) {
 
         this.timer += timerStep;
 
-        ctx.beginPath();
-
         var curH = R * this.fill;
 
         //delta
@@ -445,21 +445,22 @@ var initWater = function initWater(npc, index) {
             }
 
         ctx.moveTo(-r, curH);
+        ctx.beginPath();
         for (var i = 0, j = step; i <= j; i++) {
             ctx.lineTo(-r + i * stepWidth | 0, curH + sin(toArc(i * wavePointAbs + this.timer)) * (10 - abs(this.rotateSpeed)) | 0);
         }
         // document.getElementsByTagName('h1')[0] && (document.getElementsByTagName('h1')[0].innerHTML = this.fill.toFixed(2))
 
-        ctx.lineTo(R, r);
+        ctx.lineTo(R + 1, r);
         ctx.lineTo(-r, r);
         ctx.lineTo(-r, curH);
 
         ctx.strokeStyle = colorBorder;
         ctx.fillStyle = gradient;
         ctx.lineWidth = 1;
-        ctx.stroke();
         ctx.fill();
         ctx.closePath();
+        ctx.stroke();
     });
 
     water.push(w);
@@ -485,6 +486,7 @@ var setWater = function setWater(rotate, fill) {
         w.targetFill = fill;
     });
 };
+
 var calcHorizon = function calcHorizon(_ref) {
     var x = _ref.x;
     var y = _ref.y;
@@ -517,7 +519,7 @@ var api = {
         });
 
         var counter = 0;
-        if (window.DeviceOrientationEvent) {
+        if (window.DeviceOrientationEvent && /\biphone\b/i.test(navigator.userAgent)) {
             window.addEventListener('devicemotion', function (e) {
                 if (counter++ > 3) {
                     counter = 0;
@@ -574,33 +576,38 @@ var _aqua2 = require('./aqua2');
 
 var _aqua22 = _interopRequireDefault(_aqua2);
 
-var _npKit = require('np-kit');
+exports['default'] = function ($) {
+    var npcStorage = [];
+    var effect;
 
-var _npKit2 = _interopRequireDefault(_npKit);
+    var initNPC = function initNPC(canvasNode, cfg) {
+        var npc;
+        npc = canvasNode.engine = new _npCanvas2['default'](canvasNode, $.merge({
+            fitSize: true,
+            pixelRatio: 1
+        }, cfg, true));
+        npc.width = $.os === 'IOS' || $.os === 'Acdroid' ? canvasNode.clientWidth : canvasNode.clientWidth / 2;
+        npc.height = npc.width / canvasNode.clientWidth * canvasNode.clientHeight;
+        npcStorage.push(npc);
+        return npc;
+    };
+    var runEffect = function runEffect(effect, api) {
+        for (var _len = arguments.length, args = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+            args[_key - 2] = arguments[_key];
+        }
 
-var npcStorage = [];
-
-var initNPC = function initNPC(canvasNode, cfg) {
-    var npc;
-    npc = canvasNode.engine = new _npCanvas2['default'](canvasNode, _npKit2['default'].merge({
-        fitSize: true,
-        pixelRatio: 1
-    }, cfg, true));
-    npc.width = _npKit2['default'].os === 'IOS' || _npKit2['default'].os === 'Acdroid' ? canvasNode.clientWidth : canvasNode.clientWidth / 2;
-    npc.height = npc.width / canvasNode.clientWidth * canvasNode.clientHeight;
-    npcStorage.push(npc);
-    return npc;
-};
-
-exports['default'] = function ($, core) {
+        effect && effect[api] && effect[api].apply(effect, args);
+    };
     $.domReady(function () {
         var canvas = $.findAll('[id^="canvas"]', $.find('#syscomp'));
         if (!canvas && !canvas.length) {
             return;
         }
 
-        _aqua22['default'] && _aqua22['default'].init && _aqua22['default'].init(canvas, initNPC);
-        _aqua22['default'].play();
+        effect = _aqua22['default'];
+
+        runEffect(effect, 'init', canvas, initNPC);
+        runEffect(effect, 'play');
 
         $.evt(document.body).on('click', '[data-npc]', function () {
             if (this.dataset.npc === 'pause') {
@@ -629,17 +636,17 @@ exports['default'] = function ($, core) {
         if (battery) {
             battery.addEventListener("levelchange", function (e) {
                 if (battery.level < .5) {
-                    _aqua22['default'] && _aqua22['default'].stop && _aqua22['default'].stop();
+                    runEffect(effect, 'stop');
                 }
             });
         }
     });
-    return _aqua22['default'];
+    return effect;
 };
 
 module.exports = exports['default'];
 
-},{"./aqua2":10,"np-canvas":21,"np-kit":23}],12:[function(require,module,exports){
+},{"./aqua2":10,"np-canvas":21}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -668,17 +675,18 @@ var _background = require('./background');
 
 var _background2 = _interopRequireDefault(_background);
 
-_npKit2['default'].debug = true;
+var $ = $.merge(_npKit2['default'], _base2['default'], true);
+$.debug = true;
 
-var spa = (0, _spa2['default'])(_npKit2['default'], _base2['default']);
-var nav = (0, _nav2['default'])(_npKit2['default'], _base2['default']);
-var background = (0, _background2['default'])(_npKit2['default'], _base2['default']);
+var spa = (0, _spa2['default'])($);
+var nav = (0, _nav2['default'])($);
+var background = (0, _background2['default'])($);
 
-_npKit2['default'].listener(spa.Page).on('beforechange', function (uri, controller) {
+$.listener(spa.Page).on('beforechange', function (uri, controller) {
     nav.set(controller);
 });
 
-window.alpha = _npKit2['default'].merge(_npKit2['default'], _base2['default'], {
+window.alpha = $.merge($, {
     loadPage: spa.loadPage,
     register: spa.register,
     controllers: spa.controllers,
@@ -872,10 +880,6 @@ Object.defineProperty(exports, '__esModule', {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _npKit = require('np-kit');
-
-var _npKit2 = _interopRequireDefault(_npKit);
-
 var _npHistory = require('np-history');
 
 var _npHistory2 = _interopRequireDefault(_npHistory);
@@ -893,8 +897,8 @@ var go = function go(href) {
     new _page2['default'](location.pathname).show();
 };
 
-exports['default'] = function () {
-    _npKit2['default'].evt(document).on('click', 'a[href^="/"]', function (e) {
+exports['default'] = function ($) {
+    $.evt(document).on('click', 'a[href^="/"]', function (e) {
         var target = this.getAttribute('target');
         if (target) {
             return;
@@ -902,9 +906,10 @@ exports['default'] = function () {
         e.preventDefault();
         var href = this.getAttribute('href');
         go(href);
+        ga('send', 'pageview');
     });
 
-    _npKit2['default'].domReady(function () {
+    $.domReady(function () {
         _npHistory2['default'].onpopstate(function () {
             new _page2['default'](location.pathname).show();
         });
@@ -914,7 +919,7 @@ exports['default'] = function () {
     return {
         register: function register(controller, factory) {
             controller = new _controller2['default'](controller);
-            controller.set(factory.call(controller, _npKit2['default']));
+            controller.set(factory.call(controller, $));
             controller.check();
         },
         loadPage: function loadPage(uri, contentNode, _ref) {
@@ -932,14 +937,14 @@ exports['default'] = function () {
             contentNode.innerHTML = '';
             styles.forEach(function (url) {
                 if (url[0] === '/' || url[0] === '.') {
-                    _npKit2['default'].load(url);
+                    $.load(url);
                 } else {
-                    _npKit2['default'].insertStyle(url);
+                    $.insertStyle(url);
                 }
             });
             scripts.forEach(function (url) {
                 if (url[0] === '/' || url[0] === '.') {
-                    _npKit2['default'].load(url);
+                    $.load(url);
                 } else {
                     eval(url);
                 }
@@ -957,7 +962,7 @@ exports['default'] = function () {
 
 module.exports = exports['default'];
 
-},{"./controller":14,"./page":17,"np-history":22,"np-kit":23}],17:[function(require,module,exports){
+},{"./controller":14,"./page":17,"np-history":22}],17:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
