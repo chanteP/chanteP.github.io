@@ -24,7 +24,7 @@ var g = 9.8;
 
 var defaultFill = 0;
 var rotateSpeedShrink = .95;
-var wavePointAbs = 52;
+var wavePointAbs = 45;
 
 
 var toArc = (deg) => {
