@@ -675,7 +675,7 @@ var _background = require('./background');
 
 var _background2 = _interopRequireDefault(_background);
 
-var $ = $.merge(_npKit2['default'], _base2['default'], true);
+var $ = _npKit2['default'].merge(_npKit2['default'], _base2['default'], true);
 $.debug = true;
 
 var spa = (0, _spa2['default'])($);
