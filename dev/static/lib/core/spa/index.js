@@ -1,4 +1,3 @@
-import $ from 'np-kit'
 import histroy from 'np-history'
 
 import Controller from './controller'
@@ -9,7 +8,7 @@ var go = (href) => {
     new Page(location.pathname).show();
 }
 
-export default function(){
+export default function($){
     $.evt(document)
         .on('click', 'a[href^="/"]', function(e){
             var target = this.getAttribute('target');
@@ -17,6 +16,7 @@ export default function(){
             e.preventDefault();
             var href = this.getAttribute('href');
             go(href);
+            ga('send', 'pageview');
         });
 
     $.domReady(() => {
