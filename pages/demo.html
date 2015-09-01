@@ -3,9 +3,17 @@ layout: page
 ---
 <div class="page_demo">
     <style type="text/css">
+    .page_demo{
+        overflow-y:scroll; 
+        -webkit-overflow-scrolling: touch;
+    }
     .page_demo a{
         display: block;
         line-height: 1rem;
+    }
+    label{
+        display: block;
+        height: 50px;
     }
     </style>
     <a id="callDrawer">Drawer</a>
@@ -14,6 +22,18 @@ layout: page
     <a id="callPicview">Picview</a>
     <a id="callMask">Mask</a>
     <a id="callMaskTips">MaskTips</a>
+
+    <label><input type="checkbox" class="ui-checkbox" name="checkbox" /><span>checkbox</span></label>
+    <label><input type="checkbox" class="ui-checkbox" name="checkbox" checked="checked" /><span>checkbox</span></label>
+    <label><input type="checkbox" class="ui-checkbox" disabled="disabled" /><span>checkbox</span></label>
+    <label><input type="checkbox" class="ui-checkbox" disabled="disabled" checked="checked" /><span>checkbox</span></label>
+
+    <label><input type="radio" class="ui-radio" name="check" /><span>radio</span></label>
+    <label><input type="radio" class="ui-radio" name="check" checked="checked" /><span>radio</span></label>
+    <label><input type="radio" class="ui-radio" disabled="disabled" /><span>radio</span></label>
+    <label><input type="radio" class="ui-radio" disabled="disabled" checked="checked" /><span>radio</span></label>
+
+    <label><input type="checkbox" class="hide" /><span class="ui-switch"></span>switch</label>
 
     <script>
         window.parent.alpha.loadPage('/demo', wrapper, {

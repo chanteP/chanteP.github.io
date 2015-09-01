@@ -3664,73 +3664,104 @@ html {
 .ti-rss-alt:before {
   content: "\e75f"; }
 
-.ui-radio {
-  display: none; }
-  .ui-radio + span {
-    display: inline-block;
-    min-height: .28rem; }
-    .ui-radio + span:before {
-      content: '';
-      display: inline-block;
-      margin: 0 0.14rem 0 0;
-      width: .28rem;
-      height: .28rem;
-      border-radius: 100%;
-      border: .02rem #dadbdf solid;
-      background: #fff;
-      box-sizing: border-box;
-      vertical-align: middle;
-      -webkit-transition: all 0.1s ease 0s;
-      -moz-transition: all 0.1s ease 0s;
-      transition: all 0.1s ease 0s; }
-    .ui-radio + span:active:before {
-      border: 0.02rem #37baab solid; }
-  .ui-radio:disabled + span:before {
-    background: #f4f4f4; }
-  .ui-radio:checked + span:before {
-    border: 0.08rem #37baab solid; }
-  .ui-radio:disabled:checked + span:before {
-    border: .08rem #f4f4f4 solid;
-    background: #c8c8c8; }
-
+.ui-radio,
 .ui-checkbox {
   display: none; }
+  .ui-radio + span,
   .ui-checkbox + span {
     display: inline-block;
     min-height: .28rem; }
+    .ui-radio + span:before,
     .ui-checkbox + span:before {
       content: '';
+      display: inline-block;
+      font: normal normal normal .28rem/1 themify;
+      font-size: inherit;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
       display: inline-block;
       margin: 0 0.14rem 0 0;
       width: .28rem;
       height: .28rem;
       line-height: .28rem;
+      border-style: solid;
+      border: 0.02rem #76d7cc solid;
       border-radius: 100%;
-      border: .02rem #dadbdf solid;
-      background: #fff;
-      vertical-align: middle;
-      display: inline-block;
-      font: normal normal normal .28rem/1 FontAwesome;
-      font-size: inherit;
-      text-rendering: auto;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      box-sizing: border-box;
       text-align: center;
-      font-size: .36rem;
-      color: #fff; }
+      font-size: .18rem;
+      font-weight: 700;
+      color: #fff;
+      vertical-align: middle;
+      background: #fff;
+      -webkit-transition: all 0.1s ease 0s;
+      -moz-transition: all 0.1s ease 0s;
+      transition: all 0.1s ease 0s; }
+    .ui-radio + span:active:before,
     .ui-checkbox + span:active:before {
       border-color: #37baab; }
+  .ui-radio:disabled + span:before,
   .ui-checkbox:disabled + span:before {
+    border-color: #c8c8c8;
     background: #f4f4f4; }
+  .ui-radio:checked + span:before,
   .ui-checkbox:checked + span:before {
-    content: '\f058';
-    border: none;
-    /*border-color: $color-main-dark;*/
-    color: #37baab;
-    margin-left: -.04rem;
-    margin-top: -.04rem; }
+    border-color: #37baab; }
+  .ui-radio:disabled:checked + span:before,
   .ui-checkbox:disabled:checked + span:before {
-    color: #c8c8c8; }
+    border-color: #c8c8c8;
+    background: #c8c8c8; }
+
+.ui-radio + span:active:before {
+  border-width: .02rem; }
+
+.ui-radio:disabled:checked + span:before {
+  border-color: #f4f4f4; }
+
+.ui-radio:checked + span:before,
+.ui-radio:disabled:checked + span:before {
+  border-width: .08rem; }
+
+.ui-checkbox:checked + span:before {
+  content: '\e64c';
+  background: #37baab; }
+
+.ui-switch {
+  position: relative;
+  display: inline-block;
+  height: 2em;
+  width: 4em;
+  padding: 0.02rem;
+  background: #d5d5d5;
+  vertical-align: middle;
+  border-radius: 2em;
+  -webkit-transition: all 0.2s ease 0s;
+  -moz-transition: all 0.2s ease 0s;
+  transition: all 0.2s ease 0s; }
+  .ui-switch:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 2em;
+    width: 2em;
+    margin: .02rem;
+    background: #fff;
+    border-radius: 2em;
+    -webkit-transition: all 0.2s ease 0s;
+    -moz-transition: all 0.2s ease 0s;
+    transition: all 0.2s ease 0s;
+    -webkit-transform: translate(-2em, 0);
+    -moz-transform: translate(-2em, 0);
+    transform: translate(-2em, 0); }
+
+input[type="checkbox"]:checked + .ui-switch {
+  background: #4fcbbd; }
+  input[type="checkbox"]:checked + .ui-switch:after {
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    transform: translate(0, 0); }
 
 /*
     button
