@@ -10,6 +10,7 @@ save :
 deploy : save
 	node --harmony bin/deploy -m
 	git co master
+	git pull
 
 	rm -rf `ls | egrep -v '^(temp|node_modules)'`
 
