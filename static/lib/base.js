@@ -212,12 +212,11 @@ function loadUA() {
 }
 module.exports = function ($) {
     gaAccount = $config.cos_gaAccount;
-    if (!gaAccount || $.isLocal) {
-        return;
+    if (!gaAccount || $.isLocal) {} else {
+        loadUA();
     }
-    loadUA();
     return {
-        ga: ga
+        ga: window.ga
     };
 };
 

@@ -212,12 +212,11 @@ function loadUA() {
 }
 module.exports = function ($) {
     gaAccount = $config.cos_gaAccount;
-    if (!gaAccount || $.isLocal) {
-        return;
+    if (!gaAccount || $.isLocal) {} else {
+        loadUA();
     }
-    loadUA();
     return {
-        ga: ga
+        ga: window.ga
     };
 };
 
@@ -381,7 +380,7 @@ var g = 9.8;
 
 var defaultFill = 0;
 var rotateSpeedShrink = .95;
-var wavePointAbs = 45;
+var wavePointAbs = 40;
 
 var toArc = function toArc(deg) {
     return deg * PId180;
@@ -389,21 +388,25 @@ var toArc = function toArc(deg) {
 var toDeg = function toDeg(arc) {
     return arc * PIbd180;
 };
-var createGradient = function createGradient(npc, height, color) {
+var createGradient = function createGradient(npc, height, index) {
+    if (index) {
+        var mainColor = 177,
+            colorLite = 'hsla(' + mainColor + ', 61.23%, 90%, .5)',
+            colorBase = 'hsl(' + mainColor + ', 61.23%, 72%)',
+            colorDeep = 'hsl(' + (mainColor + 5) + ', 71.23%, 60%)',
+            colorBorder = 'hsl(' + mainColor + ', 51.23%, 50%)';
+        // var gradient = 'hsla('+mainColor+', 61.23%, 90%, .8)';
 
-    var mainColor = color,
-
-    // var mainColor = 330,
-    colorLite = 'hsla(' + mainColor + ', 61.23%, 90%, .8)',
-        colorBase = 'hsl(' + mainColor + ', 61.23%, 72%)',
-        colorDeep = 'hsl(' + (mainColor + 5) + ', 71.23%, 60%)',
-        colorBorder = 'hsl(' + mainColor + ', 51.23%, 50%)';
-
-    var gradient = npc.ctx.createLinearGradient(0, 0, 0, height);
-    gradient.addColorStop(0, colorLite);
-    gradient.addColorStop(0.5, colorBase);
-    gradient.addColorStop(1, colorDeep);
-    return { gradient: gradient, color: color, colorBorder: colorBorder };
+        var gradient = npc.ctx.createLinearGradient(0, 0, 0, height);
+        gradient.addColorStop(0, colorLite);
+        gradient.addColorStop(0.5, colorBase);
+        gradient.addColorStop(1, colorDeep);
+    } else {
+        var mainColor = 190,
+            gradient = 'hsla(' + mainColor + ', 61.23%, 90%, .8)',
+            colorBorder = 'hsl(' + mainColor + ', 51.23%, 50%)';
+    }
+    return { gradient: gradient, colorBorder: colorBorder };
 };
 
 var initWater = function initWater(npc, index) {
@@ -417,10 +420,9 @@ var initWater = function initWater(npc, index) {
         stepWidth = R / step;
     var timerStep = index ? 2 : 1.5;
 
-    var _createGradient = createGradient(npc, R, index ? 177 : 200);
+    var _createGradient = createGradient(npc, R, index);
 
     var gradient = _createGradient.gradient;
-    var color = _createGradient.color;
     var colorBorder = _createGradient.colorBorder;
 
     var w = npc.create(contWidth / 2, contHeight / 2, function (ctx, fps) {
@@ -906,7 +908,7 @@ exports['default'] = function ($) {
         e.preventDefault();
         var href = this.getAttribute('href');
         go(href);
-        ga('send', 'pageview');
+        $.ga && $.ga('send', 'pageview');
     });
 
     $.domReady(function () {

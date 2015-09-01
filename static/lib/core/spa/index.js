@@ -16,7 +16,7 @@ export default function($){
             e.preventDefault();
             var href = this.getAttribute('href');
             go(href);
-            ga('send', 'pageview');
+            $.ga && $.ga('send', 'pageview');
         });
 
     $.domReady(() => {

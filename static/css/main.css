@@ -3828,10 +3828,7 @@ input[type="checkbox"]:checked + .ui-switch {
   width: 100%;
   height: 100%;
   z-index: 20;
-  visibility: hidden;
-  -webkit-transition: all 0.2s ease 0s;
-  -moz-transition: all 0.2s ease 0s;
-  transition: all 0.2s ease 0s; }
+  display: none; }
 
 body.loading:before {
   display: none; }
@@ -3854,7 +3851,7 @@ body.loading .main-bg {
   filter: blur(2px); }
 
 body.loading .main-loading {
-  visibility: visible; }
+  display: block; }
 
 @media screen and (min-width: 1001px) {
   .wrap {
