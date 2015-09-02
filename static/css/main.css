@@ -3688,7 +3688,7 @@ html {
       height: .28rem;
       line-height: .28rem;
       border-style: solid;
-      border: 0.02rem #76d7cc solid;
+      border: .02rem #aaa solid;
       border-radius: 100%;
       box-sizing: border-box;
       text-align: center;
@@ -3725,6 +3725,12 @@ html {
 .ui-radio:checked + span:before,
 .ui-radio:disabled:checked + span:before {
   border-width: .08rem; }
+
+.ui-checkbox + span:before {
+  width: .38rem;
+  height: .38rem;
+  margin-top: -.02rem;
+  line-height: .38rem; }
 
 .ui-checkbox:checked + span:before {
   content: '\e64c';

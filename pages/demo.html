@@ -8,11 +8,14 @@ layout: page
         overflow-y:scroll; 
         -webkit-overflow-scrolling: touch;
     }
-    label{
+    .clickbox{
+        padding: .3rem .3rem 0;
+    }
+    .clickbox label{
         display: inline-block;
         padding: .16rem .2rem;
     }
-    label:hover{
+    .clickbox label:hover{
         background: #f0f0f0;
     }
     hr{
@@ -21,7 +24,7 @@ layout: page
         background: #ccc;
     }
     </style>
-    <div style="padding:.40rem;">
+    <div class="clickbox">
         <label><a id="callDrawer">Drawer</a></label>
         <label><a id="callSelect">Select</a></label>
         <label><a id="callDialog">Dialog</a></label>
@@ -46,7 +49,64 @@ layout: page
         <hr class="claerfix" />
 
         <label><input type="checkbox" class="hide" /><span class="ui-switch"></span>switch</label>
+    </div>
+    <hr class="claerfix" />
 
+    <div class="form-cont">
+        <div class="form-group">
+            <div class="form-group-title">测试title</div>
+            <div class="form-line">
+                <div class="form-line-head"><span>什么鬼</span></div>
+                <div class="form-line-content">
+                    <input placeholder="哈哈哈哈哈哈" />
+                </div>
+            </div>
+            <div class="form-line">
+                <label class="form-line-content">
+                    什么鬼<input type="checkbox" class="hide" /><span class="ui-switch"></span>
+                </label>
+            </div>
+            <div class="form-line tips">
+                <div class="form-line-content">
+                    Tips
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-group-title">321</div>
+            <div class="form-line">
+                <label class="form-line-content">
+                    <input type="radio" class="ui-radio" name="a1" />
+                    <span>喵了个咪</span>
+                </label>
+            </div>
+            <div class="form-line">
+                <label class="form-line-content">
+                    <input type="radio" class="ui-radio" name="a1" />
+                    <span>喵了<input class="form-input-mark" size="3" />个咪</span>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-line">
+                <label class="form-line-content">
+                    <input type="checkbox" class="ui-checkbox" name="a1" />
+                    <span>喵了个咪</span>
+                </label>
+            </div>
+            <div class="form-line">
+                <label class="form-line-content">
+                    <input type="checkbox" class="ui-checkbox" name="a1" />
+                    <span>喵了<input class="form-input-mark" size="3" />个咪</span>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-group-title">321</div>
+            <div class="form-line">
+                <textarea placeholder="喵喵喵喵喵喵喵"></textarea>
+            </div>
+        </div>
     </div>
     <script>
         window.parent.alpha.loadPage('/demo', wrapper, {
