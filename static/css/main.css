@@ -3800,6 +3800,125 @@ input[type="checkbox"]:checked + .ui-switch {
     background: #d5d5d5;
     border-color: #d5d5d5; }
 
+.form-cont {
+  background: #f8f8f8; }
+
+.form-group-title {
+  display: block;
+  padding-left: 0.3rem;
+  font-size: .26rem;
+  color: #999;
+  float: none;
+  background: transparent;
+  height: .6rem;
+  line-height: .6rem; }
+
+.form-line {
+  position: relative;
+  padding: 0 0.3rem;
+  font-size: 0.3rem;
+  background: #fff;
+  border: 0 solid #dedede;
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  overflow: hidden; }
+  .form-line + .form-line {
+    margin-top: -1px; }
+  .form-line .form-line-head {
+    float: left;
+    display: block;
+    width: 5.5em;
+    line-height: 0.9rem;
+    font-size: .3rem;
+    color: #333; }
+    .form-line .form-line-head span {
+      display: inline-block;
+      line-height: 1.2;
+      vertical-align: middle; }
+  .form-line .form-line-content {
+    display: block;
+    line-height: 0.9rem;
+    overflow: hidden; }
+  .form-line .form-line-head + .form-line-content {
+    margin-left: 6.5em; }
+  .form-line input:not([type]),
+  .form-line input[type="text"] {
+    display: inline-block;
+    width: 100%;
+    font-size: 0.3rem;
+    color: #333;
+    border: none;
+    box-shadow: none;
+    background: transparent; }
+    .form-line input:not([type]).form-input-mark,
+    .form-line input[type="text"].form-input-mark {
+      display: inline-block;
+      width: auto;
+      margin: 0 0.1rem;
+      padding: .12rem;
+      text-align: center;
+      background: #e8e8e8;
+      border-radius: .04rem; }
+      .form-line input:not([type]).form-input-mark:focus,
+      .form-line input[type="text"].form-input-mark:focus {
+        background: #cacaca; }
+  .form-line textarea {
+    display: block;
+    width: 100%;
+    height: 1.08rem;
+    padding: .2rem 0;
+    line-height: 1.2;
+    font-size: 0.3rem;
+    color: #333;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    resize: none; }
+  .form-line .ui-switch {
+    float: right;
+    margin-top: .14rem; }
+  .form-line.tips {
+    cursor: pointer; }
+    .form-line.tips :after {
+      content: '\e649';
+      display: inline-block;
+      font: normal normal normal .28rem/1 themify;
+      font-size: inherit;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      right: 0.3rem;
+      line-height: 0.9rem;
+      font-size: 0.3rem;
+      color: #666; }
+
+.form-group .form-line {
+  border-color: transparent; }
+
+.form-group .form-group-title + .form-line,
+.form-group .form-line:nth-of-type(1) {
+  border-top-color: #dedede; }
+
+.form-group .form-line:nth-last-of-type(1) {
+  border-bottom-color: #dedede; }
+
+.form-group .form-line + .form-line:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  margin-left: 0.3rem;
+  background: #dedede;
+  overflow: hidden; }
+
+.form-group + .form-group {
+  margin-top: -1px; }
+
 /* custom
 ----------------------------------*/
 .main-wrapper {
