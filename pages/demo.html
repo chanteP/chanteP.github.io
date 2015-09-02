@@ -8,34 +8,46 @@ layout: page
         overflow-y:scroll; 
         -webkit-overflow-scrolling: touch;
     }
-    .page_demo a{
-        display: block;
-        line-height: 1rem;
-    }
     label{
-        display: block;
-        height: 50px;
+        display: inline-block;
+        padding: .16rem .2rem;
+    }
+    label:hover{
+        background: #f0f0f0;
+    }
+    hr{
+        height: 1px;
+        width: 100%;
+        background: #ccc;
     }
     </style>
-    <a id="callDrawer">Drawer</a>
-    <a id="callSelect">Select</a>
-    <a id="callDialog">Dialog</a>
-    <a id="callPicview">Picview</a>
-    <a id="callMask">Mask</a>
-    <a id="callMaskTips">MaskTips</a>
+    <div style="padding:.40rem;">
+        <label><a id="callDrawer">Drawer</a></label>
+        <label><a id="callSelect">Select</a></label>
+        <label><a id="callDialog">Dialog</a></label>
+        <label><a id="callPicview">Picview</a></label>
+        <label><a id="callMask">Mask</a></label>
+        <label><a id="callMaskTips">MaskTips</a></label>
 
-    <label><input type="checkbox" class="ui-checkbox" name="checkbox" /><span>checkbox</span></label>
-    <label><input type="checkbox" class="ui-checkbox" name="checkbox" checked="checked" /><span>checkbox</span></label>
-    <label><input type="checkbox" class="ui-checkbox" disabled="disabled" /><span>checkbox</span></label>
-    <label><input type="checkbox" class="ui-checkbox" disabled="disabled" checked="checked" /><span>checkbox</span></label>
+        <hr class="claerfix" />
 
-    <label><input type="radio" class="ui-radio" name="check" /><span>radio</span></label>
-    <label><input type="radio" class="ui-radio" name="check" checked="checked" /><span>radio</span></label>
-    <label><input type="radio" class="ui-radio" disabled="disabled" /><span>radio</span></label>
-    <label><input type="radio" class="ui-radio" disabled="disabled" checked="checked" /><span>radio</span></label>
+        <label><input type="checkbox" class="ui-checkbox" name="checkbox" /><span>checkbox</span></label>
+        <label><input type="checkbox" class="ui-checkbox" name="checkbox" checked="checked" /><span>checkbox</span></label>
+        <label><input type="checkbox" class="ui-checkbox" disabled="disabled" /><span>checkbox</span></label>
+        <label><input type="checkbox" class="ui-checkbox" disabled="disabled" checked="checked" /><span>checkbox</span></label>
 
-    <label><input type="checkbox" class="hide" /><span class="ui-switch"></span>switch</label>
+        <hr class="claerfix" />
 
+        <label><input type="radio" class="ui-radio" name="check" /><span>radio</span></label>
+        <label><input type="radio" class="ui-radio" name="check" checked="checked" /><span>radio</span></label>
+        <label><input type="radio" class="ui-radio" disabled="disabled" /><span>radio</span></label>
+        <label><input type="radio" class="ui-radio" disabled="disabled" checked="checked" /><span>radio</span></label>
+
+        <hr class="claerfix" />
+
+        <label><input type="checkbox" class="hide" /><span class="ui-switch"></span>switch</label>
+
+    </div>
     <script>
         window.parent.alpha.loadPage('/demo', wrapper, {
             scripts:['/static/pages/demo/index.js']
