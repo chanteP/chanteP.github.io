@@ -56,6 +56,7 @@
     // &:disabled + span:before,
     &:disabled:checked + span:before{
         border-color: #f4f4f4;
+        box-shadow: #e0e0e0 0 0 0 1px;
     }
     &:checked + span:before,
     &:disabled:checked + span:before{

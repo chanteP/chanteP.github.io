@@ -1,15 +1,28 @@
-module.exports = function($){
-    var lastTarget;
-    window.document.addEventListener('click', function(e){
-        var target = e.target;
-        if(target === lastTarget){
-            return;
-        }
-        //移除输入状态
-        var tagName = target.tagName;
-        if(tagName !== 'INPUT' && tagName !== 'TEXTAREA'){
-            document.activeElement && document.activeElement.blur();
-        }
-        lastTarget = e.target;
-    });
+export default ($) => {
+    var scrollTimer;
+    var bindEvt = () => {
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(() => $.trigger(window, 'scrollend'), 100);
+    }
+    var check = () => {
+        return setTimeout(() => {
+            $.each($.findAll('[data-lazyload]:not(.lazyloading)'), (node) => {
+                var src = node.dataset.lazyload;
+                if(!src){
+                    return;
+                }
+                node.classList.add('lazyloading');
+                $.load(src, '').onload = () => {
+                    node.src = src;
+                    node.classList.remove('lazyloading');
+                    node.dataset.lazyload = '';
+                }
+            });
+        }, 200);
+    }
+    window.addEventListener('mousewheel', bindEvt);
+
+    window.addEventListener('click', check);
+    window.addEventListener('scrollend', check);
+    $.domReady(check);
 }

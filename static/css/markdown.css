@@ -2582,6 +2582,8 @@ html {
 .fastclick_outer label > * {
   pointer-events: none; }
 
+.fastclick_outer label a,
+.fastclick_outer label button,
 .fastclick_outer label input,
 .fastclick_outer label select,
 .fastclick_outer label textarea {
@@ -3717,7 +3719,8 @@ html {
   border-width: .02rem; }
 
 .ui-radio:disabled:checked + span:before {
-  border-color: #f4f4f4; }
+  border-color: #f4f4f4;
+  box-shadow: #e0e0e0 0 0 0 1px; }
 
 .ui-radio:checked + span:before,
 .ui-radio:disabled:checked + span:before {

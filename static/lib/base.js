@@ -239,21 +239,42 @@ require('np-scrollp').bind();
 },{"./componentHandler":1,"./dom":2,"./errorControl":3,"./fastclick":4,"./ga":5,"./keyboardHandler":7,"./lazyload":8,"./pixelFix":9,"np-kit":11,"np-scrollp":20}],7:[function(require,module,exports){
 'use strict';
 
-module.exports = function ($) {
-    var lastTarget;
-    window.document.addEventListener('click', function (e) {
-        var target = e.target;
-        if (target === lastTarget) {
-            return;
-        }
-        //移除输入状态
-        var tagName = target.tagName;
-        if (tagName !== 'INPUT' && tagName !== 'TEXTAREA') {
-            document.activeElement && document.activeElement.blur();
-        }
-        lastTarget = e.target;
-    });
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+exports['default'] = function ($) {
+    var scrollTimer;
+    var bindEvt = function bindEvt() {
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(function () {
+            return $.trigger(window, 'scrollend');
+        }, 100);
+    };
+    var check = function check() {
+        return setTimeout(function () {
+            $.each($.findAll('[data-lazyload]:not(.lazyloading)'), function (node) {
+                var src = node.dataset.lazyload;
+                if (!src) {
+                    return;
+                }
+                node.classList.add('lazyloading');
+                $.load(src, '').onload = function () {
+                    node.src = src;
+                    node.classList.remove('lazyloading');
+                    node.dataset.lazyload = '';
+                };
+            });
+        }, 200);
+    };
+    window.addEventListener('mousewheel', bindEvt);
+
+    window.addEventListener('click', check);
+    window.addEventListener('scrollend', check);
+    $.domReady(check);
 };
+
+module.exports = exports['default'];
 
 },{}],8:[function(require,module,exports){
 'use strict';
