@@ -5,8 +5,8 @@
     border-radius: .12rem;
     text-align: center;
     color: #e0e0e0;
-    width: 25%;
-    max-width: 24%;
+    min-width: 7em;
+    max-width: 40%;
     margin: auto;
     padding:.24rem;
     pointer-events:none;
@@ -23,7 +23,7 @@
         }
     }
     .m-masktips-text{
-        
+        line-height: 1.5;
     }
 }
 

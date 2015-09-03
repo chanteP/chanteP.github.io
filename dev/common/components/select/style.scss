@@ -1,14 +1,24 @@
 @import "../../variable.scss";
 
+$controls-select-itemsize : .88rem;
+@mixin controlsSelectItemlinebox{
+    display: block;
+    line-height: $controls-select-itemsize;
+    height: $controls-select-itemsize;
+    border: 0 solid #e0e0e0;
+}
+
 .m-controls-select{
     background: #fff;
 
     .m-controls-select-head{
         line-height: .66rem;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid #dedede;
+        overflow: hidden;
 
         h1{
             font-size: .28rem;
+            line-height: .66rem;
             color: #333;
             font-weight: 700;
             text-align:center;
@@ -28,20 +38,53 @@
             float:right;
         }
     }
-    ul{
-        max-height: 4.5rem;
+    .m-controls-slidercont{
+        position: relative;
+        background: #fff;
+    }
+    .m-controls-slider{
+        width: 100%;
+        max-height: #{5 * $controls-select-itemsize};
         @include scroll(scroll);
-        background: #f0f0f0;
     }
     li{
         /*background: #fff;*/
+        @include textEllipsis;
+        @include controlsSelectItemlinebox;
         color: #333;
-        border-bottom: 1px solid #e0e0e0;
-        display: block;
-        line-height: .88rem;
         text-align: center;
         cursor: pointer;
-        @include textEllipsis;
+    }
+    li + li{
+        border-top-width: 1px;
+    }
+    .m-controls-select-head + .m-controls-slidercont{
+        background: #f0f0f0;
+        -webkit-mask-image:linear-gradient(0deg, transparent 0, #fff 20%, #fff 80%, transparent 100%);
+
+        &:before{
+            content: '';
+            @include controlsSelectItemlinebox;
+            @include transform(translate(0, -50%));
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width:100%;
+            border-top-width: 1px;
+            border-bottom-width: 1px;
+            pointer-events: none;
+        }
+        li{
+            border-color: transparent;
+            // -webkit-mask-image:linear-gradient(90deg, transparent 0, #fff 12%, #fff 88%, transparent 100%);
+            // -webkit-mask-repeat: repeat-y;
+        }
+        li:first-child{
+            margin-top: #{3 * $controls-select-itemsize};
+        }
+        li:last-child{
+            margin-bottom: #{3 * $controls-select-itemsize};
+        }
     }
     .current{
         font-weight: 700;

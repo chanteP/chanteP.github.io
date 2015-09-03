@@ -30,7 +30,7 @@ export default {
         page.run('beforeShow');
         if(page.node.parentNode !== getWrapper()){
             getWrapper().appendChild(page.node);
-            base.animate(page.node, 'fadeInDown', null, true);
+            page.constructor.current !== page.uri && base.animate(page.node, 'fadeInDown', null, true);
         }
         if(page.loader < page.LOADED){
             document.body.classList.add('loading');

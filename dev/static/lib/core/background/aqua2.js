@@ -36,7 +36,7 @@ var toDeg = (arc) => {
 var createGradient = function(npc, height, index){
     if(index){
         var mainColor = 177,
-            colorLite = 'hsla('+mainColor+', 61.23%, 90%, .5)',
+            colorLite = 'hsla('+mainColor+', 61.23%, 90%, .8)',
             colorBase = 'hsl('+mainColor+', 61.23%, 72%)',
             colorDeep = 'hsl('+(mainColor+5)+', 71.23%, 60%)',
             colorBorder = 'hsl('+mainColor+', 51.23%, 50%)'
@@ -49,8 +49,8 @@ var createGradient = function(npc, height, index){
         gradient.addColorStop(1, colorDeep);
     }
     else{
-        var mainColor = 190,
-            gradient = 'hsla('+mainColor+', 61.23%, 90%, .8)',
+        var mainColor = 200,
+            gradient = 'hsla('+mainColor+', 61.23%, 80%, .8)',
             colorBorder = 'hsl('+mainColor+', 51.23%, 50%)';
     }
     return {gradient, colorBorder};
@@ -127,10 +127,11 @@ var setWater = (rotate, fill) => {
     fill = fill * 1.5;
     water.forEach((w) => {
         let r = rotate === null ? w.targetRotate : rotate;
-        w.rotate = w.rotate % 360;
+        // w.rotate = w.rotate % 360;
         
         r = -r % 360;
 
+        //TODO
         w.targetRotate = r + (
             r > 180 ? -360 : 
             r < -180 ? +360 : 

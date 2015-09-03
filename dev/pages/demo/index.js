@@ -14,18 +14,31 @@ $.register('demo', ($) => {
                 drawer.show();
             });
 
+            var options = [], num = 20;
+            while(num){
+                options.unshift(num--);
+            }
             // var select = new Select;
             callSelect.addEventListener('click', (e) => {
                 Select.show(
                     3, 
-                    [1,2,3,5,6,'吃饭吃饭场景非常非常规范郭富城不会 v 个 v ',457,898,90909,8878,676767], 
+                    options,
                     (item, index) => {
-                        console.log(item, index)
+                        console.log('haha', item, index)
                     },
                     'fxxk'
                 );
             });
-
+            callSelectNoTitle.addEventListener('click', (e) => {
+                Select.show(
+                    3, 
+                    options,
+                    (item, index) => {
+                        console.log('hehe', item, index)
+                    },
+                    null
+                );
+            });
             // var select = new Select;
             callMask.addEventListener('click', (e) => {
                 Mask.show(50);

@@ -12,25 +12,33 @@
     pointer-events:none;
     visibility: hidden;
     @include transition;
-    @include animation-duration(0.4s);
+    @include animation-duration(0.3s);
     @include animation-delay(0s);
+    @include perspective;
 
     .m-controls-content{
-        position: absolute;
-        @include transition;
+        @include transition(.4s);
     }
     &[data-type="bottom"] .m-controls-content{
+        position: absolute;
+        left: 0;
         bottom: 0;
         width: 100%;
         @include transform(translate(0, 100%));
     }
     &[data-type="middle"]{
+        text-align: center;
+        &:before{
+            content: '';
+            display: inline-block;
+            vertical-align: middle;
+            height: 100%;
+        }
         .m-controls-content{
-            top:50%;
-            left: 50%;
-            width: 100%;
-            text-align: center;
-            @include transform(scaleY(0) translate(-50%, -50%));
+            display: inline-block;
+            opacity: 0;
+            @include transform-origin(center);
+            @include transform(rotateX(-90deg));
         }
     }
     /*&.[data-type="bottom"] .m-controls-content{
@@ -44,7 +52,8 @@
             @include transform(translate(0, 0));
         }
         &[data-type="middle"] .m-controls-content{
-            @include transform(scaleY(1) translate(-50%, -50%));
+            opacity: 1;
+            @include transform(rotateX(0));
         }
     }
 

@@ -1,0 +1,53 @@
+@import "../variable.scss";
+
+.icon{
+    &:before{
+        @include themify;
+        @include fontIcon;
+        font-size: .18rem;
+
+        background: $color-main-dark;
+        color: #fff;
+    }
+
+    /* 颜色预设 */
+    &:hover:before{
+        background: $color-main;
+    }
+    &:active:before{
+        background: $color-main-light;
+    }
+
+    &.error:before{
+        background: $color-alert-dark;
+    }
+    &.error:hover:before{
+        background: $color-alert;
+    }
+    &.error:active:before{
+        background: $color-alert-light;
+    }
+    &.transparent:before{
+        background: transparent;
+        color: #666;
+    }
+    &.transparent:hover:before{
+        background: transparent;
+    }
+    &.transparent:active:before{
+        color: #333;
+    }
+    /* 文本预设 */
+    &.close:before{
+        content:'\e646'
+    }
+    &.check:before{
+        content:'\e64c'
+    }
+    &.plus:before{
+        content:'\e61a'
+    }
+    &.minus:before{
+        content:'\e622'
+    }
+}
