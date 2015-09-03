@@ -25,7 +25,7 @@ $form-lineheight : .9rem;
     font-size: .26rem;
     color: $color-form-font-sub;
     float: none;
-    background: transparent;
+    background: $color-form-background;
     height: .6rem;
     line-height: .6rem;
 }
@@ -33,7 +33,7 @@ $form-lineheight : .9rem;
     position: relative;
     padding: 0 $form-padding;
     font-size: $form-font-size;
-    background: $color-form-foreground;
+    // background: $color-form-foreground;
     border: 0 solid $color-form-border;
     border-top-width: 1px;
     border-bottom-width: 1px;
@@ -97,9 +97,10 @@ $form-lineheight : .9rem;
         @include transparentInput;
         resize:none;
     }
-    .ui-switch{
+    .ui-switch + span{
         float: right;
-        margin-top: .14rem;
+        font-size: .26rem;
+        margin-top: .8em;
     }
 
     &.tips{
@@ -118,6 +119,7 @@ $form-lineheight : .9rem;
     }
 }
 .form-group{
+    background: $color-form-foreground;
     .form-line{
         border-color:transparent;
     }
@@ -130,6 +132,7 @@ $form-lineheight : .9rem;
     }
     .form-line + .form-line:before{
         content: '';
+        display: block;
         position: absolute;
         top: 0;
         left: 0;
@@ -138,8 +141,12 @@ $form-lineheight : .9rem;
         margin-left: $form-padding;
         background: $color-form-border;
         overflow: hidden;
+        z-index: 1;
     }
     & + .form-group{
         margin-top: -1px;
+        .form-line:nth-of-type(1){
+            border-top-color: transparent;
+        }
     } 
 }

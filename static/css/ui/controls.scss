@@ -6,31 +6,26 @@
 
     & + span{
         display: inline-block;
-        min-height: .28rem;
-
-        &:before{
-            content :'';
-            @include themify;
-            display: inline-block;
-            margin: 0 .14rem 0 0;
-            width: .28rem;
-            height: .28rem;
-            line-height: .28rem;
-            border-style: solid;
-            border: .02rem #aaa solid;
-            border-radius: 100%;
-            box-sizing:border-box;
-            text-align: center;
-            font-size: .18rem;
-            font-weight: 700;
-            color:#fff;
-            vertical-align: middle;
-            background: #fff;
-            @include transition(.1s);
-        }
-        &:active:before{
-            border-color: $color-main-dark;
-        }
+        min-height: .38rem;
+    }
+    & + span:before{
+        content :'';
+        @include themify;
+        @include fontIcon;
+        margin: -.04rem .14rem 0 0;
+        border-style: solid;
+        border-width: .02rem;
+        border-color: #aaa;
+        font-size: .18rem;
+        font-weight: 700;
+        color:#fff;
+        background: #fff;
+        @include transition(.1s);
+    }
+    & + span:hover:before,
+    &:focus + span:before,
+    &:active + span:before{
+        border-color: $color-main-dark;
     }
     &:disabled + span:before{
         border-color: #c8c8c8;
@@ -47,30 +42,24 @@
     }
 }
 .ui-radio{
-    & + span{
-        &:active:before{
-            border-width: .02rem;
-        }
+    & + span:hover:before,
+    &:focus + span:before,
+    &:active + span:before{
+        border-width: .02rem;
     }
 
     // &:disabled + span:before,
     &:disabled:checked + span:before{
         border-color: #f4f4f4;
-        box-shadow: #e0e0e0 0 0 0 1px;
+        box-shadow: #c8c8c8 0 0 0 1px;
     }
     &:checked + span:before,
     &:disabled:checked + span:before{
-        border-width: .08rem;
+        border-width: .12rem;
     }
 }
 
 .ui-checkbox{
-    & + span:before{
-        width: .38rem;
-        height: .38rem;
-        margin-top: -.02rem;
-        line-height: .38rem;
-    }
     &:checked + span:before{
         content:'\e64c';
         background: $color-main-dark;
@@ -78,33 +67,36 @@
 }
 
 .ui-switch{
-    position: relative;
-    display: inline-block;
-    height: 2em;
-    width: 4em;
-    padding: 0.02rem;
-    background: #d5d5d5;
-    vertical-align: middle;
-    border-radius: 2em;
-    @include transition;
-
-    &:after{
-        content:'';
-        position: absolute;
-        top: 0;
-        right: 0;
+    display: none;
+    & + span{
+        position: relative;
+        display: inline-block;
         height: 2em;
-        width: 2em;
-        margin: .02rem;
-        background: #fff;
+        width: 4em;
+        padding: 0.02rem;
+        background: #d5d5d5;
+        vertical-align: middle;
         border-radius: 2em;
         @include transition;
-        @include transform(translate(-2em, 0));
+
+        &:after{
+            content:'';
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 2em;
+            width: 2em;
+            margin: .02rem;
+            background: #fff;
+            border-radius: 2em;
+            @include transition;
+            @include transform(translate(-2em, 0));
+        }
     }
-}
-input[type="checkbox"]:checked + .ui-switch{
-    background: $color-main;
-    &:after{
-        @include transform(translate(0, 0));
+    &:checked + span{
+        background: $color-main;
+        &:after{
+            @include transform(translate(0, 0));
+        }
     }
 }

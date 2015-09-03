@@ -321,6 +321,9 @@ var setMeta = function setMeta(metaNode, content) {
     metaNode.setAttribute('content', content);
 };
 var scaleRoot = function scaleRoot(os, scale) {
+    var fontSize = 1 / scale * 50;
+    document.documentElement.style.fontSize = fontSize + 'px';
+
     var meta = document.querySelector('meta[name="viewport"]');
     switch (os) {
         case 'IOS':
@@ -334,17 +337,17 @@ var scaleRoot = function scaleRoot(os, scale) {
             // setMeta(meta, `width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no`);
             document.documentElement.style.zoom = scale * 100 + '%';
     }
+    return { scale: scale, fontSize: fontSize };
 };
-var setRootFontSize = function setRootFontSize(rpx) {
-    document.documentElement.style.fontSize = rpx + 'px';
-};
+var setRootFontSize = function setRootFontSize(rpx) {};
 module.exports = function ($) {
     var pixelRatio = window.devicePixelRatio || 1;
     pixelRatio = pixelRatio | 0;
+    var os = $.os;
 
     switch (true) {
-        case require('../base').os === 'Android':
-            pixelRatio = 1;break;
+        // case os === 'Android':
+        //     pixelRatio = 1;break;
         case pixelRatio < 2:
             pixelRatio = 1;break;
         case 2 <= pixelRatio:
@@ -353,10 +356,11 @@ module.exports = function ($) {
             pixelRatio = 1;break;
     }
 
-    var fontSize = 50 * pixelRatio,
-        scale = 1 / pixelRatio;
-    setRootFontSize(fontSize);
-    scaleRoot($.os, scale);
+    var _scaleRoot = scaleRoot(os, 1 / pixelRatio);
+
+    var scale = _scaleRoot.scale;
+    var fontSize = _scaleRoot.fontSize;
+
     var api = {
         pixelRatio: pixelRatio,
         font: fontSize,
@@ -369,7 +373,7 @@ module.exports = function ($) {
     return api;
 };
 
-},{"../base":6}],10:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -412,7 +416,7 @@ var toDeg = function toDeg(arc) {
 var createGradient = function createGradient(npc, height, index) {
     if (index) {
         var mainColor = 177,
-            colorLite = 'hsla(' + mainColor + ', 61.23%, 90%, .5)',
+            colorLite = 'hsla(' + mainColor + ', 61.23%, 90%, .8)',
             colorBase = 'hsl(' + mainColor + ', 61.23%, 72%)',
             colorDeep = 'hsl(' + (mainColor + 5) + ', 71.23%, 60%)',
             colorBorder = 'hsl(' + mainColor + ', 51.23%, 50%)';
@@ -423,8 +427,8 @@ var createGradient = function createGradient(npc, height, index) {
         gradient.addColorStop(0.5, colorBase);
         gradient.addColorStop(1, colorDeep);
     } else {
-        var mainColor = 190,
-            gradient = 'hsla(' + mainColor + ', 61.23%, 90%, .8)',
+        var mainColor = 200,
+            gradient = 'hsla(' + mainColor + ', 61.23%, 80%, .8)',
             colorBorder = 'hsl(' + mainColor + ', 51.23%, 50%)';
     }
     return { gradient: gradient, colorBorder: colorBorder };
@@ -500,10 +504,11 @@ var setWater = function setWater(rotate, fill) {
     fill = fill * 1.5;
     water.forEach(function (w) {
         var r = rotate === null ? w.targetRotate : rotate;
-        w.rotate = w.rotate % 360;
+        // w.rotate = w.rotate % 360;
 
         r = -r % 360;
 
+        //TODO
         w.targetRotate = r + (r > 180 ? -360 : r < -180 ? +360 : 0);
 
         w.targetFill = fill;
@@ -877,7 +882,7 @@ exports['default'] = {
         page.run('beforeShow');
         if (page.node.parentNode !== getWrapper()) {
             getWrapper().appendChild(page.node);
-            _base2['default'].animate(page.node, 'fadeInDown', null, true);
+            page.constructor.current !== page.uri && _base2['default'].animate(page.node, 'fadeInDown', null, true);
         }
         if (page.loader < page.LOADED) {
             document.body.classList.add('loading');

@@ -321,6 +321,9 @@ var setMeta = function setMeta(metaNode, content) {
     metaNode.setAttribute('content', content);
 };
 var scaleRoot = function scaleRoot(os, scale) {
+    var fontSize = 1 / scale * 50;
+    document.documentElement.style.fontSize = fontSize + 'px';
+
     var meta = document.querySelector('meta[name="viewport"]');
     switch (os) {
         case 'IOS':
@@ -334,17 +337,17 @@ var scaleRoot = function scaleRoot(os, scale) {
             // setMeta(meta, `width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no`);
             document.documentElement.style.zoom = scale * 100 + '%';
     }
+    return { scale: scale, fontSize: fontSize };
 };
-var setRootFontSize = function setRootFontSize(rpx) {
-    document.documentElement.style.fontSize = rpx + 'px';
-};
+var setRootFontSize = function setRootFontSize(rpx) {};
 module.exports = function ($) {
     var pixelRatio = window.devicePixelRatio || 1;
     pixelRatio = pixelRatio | 0;
+    var os = $.os;
 
     switch (true) {
-        case require('../base').os === 'Android':
-            pixelRatio = 1;break;
+        // case os === 'Android':
+        //     pixelRatio = 1;break;
         case pixelRatio < 2:
             pixelRatio = 1;break;
         case 2 <= pixelRatio:
@@ -353,10 +356,11 @@ module.exports = function ($) {
             pixelRatio = 1;break;
     }
 
-    var fontSize = 50 * pixelRatio,
-        scale = 1 / pixelRatio;
-    setRootFontSize(fontSize);
-    scaleRoot($.os, scale);
+    var _scaleRoot = scaleRoot(os, 1 / pixelRatio);
+
+    var scale = _scaleRoot.scale;
+    var fontSize = _scaleRoot.fontSize;
+
     var api = {
         pixelRatio: pixelRatio,
         font: fontSize,
@@ -369,7 +373,7 @@ module.exports = function ($) {
     return api;
 };
 
-},{"../base":6}],10:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 var ai = 0;
 var curState;
 var historyStateMap = [];

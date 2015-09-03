@@ -25,12 +25,36 @@ layout: page
     }
     </style>
     <div class="clickbox">
-        <label><a id="callDrawer">Drawer</a></label>
-        <label><a id="callSelect">Select</a></label>
-        <label><a id="callDialog">Dialog</a></label>
-        <label><a id="callPicview">Picview</a></label>
-        <label><a id="callMask">Mask</a></label>
-        <label><a id="callMaskTips">MaskTips</a></label>
+        <h1>demo</h1>
+        <h2>文本</h2>
+        <p>一个demo用的页面，各种<em>常用的</em>和<strong>不常用的</strong>样式都在里面，<a href="/demo">demo地址</a>是这个。常用的还有<b>加粗</b>和<i>斜体</i>标签但是样式设置为常规了。</p>
+
+        <hr class="claerfix" />
+        
+        <h2>icon</h2>
+        <p>
+            <i class="icon check"> 普通的icon</i>
+            <i class="icon error close"> 普通的icon</i>
+            <br />
+            <i class="icon plus"> 添加</i>
+            <i class="icon error minus"> 删除</i>
+            <br />
+            <i class="icon transparent close"> 一个简单的x</i>
+            <i class="icon ti-github"> 其他</i>
+        </p>
+
+        <hr class="claerfix" />
+
+        <h2>控件</h2>
+        <ul>
+            <li><label><a id="callDrawer">Drawer</a></label></li>
+            <li><label><a id="callSelect">Select</a></label></li>
+            <li><label><a id="callSelectNoTitle">SelectNoTitle</a></label></li>
+            <li><label><a id="callDialog">Dialog</a></label></li>
+            <li><label><a id="callPicview">Picview</a></label></li>
+            <li><label><a id="callMask">Mask</a></label></li>
+            <li><label><a id="callMaskTips">MaskTips</a></label></li>
+        </ul>
 
         <hr class="claerfix" />
 
@@ -48,63 +72,68 @@ layout: page
 
         <hr class="claerfix" />
 
-        <label><input type="checkbox" class="hide" /><span class="ui-switch"></span>switch</label>
+        <label><input type="checkbox" class="ui-switch" /><span></span>switch</label>
     </div>
+    
     <hr class="claerfix" />
+    
+    <div>
+        <h2>表单</h2>
 
-    <div class="form-cont">
-        <div class="form-group">
-            <div class="form-group-title">测试title</div>
-            <div class="form-line">
-                <div class="form-line-head"><span>什么鬼</span></div>
-                <div class="form-line-content">
-                    <input placeholder="哈哈哈哈哈哈" />
+        <div class="form-cont">
+            <div class="form-group">
+                <div class="form-group-title">测试title</div>
+                <div class="form-line">
+                    <div class="form-line-head"><span>什么鬼</span></div>
+                    <div class="form-line-content">
+                        <input placeholder="哈哈哈哈哈哈" />
+                    </div>
+                </div>
+                <div class="form-line">
+                    <label class="form-line-content">
+                        什么鬼<input type="checkbox" class="ui-switch" /><span></span>
+                    </label>
+                </div>
+                <div class="form-line tips">
+                    <div class="form-line-content">
+                        Tips
+                    </div>
                 </div>
             </div>
-            <div class="form-line">
-                <label class="form-line-content">
-                    什么鬼<input type="checkbox" class="hide" /><span class="ui-switch"></span>
-                </label>
-            </div>
-            <div class="form-line tips">
-                <div class="form-line-content">
-                    Tips
+            <div class="form-group">
+                <div class="form-group-title">321</div>
+                <div class="form-line">
+                    <label class="form-line-content">
+                        <input type="radio" class="ui-radio" name="a1" />
+                        <span>喵了个咪</span>
+                    </label>
+                </div>
+                <div class="form-line">
+                    <label class="form-line-content">
+                        <input type="radio" class="ui-radio" name="a1" />
+                        <span>喵了<input class="form-input-mark" size="3" />个咪</span>
+                    </label>
                 </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="form-group-title">321</div>
-            <div class="form-line">
-                <label class="form-line-content">
-                    <input type="radio" class="ui-radio" name="a1" />
-                    <span>喵了个咪</span>
-                </label>
+            <div class="form-group">
+                <div class="form-line">
+                    <label class="form-line-content">
+                        <input type="checkbox" class="ui-checkbox" name="a1" />
+                        <span>喵了个咪</span>
+                    </label>
+                </div>
+                <div class="form-line">
+                    <label class="form-line-content">
+                        <input type="checkbox" class="ui-checkbox" name="a1" />
+                        <span>喵了<input class="form-input-mark" size="3" />个咪</span>
+                    </label>
+                </div>
             </div>
-            <div class="form-line">
-                <label class="form-line-content">
-                    <input type="radio" class="ui-radio" name="a1" />
-                    <span>喵了<input class="form-input-mark" size="3" />个咪</span>
-                </label>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="form-line">
-                <label class="form-line-content">
-                    <input type="checkbox" class="ui-checkbox" name="a1" />
-                    <span>喵了个咪</span>
-                </label>
-            </div>
-            <div class="form-line">
-                <label class="form-line-content">
-                    <input type="checkbox" class="ui-checkbox" name="a1" />
-                    <span>喵了<input class="form-input-mark" size="3" />个咪</span>
-                </label>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="form-group-title">321</div>
-            <div class="form-line">
-                <textarea placeholder="喵喵喵喵喵喵喵"></textarea>
+            <div class="form-group">
+                <div class="form-group-title">321</div>
+                <div class="form-line">
+                    <textarea placeholder="喵喵喵喵喵喵喵"></textarea>
+                </div>
             </div>
         </div>
     </div>

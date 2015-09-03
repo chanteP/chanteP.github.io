@@ -116,7 +116,7 @@ exports['default'] = Control;
 module.exports = exports['default'];
 
 },{"../../core":22,"../toggleBase":7,"./style.scss":2,"./template.html":3}],2:[function(require,module,exports){
-module.exports = ".m-controls {\n  position: fixed;\n  top: 0;\n  left: 0;\n  height: 100%;\n  width: 100%;\n  z-index: 300;\n  background: rgba(0, 0, 0, 0.4);\n  overflow: hidden;\n  pointer-events: none;\n  visibility: hidden;\n  -webkit-transition: all 0.2s ease 0s;\n  -moz-transition: all 0.2s ease 0s;\n  transition: all 0.2s ease 0s;\n  -webkit-animation-duration: 0.4s;\n  -moz-animation-duration: 0.4s;\n  animation-duration: 0.4s;\n  -webkit-animation-delay: 0s;\n  -moz-animation-delay: 0s;\n  animation-delay: 0s;\n  /*&.[data-type=\"bottom\"] .m-controls-content{\n    }*/ }\n  .m-controls .m-controls-content {\n    position: absolute;\n    -webkit-transition: all 0.2s ease 0s;\n    -moz-transition: all 0.2s ease 0s;\n    transition: all 0.2s ease 0s; }\n  .m-controls[data-type=\"bottom\"] .m-controls-content {\n    bottom: 0;\n    width: 100%;\n    -webkit-transform: translate(0, 100%);\n    -moz-transform: translate(0, 100%);\n    transform: translate(0, 100%); }\n  .m-controls[data-type=\"middle\"] .m-controls-content {\n    top: 50%;\n    left: 50%;\n    width: 100%;\n    text-align: center;\n    -webkit-transform: scaleY(0) translate(-50%, -50%);\n    -moz-transform: scaleY(0) translate(-50%, -50%);\n    transform: scaleY(0) translate(-50%, -50%); }\n  .m-controls[data-show] {\n    pointer-events: auto;\n    visibility: visible; }\n    .m-controls[data-show][data-type=\"bottom\"] .m-controls-content {\n      -webkit-transform: translate(0, 0);\n      -moz-transform: translate(0, 0);\n      transform: translate(0, 0); }\n    .m-controls[data-show][data-type=\"middle\"] .m-controls-content {\n      -webkit-transform: scaleY(1) translate(-50%, -50%);\n      -moz-transform: scaleY(1) translate(-50%, -50%);\n      transform: scaleY(1) translate(-50%, -50%); }\n";
+module.exports = ".m-controls {\n  position: fixed;\n  top: 0;\n  left: 0;\n  height: 100%;\n  width: 100%;\n  z-index: 300;\n  background: rgba(0, 0, 0, 0.4);\n  overflow: hidden;\n  pointer-events: none;\n  visibility: hidden;\n  -webkit-transition: all 0.2s ease 0s;\n  -moz-transition: all 0.2s ease 0s;\n  transition: all 0.2s ease 0s;\n  -webkit-animation-duration: 0.3s;\n  -moz-animation-duration: 0.3s;\n  animation-duration: 0.3s;\n  -webkit-animation-delay: 0s;\n  -moz-animation-delay: 0s;\n  animation-delay: 0s;\n  -webkit-perspective: 8rem;\n  perspective: 8rem;\n  /*&.[data-type=\"bottom\"] .m-controls-content{\n    }*/ }\n  .m-controls .m-controls-content {\n    -webkit-transition: all 0.4s ease 0s;\n    -moz-transition: all 0.4s ease 0s;\n    transition: all 0.4s ease 0s; }\n  .m-controls[data-type=\"bottom\"] .m-controls-content {\n    position: absolute;\n    left: 0;\n    bottom: 0;\n    width: 100%;\n    -webkit-transform: translate(0, 100%);\n    -moz-transform: translate(0, 100%);\n    transform: translate(0, 100%); }\n  .m-controls[data-type=\"middle\"] {\n    text-align: center; }\n    .m-controls[data-type=\"middle\"]:before {\n      content: '';\n      display: inline-block;\n      vertical-align: middle;\n      height: 100%; }\n    .m-controls[data-type=\"middle\"] .m-controls-content {\n      display: inline-block;\n      opacity: 0;\n      -webkit-transform-origin: center;\n      -moz-transform-origin: center;\n      transform-origin: center;\n      -webkit-transform: rotateX(-90deg);\n      -moz-transform: rotateX(-90deg);\n      transform: rotateX(-90deg); }\n  .m-controls[data-show] {\n    pointer-events: auto;\n    visibility: visible; }\n    .m-controls[data-show][data-type=\"bottom\"] .m-controls-content {\n      -webkit-transform: translate(0, 0);\n      -moz-transform: translate(0, 0);\n      transform: translate(0, 0); }\n    .m-controls[data-show][data-type=\"middle\"] .m-controls-content {\n      opacity: 1;\n      -webkit-transform: rotateX(0);\n      -moz-transform: rotateX(0);\n      transform: rotateX(0); }\n";
 },{}],3:[function(require,module,exports){
 module.exports = "<div class=\"m-controls\">\n    <div class=\"m-controls-content\" data-node=\"content\"></div>\n</div>";
 
@@ -559,7 +559,7 @@ exports["default"] = function (node, obj) {
 module.exports = exports["default"];
 
 },{"../../react":23}],12:[function(require,module,exports){
-module.exports = ".m-masktips {\n  background: rgba(0, 0, 0, 0.6);\n  border-radius: .12rem;\n  text-align: center;\n  color: #e0e0e0;\n  width: 25%;\n  max-width: 24%;\n  margin: auto;\n  padding: .24rem;\n  pointer-events: none; }\n  .m-masktips .m-masktips-icon {\n    margin: .24rem; }\n    .m-masktips .m-masktips-icon span {\n      display: inline-block;\n      font: normal normal normal .28rem/1 themify;\n      font-size: inherit;\n      text-rendering: auto;\n      -webkit-font-smoothing: antialiased;\n      -moz-osx-font-smoothing: grayscale;\n      font-size: .8rem; }\n    .m-masktips .m-masktips-icon .ti-reload {\n      animation: maware 1s infinite 0s; }\n";
+module.exports = ".m-masktips {\n  background: rgba(0, 0, 0, 0.6);\n  border-radius: .12rem;\n  text-align: center;\n  color: #e0e0e0;\n  min-width: 7em;\n  max-width: 40%;\n  margin: auto;\n  padding: .24rem;\n  pointer-events: none; }\n  .m-masktips .m-masktips-icon {\n    margin: .24rem; }\n    .m-masktips .m-masktips-icon span {\n      display: inline-block;\n      font: normal normal normal .28rem/1 themify;\n      font-size: inherit;\n      text-rendering: auto;\n      -webkit-font-smoothing: antialiased;\n      -moz-osx-font-smoothing: grayscale;\n      font-size: .8rem; }\n    .m-masktips .m-masktips-icon .ti-reload {\n      animation: maware 1s infinite 0s; }\n  .m-masktips .m-masktips-text {\n    line-height: 1.5; }\n";
 },{}],13:[function(require,module,exports){
 /*
     唯一
@@ -887,7 +887,7 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 var _set = function set(object, property, value, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent !== null) { set(parent, property, value, receiver); } } else if ('value' in desc && desc.writable) { desc.value = value; } else { var setter = desc.set; if (setter !== undefined) { setter.call(receiver, value); } } return value; };
 
-var _get = function get(_x2, _x3, _x4) { var _again = true; _function: while (_again) { var object = _x2, property = _x3, receiver = _x4; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x2 = parent; _x3 = property; _x4 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+var _get = function get(_x3, _x4, _x5) { var _again = true; _function: while (_again) { var object = _x3, property = _x4, receiver = _x5; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x3 = parent; _x4 = property; _x5 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -914,13 +914,13 @@ var _renderJsx2 = _interopRequireDefault(_renderJsx);
 //添加样式
 _core2['default'].insertStyle(_styleScss2['default']);
 
-var findCurrent = function findCurrent(list, text) {
+var findCurrent = function findCurrent(options, text) {
     if (typeof text === 'number') {
         return text;
     }
     var index = 0;
-    var type = typeof list[0] === 'string';
-    list.some(function (item, i) {
+    var type = typeof options[0] === 'string';
+    options.some(function (item, i) {
         if (type ? item === text : item.text === text) {
             index = i;
             return true;
@@ -939,10 +939,19 @@ var Select = (function (_Control) {
         _set(Object.getPrototypeOf(Select.prototype), 'type', 'bottom', this);
         this.config(cfg);
 
-        this.data = null;
+        this.options = null;
         this.current = 0;
         this.callback = null;
         this.title = '';
+
+        this.ins = null;
+
+        // this.scrollTimer = null;
+        // $.listener(this.node).on('scroll', '[data-node="slider"]', (e) => {
+        //     if(this.noTitle){return;}
+        //     clearTimeout(this.scrollTimer);
+        //     this.scrollTimer = setTimeout(() => this.calcSelected(), 1000 / 5);
+        // }, true);
     }
 
     _createClass(Select, [{
@@ -956,14 +965,81 @@ var Select = (function (_Control) {
             this.title = title;
         }
     }, {
-        key: 'show',
-        value: function show(index, list, cb, title) {
-            this.current = findCurrent(list, index || 0);
-            this.data = list || this.data;
-            this.callback = cb || this.callback;
-            this.title = title || this.title;
+        key: 'scrollEffect',
+        value: function scrollEffect() {
+            var _this = this;
 
-            (0, _renderJsx2['default'])(this.node, this);
+            var index = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+
+            var slider = _core2['default'].find('[data-node="slider"]', this.node);
+            if (!slider) {
+                return;
+            }
+            var target = _core2['default'].find('[data-index="' + index + '"]', slider) || _core2['default'].find('[data-index="0"]', slider);
+            if (!target) {
+                return;
+            }
+            this.tweenAni && this.tweenAni.stop();
+            return this.tweenAni = _core2['default'].tween({
+                begin: slider.scrollTop,
+                end: target.offsetTop + target.clientHeight / 2 - slider.clientHeight / 2,
+                duration: 300,
+                func: function func(num) {
+                    slider.scrollTop = num;
+                },
+                endfunc: function endfunc() {
+                    _this.tweenAni = null;
+                }
+            });
+            // slider.scrollTop = target.offsetTop + target.clientHeight / 2 - slider.clientHeight / 2;
+        }
+    }, {
+        key: 'calcSelected',
+        value: function calcSelected() {
+            var _this2 = this;
+
+            var cont = _core2['default'].find('[data-node="slider"]', this.node),
+                lis = _core2['default'].findAll('[data-index]', cont);
+            var midLine = cont.clientHeight / 2,
+                checkLine = midLine + cont.scrollTop;
+
+            [].some.call(lis, function (li, index) {
+                var offset = li.offsetTop + li.scrollHeight - checkLine;
+                if (offset >= 0) {
+                    _this2.setCurrent(index);
+                    return true;
+                }
+            }) || this.setCurrent(this.options.length - 1);
+        }
+    }, {
+        key: 'setCurrent',
+        value: function setCurrent(index) {
+            this.ins && this.ins.setCurrent(index);
+        }
+    }, {
+        key: 'show',
+        value: function show(index, options, cb, title) {
+            this.current = findCurrent(options, index || 0);
+            this.options = options || this.options;
+            this.callback = cb || this.callback;
+            this.title = title === undefined ? this.title : title;
+            this.noTitle = typeof this.title !== 'string';
+
+            // console.log({
+            //                 current : this.current,
+            //                 title : this.title,
+            //                 options : this.options
+            //             })
+            // if(!this.ins){
+            this.ins = (0, _renderJsx2['default'])(this.node, this);
+            // }
+            // else{
+            //     this.ins.setState({
+            //         current : this.current,
+            //         title : this.title,
+            //         options : this.data
+            //     })
+            // }
 
             return _get(Object.getPrototypeOf(Select.prototype), 'show', this).call(this);
         }
@@ -1010,32 +1086,67 @@ var Select = _react2["default"].createClass({
 
     getInitialState: function getInitialState() {
         return {
-            current: this.props.current
-            // list : this.props.list
+            current: this.props.current,
+            options: this.props.options,
+            title: this.props.title
         };
     },
-    onSelect: function onSelect(e) {
-        var target = e.currentTarget;
+    componentDidMount: function componentDidMount() {
+        this.setCurrent(this.props.current);
+    },
+    setCurrent: function setCurrent(index, cb) {
+        var _this = this;
+
         this.setState({
-            current: +target.dataset.index
+            current: index
+        }, function () {
+            cb && cb();
+            if (_this.props.component.scrollEffect) {
+                _this.props.component.scrollEffect(index);
+            }
+        });
+    },
+    onTouchstart: function onTouchstart() {
+        this.props.component.tweenAni && this.props.component.tweenAni.stop();
+    },
+    onScroll: function onScroll() {
+        var _this2 = this;
+
+        if (this.noTitle) {
+            return;
+        }
+        clearTimeout(this.scrollTimer);
+        this.scrollTimer = setTimeout(function () {
+            return _this2.props.component.calcSelected();
+        }, 1000 / 5);
+    },
+    onSelect: function onSelect(e) {
+        var _this3 = this;
+
+        var target = e.currentTarget,
+            index = +target.dataset.index;
+        this.setCurrent(index, function () {
+            if (!_this3.props.component.noTitle) {
+                _this3.select();
+            }
         });
     },
     hide: function hide() {
         this.props.component.hide();
     },
     select: function select() {
-        this.props.callback && this.props.callback(this.props.list[this.state.current], this.state.current);
+        this.props.callback && this.props.callback(this.props.options[this.state.current], this.state.current);
         this.hide();
     },
     render: function render() {
-        var _this = this;
+        var _this4 = this;
 
         var current = this.state.current;
 
         return _react2["default"].createElement(
             "div",
             { className: "m-controls-select clearfix" },
-            _react2["default"].createElement(
+            !this.props.component.noTitle ? _react2["default"].createElement(
                 "div",
                 { className: "m-controls-select-head" },
                 _react2["default"].createElement(
@@ -1053,30 +1164,35 @@ var Select = _react2["default"].createClass({
                     null,
                     this.props.title
                 )
-            ),
+            ) : null,
             _react2["default"].createElement(
-                "ul",
-                null,
-                this.props.list.map(function (item, i) {
-                    return _react2["default"].createElement(
-                        "li",
-                        { key: i, "data-index": i, onClick: _this.onSelect, className: (item.className || '') + (i === current ? ' current' : '') },
-                        typeof item === 'string' || typeof item === 'number' ? item : item.text
-                    );
-                })
+                "div",
+                { className: "m-controls-slidercont" },
+                _react2["default"].createElement(
+                    "ul",
+                    { className: "m-controls-slider", "data-node": "slider", onTouchstart: this.onTouchstart, onScroll: this.onScroll },
+                    this.props.options.map(function (item, i) {
+                        var option = typeof item === 'string' || typeof item === 'number' ? { text: item } : item;
+                        return _react2["default"].createElement(
+                            "li",
+                            { key: i, "data-index": i, onClick: _this4.onSelect, className: (option.className || '') + (i === current ? ' current' : '') },
+                            option.text
+                        );
+                    })
+                )
             )
         );
     }
 });
 
 exports["default"] = function (node, obj) {
-    return _react2["default"].render(_react2["default"].createElement(Select, { current: obj.current, list: obj.data, callback: obj.callback, title: obj.title, component: obj }), node);
+    return _react2["default"].render(_react2["default"].createElement(Select, { current: obj.current, options: obj.options, callback: obj.callback, title: obj.title, component: obj }), node);
 };
 
 module.exports = exports["default"];
 
 },{"../../react":23}],21:[function(require,module,exports){
-module.exports = ".m-controls-select {\n  background: #fff; }\n  .m-controls-select .m-controls-select-head {\n    line-height: .66rem;\n    border-bottom: 1px solid #eee; }\n    .m-controls-select .m-controls-select-head h1 {\n      font-size: .28rem;\n      color: #333;\n      font-weight: 700;\n      text-align: center;\n      white-space: nowrap;\n      overflow: hidden;\n      text-overflow: ellipsis; }\n    .m-controls-select .m-controls-select-head .m-controls-select-cancel,\n    .m-controls-select .m-controls-select-head .m-controls-select-submit {\n      font-size: .24rem;\n      color: #4fcbbd;\n      padding: 0 1em; }\n    .m-controls-select .m-controls-select-head .m-controls-select-cancel {\n      float: left; }\n    .m-controls-select .m-controls-select-head .m-controls-select-submit {\n      float: right; }\n  .m-controls-select ul {\n    max-height: 4.5rem;\n    overflow-y: scroll;\n    -webkit-overflow-scrolling: touch;\n    -moz-overflow-scrolling: touch;\n    background: #f0f0f0; }\n  .m-controls-select li {\n    /*background: #fff;*/\n    color: #333;\n    border-bottom: 1px solid #e0e0e0;\n    display: block;\n    line-height: .88rem;\n    text-align: center;\n    cursor: pointer;\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis; }\n  .m-controls-select .current {\n    font-weight: 700;\n    color: #fb7e35; }\n";
+module.exports = ".m-controls-select {\n  background: #fff; }\n  .m-controls-select .m-controls-select-head {\n    line-height: .66rem;\n    border-bottom: 1px solid #dedede;\n    overflow: hidden; }\n    .m-controls-select .m-controls-select-head h1 {\n      font-size: .28rem;\n      line-height: .66rem;\n      color: #333;\n      font-weight: 700;\n      text-align: center;\n      white-space: nowrap;\n      overflow: hidden;\n      text-overflow: ellipsis; }\n    .m-controls-select .m-controls-select-head .m-controls-select-cancel,\n    .m-controls-select .m-controls-select-head .m-controls-select-submit {\n      font-size: .24rem;\n      color: #4fcbbd;\n      padding: 0 1em; }\n    .m-controls-select .m-controls-select-head .m-controls-select-cancel {\n      float: left; }\n    .m-controls-select .m-controls-select-head .m-controls-select-submit {\n      float: right; }\n  .m-controls-select .m-controls-slidercont {\n    position: relative;\n    background: #fff; }\n  .m-controls-select .m-controls-slider {\n    width: 100%;\n    max-height: 4.4rem;\n    overflow-y: scroll;\n    -webkit-overflow-scrolling: touch;\n    -moz-overflow-scrolling: touch; }\n  .m-controls-select li {\n    /*background: #fff;*/\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    display: block;\n    line-height: 0.88rem;\n    height: 0.88rem;\n    border: 0 solid #e0e0e0;\n    color: #333;\n    text-align: center;\n    cursor: pointer; }\n  .m-controls-select li + li {\n    border-top-width: 1px; }\n  .m-controls-select .m-controls-select-head + .m-controls-slidercont {\n    background: #f0f0f0;\n    -webkit-mask-image: linear-gradient(0deg, transparent 0, #fff 20%, #fff 80%, transparent 100%); }\n    .m-controls-select .m-controls-select-head + .m-controls-slidercont:before {\n      content: '';\n      display: block;\n      line-height: 0.88rem;\n      height: 0.88rem;\n      border: 0 solid #e0e0e0;\n      -webkit-transform: translate(0, -50%);\n      -moz-transform: translate(0, -50%);\n      transform: translate(0, -50%);\n      position: absolute;\n      top: 50%;\n      left: 0;\n      width: 100%;\n      border-top-width: 1px;\n      border-bottom-width: 1px;\n      pointer-events: none; }\n    .m-controls-select .m-controls-select-head + .m-controls-slidercont li {\n      border-color: transparent; }\n    .m-controls-select .m-controls-select-head + .m-controls-slidercont li:first-child {\n      margin-top: 2.64rem; }\n    .m-controls-select .m-controls-select-head + .m-controls-slidercont li:last-child {\n      margin-bottom: 2.64rem; }\n  .m-controls-select .current {\n    font-weight: 700;\n    color: #fb7e35; }\n";
 },{}],22:[function(require,module,exports){
 "use strict";
 
@@ -1134,13 +1250,22 @@ _core2['default'].register('demo', function ($) {
                 drawer.show();
             });
 
+            var options = [],
+                num = 20;
+            while (num) {
+                options.unshift(num--);
+            }
             // var select = new Select;
             callSelect.addEventListener('click', function (e) {
-                _commonComponentsSelect2['default'].show(3, [1, 2, 3, 5, 6, '吃饭吃饭场景非常非常规范郭富城不会 v 个 v ', 457, 898, 90909, 8878, 676767], function (item, index) {
-                    console.log(item, index);
+                _commonComponentsSelect2['default'].show(3, options, function (item, index) {
+                    console.log('haha', item, index);
                 }, 'fxxk');
             });
-
+            callSelectNoTitle.addEventListener('click', function (e) {
+                _commonComponentsSelect2['default'].show(3, options, function (item, index) {
+                    console.log('hehe', item, index);
+                }, null);
+            });
             // var select = new Select;
             callMask.addEventListener('click', function (e) {
                 _commonComponentsMask2['default'].show(50);
