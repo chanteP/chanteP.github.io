@@ -279,19 +279,28 @@ module.exports = exports['default'];
 },{}],8:[function(require,module,exports){
 'use strict';
 
-module.exports = function ($) {
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+exports['default'] = function ($) {
     var scrollTimer;
     var bindEvt = function bindEvt() {
         clearTimeout(scrollTimer);
         scrollTimer = setTimeout(function () {
             $.trigger(window, 'scrollend');
-        }, 100);
+        }, 200);
     };
     var check = function check() {
         setTimeout(function () {
+            var docHeight = document.documentElement.clientHeight;
             $.each($.findAll('[data-lazyload]:not(.lazyloading)'), function (node) {
                 var src = node.dataset.lazyload;
-                if (!src) {
+                if (!src || !node.scrollHeight) {
+                    return;
+                }
+                var top = node.getBoundingClientRect().top;
+                if (top < -20 || top > docHeight) {
                     return;
                 }
                 node.classList.add('lazyloading');
@@ -301,14 +310,16 @@ module.exports = function ($) {
                     node.dataset.lazyload = '';
                 };
             });
-        }, 200);
+        }, 500);
     };
-    window.addEventListener('mousewheel', bindEvt);
+    window.addEventListener('scroll', bindEvt, true);
 
-    window.addEventListener('click', check);
+    window.addEventListener('click', check, true);
     window.addEventListener('scrollend', check);
-    $.domReady(check);
+    window.addEventListener('load', check);
 };
+
+module.exports = exports['default'];
 
 },{}],9:[function(require,module,exports){
 'use strict';
