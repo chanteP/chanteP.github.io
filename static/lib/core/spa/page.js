@@ -37,8 +37,10 @@ class Page{
         this.node.dataset.uri = this.uri;
 
         this._state = this.HIDE;
-        this.loader = this.WAIT;
         this.needInit = false;
+        setTimeout(() => {
+            this.loader = this.WAIT;
+        }, 0)
     }
 
     static show(url, force){
@@ -50,6 +52,7 @@ class Page{
         if(Page.current === uri && !force){
             return;
         }
+        Page.last = Page.current;
         $.trigger(Page, 'beforechange', [uri, controller]);
         if(Page.current !== uri && pageHide){
             pageHide.state = pageHide.HIDE;

@@ -882,7 +882,7 @@ exports['default'] = {
         page.run('beforeShow');
         if (page.node.parentNode !== getWrapper()) {
             getWrapper().appendChild(page.node);
-            page.constructor.current !== page.uri && _base2['default'].animate(page.node, 'fadeInDown', null, true);
+            page.constructor.last && page.constructor.last !== page.uri && _base2['default'].animate(page.node, 'fadeInDown', null, true);
         }
         if (page.loader < page.LOADED) {
             document.body.classList.add('loading');
@@ -1028,6 +1028,8 @@ var pages = {};
 
 var Page = (function () {
     function Page(url) {
+        var _this = this;
+
         _classCallCheck(this, Page);
 
         var _parseUrl = parseUrl(url);
@@ -1055,8 +1057,10 @@ var Page = (function () {
         this.node.dataset.uri = this.uri;
 
         this._state = this.HIDE;
-        this.loader = this.WAIT;
         this.needInit = false;
+        setTimeout(function () {
+            _this.loader = _this.WAIT;
+        }, 0);
     }
 
     _createClass(Page, [{
@@ -1163,6 +1167,7 @@ var Page = (function () {
             if (Page.current === uri && !force) {
                 return;
             }
+            Page.last = Page.current;
             _npKit2['default'].trigger(Page, 'beforechange', [uri, controller]);
             if (Page.current !== uri && pageHide) {
                 pageHide.state = pageHide.HIDE;
