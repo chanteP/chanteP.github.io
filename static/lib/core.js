@@ -961,7 +961,9 @@ exports['default'] = function ($) {
             controller.set(factory.call(controller, $));
             controller.check();
         },
-        loadPage: function loadPage(uri, contentNode, _ref) {
+        loadPage: function loadPage(uri, contentNode) {
+            var _ref = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
             var _ref$scripts = _ref.scripts;
             var scripts = _ref$scripts === undefined ? [] : _ref$scripts;
             var _ref$styles = _ref.styles;
