@@ -896,10 +896,10 @@ exports['default'] = {
             page.constructor.last && page.constructor.last !== page.uri && _base2['default'].animate(page.node, 'fadeInDown', null, true);
         }
         if (page.loader < page.LOADED) {
-            document.body.classList.add('loading');
+            _base2['default'].setLoading(true);
             return;
         } else {
-            document.body.classList.remove('loading');
+            _base2['default'].setLoading(false);
         }
         if (page.loader < page.INITED) {
             page.run('init');
@@ -1112,7 +1112,7 @@ var Page = (function () {
             if (this._loader === this.DOMREADY && this.controller.state) {
                 this._loader = this.LOADED;
             }
-            return this._loader;
+            return this._loader || 0;
         },
         set: function set(value) {
             if (value <= this._loader) {
