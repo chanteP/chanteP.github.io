@@ -55,6 +55,7 @@ export default function($){
                     eval(url);
                 }
             });
+            page.controller.check();
         },
         load : go,
 

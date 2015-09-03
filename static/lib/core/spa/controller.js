@@ -28,7 +28,7 @@ class Controller{
         return this.lifecycle[name];
     }
     check(){
-        this.list.forEach((page) => {
+        this.state && this.list.forEach((page) => {
             if(page.state === page.SHOW && page.loader !== page.INITED){
                 page.show(true);
             }

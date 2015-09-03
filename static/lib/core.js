@@ -836,7 +836,7 @@ var Controller = (function () {
     }, {
         key: 'check',
         value: function check() {
-            this.list.forEach(function (page) {
+            this.state && this.list.forEach(function (page) {
                 if (page.state === page.SHOW && page.loader !== page.INITED) {
                     page.show(true);
                 }
@@ -994,6 +994,7 @@ exports['default'] = function ($) {
                     eval(url);
                 }
             });
+            page.controller.check();
         },
         load: go,
 
