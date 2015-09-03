@@ -972,6 +972,7 @@ exports['default'] = function ($) {
                 return;
             }
             page.needInit = !!scripts.length;
+            page.controller.state = page.controller.state || !page.needInit;
             page.setContent(contentNode.innerHTML);
             contentNode.innerHTML = '';
             styles.forEach(function (url) {
