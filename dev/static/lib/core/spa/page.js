@@ -70,7 +70,7 @@ class Page{
         if(this._loader === this.DOMREADY && this.controller.state){
             this._loader = this.LOADED;
         }
-        return this._loader;
+        return this._loader || 0;
     }
     set loader(value){
         if(value <= this._loader){

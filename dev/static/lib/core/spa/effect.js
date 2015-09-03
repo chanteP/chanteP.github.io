@@ -33,11 +33,11 @@ export default {
             page.constructor.last && page.constructor.last !== page.uri && base.animate(page.node, 'fadeInDown', null, true);
         }
         if(page.loader < page.LOADED){
-            document.body.classList.add('loading');
+            base.setLoading(true);
             return;
         }
         else{
-            document.body.classList.remove('loading');
+            base.setLoading(false);
         }
         if(page.loader < page.INITED){
             page.run('init');
