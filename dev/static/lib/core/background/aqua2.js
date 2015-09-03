@@ -81,7 +81,6 @@ var initWater = (npc, index) => {
 
         this.timer += timerStep;
 
-
         let curH = R * this.fill;
 
         //delta
