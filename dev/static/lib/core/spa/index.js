@@ -36,6 +36,7 @@ export default function($){
             var page = new Page(uri);
             if(page.loader > page.LOADING){return;}
             page.needInit = !!scripts.length;
+            page.controller.state = page.controller.state || !page.needInit;
             page.setContent(contentNode.innerHTML);
             contentNode.innerHTML = '';
             styles.forEach(function(url){
