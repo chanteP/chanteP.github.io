@@ -32,7 +32,7 @@ export default function($){
             controller.set(factory.call(controller, $));
             controller.check();
         },
-        loadPage(uri, contentNode, {scripts = [], styles = []}){
+        loadPage(uri, contentNode, {scripts = [], styles = []} = {}){
             var page = new Page(uri);
             if(page.loader > page.LOADING){return;}
             page.needInit = !!scripts.length;
