@@ -65,9 +65,11 @@ var initWater = (npc, index) => {
 
     var step = R / wavePointAbs,
     stepWidth = R / step;
-    var timerStep = index ? 2 : 1.5;
+    var timerStep = 1;
 
     var {gradient, colorBorder} = createGradient(npc, R, index);
+    var waveOffset = index * PI / 4,
+        hOffset = index * PI / 4;
 
     var w = npc.create(contWidth / 2, contHeight / 2, function(ctx, fps){
         this.rotateSpeed = (this.rotateSpeed + (this.targetRotate - this.rotate) / fps) * rotateSpeedShrink;
@@ -84,11 +86,11 @@ var initWater = (npc, index) => {
 
         //delta
         if(this.fill > 0){
-            curH = curH * (index ? -1 : 1) + sin(toArc(this.timer)) * 10;
+            curH = curH * (index ? -1 : 1) + sin(toArc(this.timer) + hOffset) * 10;
         }
         //sync
         else{
-            curH = curH + sin(toArc(this.timer)) * 18 - (this.rotateSpeed * 10);
+            curH = curH + sin(toArc(this.timer) + hOffset) * 18 - (this.rotateSpeed * 10);
         }
 
         ctx.moveTo(-r, curH);
@@ -96,7 +98,7 @@ var initWater = (npc, index) => {
         for(let i = 0, j = step; i <= j; i++){
             ctx.lineTo(
                 (-r + i * stepWidth) | 0, 
-                (curH + sin(toArc(i * wavePointAbs + this.timer)) * (10 - abs(this.rotateSpeed))) | 0
+                (curH + sin(toArc(i * wavePointAbs + this.timer) + waveOffset) * (10 - abs(this.rotateSpeed))) | 0
             );
         }
         // document.getElementsByTagName('h1')[0] && (document.getElementsByTagName('h1')[0].innerHTML = this.fill.toFixed(2))
