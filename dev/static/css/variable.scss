@@ -12,9 +12,21 @@ $color-dis: rgb(213,213,213);
 $color-dis-dark: darken($color-dis, 8%);
 $color-dis-light: lighten($color-dis, 10%);
 
-$color-alert: #fc6911;
+$color-succ: #5cb85c;
+$color-succ-dark: darken($color-succ, 10%);
+$color-succ-light: lighten($color-succ, 10%);
+
+$color-warn: #f0ad4e;
+$color-warn-dark: darken($color-warn, 10%);
+$color-warn-light: lighten($color-warn, 10%);
+
+$color-alert: #d9534f;
 $color-alert-dark: darken($color-alert, 10%);
 $color-alert-light: lighten($color-alert, 10%);
+
+$color-info: #428bca;
+$color-info-dark: darken($color-info, 10%);
+$color-info-light: lighten($color-info, 10%);
 
 $color-background: #fafafa;
 $color-background-white: #fff;

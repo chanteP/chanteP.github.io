@@ -5,39 +5,108 @@
         @include themify;
         @include fontIcon;
         font-size: .18rem;
-
-        background: $color-main-dark;
+        font-weight: 1400;
         color: #fff;
     }
 
     /* 颜色预设 */
-    &:hover:before{
-        background: $color-main;
+    &{
+        &:before{
+            background: $color-main-dark;
+        }
+        &:hover:before{
+            background: $color-main;
+        }
+        &:active:before{
+            background: $color-main-light;
+        }
     }
-    &:active:before{
-        background: $color-main-light;
+    &.green,
+    &.succ{
+        &:before{
+            background: $color-succ;
+        }
+        &:hover:before{
+            background: $color-succ-light;
+        }
+        &:active:before{
+            background: $color-succ-dark;
+        }
+    }
+    &.red,
+    &.error{
+        &:before{
+            background: $color-alert;
+        }
+        &:hover:before{
+            background: $color-alert-light;
+        }
+        &:active:before{
+            background: $color-alert-dark;
+        }
+    }
+    &.blue,
+    &.info{
+        &:before{
+            background: $color-info;
+        }
+        &:hover:before{
+            background: $color-info-light;
+        }
+        &:active:before{
+            background: $color-info-dark;
+        }
+    }
+    &.yellow,
+    &.warn{
+        &:before{
+            background: $color-warn;
+        }
+        &:hover:before{
+            background: $color-warn-light;
+        }
+        &:active:before{
+            background: $color-warn-dark;
+        }
     }
 
-    &.error:before{
-        background: $color-alert-dark;
+    &.transparent{
+        &:before{
+            background: transparent;
+            color: #666;
+        }
+        &:hover:before{
+            background: transparent;
+        }
+        &:active:before{
+            background: transparent;
+            color: #333;
+        }
     }
-    &.error:hover:before{
-        background: $color-alert;
-    }
-    &.error:active:before{
-        background: $color-alert-light;
-    }
-    &.transparent:before{
-        background: transparent;
-        color: #666;
-    }
-    &.transparent:hover:before{
-        background: transparent;
-    }
-    &.transparent:active:before{
-        color: #333;
+    &.white{
+        &:before{
+            background: transparent;
+        }
+        &:hover:before{
+            background: transparent;
+        }
+        &:active:before{
+            background: transparent;
+        }
     }
     /* 文本预设 */
+    &.succ:not([class*=" ti-"]):before{
+        content: '\e64c';
+    }
+    &.error:not([class*=" ti-"]):before{
+        content: '\e646';
+    }
+    &.info:not([class*=" ti-"]):before{
+        content: '\e697';
+    }
+    &.warn:not([class*=" ti-"]):before{
+        content: '\e653';
+    }
     &.close:before{
         content:'\e646'
     }

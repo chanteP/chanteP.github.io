@@ -1,24 +1,34 @@
 import React from '../../react';
 
 var Dialog = React.createClass({
-    getInitialState(){
-        return {
-            button : this.props.button || [],
-            content : this.props.content,
-            title : this.props.title
-        }
-    },
     btnClick(e){
         var id = e.currentTarget.dataset.diabtnid;
         var func = this.props.button[id].callback;
         //TODO
         func && func.call(this.props.component, this.props.component, e.currentTarget);
     },
+    setContent(content){
+        var contentNode = React.findDOMNode(this.rels['content']);
+        if(typeof content === 'string'){
+            contentNode.innerHTML = content;
+        }
+        else if(content && content.nodeType){
+            contentNode.innerHTML = '';
+            contentNode.appendChild(content);
+        }
+    },
     render(){
         var buttons = this.props.button || [];
         var btnStyle = {
             width : 100 / buttons.length + '%' 
         };
+        var type = this.props.type;
+        switch(type){
+            case 'succ' : type = 'check';break;
+            case 'error' : type = 'error close';break;
+            case 'info' : type = 'info ti-info';break;
+            case 'warn' : type = 'warn ti-bolt-alt';break;
+        }
 
         return (
             <div className="midcont">
@@ -26,8 +36,13 @@ var Dialog = React.createClass({
                     <div style={{display : this.props.title ? '' : 'none'}}>
                         <h1 className="dia-head">{this.props.title}</h1>
                     </div>
-                    <div className="dia-content">
+                    <div className="dia-content" rel="content">
                         <div className="dia-contwrap">
+                            {
+                                type ? 
+                                    <i className={"icon " + type}></i> : 
+                                    null
+                            }
                             {this.props.content}
                         </div>
                     </div>

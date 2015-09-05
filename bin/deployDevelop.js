@@ -170,9 +170,22 @@ module.exports = function(watch){
             .pipe(gulp.dest(destDir + 'static/pages/'));
     });
 
+    gulp.task('watch', ['default'], function(){
+        gulp.watch([
+            srcDir + 'common/*/*.js',
+            srcDir + 'common/*/*.jsx',
+            srcDir + 'common/*/*.scss',
+            srcDir + 'pages/*/*.js',
+            srcDir + 'pages/*/*.jsx',
+            srcDir + 'pages/*/*.scss'
+            ], ['pageResources']);
+        gulp.watch([
+            srcDir + 'pages/*/index.html'
+            ], ['pages']);
+    });
 
     gulp.task('default', ['layout','post','rootConfig','static','pageResources'], function(){
         gulp.start('pages');
     });
-    gulp.start('default');
+    gulp.start('watch');
 }

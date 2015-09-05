@@ -1,5 +1,6 @@
 @import "../../variable.scss";
-$dialog-padding: .14rem;
+$dialog-cont-padding: .3rem;
+$dialog-padding: .3rem;
 .m-dialog{
     display: block;
     position: fixed;
@@ -19,7 +20,7 @@ $dialog-padding: .14rem;
 
     .dia-wrap{
         min-width: 4.00rem;
-        margin: 0 $dialog-padding;
+        margin: 0 $dialog-cont-padding;
         border-radius: .16rem;
         background: $color-background-white;
         text-align: left;
@@ -28,19 +29,18 @@ $dialog-padding: .14rem;
     }
     .dia-head{
         position: relative;
-        height: .60rem;
-        line-height: .60rem;
+        line-height: 3;
         padding: 0 $dialog-padding;
-        border-bottom: 1px $color-border solid;
+        text-align: center;
 
-        h1{
-            font-size: .28rem;
-        }
+        font-size: .32rem;
+        color: #666;
     }
 
     .dia-contwrap{
-        padding:.48rem .28rem;
+        padding: .2rem $dialog-padding .5rem;
         line-height: 1.5;
+        text-align: center;
     }
     .dia-content{
         min-height: .80rem;

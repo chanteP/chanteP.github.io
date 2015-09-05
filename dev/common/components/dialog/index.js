@@ -32,10 +32,14 @@ export default class Dialog extends toggleBase{
     config(cfg = {}, simple){
         this.title = cfg.title || '';
         this.content = cfg.content || '';
+        this.type = cfg.type || '';
         this.button = simple ? defaultBtn : cfg.button;
-        render(this.node, this);
+        this.ins = render(this.node, this);
     }
 
+    setContent(content){
+        this.ins.setContent(content);
+    }
     show(cfg, simple){
         //写默认太累...加一个simple参数...
         if(cfg){
@@ -45,12 +49,14 @@ export default class Dialog extends toggleBase{
         super.show();
         $.componentHandler.push(this, cfg);
         $.trigger(this, 'show');
+        return this;
     }
     hide(){
         mask.hide(999);
         super.hide();
         $.componentHandler.remove(this);
         $.trigger(this, 'hide');
+        return this;
     }
 
     destroy(){
@@ -62,6 +68,9 @@ export default class Dialog extends toggleBase{
     }
     static hide(...args){
         return commonDialog.hide(...args);
+    }
+    static setContent(...args){
+        return commonDialog.setContent(...args);
     }
 }
 

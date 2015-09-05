@@ -33,21 +33,13 @@ export default class Select extends Control{
         this.title = '';
 
         this.ins = null;
-
-        // this.scrollTimer = null;
-        // $.listener(this.node).on('scroll', '[data-node="slider"]', (e) => {
-        //     if(this.noTitle){return;}
-        //     clearTimeout(this.scrollTimer);
-        //     this.scrollTimer = setTimeout(() => this.calcSelected(), 1000 / 5);
-        // }, true);
     };
 
     config({title = ''} = {}){
         this.title = title;
     }
 
-    scrollEffect(index = 0){
-        let slider = $.find('[data-node="slider"]', this.node);
+    scrollEffect(slider, index = 0){
         if(!slider){return;}
         let target = $.find('[data-index="'+index+'"]', slider) || $.find('[data-index="0"]', slider);
         if(!target){return;}
@@ -63,23 +55,8 @@ export default class Select extends Control{
                 this.tweenAni = null;
             }
         });
-        // slider.scrollTop = target.offsetTop + target.clientHeight / 2 - slider.clientHeight / 2;
     }
 
-    calcSelected(){
-        let cont = $.find('[data-node="slider"]', this.node),
-            lis = $.findAll('[data-index]', cont);
-        let midLine = cont.clientHeight / 2,
-            checkLine = midLine + cont.scrollTop;
-
-        [].some.call(lis, (li, index) => {
-            let offset = li.offsetTop + li.scrollHeight - checkLine;
-            if(offset >= 0){
-                this.setCurrent(index);
-                return true;
-            }
-        }) || this.setCurrent(this.options.length - 1);
-    }
 
     setCurrent(index){
         this.ins && this.ins.setCurrent(index);
@@ -92,21 +69,8 @@ export default class Select extends Control{
         this.title = title === undefined ? this.title : title;
         this.noTitle = typeof this.title !== 'string';
 
-// console.log({
-//                 current : this.current,
-//                 title : this.title,
-//                 options : this.options
-//             })
-        // if(!this.ins){
-            this.ins = render(this.node, this);
-        // }
-        // else{
-        //     this.ins.setState({
-        //         current : this.current,
-        //         title : this.title,
-        //         options : this.data
-        //     })
-        // }
+        this.ins = render(this.node, this);
+        this.setCurrent(this.current);
 
         return super.show();
     };

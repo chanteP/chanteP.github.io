@@ -19,20 +19,22 @@ $.register('demo', ($) => {
                 options.unshift(num--);
             }
             // var select = new Select;
+            var options1 = [].concat(options);
             callSelect.addEventListener('click', (e) => {
                 Select.show(
                     3, 
-                    options,
+                    options1,
                     (item, index) => {
                         console.log('haha', item, index)
                     },
                     'fxxk'
                 );
             });
+            var options2 = [].concat(options.reverse());
             callSelectNoTitle.addEventListener('click', (e) => {
                 Select.show(
                     3, 
-                    options,
+                    options2,
                     (item, index) => {
                         console.log('hehe', item, index)
                     },
@@ -51,6 +53,7 @@ $.register('demo', ($) => {
             callDialog.addEventListener('click', (e) => {
                 Dialog.show({
                     title : '什么鬼',
+                    type : 'info',
                     content : '什么鬼'
                 }, true);
             });

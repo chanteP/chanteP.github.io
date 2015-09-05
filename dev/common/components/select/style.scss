@@ -73,6 +73,8 @@ $controls-select-itemsize : .88rem;
             border-top-width: 1px;
             border-bottom-width: 1px;
             pointer-events: none;
+            background: rgba(255,255,255,1);
+            z-index: -1;
         }
         li{
             border-color: transparent;
