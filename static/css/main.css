@@ -3723,25 +3723,72 @@ html {
     vertical-align: middle;
     color: #fff;
     font-size: .18rem;
-    background: #32aa9d;
+    font-weight: 1400;
     color: #fff; }
+  .icon:before {
+    background: #32aa9d; }
   .icon:hover:before {
     background: #4fcbbd; }
   .icon:active:before {
     background: #76d7cc; }
+  .icon.green:before,
+  .icon.succ:before {
+    background: #5cb85c; }
+  .icon.green:hover:before,
+  .icon.succ:hover:before {
+    background: #80c780; }
+  .icon.green:active:before,
+  .icon.succ:active:before {
+    background: #449d44; }
+  .icon.red:before,
   .icon.error:before {
-    background: #d75203; }
+    background: #d9534f; }
+  .icon.red:hover:before,
   .icon.error:hover:before {
-    background: #fc6911; }
+    background: #e27c79; }
+  .icon.red:active:before,
   .icon.error:active:before {
-    background: #fd8943; }
+    background: #c9302c; }
+  .icon.blue:before,
+  .icon.info:before {
+    background: #428bca; }
+  .icon.blue:hover:before,
+  .icon.info:hover:before {
+    background: #6aa3d5; }
+  .icon.blue:active:before,
+  .icon.info:active:before {
+    background: #3071a9; }
+  .icon.yellow:before,
+  .icon.warn:before {
+    background: #f0ad4e; }
+  .icon.yellow:hover:before,
+  .icon.warn:hover:before {
+    background: #f4c37d; }
+  .icon.yellow:active:before,
+  .icon.warn:active:before {
+    background: #ec971f; }
   .icon.transparent:before {
     background: transparent;
     color: #666; }
   .icon.transparent:hover:before {
     background: transparent; }
   .icon.transparent:active:before {
+    background: transparent;
     color: #333; }
+  .icon.white:before {
+    background: transparent; }
+  .icon.white:hover:before {
+    background: transparent; }
+  .icon.white:active:before {
+    background: transparent; }
+  .icon.succ:not([class*=" ti-"]):before {
+    content: '\e64c'; }
+  .icon.error:not([class*=" ti-"]):before {
+    content: '\e646'; }
+  .icon.info:not([class*=" ti-"]):before {
+    content: '\e697'; }
+  .icon.warn:not([class*=" ti-"]):before {
+    content: '\e653'; }
   .icon.close:before {
     content: '\e646'; }
   .icon.check:before {

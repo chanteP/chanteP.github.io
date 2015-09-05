@@ -634,8 +634,14 @@ var Dialog = (function (_toggleBase) {
 
             this.title = cfg.title || '';
             this.content = cfg.content || '';
+            this.type = cfg.type || '';
             this.button = simple ? defaultBtn : cfg.button;
-            (0, _renderJsx2['default'])(this.node, this);
+            this.ins = (0, _renderJsx2['default'])(this.node, this);
+        }
+    }, {
+        key: 'setContent',
+        value: function setContent(content) {
+            this.ins.setContent(content);
         }
     }, {
         key: 'show',
@@ -648,6 +654,7 @@ var Dialog = (function (_toggleBase) {
             _get(Object.getPrototypeOf(Dialog.prototype), 'show', this).call(this);
             _core2['default'].componentHandler.push(this, cfg);
             _core2['default'].trigger(this, 'show');
+            return this;
         }
     }, {
         key: 'hide',
@@ -656,6 +663,7 @@ var Dialog = (function (_toggleBase) {
             _get(Object.getPrototypeOf(Dialog.prototype), 'hide', this).call(this);
             _core2['default'].componentHandler.remove(this);
             _core2['default'].trigger(this, 'hide');
+            return this;
         }
     }, {
         key: 'destroy',
@@ -671,6 +679,11 @@ var Dialog = (function (_toggleBase) {
         key: 'hide',
         value: function hide() {
             return commonDialog.hide.apply(commonDialog, arguments);
+        }
+    }, {
+        key: 'setContent',
+        value: function setContent() {
+            return commonDialog.setContent.apply(commonDialog, arguments);
         }
     }]);
 
@@ -694,18 +707,20 @@ var _react2 = _interopRequireDefault(_react);
 var Dialog = _react2['default'].createClass({
     displayName: 'Dialog',
 
-    getInitialState: function getInitialState() {
-        return {
-            button: this.props.button || [],
-            content: this.props.content,
-            title: this.props.title
-        };
-    },
     btnClick: function btnClick(e) {
         var id = e.currentTarget.dataset.diabtnid;
         var func = this.props.button[id].callback;
         //TODO
         func && func.call(this.props.component, this.props.component, e.currentTarget);
+    },
+    setContent: function setContent(content) {
+        var contentNode = _react2['default'].findDOMNode(this.rels['content']);
+        if (typeof content === 'string') {
+            contentNode.innerHTML = content;
+        } else if (content && content.nodeType) {
+            contentNode.innerHTML = '';
+            contentNode.appendChild(content);
+        }
     },
     render: function render() {
         var _this = this;
@@ -714,6 +729,17 @@ var Dialog = _react2['default'].createClass({
         var btnStyle = {
             width: 100 / buttons.length + '%'
         };
+        var type = this.props.type;
+        switch (type) {
+            case 'succ':
+                type = 'check';break;
+            case 'error':
+                type = 'error close';break;
+            case 'info':
+                type = 'info ti-info';break;
+            case 'warn':
+                type = 'warn ti-bolt-alt';break;
+        }
 
         return _react2['default'].createElement(
             'div',
@@ -732,10 +758,11 @@ var Dialog = _react2['default'].createClass({
                 ),
                 _react2['default'].createElement(
                     'div',
-                    { className: 'dia-content' },
+                    { className: 'dia-content', rel: 'content' },
                     _react2['default'].createElement(
                         'div',
                         { className: 'dia-contwrap' },
+                        type ? _react2['default'].createElement('i', { className: "icon " + type }) : null,
                         this.props.content
                     )
                 ),
@@ -764,7 +791,7 @@ module.exports = function (node, obj) {
 };
 
 },{"../../react":23}],15:[function(require,module,exports){
-module.exports = ".m-dialog {\n  display: block;\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  visibility: hidden;\n  z-index: 1000;\n  -webkit-transition: all 0.2s ease 0s;\n  -moz-transition: all 0.2s ease 0s;\n  transition: all 0.2s ease 0s;\n  -webkit-animation-duration: 0.3s;\n  -moz-animation-duration: 0.3s;\n  animation-duration: 0.3s; }\n  .m-dialog[data-show] {\n    visibility: visible; }\n  .m-dialog .dia-wrap {\n    min-width: 4.00rem;\n    margin: 0 0.14rem;\n    border-radius: .16rem;\n    background: #fff;\n    text-align: left;\n    overflow: hidden;\n    word-break: break-all; }\n  .m-dialog .dia-head {\n    position: relative;\n    height: .60rem;\n    line-height: .60rem;\n    padding: 0 0.14rem;\n    border-bottom: 1px #ddd solid; }\n    .m-dialog .dia-head h1 {\n      font-size: .28rem; }\n  .m-dialog .dia-contwrap {\n    padding: 0.48rem 0.28rem;\n    line-height: 1.5; }\n  .m-dialog .dia-content {\n    min-height: .80rem;\n    max-height: 10.00rem;\n    overflow-x: hidden;\n    overflow-y: auto;\n    -webkit-overflow-scrolling: touch;\n    -moz-overflow-scrolling: touch; }\n  .m-dialog .dia-btnbox {\n    border-top: 1px solid #ddd; }\n    .m-dialog .dia-btnbox .dia-btn {\n      display: inline-block;\n      background: #fcfcfc;\n      color: #888;\n      -webkit-transition: all 0.2s ease 0s;\n      -moz-transition: all 0.2s ease 0s;\n      transition: all 0.2s ease 0s; }\n      .m-dialog .dia-btnbox .dia-btn a {\n        display: block;\n        line-height: .80rem;\n        text-align: center;\n        font-size: .3rem;\n        /*font-weight: 700;*/\n        color: inherit; }\n      .m-dialog .dia-btnbox .dia-btn:active {\n        background: #e0e0e0; }\n      .m-dialog .dia-btnbox .dia-btn.active {\n        color: #4fcbbd; }\n      .m-dialog .dia-btnbox .dia-btn.active:active {\n        background: #4fcbbd;\n        color: #fff; }\n      .m-dialog .dia-btnbox .dia-btn.disabled {\n        background: #f8f8f8;\n        color: #999; }\n      .m-dialog .dia-btnbox .dia-btn + .dia-btn a {\n        border-left: 1px solid #ddd; }\n";
+module.exports = ".m-dialog {\n  display: block;\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  visibility: hidden;\n  z-index: 1000;\n  -webkit-transition: all 0.2s ease 0s;\n  -moz-transition: all 0.2s ease 0s;\n  transition: all 0.2s ease 0s;\n  -webkit-animation-duration: 0.3s;\n  -moz-animation-duration: 0.3s;\n  animation-duration: 0.3s; }\n  .m-dialog[data-show] {\n    visibility: visible; }\n  .m-dialog .dia-wrap {\n    min-width: 4.00rem;\n    margin: 0 0.3rem;\n    border-radius: .16rem;\n    background: #fff;\n    text-align: left;\n    overflow: hidden;\n    word-break: break-all; }\n  .m-dialog .dia-head {\n    position: relative;\n    line-height: 3;\n    padding: 0 0.3rem;\n    text-align: center;\n    font-size: .32rem;\n    color: #666; }\n  .m-dialog .dia-contwrap {\n    padding: 0.2rem 0.3rem 0.5rem;\n    line-height: 1.5;\n    text-align: center; }\n  .m-dialog .dia-content {\n    min-height: .80rem;\n    max-height: 10.00rem;\n    overflow-x: hidden;\n    overflow-y: auto;\n    -webkit-overflow-scrolling: touch;\n    -moz-overflow-scrolling: touch; }\n  .m-dialog .dia-btnbox {\n    border-top: 1px solid #ddd; }\n    .m-dialog .dia-btnbox .dia-btn {\n      display: inline-block;\n      background: #fcfcfc;\n      color: #888;\n      -webkit-transition: all 0.2s ease 0s;\n      -moz-transition: all 0.2s ease 0s;\n      transition: all 0.2s ease 0s; }\n      .m-dialog .dia-btnbox .dia-btn a {\n        display: block;\n        line-height: .80rem;\n        text-align: center;\n        font-size: .3rem;\n        /*font-weight: 700;*/\n        color: inherit; }\n      .m-dialog .dia-btnbox .dia-btn:active {\n        background: #e0e0e0; }\n      .m-dialog .dia-btnbox .dia-btn.active {\n        color: #4fcbbd; }\n      .m-dialog .dia-btnbox .dia-btn.active:active {\n        background: #4fcbbd;\n        color: #fff; }\n      .m-dialog .dia-btnbox .dia-btn.disabled {\n        background: #f8f8f8;\n        color: #999; }\n      .m-dialog .dia-btnbox .dia-btn + .dia-btn a {\n        border-left: 1px solid #ddd; }\n";
 },{}],16:[function(require,module,exports){
 'use strict';
 
@@ -945,13 +972,6 @@ var Select = (function (_Control) {
         this.title = '';
 
         this.ins = null;
-
-        // this.scrollTimer = null;
-        // $.listener(this.node).on('scroll', '[data-node="slider"]', (e) => {
-        //     if(this.noTitle){return;}
-        //     clearTimeout(this.scrollTimer);
-        //     this.scrollTimer = setTimeout(() => this.calcSelected(), 1000 / 5);
-        // }, true);
     }
 
     _createClass(Select, [{
@@ -966,12 +986,11 @@ var Select = (function (_Control) {
         }
     }, {
         key: 'scrollEffect',
-        value: function scrollEffect() {
+        value: function scrollEffect(slider) {
             var _this = this;
 
-            var index = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+            var index = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
 
-            var slider = _core2['default'].find('[data-node="slider"]', this.node);
             if (!slider) {
                 return;
             }
@@ -991,25 +1010,6 @@ var Select = (function (_Control) {
                     _this.tweenAni = null;
                 }
             });
-            // slider.scrollTop = target.offsetTop + target.clientHeight / 2 - slider.clientHeight / 2;
-        }
-    }, {
-        key: 'calcSelected',
-        value: function calcSelected() {
-            var _this2 = this;
-
-            var cont = _core2['default'].find('[data-node="slider"]', this.node),
-                lis = _core2['default'].findAll('[data-index]', cont);
-            var midLine = cont.clientHeight / 2,
-                checkLine = midLine + cont.scrollTop;
-
-            [].some.call(lis, function (li, index) {
-                var offset = li.offsetTop + li.scrollHeight - checkLine;
-                if (offset >= 0) {
-                    _this2.setCurrent(index);
-                    return true;
-                }
-            }) || this.setCurrent(this.options.length - 1);
         }
     }, {
         key: 'setCurrent',
@@ -1025,21 +1025,8 @@ var Select = (function (_Control) {
             this.title = title === undefined ? this.title : title;
             this.noTitle = typeof this.title !== 'string';
 
-            // console.log({
-            //                 current : this.current,
-            //                 title : this.title,
-            //                 options : this.options
-            //             })
-            // if(!this.ins){
             this.ins = (0, _renderJsx2['default'])(this.node, this);
-            // }
-            // else{
-            //     this.ins.setState({
-            //         current : this.current,
-            //         title : this.title,
-            //         options : this.data
-            //     })
-            // }
+            this.setCurrent(this.current);
 
             return _get(Object.getPrototypeOf(Select.prototype), 'show', this).call(this);
         }
@@ -1069,30 +1056,25 @@ var commonSelect = new Select();
 module.exports = exports['default'];
 
 },{"../../animator/control":1,"../../core":22,"./render.jsx":20,"./style.scss":21}],20:[function(require,module,exports){
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
     value: true
 });
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 var _react = require('../../react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var Select = _react2["default"].createClass({
-    displayName: "Select",
+var Select = _react2['default'].createClass({
+    displayName: 'Select',
 
     getInitialState: function getInitialState() {
         return {
-            current: this.props.current,
-            options: this.props.options,
-            title: this.props.title
+            current: null
         };
-    },
-    componentDidMount: function componentDidMount() {
-        this.setCurrent(this.props.current);
     },
     setCurrent: function setCurrent(index, cb) {
         var _this = this;
@@ -1100,37 +1082,55 @@ var Select = _react2["default"].createClass({
         this.setState({
             current: index
         }, function () {
+            _this.props.component.scrollEffect && _this.props.component.scrollEffect(_react2['default'].findDOMNode(_this.refs['slider']), index);
             cb && cb();
-            if (_this.props.component.scrollEffect) {
-                _this.props.component.scrollEffect(index);
-            }
         });
     },
+    calcSelected: function calcSelected() {
+        var _this2 = this;
+
+        var cont = _react2['default'].findDOMNode(this.refs['slider']),
+            lis = cont.children;
+
+        var midLine = cont.clientHeight / 2,
+            checkLine = midLine + cont.scrollTop;
+
+        [].some.call(lis, function (li, index) {
+            var offset = li.offsetTop + li.scrollHeight - checkLine;
+            if (offset >= 0) {
+                _this2.setCurrent(index);
+                return true;
+            }
+        }) || this.setCurrent(this.props.options.length - 1);
+    },
+
     onTouchstart: function onTouchstart() {
         this.props.component.tweenAni && this.props.component.tweenAni.stop();
     },
     onScroll: function onScroll() {
-        var _this2 = this;
+        var _this3 = this;
 
-        if (this.noTitle) {
+        if (this.props.component.noTitle) {
             return;
         }
         clearTimeout(this.scrollTimer);
         this.scrollTimer = setTimeout(function () {
-            return _this2.props.component.calcSelected();
+            return _this3.calcSelected();
         }, 1000 / 5);
     },
     onSelect: function onSelect(e) {
-        var _this3 = this;
+        var _this4 = this;
 
+        if (!this.props.component.noTitle) {
+            return;
+        }
         var target = e.currentTarget,
             index = +target.dataset.index;
         this.setCurrent(index, function () {
-            if (!_this3.props.component.noTitle) {
-                _this3.select();
-            }
+            _this4.select();
         });
     },
+
     hide: function hide() {
         this.props.component.hide();
     },
@@ -1138,44 +1138,45 @@ var Select = _react2["default"].createClass({
         this.props.callback && this.props.callback(this.props.options[this.state.current], this.state.current);
         this.hide();
     },
+
     render: function render() {
-        var _this4 = this;
+        var _this5 = this;
 
         var current = this.state.current;
 
-        return _react2["default"].createElement(
-            "div",
-            { className: "m-controls-select clearfix" },
-            !this.props.component.noTitle ? _react2["default"].createElement(
-                "div",
-                { className: "m-controls-select-head" },
-                _react2["default"].createElement(
-                    "a",
-                    { className: "m-controls-select-cancel", onClick: this.hide },
-                    "取消"
+        return _react2['default'].createElement(
+            'div',
+            { className: 'm-controls-select clearfix' },
+            !this.props.component.noTitle ? _react2['default'].createElement(
+                'div',
+                { className: 'm-controls-select-head' },
+                _react2['default'].createElement(
+                    'a',
+                    { className: 'm-controls-select-cancel', onClick: this.hide },
+                    '取消'
                 ),
-                _react2["default"].createElement(
-                    "a",
-                    { className: "m-controls-select-submit", onClick: this.select },
-                    "选择"
+                _react2['default'].createElement(
+                    'a',
+                    { className: 'm-controls-select-submit', onClick: this.select },
+                    '选择'
                 ),
-                _react2["default"].createElement(
-                    "h1",
+                _react2['default'].createElement(
+                    'h1',
                     null,
                     this.props.title
                 )
             ) : null,
-            _react2["default"].createElement(
-                "div",
-                { className: "m-controls-slidercont" },
-                _react2["default"].createElement(
-                    "ul",
-                    { className: "m-controls-slider", "data-node": "slider", onTouchstart: this.onTouchstart, onScroll: this.onScroll },
+            _react2['default'].createElement(
+                'div',
+                { className: 'm-controls-slidercont' },
+                _react2['default'].createElement(
+                    'ul',
+                    { className: 'm-controls-slider', 'data-node': 'slider', ref: 'slider', onTouchstart: this.onTouchstart, onScroll: this.onScroll },
                     this.props.options.map(function (item, i) {
                         var option = typeof item === 'string' || typeof item === 'number' ? { text: item } : item;
-                        return _react2["default"].createElement(
-                            "li",
-                            { key: i, "data-index": i, onClick: _this4.onSelect, className: (option.className || '') + (i === current ? ' current' : '') },
+                        return _react2['default'].createElement(
+                            'li',
+                            { key: i, 'data-index': i, onClick: _this5.onSelect, className: (option.className || '') + (i === current ? ' current' : '') },
                             option.text
                         );
                     })
@@ -1185,14 +1186,14 @@ var Select = _react2["default"].createClass({
     }
 });
 
-exports["default"] = function (node, obj) {
-    return _react2["default"].render(_react2["default"].createElement(Select, { current: obj.current, options: obj.options, callback: obj.callback, title: obj.title, component: obj }), node);
+exports['default'] = function (node, obj) {
+    return _react2['default'].render(_react2['default'].createElement(Select, { current: obj.current, options: obj.options, callback: obj.callback, title: obj.title, component: obj }), node);
 };
 
-module.exports = exports["default"];
+module.exports = exports['default'];
 
 },{"../../react":23}],21:[function(require,module,exports){
-module.exports = ".m-controls-select {\n  background: #fff; }\n  .m-controls-select .m-controls-select-head {\n    line-height: .66rem;\n    border-bottom: 1px solid #dedede;\n    overflow: hidden; }\n    .m-controls-select .m-controls-select-head h1 {\n      font-size: .28rem;\n      line-height: .66rem;\n      color: #333;\n      font-weight: 700;\n      text-align: center;\n      white-space: nowrap;\n      overflow: hidden;\n      text-overflow: ellipsis; }\n    .m-controls-select .m-controls-select-head .m-controls-select-cancel,\n    .m-controls-select .m-controls-select-head .m-controls-select-submit {\n      font-size: .24rem;\n      color: #4fcbbd;\n      padding: 0 1em; }\n    .m-controls-select .m-controls-select-head .m-controls-select-cancel {\n      float: left; }\n    .m-controls-select .m-controls-select-head .m-controls-select-submit {\n      float: right; }\n  .m-controls-select .m-controls-slidercont {\n    position: relative;\n    background: #fff; }\n  .m-controls-select .m-controls-slider {\n    width: 100%;\n    max-height: 4.4rem;\n    overflow-y: scroll;\n    -webkit-overflow-scrolling: touch;\n    -moz-overflow-scrolling: touch; }\n  .m-controls-select li {\n    /*background: #fff;*/\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    display: block;\n    line-height: 0.88rem;\n    height: 0.88rem;\n    border: 0 solid #e0e0e0;\n    color: #333;\n    text-align: center;\n    cursor: pointer; }\n  .m-controls-select li + li {\n    border-top-width: 1px; }\n  .m-controls-select .m-controls-select-head + .m-controls-slidercont {\n    background: #f0f0f0;\n    -webkit-mask-image: linear-gradient(0deg, transparent 0, #fff 20%, #fff 80%, transparent 100%); }\n    .m-controls-select .m-controls-select-head + .m-controls-slidercont:before {\n      content: '';\n      display: block;\n      line-height: 0.88rem;\n      height: 0.88rem;\n      border: 0 solid #e0e0e0;\n      -webkit-transform: translate(0, -50%);\n      -moz-transform: translate(0, -50%);\n      transform: translate(0, -50%);\n      position: absolute;\n      top: 50%;\n      left: 0;\n      width: 100%;\n      border-top-width: 1px;\n      border-bottom-width: 1px;\n      pointer-events: none; }\n    .m-controls-select .m-controls-select-head + .m-controls-slidercont li {\n      border-color: transparent; }\n    .m-controls-select .m-controls-select-head + .m-controls-slidercont li:first-child {\n      margin-top: 2.64rem; }\n    .m-controls-select .m-controls-select-head + .m-controls-slidercont li:last-child {\n      margin-bottom: 2.64rem; }\n  .m-controls-select .current {\n    font-weight: 700;\n    color: #fb7e35; }\n";
+module.exports = ".m-controls-select {\n  background: #fff; }\n  .m-controls-select .m-controls-select-head {\n    line-height: .66rem;\n    border-bottom: 1px solid #dedede;\n    overflow: hidden; }\n    .m-controls-select .m-controls-select-head h1 {\n      font-size: .28rem;\n      line-height: .66rem;\n      color: #333;\n      font-weight: 700;\n      text-align: center;\n      white-space: nowrap;\n      overflow: hidden;\n      text-overflow: ellipsis; }\n    .m-controls-select .m-controls-select-head .m-controls-select-cancel,\n    .m-controls-select .m-controls-select-head .m-controls-select-submit {\n      font-size: .24rem;\n      color: #4fcbbd;\n      padding: 0 1em; }\n    .m-controls-select .m-controls-select-head .m-controls-select-cancel {\n      float: left; }\n    .m-controls-select .m-controls-select-head .m-controls-select-submit {\n      float: right; }\n  .m-controls-select .m-controls-slidercont {\n    position: relative;\n    background: #fff; }\n  .m-controls-select .m-controls-slider {\n    width: 100%;\n    max-height: 4.4rem;\n    overflow-y: scroll;\n    -webkit-overflow-scrolling: touch;\n    -moz-overflow-scrolling: touch; }\n  .m-controls-select li {\n    /*background: #fff;*/\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    display: block;\n    line-height: 0.88rem;\n    height: 0.88rem;\n    border: 0 solid #e0e0e0;\n    color: #333;\n    text-align: center;\n    cursor: pointer; }\n  .m-controls-select li + li {\n    border-top-width: 1px; }\n  .m-controls-select .m-controls-select-head + .m-controls-slidercont {\n    background: #f0f0f0;\n    -webkit-mask-image: linear-gradient(0deg, transparent 0, #fff 20%, #fff 80%, transparent 100%); }\n    .m-controls-select .m-controls-select-head + .m-controls-slidercont:before {\n      content: '';\n      display: block;\n      line-height: 0.88rem;\n      height: 0.88rem;\n      border: 0 solid #e0e0e0;\n      -webkit-transform: translate(0, -50%);\n      -moz-transform: translate(0, -50%);\n      transform: translate(0, -50%);\n      position: absolute;\n      top: 50%;\n      left: 0;\n      width: 100%;\n      border-top-width: 1px;\n      border-bottom-width: 1px;\n      pointer-events: none;\n      background: white;\n      z-index: -1; }\n    .m-controls-select .m-controls-select-head + .m-controls-slidercont li {\n      border-color: transparent; }\n    .m-controls-select .m-controls-select-head + .m-controls-slidercont li:first-child {\n      margin-top: 2.64rem; }\n    .m-controls-select .m-controls-select-head + .m-controls-slidercont li:last-child {\n      margin-bottom: 2.64rem; }\n  .m-controls-select .current {\n    font-weight: 700;\n    color: #fb7e35; }\n";
 },{}],22:[function(require,module,exports){
 "use strict";
 
@@ -1256,13 +1257,15 @@ _core2['default'].register('demo', function ($) {
                 options.unshift(num--);
             }
             // var select = new Select;
+            var options1 = [].concat(options);
             callSelect.addEventListener('click', function (e) {
-                _commonComponentsSelect2['default'].show(3, options, function (item, index) {
+                _commonComponentsSelect2['default'].show(3, options1, function (item, index) {
                     console.log('haha', item, index);
                 }, 'fxxk');
             });
+            var options2 = [].concat(options.reverse());
             callSelectNoTitle.addEventListener('click', function (e) {
-                _commonComponentsSelect2['default'].show(3, options, function (item, index) {
+                _commonComponentsSelect2['default'].show(3, options2, function (item, index) {
                     console.log('hehe', item, index);
                 }, null);
             });
@@ -1278,6 +1281,7 @@ _core2['default'].register('demo', function ($) {
             callDialog.addEventListener('click', function (e) {
                 _commonComponentsDialog2['default'].show({
                     title: '什么鬼',
+                    type: 'info',
                     content: '什么鬼'
                 }, true);
             });

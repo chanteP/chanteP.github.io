@@ -1584,8 +1584,8 @@ var api = module.exports = {
     bind : function(){
         if(!stat){
             stat = true;
-            document.addEventListener('touchmove', bindFunc.move, false);
             document.addEventListener('touchstart', bindFunc.start, false);
+            document.addEventListener('touchmove', bindFunc.move, false);
         }
         return this;
     },
