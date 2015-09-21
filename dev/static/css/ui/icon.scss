@@ -1,10 +1,12 @@
 @import "../variable.scss";
 
 .icon{
+    display: inline-block;
+
     &:before{
         @include themify;
         @include fontIcon;
-        font-size: .18rem;
+        font-size: 1em;
         font-weight: 1400;
         color: #fff;
     }
