@@ -62,7 +62,7 @@ var api = {
     stack : stack,
     block : false,
     pushState : pushState,
-    push : (component, cfg) => {
+    push : function(component, cfg){
         if(!component.hide){
             //TODO 错误收集
             throw '[componentHandler] component.hide is not a function';
@@ -88,7 +88,7 @@ var api = {
     pop : () => {
         stack.pop();
     },
-    remove : (component) => {
+    remove : function(component){
         stack.some((elem, index) => {
             if(elem.component === component){
                 stack.splice(index, 1);

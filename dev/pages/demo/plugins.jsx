@@ -1,8 +1,14 @@
+import Drawer from '../../common/components/drawer'
+import Select from '../../common/components/select'
+import Mask from '../../common/components/mask'
+import MaskTips from '../../common/components/maskTips'
+import Dialog from '../../common/components/dialog'
+
 var drawer = new Drawer;
 var callDrawer = (e) => {
     drawer.setContent('123123123');
     drawer.show();
-});
+};
 
 var options = [], num = 20;
 while(num){
@@ -19,7 +25,7 @@ var callSelect = (e) => {
         },
         'fxxk'
     );
-});
+};
 var options2 = [].concat(options.reverse());
 var callSelectNoTitle = (e) => {
     Select.show(
@@ -30,14 +36,14 @@ var callSelectNoTitle = (e) => {
         },
         null
     );
-});
+};
 // var select = new Select;
 var callMask = (e) => {
     Mask.show(50);
     setTimeout(()=>{
         Mask.hide();
     }, 1200)
-});
+};
 
 // var select = new Select;
 var callDialog = (e) => {
@@ -46,7 +52,7 @@ var callDialog = (e) => {
         type : 'info',
         content : '什么鬼'
     }, true);
-});
+};
 
 // var select = new Select;
 var callMaskTips = (e) => {
@@ -54,7 +60,7 @@ var callMaskTips = (e) => {
         icon : 'loading',
         text : '什么鬼'
     }, true);
-});
+};
 
 export default (node) => {
     React.render(

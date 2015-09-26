@@ -9,7 +9,8 @@ var http = require('http');
 var app = express();
 
 var renderPage = (dec, page, req, res) => {
-    console.log('request page: ', req.url);
+    console.log('\033[36m [request page]', req.url, '\033[0m');
+
     var url = path.normalize('temp/'+page);
     var html = fs.readFileSync(url) + '';
 
@@ -61,6 +62,6 @@ module.exports = () => {
     app.use(express.static(root));
 
     app.listen(app.get('port'), () => {
-        console.log('server is now running at :'+app.get('port')+' DAZE✧');
+        console.log('\033[36m [node server] running at :'+app.get('port')+' DAZE✧'+'\033[0m');
     });
 }
