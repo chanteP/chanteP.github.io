@@ -46,7 +46,8 @@ module.exports = () => {
         //css
         gulp.src([srcDir + 'static/css/*.scss'])
             .pipe(buildSass())
-            .pipe(gulp.dest(destDir + 'static/css/'));
+            .pipe(gulp.dest(destDir + 'static/css/'))
+            .pipe($.livereload());
         //其他所有
         gulp.src([srcDir + 'static/**/*', '!' + srcDir + 'static/lib/', '!' + srcDir + 'static/css/'])
             .pipe(gulp.dest(destDir + 'static/'));
@@ -73,7 +74,8 @@ module.exports = () => {
                 file.dirname = '';
             }))
             .pipe(insertStyle())
-            .pipe(gulp.dest(destDir + 'pages/'));
+            .pipe(gulp.dest(destDir + 'pages/'))
+            .pipe($.livereload());
     });
     gulp.task('pageScripts', () => {
         //commonjs用browserify打包
