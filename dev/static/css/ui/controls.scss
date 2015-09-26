@@ -6,7 +6,8 @@
 
     & + span{
         display: inline-block;
-        min-height: .38rem;
+        min-height: 1em;
+        line-height: 2em;
     }
     & + span:before{
         content :'';
@@ -16,7 +17,7 @@
         border-style: solid;
         border-width: .02rem;
         border-color: #aaa;
-        font-size: .18rem;
+        font-size: 1em;
         font-weight: 700;
         color:#fff;
         background: #fff;

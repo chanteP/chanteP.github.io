@@ -1,9 +1,9 @@
-var setMeta = function(metaNode, content){
+var setMeta = (metaNode, content) => {
     if(!metaNode){return;}
     metaNode.content = content;
     metaNode.setAttribute('content', content);
 }
-var scaleRoot = function(os, scale){
+var scaleRoot = (os, scale) => {
     var fontSize = 1 / scale * 50;
     document.documentElement.style.fontSize = fontSize + 'px';
 
@@ -22,10 +22,10 @@ var scaleRoot = function(os, scale){
     }
     return {scale, fontSize};
 }
-var setRootFontSize = function(rpx){
+var setRootFontSize = (rpx) => {
 }
-module.exports = function($){
-    var pixelRatio = window.devicePixelRatio || 1;
+export default ($) => {
+    var pixelRatio = $config.pixelRatio || window.devicePixelRatio || 1;
     pixelRatio = pixelRatio | 0;
     var os = $.os;
 

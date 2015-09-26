@@ -14,12 +14,13 @@
         ... in cfg
     }
 */
+import history from 'np-history'
+
 var stack = [];
 var title = window.document.title;
 
-var history = require('np-history');
 
-var findTitle = function(){
+var findTitle = () => {
     var lastTitle = title;
     for(var i = stack.length - 1; i >= 0; i--){
         if(stack[i].title){
@@ -29,12 +30,12 @@ var findTitle = function(){
     }
     document.title = lastTitle;
 }
-var pushState = function(href, title){
+var pushState = (href, title) => {
     history.pushState(null, title || '', href || location.pathname);
 }
 
 //temp
-var popState = function(e){
+var popState = (e) => {
     document.activeElement && document.activeElement.blur && document.activeElement.blur();
 
     var elem = api.get();
@@ -61,7 +62,7 @@ var api = {
     stack : stack,
     block : false,
     pushState : pushState,
-    push : function(component, cfg){
+    push : (component, cfg) => {
         if(!component.hide){
             //TODO 错误收集
             throw '[componentHandler] component.hide is not a function';
@@ -81,14 +82,14 @@ var api = {
         findTitle();
         return this;
     },
-    get : function(index){
+    get : (index) => {
         return stack[index === undefined ? stack.length - 1 : index];
     },
-    pop : function(){
+    pop : () => {
         stack.pop();
     },
-    remove : function(component){
-        stack.some(function(elem, index){
+    remove : (component) => {
+        stack.some((elem, index) => {
             if(elem.component === component){
                 stack.splice(index, 1);
                 return true;
@@ -97,13 +98,13 @@ var api = {
         findTitle();
         return this;
     },
-    setTitle : function(text){
+    setTitle : (text) => {
         window.document.title = title = text;
     }
 }
 
-module.exports = function($){
-    $.domReady(function(){
+export default ($) => {
+    $.domReady(() => {
         // debugger
         window.addEventListener('popstate', popState);
         // history.onback(popState);

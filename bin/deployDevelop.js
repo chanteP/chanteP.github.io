@@ -28,9 +28,11 @@ module.exports = () => {
         gulp.src([srcDir + 'dec/*'])
             .pipe($.replace(/{{ ([\w]+) }}/g, '<%-$1%>'))
             .pipe(parseInclude())
-            .pipe(gulp.dest(destDir + '_layouts/'));
+            .pipe(gulp.dest(destDir + '_layouts/'))
+            .pipe($.livereload());
         gulp.src([srcDir + 'includes/*'])
-            .pipe(gulp.dest(destDir + '_includes/'));
+            .pipe(gulp.dest(destDir + '_includes/'))
+            .pipe($.livereload());
     });
     gulp.task('post', () => {
         //菠萝格
@@ -98,13 +100,14 @@ module.exports = () => {
     });
 
     gulp.task('watch', ['server', 'build'], () => {
+        gulp.watch([srcDir + 'dec/*', '!' + srcDir + 'includes/*'], ['layout']);
         gulp.watch([srcDir + 'static/**/*', '!' + srcDir + 'static/lib/'], ['static']);
         gulp.watch([srcDir + 'pages/*/**', '!**/*.js', '!**/*.html'], ['pageResources']);
         gulp.watch([srcDir + 'pages/*/index.html'], ['pages']);
     });
 
     gulp.task('build', ['layout','post','rootConfig','static','lib','pageScripts','pageResources'], () => {
-        gulp.start('pages');
+        return gulp.start('pages');
     });
 
     gulp.task('server', [], () => {

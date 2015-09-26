@@ -8,10 +8,9 @@ import mod_spa from './spa'
 import mod_nav from './nav'
 import mod_background from './background'
 
-
 var spa = mod_spa($);
 var nav = mod_nav($);
-var background = mod_background($);
+var background = $config.background === false || mod_background($);
 
 $.listener(spa.Page).on('beforechange', (uri, controller) => {
     nav.set(controller);

@@ -1,6 +1,6 @@
-module.exports = function($){
+export default ($) => {
     var api;
-    $.domReady(function(){
+    $.domReady(() => {
         api.setLoading(false);
     });
     return api = {
@@ -27,11 +27,11 @@ module.exports = function($){
             // console.info('add', node, evt, callback);
             node.addEventListener(evt, func);
         },
-        setLoading : function(bool){
+        setLoading : (bool) => {
             document.body.classList[bool ? 'add' : 'remove']('loading');
         },
         //插入样式
-        insertStyle : function(css){
+        insertStyle : (css) => {
             var styleNode = document.createElement('style');
             styleNode.innerHTML = css;
             document.head.appendChild(styleNode);

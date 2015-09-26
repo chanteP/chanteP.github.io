@@ -1,6 +1,6 @@
-module.exports = function($){
-    window.onerror = function(e, filename, lineNo){
-        var debugType = $.querySearch('debug');
+export default ($) => {
+    window.onerror = (e, filename, lineNo) => {
+        var debugType = $config.debug;
         if(!debugType){return;}
         switch(debugType){
             case 'alert' : 

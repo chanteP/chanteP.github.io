@@ -1,13 +1,13 @@
-export default function($){
+export default ($) => {
     var scrollTimer;
-    var bindEvt = function(){
+    var bindEvt = () => {
         clearTimeout(scrollTimer);
-        scrollTimer = setTimeout(function(){
+        scrollTimer = setTimeout(() => {
             $.trigger(window, 'scrollend');
         }, 200);
     }
-    var check = function(){
-        setTimeout(function(){
+    var check = () => {
+        setTimeout(() => {
             var docHeight = document.documentElement.clientHeight;
             $.each($.findAll('[data-lazyload]:not(.lazyloading)'), (node) => {
                 var src = node.dataset.lazyload;
@@ -19,7 +19,7 @@ export default function($){
                     return;
                 }
                 node.classList.add('lazyloading');
-                $.load(src, '').onload = function(){
+                $.load(src, '').onload = () => {
                     node.src = src;
                     node.classList.remove('lazyloading');
                     node.dataset.lazyload = '';

@@ -1,9 +1,11 @@
 window.$config = window.$config || {};
 window.$data = window.$data || {};
 
-var $ = require('np-kit');
+import $ from 'np-kit'
+
 var api = {};
 [
+    require('./config'),
     require('./errorControl'),
     require('./dom'),
     require('./componentHandler'),
@@ -16,6 +18,6 @@ var api = {};
     $.merge(api, mod($), true);
 });
 
-module.exports = api;
+export default api;
 
 require('np-scrollp').bind();
