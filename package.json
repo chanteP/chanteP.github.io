@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "node --harmony bin/deploy -m",
-    "dev": "node --harmony bin/deploy -d",
-    "server": "node --harmony bin/deploy -s",
-    "clean": "node --harmony bin/deploy -c"
+    "deploy": "node bin/deploy -m",
+    "dev": "node bin/deploy -d",
+    "server": "node bin/deploy -s",
+    "clean": "node bin/deploy -c"
   },
   "author": "chanteP",
   "license": "ISC",

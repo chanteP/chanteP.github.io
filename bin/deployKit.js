@@ -1,10 +1,10 @@
-import fs from 'fs'
-import path from 'path'
-import named from 'vinyl-named'
-import gulp from 'gulp'
-import gulpLoadPlugin from 'gulp-load-plugins'
+var fs = require('fs');
+var path = require('path');
+var named = require('vinyl-named');
+var gulp = require('gulp');
+var gulpLoadPlugin = require('gulp-load-plugins');
 
-export default ({srcDir, destDir}) => {
+module.exports = ({srcDir, destDir}) => {
     return {
         shrinkDir : (file) => {
             var filename;

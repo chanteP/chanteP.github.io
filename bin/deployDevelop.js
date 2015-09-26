@@ -1,8 +1,8 @@
 'use strict';
-import gulp from 'gulp'
-import gulpLoadPlugin from 'gulp-load-plugins'
-import gulpKit from './deployKit'
-import server from './server'
+var gulp = require('gulp');
+var gulpLoadPlugin = require('gulp-load-plugins');
+var gulpKit = require('./deployKit');
+var server = require('./server');
 
 var srcDir = './dev/',
     destDir = './temp/';
@@ -15,7 +15,7 @@ var {shrinkDir, webpack, vnamed, buildSass, insertStyle, parseInclude} = gulpKit
 
 var needWatch = true;
 
-export default () => {
+module.exports = () => {
     gulp.task('layout', () => {
         //装饰器
         gulp.src([srcDir + 'dec/*'])

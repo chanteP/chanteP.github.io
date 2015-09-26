@@ -1,4 +1,3 @@
-
 var program = require('commander');
  
 program
@@ -10,21 +9,21 @@ program
     .option('-k, --fake', 'deploy master with server')
     .parse(process.argv);
 
-var cleanup = function(callback){
-    require('child_process').exec('rm -r temp', callback || function(){})
+var cleanup = (callback) => {
+    require('child_process').exec('rm -r temp', callback || () => {})
 }
  
 if(program.deploy){
-    cleanup(function(){
+    cleanup(() => {
         require('./deployMaster')();
     }); 
 }
 else if(program.clean){
-    cleanup(function(){
+    cleanup(() => {
     }); 
 }
 else if(program.dev){
-    cleanup(function(){
+    cleanup(() => {
         require('./deployDevelop')();
     });   
 }
