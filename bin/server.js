@@ -1,10 +1,10 @@
-import fs from 'fs'
-import url from 'url'
-import path from 'path'
+var fs = require('fs');
+var url = require('url');
+var path = require('path');
 
-import markdown from 'marked'
-import express from 'express'
-import http from 'http'
+var markdown = require('marked');
+var express = require('express');
+var http = require('http');
 
 var app = express();
 
@@ -31,7 +31,7 @@ var renderPage = (dec, page, req, res) => {
     res.end();
 }
 
-export default () => {
+module.exports = () => {
     var root = path.normalize(__dirname + '/../temp/');
     app.set('port', 9000);
 

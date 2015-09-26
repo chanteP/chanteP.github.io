@@ -4,7 +4,11 @@ var named = require('vinyl-named');
 var gulp = require('gulp');
 var gulpLoadPlugin = require('gulp-load-plugins');
 
-module.exports = ({srcDir, destDir}) => {
+var $ = gulpLoadPlugin();
+
+module.exports = (arg) => {
+    var srcDir = srcDir, 
+        destDir = destDir;
     return {
         shrinkDir : (file) => {
             var filename;
@@ -12,7 +16,7 @@ module.exports = ({srcDir, destDir}) => {
             file.dirname = '';
             file.basename = file.basename.replace(/index/, filename);
         },
-        webpack : (watch = true) => {
+        webpack : (watch) => {
             return $.webpack({
                 watch: watch,
                 context : path.join(__dirname, srcDir),

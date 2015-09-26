@@ -8,10 +8,17 @@ var srcDir = './dev/',
     destDir = './temp/';
 
 var $ = gulpLoadPlugin();
-var {shrinkDir, webpack, vnamed, buildSass, insertStyle, parseInclude} = gulpKit({
+var kit = gulpKit({
     srcDir : srcDir,
     destDir : destDir
 });
+// var {shrinkDir, webpack, vnamed, buildSass, insertStyle, parseInclude};
+var shrinkDir = kit.shrinkDir, 
+    webpack = kit.webpack, 
+    vnamed = kit.vnamed, 
+    buildSass = kit.buildSass, 
+    insertStyle = kit.insertStyle, 
+    parseInclude = kit.parseInclude;
 
 var needWatch = true;
 
@@ -64,7 +71,7 @@ module.exports = () => {
         //一个页面对应一个文件夹
         gulp.src([srcDir + 'pages/*/index.html'])
             .pipe(parseInclude())
-            .pipe($.rename((f => ile){
+            .pipe($.rename((file) => {
                 file.basename = file.dirname;
                 file.dirname = '';
             }))
