@@ -46,9 +46,6 @@ module.exports = () => {
         //css
         gulp.src([srcDir + 'static/css/*.scss'])
             .pipe(buildSass())
-            // .pipe($.postcss([
-            //     autoprefixer({browsers: ['last 1 version']})
-            // ]))
             .pipe(gulp.dest(destDir + 'static/css/'));
         //其他所有
         gulp.src([srcDir + 'static/**/*', '!' + srcDir + 'static/lib/', '!' + srcDir + 'static/css/'])
@@ -77,7 +74,6 @@ module.exports = () => {
             }))
             .pipe(insertStyle())
             .pipe(gulp.dest(destDir + 'pages/'));
-        //sass编译
     });
     gulp.task('pageScripts', () => {
         //commonjs用browserify打包

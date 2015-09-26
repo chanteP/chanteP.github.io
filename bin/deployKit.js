@@ -6,9 +6,11 @@ var gulpLoadPlugin = require('gulp-load-plugins');
 
 var $ = gulpLoadPlugin();
 
+var pathFix = path.resolve(__dirname, '../');
+
 module.exports = (arg) => {
-    var srcDir = srcDir, 
-        destDir = destDir;
+    var srcDir = arg.srcDir, 
+        destDir = arg.destDir;
     return {
         shrinkDir : (file) => {
             var filename;
@@ -19,7 +21,7 @@ module.exports = (arg) => {
         webpack : (watch) => {
             return $.webpack({
                 watch: watch,
-                context : path.join(__dirname, srcDir),
+                context : path.join(pathFix, srcDir),
                 module: {
                     loaders: [
                         { test: /\.css$/, loader: 'style!css' },
@@ -37,14 +39,14 @@ module.exports = (arg) => {
                 },
                 resolveLoader: {
                       modulesDirectories: [
-                          path.join(__dirname, './node_modules')
+                          path.join(pathFix, './node_modules')
                       ]
                 }
             });
         },
         vnamed : (base) => {
             return named((file) => {
-                return path.relative(__dirname + '/' + base, file.path).replace(/\.[\w]*$/, '');
+                return path.relative(pathFix + '/' + base, file.path).replace(/\.[\w]*$/, '');
             })
         },
         buildSass : () => {
