@@ -14,8 +14,6 @@
   "license": "ISC",
   "devDependencies": {
     "autoprefixer-core": "^5.2.1",
-    "babelify": "^6.1.3",
-    "browserify": "^11.0.1",
     "commander": "^2.8.1",
     "ejs": "^1.0.0",
     "express": "^4.10.4",
@@ -28,37 +26,32 @@
     "gulp-sass": "^2.0.0",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.4.0",
-    "markdown-styles": "^2.4.0",
+    "uglify-js": "^2.4.16",
+    "sass-loader": "^2.0.1",
+    "style-loader": "^0.12.4",
+    "gulp-webpack": "^1.5.0",
+    "autoprefixer-core": "^4.0.2",
+    "babel-core": "^5.8.25",
+    "babel-loader": "^5.3.2",
+    "css-loader": "^0.18.0",
+    "gulp-imagemin": "^2.0.0",
+    "gulp-livereload": "^3.8.0",
+    "gulp-minify-css": "^1.1.6",
+    "gulp-size": "^1.1.0",
+    "gulp-webpack": "^1.5.0",
+    "html-loader": "^0.3.0",
+    "sass-loader": "^2.0.1",
+    "style-loader": "^0.12.4",
+    "vinyl-named": "^1.1.0",
+    "webpack": "^1.12.2",
+    "html-loader": "^0.3.0"
+  },
+  "dependencies": {
+    "react": "^0.13.3",
     "marked": "^0.3.5",
     "np-canvas": "^1.1.0",
     "np-history": "^1.0.4",
     "np-kit": "^2.0.24",
-    "np-scrollp": "^2.0.2",
-    "preprocess": "^2.1.1",
-    "sassify": "^0.9.1",
-    "stringify": "^3.1.0",
-    "through2": "^0.6.5",
-    "uglify-js": "^2.4.16",
-    "vinyl-transform": "^1.0.0",
-    "watchify": "^3.3.1"
-  },
-  "browserify": {
-    "transform": [
-      "stringify",
-      "sassify",
-      "babelify"
-    ],
-    "extensions": [
-      ".html",
-      ".scss",
-      ".js"
-    ]
-  },
-  "sassify": {
-    "auto-inject": false,
-    "sourceMap": false
-  },
-  "dependencies": {
-    "react": "^0.13.3"
+    "np-scrollp": "^2.0.2"
   }
 }

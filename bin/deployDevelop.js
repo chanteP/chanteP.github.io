@@ -1,106 +1,22 @@
-var gulp = require('gulp');
-var $ = require('gulp-load-plugins')();
-
-var browserify = require('browserify');
-var watchify = require('watchify');
-var through2 = require('through2');
-var autoprefixer = require('autoprefixer-core');
-var fs = require('fs');
+'use strict';
+import gulp from 'gulp'
+import gulpLoadPlugin from 'gulp-load-plugins'
+import gulpKit from './deployKit'
+import server from './server'
 
 var srcDir = './dev/',
     destDir = './temp/';
 
-var needWatch = false;
+var $ = gulpLoadPlugin();
+var {shrinkDir, webpack, vnamed, buildSass, insertStyle, parseInclude} = gulpKit({
+    srcDir : srcDir,
+    destDir : destDir
+});
 
-var shrinkDir = function(file){
-    var filename;
-    filename = file.dirname;
-    file.dirname = '';
-    file.basename = file.basename.replace(/index/, filename);
-};
-var buildBrowserify = function(src){
-    var returnValue = through2.obj(function (file, enc, next){
-        if(needWatch){
-            var b = browserify(file.path)
-            var bundle = function(){
-                b.bundle(function(err, res){
-                    // console.log('###########', file.path, res);
-                    // assumes file.contents is a Buffer
-                    file.contents = res || new Buffer('');
-                    next(null, file);
-                })
-            }
-            b = watchify(b, {});
-            b.on('update', function(){
-                console.log('update@ ' + Date.now());
-                gulp.src(src)
-                    .pipe(returnValue);
-                bundle();
-            })
-            .on('error', function(e){
-                // delete e.stream;
-                console.error('\033[31m [browserify error]', e.message, '\033[0m');
-                this.emit('end');
-            });
-            bundle();
-        }
-        else{
-            var b = browserify(file.path)
-            b
-                .bundle(function(err, res){
-                    // console.log('###########', file.path, res);
-                    // assumes file.contents is a Buffer
-                    file.contents = res || new Buffer('');
-                    next(null, file);
-                })
-                .on('update', function(){
-                    console.log('update@ ' + Date.now());
-                    gulp.src(src)
-                        .pipe(returnValue);
-                    // bundle();
-                })
-                .on('error', function(e){
-                    // delete e.stream;
-                    console.error('\033[31m [browserify error]', e.message, '\033[0m');
-                    this.emit('end');
-                });
-            // bundle();
-        }
-    });
-    return returnValue;
-}
-var buildSass = function(){
-    return $.sass({
-        outputStyle: 'nested', // libsass doesn't support expanded yet
-        precision: 10,
-        includePaths: ['.'],
-        onError: function(e){
-            console.error('\033[31m [sass error]', e.message, '\033[0m');
-        }
-    })
-}
-var insertStyle = function(){
-    return $.replace(/<style>@import\surl\(\'([\w\.\/\-\+]+)\'\);<\/style>/g, function(str, url){
-        var uri = destDir.slice(0, -1) + url;
-        var content = '';
-        if(fs.existsSync(uri)){
-            content = fs.readFileSync(uri);
-        }
-        return '<style>' + content + '</style>';
-    })
-}
-var parseInclude = function(){
-    return $.replace(/\{%\sinclude\s([\w\/\.\-\+]+)\s%\}/g, function(text, file){
-        var url = srcDir + 'includes/' + file;
-        if(!fs.existsSync(url)){
-            return text;
-        }
-        return fs.readFileSync(url);
-    })
-}
-module.exports = function(watch){
-    needWatch = watch;
-    gulp.task('layout', function(){
+var needWatch = true;
+
+export default () => {
+    gulp.task('layout', () => {
         //装饰器
         gulp.src([srcDir + 'dec/*'])
             .pipe($.replace(/{{ ([\w]+) }}/g, '<%-$1%>'))
@@ -109,17 +25,17 @@ module.exports = function(watch){
         gulp.src([srcDir + 'includes/*'])
             .pipe(gulp.dest(destDir + '_includes/'));
     });
-    gulp.task('post', function(){
+    gulp.task('post', () => {
         //菠萝格
         return gulp.src(['posts/**'])
             .pipe(gulp.dest(destDir + '_posts/'));
     });
-    gulp.task('rootConfig', function(){
+    gulp.task('rootConfig', () => {
         //根目录配置文件
         return gulp.src(['root/*'])
             .pipe(gulp.dest(destDir));
     });
-    gulp.task('static', function(){
+    gulp.task('static', () => {
         //css
         gulp.src([srcDir + 'static/css/*.scss'])
             .pipe(buildSass())
@@ -127,15 +43,16 @@ module.exports = function(watch){
             //     autoprefixer({browsers: ['last 1 version']})
             // ]))
             .pipe(gulp.dest(destDir + 'static/css/'));
-        gulp.src(srcDir + 'static/css/*.css')
-            .pipe(gulp.dest(destDir + 'static/css/'));
         //其他所有
         gulp.src([srcDir + 'static/**/*', '!' + srcDir + 'static/lib/', '!' + srcDir + 'static/css/'])
             .pipe(gulp.dest(destDir + 'static/'));
+    });
+    gulp.task('lib', () => {
         //lib下面
         gulp.src([srcDir + 'static/lib/*/index.js'])
             .pipe($.sourcemaps.init())
-            .pipe(buildBrowserify([srcDir + 'static/lib/*/index.js']))
+            .pipe(vnamed(srcDir + 'static/lib'))
+            .pipe(webpack(needWatch))
             .pipe($.rename(shrinkDir))
             .pipe($.sourcemaps.write())
             .pipe(gulp.dest(destDir + 'static/lib'));
@@ -143,11 +60,11 @@ module.exports = function(watch){
             .pipe(gulp.dest(destDir + 'static/lib'));
     });
 
-    gulp.task('pages', ['pageResources'], function(){
+    gulp.task('pages', ['pageResources'], () => {
         //一个页面对应一个文件夹
         gulp.src([srcDir + 'pages/*/index.html'])
             .pipe(parseInclude())
-            .pipe($.rename(function(file){
+            .pipe($.rename((f => ile){
                 file.basename = file.dirname;
                 file.dirname = '';
             }))
@@ -155,37 +72,39 @@ module.exports = function(watch){
             .pipe(gulp.dest(destDir + 'pages/'));
         //sass编译
     });
-    gulp.task('pageResources', function(){
+    gulp.task('pageScripts', () => {
         //commonjs用browserify打包
         gulp.src([srcDir + 'pages/*/*.js'])
             .pipe($.sourcemaps.init())
-            .pipe(buildBrowserify([srcDir + 'pages/*/*.js']))
+            .pipe(vnamed(srcDir + 'pages/'))
+            .pipe(webpack(needWatch))
             .pipe($.sourcemaps.write())
-            .pipe(gulp.dest(destDir + 'static/pages/'));
+            .pipe(gulp.dest(destDir + 'static/pages/'))
+            .pipe($.livereload());
+    });
+    gulp.task('pageResources', () => {
         gulp.src([srcDir + 'pages/*/*.scss'])
             .pipe(buildSass())
-            .pipe(gulp.dest(destDir + 'static/pages/'));
+            .pipe(gulp.dest(destDir + 'static/pages/'))
+            .pipe($.livereload());
         //其他渣渣资源
         gulp.src([srcDir + 'pages/*/**', '!**/*.js', '!**/*.scss'])
             .pipe(gulp.dest(destDir + 'static/pages/'));
     });
 
-    gulp.task('watch', ['default'], function(){
-        gulp.watch([
-            srcDir + 'common/*/*.js',
-            srcDir + 'common/*/*.jsx',
-            srcDir + 'common/*/*.scss',
-            srcDir + 'pages/*/*.js',
-            srcDir + 'pages/*/*.jsx',
-            srcDir + 'pages/*/*.scss'
-            ], ['pageResources']);
-        gulp.watch([
-            srcDir + 'pages/*/index.html'
-            ], ['pages']);
+    gulp.task('watch', ['server', 'build'], () => {
+        gulp.watch([srcDir + 'static/**/*', '!' + srcDir + 'static/lib/'], ['static']);
+        gulp.watch([srcDir + 'pages/*/**', '!**/*.js', '!**/*.html'], ['pageResources']);
+        gulp.watch([srcDir + 'pages/*/index.html'], ['pages']);
     });
 
-    gulp.task('default', ['layout','post','rootConfig','static','pageResources'], function(){
+    gulp.task('build', ['layout','post','rootConfig','static','lib','pageScripts','pageResources'], () => {
         gulp.start('pages');
+    });
+
+    gulp.task('server', [], () => {
+        server();
+        $.livereload.listen();
     });
     gulp.start('watch');
 }
