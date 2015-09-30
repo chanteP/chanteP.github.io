@@ -8,7 +8,9 @@ var http = require('http');
 
 var app = express();
 
-var renderPage = (dec, page, req, res) => {
+//src=”http://127.0.0.1:35729/livereload.js?snipver=1
+
+var renderPage = (dec, page, req, res, build) => {
     console.log('\033[36m [request page]', req.url, '\033[0m');
 
     var url = path.normalize('temp/'+page);
@@ -26,6 +28,7 @@ var renderPage = (dec, page, req, res) => {
             }
             return html;
         });
+    html = build ? build(html) : html;
     res.render('_layouts/'+dec+'.html', {
         content : html
     });
@@ -56,7 +59,13 @@ module.exports = () => {
     app.get(/^\/[\w]+$/, (req, res) => {
         var params = url.parse(req.url, true);
         var page = params.path;
-        renderPage('main', 'pages/' + page + '.html', req, res);
+        renderPage('main', 'pages/' + page + '.html', req, res, function(html){
+            return html + [
+                '\n<script>',
+                    'document.write(\'<script src="http://'+req.headers.host.split(':')[0]+':35729/livereload.js?snipver=1"></\'+\'script>\');',
+                '</script>'
+            ].join('\n');
+        });
     });
     // app.get('/', views(0));
     app.use(express.static(root));
