@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ page.title }}</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+        <meta content="telephone=no" name="format-detection" />
+        
+        <link type="text/css" rel="stylesheet" href="/static/css/markdown.css"/>
+        <script src="/static/lib/base.js"></script>
+    </head>
+<body>
+    <div id="wrapper" class="main-wrapper">
+        <div class="wrap post">
+{{ content }}
+        </div>
+    </div>
+    <div id="syscomp" class="main-comp">
+        <nav id="mainnav" class="main-nav show">
+            <ul>
+{% include nav.inc %}
+            </ul>
+        </nav>
+    </div>
+    <script>
+    if(window.parent !== window){
+        window.addEventListener('onbeforeunload', function(){
+            window.parent.history.go(-1);
+        });
+        window.parent.alpha && window.parent.alpha.evt(document.getElementById('mainnav'))
+            .on('click', 'a', function(e){
+                e.preventDefault();
+                var href = this.getAttribute('href');
+                setTimeout(function(){
+                    window.parent.alpha.load(href);
+                }, 0);
+                window.parent.history.go(-2);
+            });
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+@import "../variable.scss";
+
+.ui-radio,
+.ui-checkbox{
+    display: none;
+
+    & + span{
+        display: inline-block;
+        min-height: 1em;
+        line-height: 2em;
+    }
+    & + span:before{
+        content :'';
+        @include themify;
+        @include fontIcon;
+        margin: -.04rem .14rem 0 0;
+        border-style: solid;
+        border-width: .02rem;
+        border-color: #aaa;
+        font-size: 1em;
+        font-weight: 700;
+        color:#fff;
+        background: #fff;
+        @include transition(.1s);
+    }
+    & + span:hover:before,
+    &:focus + span:before,
+    &:active + span:before{
+        border-color: $color-main-dark;
+    }
+    &:disabled + span:before{
+        border-color: #c8c8c8;
+        background: #f4f4f4;
+    }
+
+    &:checked + span:before{
+        border-color: $color-main-dark;
+    }
+
+    &:disabled:checked + span:before{
+        border-color: #c8c8c8;
+        background: #c8c8c8;
+    }
+}
+.ui-radio{
+    & + span:hover:before,
+    &:focus + span:before,
+    &:active + span:before{
+        border-width: .02rem;
+    }
+
+    // &:disabled + span:before,
+    &:disabled:checked + span:before{
+        border-color: #f4f4f4;
+        box-shadow: #c8c8c8 0 0 0 1px;
+    }
+    &:checked + span:before,
+    &:disabled:checked + span:before{
+        border-width: .12rem;
+    }
+}
+
+.ui-checkbox{
+    &:checked + span:before{
+        content:'\e64c';
+        background: $color-main-dark;
+    }
+}
+
+.ui-switch{
+    display: none;
+    & + span{
+        position: relative;
+        display: inline-block;
+        height: 2em;
+        width: 4em;
+        padding: 0.02rem;
+        background: #d5d5d5;
+        vertical-align: middle;
+        border-radius: 2em;
+        @include transition;
+
+        &:after{
+            content:'';
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 2em;
+            width: 2em;
+            margin: .02rem;
+            background: #fff;
+            border-radius: 2em;
+            @include transition;
+            @include transform(translate(-2em, 0));
+        }
+    }
+    &:checked + span{
+        background: $color-main;
+        &:after{
+            @include transform(translate(0, 0));
+        }
+    }
+}

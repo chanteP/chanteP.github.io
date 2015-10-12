@@ -1,0 +1,15 @@
+/*fastclick fit*/
+.fastclick_outer{
+    label > *{
+        pointer-events : none;
+    }
+    label {
+        a,
+        button,
+        input,
+        select,
+        textarea{
+            pointer-events : all;
+        }
+    }
+}

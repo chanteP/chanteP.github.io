@@ -1,0 +1,80 @@
+@import "./variable.scss";
+/* base
+----------------------------------*/
+@import "./base/reset.scss";
+@import "./base/animate.scss";
+@import "./base/common.scss";
+@import "./base/grid.scss";
+@import "./base/pixelfix.scss";
+@import "./base/fastclick.scss";
+/* ui
+----------------------------------*/
+// @import "./ui/font-awesome.scss";
+@import "./ui/themify.scss";
+
+@import "./ui/icon.scss";
+@import "./ui/controls.scss";
+@import "./ui/button.scss";
+@import "./ui/formline.scss";
+
+/* custom
+----------------------------------*/
+body{
+}
+.main-wrapper{
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 4;
+    background: transparent;
+    @include transition(.4s, .5s);
+}
+.page-wrap{
+    position:absolute;
+    top:0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    @include animation-duration(.4s);
+}
+
+.main-bg{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+.main-loading{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 20;
+    display: none;
+}
+body.loading{
+    &:before{
+        display: none;
+    }
+    .main-wrapper{
+        @include transition-delay(.5s);
+        @include transform(scale(.95));
+        @include filter(blur(4px));
+    }
+    .main-nav,
+    .main-bg{
+        @include filter(blur(2px));
+    }
+    .main-loading{
+        display: block;
+    }
+}
+@media screen and (min-width : 1001px){
+    @import "./mediaquery/main_normal.scss";
+}
+@media screen and (max-width : 1000px){
+    @import "./mediaquery/main_mobile.scss";
+}
