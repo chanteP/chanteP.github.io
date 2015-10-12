@@ -1,6 +1,0 @@
-/* 1px 战略, js修改meta和rem base
-----------------------------------------------------------------------------------------*/
-html{font-size: 50px;}
-@media screen and (min-device-width : 1px) {
-   html{font-size: 100px;}
-}

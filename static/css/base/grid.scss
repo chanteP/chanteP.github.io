@@ -1,6 +1,0 @@
-@for $i from 1 through 12{
-  .g-#{$i}{
-    width: percentage($i/12);
-    float: left;
-  }
-}
