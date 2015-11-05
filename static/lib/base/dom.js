@@ -32,9 +32,9 @@ export default ($) => {
         },
         //插入样式
         insertStyle : (css) => {
-            var styleNode = document.createElement('style');
-            styleNode.innerHTML = css;
-            document.head.appendChild(styleNode);
+            // var styleNode = document.createElement('style');
+            // styleNode.innerHTML = css;
+            // document.head.appendChild(styleNode);
         }
     }
 }

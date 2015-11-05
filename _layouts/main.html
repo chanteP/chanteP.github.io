@@ -17,7 +17,7 @@
         <script>
         var $config = {
             cos_gaAccount : 'UA-57857767-1',
-            background : false
+            background : /\biphone\b/i.test(navigator.userAgent)
         };
         </script>
         <script src="/static/lib/fastclick.js"></script>

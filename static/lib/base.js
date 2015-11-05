@@ -67,13 +67,13 @@
 	window.$data = window.$data || {};
 
 	var api = {};
-	[__webpack_require__(11), __webpack_require__(12), __webpack_require__(13), __webpack_require__(14), __webpack_require__(16), __webpack_require__(17), __webpack_require__(18), __webpack_require__(19), __webpack_require__(20)].forEach(function (mod) {
+	[__webpack_require__(11), __webpack_require__(12), __webpack_require__(13), __webpack_require__(14), __webpack_require__(16), __webpack_require__(17), __webpack_require__(18), __webpack_require__(19)].forEach(function (mod) {
 	    _npKit2['default'].merge(api, mod(_npKit2['default']), true);
 	});
 
 	exports['default'] = api;
 
-	__webpack_require__(21).bind();
+	__webpack_require__(20).bind();
 	module.exports = exports['default'];
 
 /***/ },
@@ -615,11 +615,14 @@
 	        return rs;
 	    },
 	    querySearch : function(key, value){
-	        if(arguments.length < 2){
-	            return $.queryParse(location.search.slice(1))[key];
+	        if(arguments.length < 1){
+	            return $.queryParse(location.search.slice(1));
+	        }
+	        else if(arguments.length < 2){
+	            return $.querySearch()[key];
 	        }
 	        else{
-	            var query = $.queryParse(location.search.slice(1));
+	            var query = $.queryParse();
 	            query[key] = value;
 	            return $.queryStringify(query);
 	        }
@@ -656,41 +659,38 @@
 
 /***/ },
 /* 8 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
+	var platform = navigator.platform,
+	    ua = navigator.userAgent;
 	module.exports = {
 	    envList : ['browser', 'APP'],
 	    env : (function(){
-	        var env = /[\?\&]env=([^\#\&\=]+)\b/i.exec(window.location.search);
-	        if(env){return env[1];}
-	        if(navigator.platform.indexOf('MacIntel') >= 0 || navigator.platform.indexOf('Win') >= 0){
+	        if(platform.indexOf('MacIntel') >= 0 || platform.indexOf('Win') >= 0){
 	            return 'browser';
 	        }
-	        else if(navigator.userAgent.indexOf('webview') >= 0){
+	        else if(userAgent.indexOf('webview') >= 0){
 	            return 'APP';
 	        }
 	        return 'APP';
 	    })(),
 	    osList : ['Android', 'IOS', 'Mac', 'Window'],
 	    os : (function(){
-	        var os = /[\?\&]os=([^\#\&\=]+)\b/i.exec(window.location.search);
-	        if(os){return os[1];}
-	        if(navigator.platform.indexOf('MacIntel') >= 0){
+	        if(platform.indexOf('MacIntel') >= 0){
 	            return 'Mac';
 	        }
-	        if(navigator.platform.indexOf('Win') >= 0){
+	        if(platform.indexOf('Win') >= 0){
 	            return 'Window';
 	        }
-	        if(/\bAndroid\b/i.test(navigator.userAgent)){
+	        if(/\bAndroid\b/i.test(userAgent)){
 	            return 'Android';
 	        }
-	        if(/\biPhone\b/i.test(navigator.userAgent)){
+	        if(/\biPhone\b/i.test(userAgent)){
 	            return 'IOS';
 	        }
 	        return '';
 	    })(),
 	    osVersion : (function(){
-	        var ua = navigator.userAgent;
 	        var androidVer = /\bAndroid\s([\d|\.]+)\b/i.exec(ua);
 	        if(androidVer){
 	            return androidVer[1];
@@ -703,12 +703,9 @@
 	        return null;
 	    })(),
 	    isLocal : (function(){
-	        var isLocal = /[\?\&]isLocal=(true|false|0|1)\b/i.exec(window.location.search);
-	        if(isLocal){return !!+isLocal[1];}
-	        return /\b(localhost|127.0.0.1)\b/i.test(location.host);
+	        return /\b(localhost|127\.0\.0\.1|192\.168\.)\b/i.test(window.location.host);
 	    })()
 	}
-	var $ = __webpack_require__(2);
 
 
 /***/ },
@@ -1203,9 +1200,9 @@
 	        },
 	        //插入样式
 	        insertStyle: function insertStyle(css) {
-	            var styleNode = document.createElement('style');
-	            styleNode.innerHTML = css;
-	            document.head.appendChild(styleNode);
+	            // var styleNode = document.createElement('style');
+	            // styleNode.innerHTML = css;
+	            // document.head.appendChild(styleNode);
 	        }
 	    };
 	};
@@ -1488,49 +1485,6 @@
 	    var bindEvt = function bindEvt() {
 	        clearTimeout(scrollTimer);
 	        scrollTimer = setTimeout(function () {
-	            return $.trigger(window, 'scrollend');
-	        }, 100);
-	    };
-	    var check = function check() {
-	        return setTimeout(function () {
-	            $.each($.findAll('[data-lazyload]:not(.lazyloading)'), function (node) {
-	                var src = node.dataset.lazyload;
-	                if (!src) {
-	                    return;
-	                }
-	                node.classList.add('lazyloading');
-	                $.load(src, '').onload = function () {
-	                    node.src = src;
-	                    node.classList.remove('lazyloading');
-	                    node.dataset.lazyload = '';
-	                };
-	            });
-	        }, 200);
-	    };
-	    window.addEventListener('mousewheel', bindEvt);
-
-	    window.addEventListener('click', check);
-	    window.addEventListener('scrollend', check);
-	    $.domReady(check);
-	};
-
-	module.exports = exports['default'];
-
-/***/ },
-/* 18 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	    value: true
-	});
-
-	exports['default'] = function ($) {
-	    var scrollTimer;
-	    var bindEvt = function bindEvt() {
-	        clearTimeout(scrollTimer);
-	        scrollTimer = setTimeout(function () {
 	            $.trigger(window, 'scrollend');
 	        }, 200);
 	    };
@@ -1565,7 +1519,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 19 */
+/* 18 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1637,7 +1591,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 20 */
+/* 19 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1671,7 +1625,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 21 */
+/* 20 */
 /***/ function(module, exports) {
 
 	/**

@@ -4040,8 +4040,7 @@ html {
       -moz-transform: translateY(0);
       transform: translateY(0); }
     .main-nav ul {
-      text-align: center;
-      white-space: nowrap; }
+      text-align: center; }
     .main-nav li {
       display: inline-block; }
       .main-nav li a {
