@@ -10,7 +10,6 @@ var api = {};
     require('./dom'),
     require('./componentHandler'),
     require('./fastclick'),
-    require('./keyboardHandler'),
     require('./lazyload'),
     require('./pixelFix'),
     require('./ga')
