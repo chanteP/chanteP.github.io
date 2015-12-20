@@ -1,0 +1,28 @@
+/** track@alpha:{"version":"0.2.43","build":"2015-12-18 22:34:52","hash":""} */
+@import "../../variable.scss";
+
+.m-toast{
+    position: fixed;
+    bottom: 1rem;
+    left: 0;
+    right: 0;
+    padding: .04rem .3rem;
+    text-align: center;
+    z-index: 999;
+    visibility: hidden;
+
+    @include animation-duration(0.3s);
+
+    &[data-show]{
+        visibility: visible;
+    }
+    & > span{
+        display: inline-block;
+        max-width: 80%;
+        padding: .1rem .5rem;
+        background: rgba(0,0,0,.6);
+        border-radius: .06rem;
+        color: $color-font-white;
+        line-height: 1.4;
+    }
+}

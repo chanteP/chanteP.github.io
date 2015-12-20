@@ -1,0 +1,36 @@
+{
+    "pure": false,
+    "webDir": ".",
+    "srcDir": "./app",
+    "viewDir": "./app/view",
+    "layoutDir": "./app/layout",
+    "actionDir": "./app/actions",
+    "deploy": {
+        "targetDir": "./temp/static",
+        "jsExportRule": "/*/index.js",
+        "libExportRule": "/*/index.*"
+    },
+    "server": {
+        "enable": true,
+        "livereload": true,
+        "port": "22222",
+        "tempDir": "./temp",
+        "templateEngine": "ejs",
+        "defaultLayout": "main.html",
+        "staticRoot": "./temp",
+        "staticHost": "",
+        "suffixList": "",
+        "router": {}
+    },
+    "filePath": {
+        "commonDir": "./app/common",
+        "jsDir": "./app/pages",
+        "libDir": "./app/lib",
+        "cssDir": "./app/css",
+        "imageDir": "./app/images",
+        "resources": {
+            "./app/css/fonts": "./css/fonts",
+            "./app/posts": "./posts"
+        }
+    }
+}

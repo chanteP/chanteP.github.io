@@ -1,0 +1,92 @@
+/** track@alpha:{"version":"0.2.43","build":"2015-12-18 22:34:52","hash":""} */
+@import "../../variable.scss";
+$alert-padding: .3rem;
+$alert-cont-padding: .8rem;
+.m-alert{
+    // display: block;
+    // position: fixed;
+    // top: 0;
+    // left: 0;
+    // width: 100%;
+    // height: 100%;
+    // visibility: hidden;
+    // z-index: 1000;
+    
+    min-width: 40%;
+    max-width: 92%;
+    // @include transition(0.2s);
+    @include animation-duration(0.3s);
+
+    // &[data-show]{
+    //     visibility: visible;
+    // }
+
+    .dia-wrap{
+        // display: inline-block;
+        // margin: 0 $alert-padding;
+        border-radius: .16rem;
+        background: $color-background-white;
+        text-align: left;
+        overflow: hidden;
+        word-break: break-all;
+    }
+    .dia-head{
+        position: relative;
+        line-height: 1;
+        margin-top: .4rem;
+        padding: 0 $alert-cont-padding;
+        text-align: center;
+
+        font-size: .32rem;
+        color: #666;
+    }
+
+    .dia-contwrap{
+        padding: .2rem $alert-cont-padding .5rem;
+        line-height: 1.5;
+        text-align: center;
+    }
+    .dia-content{
+        min-height: .80rem;
+        max-height: 8.00rem;
+        overflow-x: hidden;
+        @include scroll;
+    }
+
+    .dia-btnbox{
+        border-top:1px solid $color-border;
+        white-space: nowrap;
+        
+        .dia-btn{
+            display: inline-block;
+            background: #fcfcfc;
+            color:#888;
+
+            a{
+                display: block;
+                line-height: .80rem;
+                text-align: center;
+                font-size: .3rem;
+                /*font-weight: 700;*/
+                color:inherit;
+            }
+            &:active{
+                background: #e0e0e0;
+            }
+            &.active{
+                color: $color-main;
+            }
+            &.active:active{
+                background: $color-main;
+                color:#fff;
+            }
+            &.disabled{
+                background: $color-graywrite;
+                color:#999;
+            }
+            + .dia-btn a{
+                border-left: 1px solid $color-border;
+            }
+        }
+    }
+}

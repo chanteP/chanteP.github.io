@@ -1,0 +1,75 @@
+/** track@alpha:{"version":"0.2.43","build":"2015-12-18 22:34:52","hash":""} */
+@import "../../variable.scss";
+
+$controls-select-itemsize : .88rem;
+@mixin controlsSelectItemlinebox{
+    display: block;
+    line-height: $controls-select-itemsize;
+    height: $controls-select-itemsize;
+    border: 0 solid #e0e0e0;
+}
+
+.m-controls-select{
+    background: #fff;
+
+    .m-select-slidercont{
+        position: relative;
+        background: #fff;
+        display:none;
+    }
+    .m-select-slider{
+        width: 100%;
+        max-height: #{5 * $controls-select-itemsize};
+        @include scroll(auto);
+    }
+    .m-select-funcbar{
+        border-top: .08rem solid rgb(72,72,72);
+        font-weight: 700;
+    }
+    li{
+        /*background: #fff;*/
+        @include text-ellipsis;
+        @include controlsSelectItemlinebox;
+        color: #333;
+        text-align: left;
+        cursor: pointer;
+        font-size: .28rem;
+        padding: 0 $wrap-padding;
+        
+        &[data-index]{
+            @include colorActive;
+        }
+    }
+    li + li{
+        border-top-width: 1px;
+    }
+    .middle {
+        li{
+            text-align: center;
+        }
+        .current:after{
+            content : '';
+        }
+    }
+    .current{
+        font-weight: 700;
+        color: $color-main;
+        &:after{
+            content: '\e64c';
+            @include themify;
+            font-weight: 700;
+            float: right;
+            line-height: $controls-select-itemsize;
+            height: $controls-select-itemsize;
+        }
+    }
+    .cancel{
+        text-align: center;
+        font-size: .3rem;
+    }
+}
+
+[data-show] .m-select-slidercont,
+.animated .m-select-slidercont{
+    display:block;
+}

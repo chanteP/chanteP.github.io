@@ -1,0 +1,1 @@
+require('@mtfe/alpha/bin/build')(require('./package.json').alphaConfig)

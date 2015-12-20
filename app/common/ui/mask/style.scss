@@ -1,0 +1,29 @@
+/** track@alpha:{"version":"0.2.43","build":"2015-12-18 22:34:52","hash":""} */
+@import "../../variable.scss";
+.m-mask{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,.6);
+    text-align: center;
+    z-index: 50;
+    
+    /*opacity: 0;*/
+    visibility: hidden;
+    /*pointer-events:none;*/
+    @include transition;
+    /*@include transition-property(visibility);*/
+    @include transition-delay(400ms);
+    @include animation-duration(0.3s);
+    @include animation-delay(0.3s);
+
+    &[data-show]{
+        /*opacity: 1;*/
+        /*pointer-events:auto;*/
+        visibility: visible;
+        @include animation-delay(0s);
+        @include transition-delay(0s);
+    }
+}

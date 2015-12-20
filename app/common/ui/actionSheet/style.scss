@@ -1,0 +1,61 @@
+/** track@alpha:{"version":"0.2.43","build":"2015-12-18 22:34:52","hash":""} */
+@import "../../variable.scss";
+
+$actionsheet-padding: .16rem;
+$actionsheet-radius: .10rem;
+.m-actionsheet{
+    ul{
+        margin: 0;
+        padding: 0;
+    }
+    li{
+        display: block;
+        background: #fff;
+        margin: auto $actionsheet-padding;
+        text-align: center;
+        line-height: .88rem;
+        min-height: .88rem;
+        font-size: .36rem;
+        color: $color-font-sys;
+
+        &[data-index]{
+            @include colorActive;
+        }
+
+        label{
+            display: block;
+        }
+
+        & + li{
+            border-top: 1px solid $color-border;
+        }
+        &:first-child{
+            border-top-left-radius: $actionsheet-radius;
+            border-top-right-radius: $actionsheet-radius;
+        }
+        &:last-child{
+            border-bottom-right-radius: $actionsheet-radius;
+            border-bottom-left-radius: $actionsheet-radius;
+        }
+
+        &.cancel{
+            font-weight: 700;
+            margin: $actionsheet-padding;
+        }
+        &.disabled{
+            color: $color-font-disabled;
+        }
+        &.alert{
+            color: #d00;
+        }
+    }
+    .m-actionsheet-message{
+        text-align: center;
+        font-size: .24rem;
+        color: #999;
+        line-height: 1.4;
+        word-break: break-all;
+        padding: .3rem .3rem;
+        min-height: auto;
+    }
+}
