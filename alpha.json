@@ -2,7 +2,7 @@
     "pure": false,
     "webDir": ".",
     "srcDir": "./app",
-    "viewDir": "./app/view",
+    "viewDir": "./app/views",
     "layoutDir": "./app/layout",
     "actionDir": "./app/actions",
     "deploy": {
