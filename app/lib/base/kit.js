@@ -1,4 +1,4 @@
-/** track@alpha:{"version":"0.2.43","build":"2015-12-18 22:34:52","hash":""} */
+/** track@alpha:{"version":"0.2.43","build":"2015-12-22 16:08:27","hash":""} */
 /*
     DOM扩展
 */
@@ -397,5 +397,8 @@ $.domReady(function(){
     document.addEventListener('touchend', () => {
         $.isTouched = false;
     });
+    document.addEventListener('touchcancel', () => {
+        $.isTouched = false;
+    }, true);
 });
 export default $
