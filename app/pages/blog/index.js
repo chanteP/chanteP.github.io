@@ -1,6 +1,7 @@
 import {$} from '../core'
 import Drawer from '../../common/ui/drawer'
-import css from './frame.scss'
+import frameCss from './frame.scss'
+import css from './style.scss'
 
 $.register('blog', ($) => {
 	var drawer = new Drawer;
