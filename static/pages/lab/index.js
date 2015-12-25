@@ -406,7 +406,7 @@
 	_core.$.register('lab', function ($) {
 	    return {
 	        init: function init() {
-	            $.lazyload($.find('#wrapper'), wrap, 'data-lazy', function (el, src) {
+	            $.lazyload($.find('#wrapper'), this.node, 'data-lazy', function (el, src) {
 	                el.src = src;
 	            });
 	        }
