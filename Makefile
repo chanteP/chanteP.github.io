@@ -8,7 +8,7 @@ save :
 	git push
 
 deploy : save
-	node build
+	NODE_ENV=production node build
 	git co master
 	git pull
 
