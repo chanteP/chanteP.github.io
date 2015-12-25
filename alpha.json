@@ -17,11 +17,12 @@
         "tempDir": "./temp",
         "templateEngine": "./app/bin/liquid",
         "defaultLayout": "main.html",
-        "staticRoot": "./temp",
+        "staticRoot": "./temp/static",
+        "staticController": "/static",
         "staticHost": "",
         "suffixList": "",
         "router": {
-            "/.*" : "pageAction"
+            "/.*": "pageAction"
         }
     },
     "filePath": {
@@ -31,11 +32,11 @@
         "cssDir": "./app/css",
         "imageDir": "./app/images",
         "resources": {
-            "./app/css/fonts": "./css/fonts",
-            "./app/posts": "../_posts",
-            "./app/layout": "../_layouts",
-            "./*config*": "../",
-            "./CNAME": "../"
+            "./app/css/fonts/**": "./css/fonts",
+            "./app/posts/**": "../_posts",
+            "./app/layout/**": "../_layouts",
+            "./app/*config*": "../",
+            "./app/CNAME": "../"
         }
     }
 }

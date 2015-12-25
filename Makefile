@@ -4,11 +4,11 @@ run : save deploy back
 
 save : 
 	git add -A .
-	git ci -m "backup"
+	git ci -m "deploy backup"
 	git push
 
 deploy : save
-	node --harmony bin/deploy -m
+	node build
 	git co master
 	git pull
 

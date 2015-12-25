@@ -1,17 +1,17 @@
 {
-  "name": "12",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "alpha": "node ./node_modules/.bin/alpha "
-  },
-  "author": "chanteP",
-  "license": "ISC",
-  "dependencies": {},
-  "devDependencies": {
-    "glob": "^6.0.2",
-    "liquid-node": "^2.6.1"
-  }
+    "name": "12",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "alpha": "node ./node_modules/.bin/alpha "
+    },
+    "author": "chanteP",
+    "license": "ISC",
+    "dependencies": {},
+    "devDependencies": {
+        "glob": "^6.0.2",
+        "liquid-node": "^2.6.1"
+    }
 }
