@@ -1,0 +1,5 @@
+---
+name: np
+version: 11
+handle:
+  - rewrite: if(!is_dir() && path == "/api/(.*)(?!\.php)$") goto "/api/$1.php"
