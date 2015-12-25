@@ -32,7 +32,10 @@
         "imageDir": "./app/images",
         "resources": {
             "./app/css/fonts": "./css/fonts",
-            "./app/posts": "./posts"
+            "./app/posts": "../_posts",
+            "./app/layout": "../_layouts",
+            "./*config*": "../",
+            "./CNAME": "../"
         }
     }
 }
