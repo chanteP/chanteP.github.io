@@ -1,4 +1,4 @@
-import $ from '../core'
+import {$} from '../core'
 $.register('about', ($) => {
     return {
         init(){

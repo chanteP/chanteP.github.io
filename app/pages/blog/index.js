@@ -1,8 +1,6 @@
-import $ from '../core'
-import Drawer from '../../common/components/drawer'
+import {$} from '../core'
+import Drawer from '../../common/ui/drawer'
 import css from './frame.scss'
-
-$.insertStyle(css);
 
 $.register('blog', ($) => {
 	var drawer = new Drawer;
@@ -13,7 +11,7 @@ $.register('blog', ($) => {
     }
     return {
         init(){
-        	$.evt(this.node)
+        	$.listener(this.node)
         		.on('click', '[data-act="open"]', function(e){
                     e.preventDefault();
                     var href = this.getAttribute('href');

@@ -12,7 +12,7 @@
         <title>❄ neetproject</title>
         
         <link rel="shortcut icon" href="/static/images/fav.png" />
-        <link rel="stylesheet" media="screen" href="/static/css/main.css" />
+        <link rel="stylesheet" media="screen" href="/static/css/neet.css" />
         
         <script>
         var $config = {},
@@ -20,14 +20,33 @@
         </script>
         <script src="/static/lib/fastclick.js"></script>
         <script src="/static/lib/react.js"></script>
-        <script src="/static/lib/promise.js"></script>
-        <script src="/static/lib/alpha.js"></script>
-        ${livereload}
+        <script src="/static/lib/alpha.neet.js"></script>
+        {{ livereload }}
     </head>
     <body class="loading">
         <div id="wrapper" class="main-wrapper">
-${body}
+{{ content }}
         </div>
-${script}
+        <div id="syscomp" class="main-comp">
+            <canvas id="canvas0" class="main-bg"></canvas>
+            <canvas id="canvas1" class="main-bg"></canvas>
+            <nav id="mainnav" class="main-nav">
+                <ul>
+                    <li data-for="index" data-hide="1">
+                        <a href="/"><icon>✡</icon><span>home</span></a>
+                    </li>
+                    <li data-for="lab">
+                        <a href="/lab"><icon>〄</icon><span>lab</span></a>
+                    </li>
+                    <li data-for="blog,article">
+                        <a href="/blog"><icon>⌸</icon><span>blog</span></a>
+                    </li>
+                    <li data-for="about">
+                        <a href="/about"><icon>❄</icon><span>about</span></a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="main-loading loading" onclick="window.history.go(-1);"></div>
+        </div>
     </body>
 </html>

@@ -1,4 +1,4 @@
-/** track@alpha:{"version":"0.2.43","build":"2015-12-18 22:34:52","hash":""} */
+/** track@alpha:{"version":"0.2.45","build":"2015-12-25 11:52:18","hash":""} */
 @import "../variable.scss";
 
 $color-form-background : #f8f8f8;
@@ -95,7 +95,7 @@ $form-lineheight : .9rem;
 .form-cell-text{
     float: left;
     display: block;
-    width: 5em;
+    width: 6em;
     line-height: $form-lineheight;
     // line-height: #{$form-lineheight - 0.06rem};
     font-size: .3rem;

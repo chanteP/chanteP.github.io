@@ -1,4 +1,4 @@
-/** track@alpha:{"version":"0.2.43","build":"2015-12-18 22:34:52","hash":""} */
+/** track@alpha:{"version":"0.2.45","build":"2015-12-25 11:52:18","hash":""} */
 @import "../../variable.scss";
 
 $controls-select-itemsize : .88rem;
@@ -23,7 +23,7 @@ $controls-select-itemsize : .88rem;
         @include scroll(auto);
     }
     .m-select-funcbar{
-        border-top: .08rem solid rgb(72,72,72);
+        border-top: .18rem solid rgb(72,72,72);
         font-weight: 700;
     }
     li{

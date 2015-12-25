@@ -4,7 +4,7 @@
     "srcDir": "./app",
     "viewDir": "./app/views",
     "layoutDir": "./app/layout",
-    "actionDir": "./app/actions",
+    "actionDir": "./app/bin",
     "deploy": {
         "targetDir": "./temp/static",
         "jsExportRule": "/*/index.js",
@@ -15,12 +15,14 @@
         "livereload": true,
         "port": "22222",
         "tempDir": "./temp",
-        "templateEngine": "ejs",
+        "templateEngine": "./app/bin/liquid",
         "defaultLayout": "main.html",
         "staticRoot": "./temp",
         "staticHost": "",
         "suffixList": "",
-        "router": {}
+        "router": {
+            "/.*" : "pageAction"
+        }
     },
     "filePath": {
         "commonDir": "./app/common",
