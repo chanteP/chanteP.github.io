@@ -12,9 +12,9 @@
         <link rel="stylesheet" media="screen" href="/static/css/neet.css" />
         <script src="/static/lib/fastclick.js"></script>
         <script src="/static/lib/react.js"></script>
-        <script src="/static/lib/alpha.neet.js"></script>
+        <script src="/static/lib/alpha.base.js"></script>
     </head>
-<body>
+    <body>
     <div id="wrapper" class="main-wrapper">
         <div class="wrap post">
 {{ content }}
@@ -39,20 +39,20 @@
         </nav>
     </div>
     <script>
-    if(window.parent !== window){
+    if(window.top !== window){
         window.addEventListener('onbeforeunload', function(){
-            window.parent.history.go(-1);
+            window.top.history.go(-1);
         });
-        window.parent.alpha && window.parent.alpha.evt(document.getElementById('mainnav'))
+        window.top.alpha && window.top.alpha.evt(document.getElementById('mainnav'))
             .on('click', 'a', function(e){
                 e.preventDefault();
                 var href = this.getAttribute('href');
                 setTimeout(function(){
-                    window.parent.alpha.load(href);
+                    window.top.alpha.load(href);
                 }, 0);
-                window.parent.history.go(-2);
+                window.top.history.go(-2);
             });
     }
     </script>
-</body>
+    </body>
 </html>
