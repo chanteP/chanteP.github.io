@@ -16,7 +16,8 @@ $.promise = window.Promise;
     require('../plugins/app'),
     require('../plugins/imgLazyload'),
     require('../plugins/spaLoader'),
-    require('../plugins/nav')
+    require('../plugins/nav'),
+    require('../plugins/background')
 ].forEach($.add);
 
 if($.os === 'IOS' || $.os === 'Mac'){
