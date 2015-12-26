@@ -11,6 +11,11 @@
   box-shadow: rgba(0, 0, 0, 0.4) 0 0 0.04rem;
   visibility: hidden;
   z-index: 10;
+  overflow-x: scroll;
+  overflow-scrolling: touch;
+  -webkit-overflow-scrolling: touch;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
   transform: translateY(-100%);
   -webkit-transform: translateY(-100%);
   transition: all 0.2s ease 0s;
@@ -22,6 +27,11 @@
   .main-nav ul {
     text-align: center;
     white-space: nowrap; }
+    .main-nav ul:before, .main-nav ul:after {
+      content: '';
+      display: inline-block;
+      width: 50%;
+      height: 100%; }
   .main-nav li {
     display: inline-block; }
     .main-nav li a {
@@ -36,5 +46,9 @@
       -webkit-transition: all 0.2s ease 0s; }
     .main-nav li.cur a {
       color: #3DC6B6; }
-    .main-nav li icon {
-      padding: 0 .1rem; }
+
+nav icon {
+  padding: 0 .1rem;
+  min-width: 1.2em;
+  text-align: center;
+  display: inline-block; }

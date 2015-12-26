@@ -1774,7 +1774,6 @@
 /* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/** track@alpha:{"version":"0.2.45","build":"2015-12-25 11:52:18","hash":""} */
 	'use strict';
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -1818,7 +1817,6 @@
 /* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/** track@alpha:{"version":"0.2.45","build":"2015-12-25 11:52:18","hash":""} */
 	'use strict';
 
 	Object.defineProperty(exports, '__esModule', {
@@ -2001,7 +1999,6 @@
 /* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/** track@alpha:{"version":"0.2.45","build":"2015-12-25 11:52:18","hash":""} */
 	'use strict';
 
 	Object.defineProperty(exports, '__esModule', {
@@ -2021,7 +2018,6 @@
 /* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/** track@alpha:{"version":"0.2.45","build":"2015-12-25 11:52:18","hash":""} */
 	'use strict';
 
 	Object.defineProperty(exports, '__esModule', {
@@ -2240,7 +2236,6 @@
 /* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/** track@alpha:{"version":"0.2.45","build":"2015-12-25 11:52:18","hash":""} */
 	'use strict';
 
 	Object.defineProperty(exports, '__esModule', {
@@ -2333,6 +2328,7 @@
 	            [].some.call($.findAll('[data-for]', nav), function (li) {
 	                if (li.dataset['for'].split(',').indexOf(page) >= 0 && ! +li.dataset['hide']) {
 	                    li.classList.add('cur');
+	                    $.scrollTo([li.offsetLeft - nav.clientWidth / 2 + li.clientWidth / 2], nav);
 	                    return true;
 	                }
 	            }) ? api.show() : api.hide();
