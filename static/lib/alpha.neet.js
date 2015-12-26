@@ -1694,7 +1694,7 @@
 	// require('../promise');
 	_base2['default'].promise = window.Promise;
 
-	[__webpack_require__(7), __webpack_require__(8), __webpack_require__(9), __webpack_require__(10), __webpack_require__(11), __webpack_require__(12), __webpack_require__(13), __webpack_require__(14), __webpack_require__(15), __webpack_require__(16), __webpack_require__(20), __webpack_require__(21), __webpack_require__(27)].forEach(_base2['default'].add);
+	[__webpack_require__(7), __webpack_require__(8), __webpack_require__(9), __webpack_require__(10), __webpack_require__(11), __webpack_require__(12), __webpack_require__(13), __webpack_require__(14), __webpack_require__(15), __webpack_require__(16), __webpack_require__(20), __webpack_require__(21), __webpack_require__(27), __webpack_require__(28)].forEach(_base2['default'].add);
 
 	if (_base2['default'].os === 'IOS' || _base2['default'].os === 'Mac') {
 	    __webpack_require__(17).bind();
@@ -2356,6 +2356,668 @@
 	    };
 	};
 
+	module.exports = exports['default'];
+
+/***/ },
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _npCanvas = __webpack_require__(29);
+
+	var _npCanvas2 = _interopRequireDefault(_npCanvas);
+
+	var _aqua2 = __webpack_require__(33);
+
+	var _aqua22 = _interopRequireDefault(_aqua2);
+
+	exports['default'] = function ($) {
+	    var npcStorage = [];
+	    var effect;
+
+	    var initNPC = function initNPC(canvasNode, cfg) {
+	        var npc;
+	        npc = canvasNode.engine = new _npCanvas2['default'](canvasNode, $.merge({
+	            fitSize: true,
+	            pixelRatio: 1
+	        }, cfg, true));
+	        // npc.width = ($.os === 'IOS' || $.os === 'Acdroid') ?
+	        //     canvasNode.clientWidth :
+	        //     canvasNode.clientWidth / 2;
+	        npc.width = canvasNode.clientWidth;
+	        npc.height = npc.width / canvasNode.clientWidth * canvasNode.clientHeight;
+	        npcStorage.push(npc);
+	        return npc;
+	    };
+	    var runEffect = function runEffect(effect, api) {
+	        for (var _len = arguments.length, args = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+	            args[_key - 2] = arguments[_key];
+	        }
+
+	        effect && effect[api] && effect[api].apply(effect, args);
+	    };
+	    $.domReady(function () {
+	        var canvas = $.findAll('[id^="canvas"]', $.find('#syscomp'));
+	        if (!canvas && !canvas.length) {
+	            return;
+	        }
+
+	        effect = _aqua22['default'];
+
+	        runEffect(effect, 'init', canvas, initNPC);
+	        runEffect(effect, 'play');
+
+	        $.listener(document.body).on('click', '[data-npc]', function () {
+	            if (this.dataset.npc === 'pause') {
+	                npcStorage.forEach(function (npc) {
+	                    return npc.pause();
+	                });
+	                this.dataset.npc = 'play';
+	            } else if (this.dataset.npc === 'play') {
+	                npcStorage.forEach(function (npc) {
+	                    return npc.play();
+	                });
+	                this.dataset.npc = 'pause';
+	            }
+	        });
+	        $.listener(window).on('blur', function () {
+	            npcStorage.forEach(function (npc) {
+	                return npc.pause();
+	            });
+	        }).on('focus', function () {
+	            npcStorage.forEach(function (npc) {
+	                return npc.play();
+	            });
+	        });
+
+	        var battery = navigator.battery || navigator.webkitBattery;
+	        if (battery) {
+	            battery.addEventListener("levelchange", function (e) {
+	                if (battery.level < .5) {
+	                    runEffect(effect, 'stop');
+	                }
+	            });
+	        }
+	    });
+	    return effect;
+	};
+
+	module.exports = exports['default'];
+
+/***/ },
+/* 29 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(30);
+
+/***/ },
+/* 30 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;var requestAnimationFrame = __webpack_require__(31).requestAnimationFrame;
+	var merge = __webpack_require__(31).merge;
+	var CanvasObject = __webpack_require__(32);
+
+	var max = Math.max;
+
+	var sWidth = screen.width;
+
+	var stat = {
+	    STOP    : 0,
+	    PAUSE   : 1,
+	    PLAY    : 2,
+	    WAIT    : 4,
+	    DESTROY : 9
+	}
+	var evt = {
+	    renderCallback  : 'renderCallback',
+	    fpsCount        : 'fpsCount'
+	}
+
+	var Engine = function(canvasNode, config){
+	    if(!canvasNode){throw 'canvasNode not found';}
+	    this.list = [];
+
+	    this.canvas = canvasNode;
+	    this.ctx = canvasNode.getContext('2d');
+
+	    this.fps = 60;                                      //fps
+	    this.number = 0;                                    //渲染物体数量
+
+	    this.config = merge({
+	        fitSize     : true                              //初始适应canvas节点尺寸
+	        ,pixelRatio : window.devicePixelRatio || 1      //分辨率
+	        ,lineFix    : true                              //0.5像素边缘修正
+	        ,fpsLimit    : null                             //限制渲染数
+	        ,perspective : null                             //透视平面距离, 800
+	        ,visionWidth : null                           //0距离尺寸
+
+	        ,engine     : this
+	        ,set : this._setConfig
+	    }, config);
+	    this.config.set.call(this, this.config);
+	}
+	//object
+	Engine.create = function(x, y, shape){
+	    return new CanvasObject(x, y, shape);
+	}
+	Engine.object = CanvasObject;
+	//method
+	Engine.prototype = {
+	    constructor : Engine,
+
+	    _setConfig : function(config){
+	        var context = this.engine || this;
+	        config = config || {};
+
+	        context.config = merge(context.config, config, true);
+
+	        if(config.fitSize){
+	            context.width = context.canvas.clientWidth * context.config.pixelRatio;
+	            context.height = context.canvas.clientHeight * context.config.pixelRatio;
+	        }
+	        if(config.lineFix){
+	            context.ctx.translate(.5, .5);
+	        }
+	        if(typeof config.fpsLimit === 'number'){
+	            context._fpsFrequency = config.fpsLimit;
+	            context.requestAnimationFrame = function(func){
+	                setTimeout(func, 1000/config.fpsLimit);
+	            }
+	        }
+	        else{
+	            context._fpsFrequency = 60;
+	            context.requestAnimationFrame = requestAnimationFrame;
+	        }
+	        context.visionWidth = config.visionWidth || sWidth * 5 * context.config.pixelRatio;
+	    },
+	    set width(value){
+	        this.canvas && (this.canvas.width = value);
+	        return value;
+	    },
+	    get width(){
+	        return this.canvas.width;
+	    },
+	    set height(value){
+	        this.canvas && (this.canvas.height = value);
+	        return value;
+	    },
+	    get height(){
+	        return this.canvas.height;
+	    },
+	    //control---------------------------------------------
+	    stat : stat,
+	    _status : stat.STOP,   
+	    set status(value){
+	        this.fire('stateChange');
+	        if(this._status === this.stat.DESTROY){return;}
+	        return this._status = value;
+	    },
+	    get status(){
+	        return this._status;
+	    },
+
+	    play : function(){
+	        if(this.status === this.stat.STOP){
+	            this.timestamp = Date.now();
+	            this.status = this.stat.PLAY;
+	            this.refresh();
+	        }
+	        this.status = this.stat.PLAY;
+	        return this;
+	    },
+	    stop : function(){
+	        this.status = this.stat.STOP;
+	        this.clean();
+	        this.number = 0;
+	        return this;
+	    },
+	    pause : function(){
+	        this.status = this.stat.PAUSE;
+	        return this;
+	    },
+
+	    refresh : function(){
+	        if(this.status === this.stat.DESTROY){return;}
+	        if(this.status === this.stat.PLAY){
+	            this.number = 0;
+	            if(!this.static){
+	                this.ctx.clearRect(0, 0, this.width, this.height);
+	                
+	                this.render(this.list);
+	            }
+	            else{
+	                this.clean();
+	            }
+	            this.frame++;
+	            this.fire(evt.renderCallback);   
+	            if(this.number === 0){
+	                this.status = this.stat.WAIT;
+	            }
+	        }
+	        this.fpsCalc();
+	        (null, this.requestAnimationFrame)(this.refresh.bind(this));
+	    },
+	    requestAnimationFrame : requestAnimationFrame,
+	    //render---------------------------------------------
+	    static : false, //静态
+	    render : function(list){
+	        var obj, 
+	            fps = this.fps, 
+	            context = this.ctx;
+	        for(var i = 0; i < list.length; i++){
+	            obj = list[i];
+	            if(Array.isArray(obj)){
+	                this.render(obj);
+	            }
+	            else{
+	                obj.life = this.timestamp - obj.timestamp;
+	                context.save();
+	                if(this.config.perspective && obj.z){
+	                    //TODO z > perspective
+	                    var scale = 1 + (obj.z / this.config.perspective) * (this.visionWidth / this.width - 1);
+	                    context.scale(scale, scale);
+	                    context.translate(obj.x, obj.y);
+	                }
+	                else{
+	                    context.translate(obj.x, obj.y);
+	                }
+	                obj.draw(context, max(fps, 30));
+	                this.number++;
+	                context.restore();
+	                if(obj.die){
+	                    list.splice(i, 1);
+	                    i--;
+	                }
+	            }
+	        };
+	        return this;
+	    },
+	    //object---------------------------------------------
+	    create : Engine.create,
+	    add : function(obj, list){
+	        (list || this.list).push(obj);
+	        obj.engine = this;
+	        obj.timestamp = this.timestamp;
+	        obj.life = 0;
+	        if(this.status === this.stat.WAIT){
+	            this.status = this.stat.PLAY;
+	        }
+	        return this;
+	    },
+	    del : function(obj){
+	        obj.die = true;
+	        return this;
+	    },
+	    clean : function(){
+	        this.list.splice(0, this.list.length);
+	    },
+	    //listener---------------------------------------------
+	    _listener : {},
+	    on : function(evt, func){
+	        if(typeof evt !== 'string' || typeof func !== 'function'){return this;}
+	        if(!Array.isArray(this._listener[evt])){
+	            this._listener[evt] = [];
+	        }
+	        this._listener[evt].push(func);
+	        return this;
+	    },
+	    off : function(evt, func){
+	        if(typeof evt !== 'string' || typeof func !== 'function'){return this;}
+	        if(!Array.isArray(this._listener[evt])){return this;}
+	        var index = this._listener[evt].indexOf(func);
+	        if(index < 0){return this;}
+	        this._listener[evt].splice(index, 1);
+	        return this;
+	    },
+	    fire : function(evt, args){
+	        if(!Array.isArray(this._listener[evt])){return this;}
+	        var npc = this;
+	        this._listener[evt].forEach(function(func){
+	            func.apply(npc, args);
+	        });
+	        return this;
+	    },
+	    //fps---------------------------------------------
+	    timestamp : null,
+	    frame : 0,
+	    _fpsCounter : 1,
+	    _fpsFrequency : 60,
+	    fpsCalc : function(){
+	        if(this._fpsCounter++ >= this._fpsFrequency){
+	            this.fire(evt.fpsCount);
+	            this.fps = (this._fpsFrequency / (Date.now() - this.timestamp) * 1000).toFixed(2);
+	            this.timestamp = Date.now();
+	            this._fpsCounter = 1;
+	        }
+	    },
+	    //distroy---------------------------------------------
+	    destroy : function(){
+	        this.stop();
+	        this.status = this.stat.DESTROY;
+	        this.clean();
+	    }
+	};
+
+	if(typeof window.define === 'function'){
+	    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (Engine), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	}
+	module.exports = window.NPCanvas = Engine;
+
+/***/ },
+/* 31 */
+/***/ function(module, exports) {
+
+	var $ = {
+	    requestAnimationFrame : null
+	        || window.requestAnimationFrame
+	        || window.mozRequestAnimationFrame
+	        || window.webkitRequestAnimationFrame
+	        || window.msRequestAnimationFrame
+	        || window.oRequestAnimationFrame
+	        || function(callback) {setTimeout(callback, 1000 / 60);},
+	    merge : function(){
+	        var hold = typeof arguments[arguments.length - 1] === 'boolean', 
+	            holdRs = hold && arguments[arguments.length - 1];
+	        var rs = holdRs ? arguments[0] : {}, 
+	            cur, 
+	            args = arguments;
+	        for(var i = holdRs ? 1 : 0, j = arguments.length + (hold ? -1 : 0); i < j; i++){
+	            cur = arguments[i];
+	            if(typeof cur === 'object'){
+	                for(var key in cur){
+	                    if(cur.hasOwnProperty(key)){
+	                        rs[key] = cur[key];
+	                    }
+	                }   
+	            }
+	        }
+	        return rs;
+	    }
+	}
+	module.exports = $;
+
+/***/ },
+/* 32 */
+/***/ function(module, exports) {
+
+	
+	var marker = 'np';
+	var CanvasObject = function(x, y, shape){
+	    if(typeof x === 'function'){
+	        shape = x;
+	        x = 0;
+	    }
+	    this.x = x || 0;
+	    this.y = y || 0;
+	    this.z = 0;
+	    this.shape = shape || function(){};
+	    this.die = false;
+	}
+	//构造器扩展构造器
+	CanvasObject.extend = function(newClassConstructor, proto){
+	    if(typeof newClassConstructor !== 'function'){
+	        newClassConstructor = function(){}
+	    }
+	    var parentFactory = this;
+	    if(!(this instanceof CanvasObject)){
+	        parentFactory = CanvasObject;
+	    }
+	    newClassConstructor.__proto__ = parentFactory;
+	    newClassConstructor.prototype = proto || new parentFactory;
+	    return newClassConstructor;
+	}
+	//对象扩展对象，或构造器
+	CanvasObject.prototype.extend = function(newClassConstructor){
+	    //构造器的话就用原来的extend啦
+	    if(typeof newClassConstructor === 'function'){
+	        return this.constructor.extend(newClassConstructor, this);
+	    }
+	    else{
+	        //对象扩展
+	        if(typeof newClassConstructor !== 'object' || newClassConstructor.toString() !== '[object Object]'){
+	            newClassConstructor = {};
+	        }
+	        newClassConstructor.__proto__ = this;
+	        return newClassConstructor;
+	    }
+	}
+
+	//绘制
+	CanvasObject.prototype.draw = function(ctx, fps){
+	    this.shape(ctx, fps);
+	}
+	//hit
+	// TODO
+	CanvasObject.prototype.hit = function(ctx, fps){
+	}
+	module.exports = CanvasObject;
+
+/***/ },
+/* 33 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+	var npcLayers;
+
+	var water = [];
+
+	var tan = Math.tan,
+	    cos = Math.cos,
+	    acos = Math.acos,
+	    sin = Math.sin,
+	    asin = Math.asin,
+	    PI = Math.PI,
+	    abs = Math.abs,
+	    sqrt = Math.sqrt,
+	    pow = Math.pow,
+	    max = Math.max,
+	    min = Math.min,
+	    log = Math.log,
+	    random = Math.random,
+	    sign = Math.sign;
+
+	var PId180 = PI / 180,
+	    PIbd180 = 180 / PI;
+
+	var g = 9.8;
+
+	var defaultFill = 0;
+	var rotateSpeedShrink = .95;
+	var wavePointAbs = 40;
+
+	var toArc = function toArc(deg) {
+	    return deg * PId180;
+	};
+	var toDeg = function toDeg(arc) {
+	    return arc * PIbd180;
+	};
+	var createGradient = function createGradient(npc, height, index) {
+	    if (index) {
+	        var mainColor = 177,
+	            colorLite = 'hsla(' + mainColor + ', 61.23%, 90%, .8)',
+	            colorBase = 'hsl(' + mainColor + ', 61.23%, 72%)',
+	            colorDeep = 'hsl(' + (mainColor + 5) + ', 71.23%, 60%)',
+	            colorBorder = 'hsl(' + mainColor + ', 51.23%, 50%)';
+	        // var gradient = 'hsla('+mainColor+', 61.23%, 90%, .8)';
+
+	        var gradient = npc.ctx.createLinearGradient(0, 0, 0, height);
+	        gradient.addColorStop(0, colorLite);
+	        gradient.addColorStop(0.5, colorBase);
+	        gradient.addColorStop(1, colorDeep);
+	    } else {
+	        var mainColor = 200,
+	            gradient = 'hsla(' + mainColor + ', 61.23%, 80%, .8)',
+	            colorBorder = 'hsl(' + mainColor + ', 51.23%, 50%)';
+	    }
+	    return { gradient: gradient, colorBorder: colorBorder };
+	};
+
+	var initWater = function initWater(npc, index) {
+	    var contWidth, contHeight, R, r;
+	    contWidth = npc.width;
+	    contHeight = npc.height;
+	    R = sqrt(pow(contHeight, 2) + pow(contWidth, 2));
+	    r = R / 2;
+
+	    var step = R / wavePointAbs,
+	        stepWidth = R / step;
+	    var timerStep = 1;
+
+	    var _createGradient = createGradient(npc, R, index);
+
+	    var gradient = _createGradient.gradient;
+	    var colorBorder = _createGradient.colorBorder;
+
+	    var waveOffset = index * PI / 4,
+	        hOffset = index * PI / 4;
+
+	    var w = npc.create(contWidth / 2, contHeight / 2, function (ctx, fps) {
+	        this.rotateSpeed = (this.rotateSpeed + (this.targetRotate - this.rotate) / fps) * rotateSpeedShrink;
+
+	        this.rotate += this.rotateSpeed;
+	        ctx.rotate(toArc(this.rotate));
+
+	        this.fill += (this.targetFill - this.fill) / fps;
+
+	        this.timer += timerStep;
+
+	        var curH = R * this.fill;
+
+	        //delta
+	        if (this.fill > 0) {
+	            curH = curH * (index ? -1 : 1) + sin(toArc(this.timer) + hOffset) * 10;
+	        }
+	        //sync
+	        else {
+	                curH = curH + sin(toArc(this.timer) + hOffset) * 18 - this.rotateSpeed * 10;
+	            }
+
+	        ctx.moveTo(-r, curH);
+	        ctx.beginPath();
+	        for (var i = 0, j = step; i <= j; i++) {
+	            ctx.lineTo(-r + i * stepWidth | 0, curH + sin(toArc(i * wavePointAbs + this.timer) + waveOffset) * (10 - abs(this.rotateSpeed)) | 0);
+	        }
+	        // document.getElementsByTagName('h1')[0] && (document.getElementsByTagName('h1')[0].innerHTML = this.fill.toFixed(2))
+
+	        ctx.lineTo(R + 1, r);
+	        ctx.lineTo(-r, r);
+	        ctx.lineTo(-r, curH);
+
+	        ctx.strokeStyle = colorBorder;
+	        ctx.fillStyle = gradient;
+	        ctx.lineWidth = 1;
+	        ctx.fill();
+	        ctx.closePath();
+	        ctx.stroke();
+	    });
+
+	    water.push(w);
+
+	    w.canvas = npc.canvas;
+	    w.timer = 0;
+	    w.rotate = 0;
+	    w.rotateSpeed = 0;
+	    w.fill = defaultFill;
+	    npc.add(w);
+	};
+
+	var setWater = function setWater(rotate, fill) {
+	    fill = fill * 1.5;
+	    water.forEach(function (w) {
+	        var r = rotate === null ? w.targetRotate : rotate;
+	        // w.rotate = w.rotate % 360;
+
+	        r = -r % 360;
+
+	        //TODO
+	        w.targetRotate = r + (r > 180 ? -360 : r < -180 ? +360 : 0);
+
+	        w.targetFill = fill;
+	    });
+	};
+
+	var calcHorizon = function calcHorizon(_ref) {
+	    var x = _ref.x;
+	    var y = _ref.y;
+	    var z = _ref.z;
+
+	    var g1 = sqrt(pow(x, 2) + pow(y, 2));
+
+	    // var rotate = acos(y / g1) * 360 / 2 / PI;
+	    var rotate = acos(y / g1) * PIbd180;
+	    // var fill = z < 0 ? g1 / 2 / g : (2 * g - g1) / 2 / g;
+	    var fill = z < 0 ? g1 / 2 / g : 1 - g1 / 2 / g;
+	    fill = asin(fill * 2 - 1) / 2 / asin(1);
+
+	    rotate = 180 - (x > 0 ? 1 : -1) * rotate;
+	    // fill = max(80, min(fill, 180));
+	    return { rotate: rotate, fill: fill };
+	};
+
+	var api = {
+	    name: 'Aqua',
+
+	    lock: true,
+	    init: function init(canvasNodes, initFunc) {
+	        npcLayers = [].map.call(canvasNodes, function (node, index) {
+	            var npc = initFunc(node);
+	            return npc;
+	        });
+	        npcLayers.forEach(function (npc, index) {
+	            initWater(npc, index);
+	        });
+
+	        var counter = 0;
+	        if (window.DeviceOrientationEvent && /\biphone\b/i.test(navigator.userAgent)) {
+	            window.addEventListener('devicemotion', function (e) {
+	                if (counter++ > 3) {
+	                    counter = 0;
+	                    if (api.lock) {
+	                        return;
+	                    }
+
+	                    var _calcHorizon = calcHorizon(e.accelerationIncludingGravity);
+
+	                    var rotate = _calcHorizon.rotate;
+	                    var fill = _calcHorizon.fill;
+
+	                    setWater(rotate, fill);
+	                }
+	            });
+	        }
+	    },
+	    play: function play() {
+	        api.lock = false;
+	        setWater(0, defaultFill);
+	        npcLayers.forEach(function (npc) {
+	            return npc.play();
+	        });
+	    },
+	    stop: function stop() {
+	        api.lock = true;
+	        setWater(0, 1);
+
+	        clearTimeout(api.stopTimer);
+	        api.stopTimer = setTimeout(function () {
+	            npcLayers.forEach(function (npc) {
+	                return npc.stop();
+	            });
+	        }, 5000);
+	    }
+	};
+	exports['default'] = api;
 	module.exports = exports['default'];
 
 /***/ }
