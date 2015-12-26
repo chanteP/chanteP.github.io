@@ -4,11 +4,11 @@
 <li data-for="lab">
     <a href="/lab"><icon>〄</icon><span>lab</span></a>
 </li>
-<li data-for="blog,article">
+<!-- <li data-for="blog,article">
     <a href="/blog"><icon>⌸</icon><span>blog</span></a>
-</li>
-<li data-for="gallery">
-    <a href="/gallery"><icon>᯽</icon><span>gallery</span></a>
+</li> -->
+<li data-for="???" style="">
+    <a href="/"><icon>᯽</icon><span>???</span></a>
 </li>
 <li data-for="about">
     <a href="/about"><icon>❄</icon><span>about</span></a>

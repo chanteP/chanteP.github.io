@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(20);
+	module.exports = __webpack_require__(17);
 
 
 /***/ },
@@ -387,10 +387,7 @@
 /* 14 */,
 /* 15 */,
 /* 16 */,
-/* 17 */,
-/* 18 */,
-/* 19 */,
-/* 20 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -399,26 +396,28 @@
 
 	var _core = __webpack_require__(2);
 
-	var _styleScss = __webpack_require__(21);
+	var _styleScss = __webpack_require__(18);
 
 	var _styleScss2 = _interopRequireDefault(_styleScss);
 
 	_core.$.register('index', function () {
 	    return {
-	        init: function init() {},
+	        init: function init() {
+	            _core.$.nav.check();
+	        },
 	        show: function show() {},
 	        hide: function hide() {}
 	    };
 	});
 
 /***/ },
-/* 21 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(22);
+	var content = __webpack_require__(19);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(11)(content, {});
@@ -438,7 +437,7 @@
 	}
 
 /***/ },
-/* 22 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(10)();
