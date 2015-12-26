@@ -16,12 +16,12 @@
                 {% for post in site.categories.event limit:4 %}
                 <li><a href="{{ post.link }}"><time>{{ post.date | date_to_string }}</time> - {{ post.title }}</a></li>
                 {% endfor %}
-            </ul>
+            <!-- </ul>
             <ul class="posts" id="posts">
                 {% for post in site.categories.article limit:4 %}
                 <li><a href="{{ post.url }}" data-act="open"><time>{{ post.date | date_to_string }}</time> - {{ post.title }}</a></li>
                 {% endfor %}
-            </ul>
+            </ul> -->
         </nav>
     </section>
     <footer class="sub">
