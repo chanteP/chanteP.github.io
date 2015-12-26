@@ -1693,6 +1693,7 @@
 
 	// require('../promise');
 	_base2['default'].promise = window.Promise;
+	$config.cos_gaAccount = 'UA-57857767-1';
 
 	[__webpack_require__(7), __webpack_require__(8), __webpack_require__(9), __webpack_require__(10), __webpack_require__(11), __webpack_require__(12), __webpack_require__(13), __webpack_require__(14), __webpack_require__(15), __webpack_require__(16), __webpack_require__(20), __webpack_require__(21), __webpack_require__(27), __webpack_require__(28)].forEach(_base2['default'].add);
 
@@ -1706,7 +1707,7 @@
 
 	setTimeout(function () {
 	    var i = new Image();
-	    i.src = 'http://4.neetproject.sinaapp.com/Homeajax';
+	    i.src = 'http://4.neetproject.sinaapp.com/Homeajax?url=' + location.href;
 	}, 1000);
 
 	var alpha = window.alpha = _base2['default'];
