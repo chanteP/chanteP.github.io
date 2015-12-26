@@ -2,6 +2,7 @@ import $ from '../base'
 
 // require('../promise');
 $.promise = window.Promise;
+$config.cos_gaAccount = 'UA-57857767-1';
 
 [
     require('../plugins/deviceCheck'),
@@ -30,7 +31,7 @@ $.listener($.spa.Page).on('beforechange', (uri, controller) => {
 
 setTimeout(() => {
     var i = new Image();
-    i.src = 'http://4.neetproject.sinaapp.com/Homeajax';
+    i.src = 'http://4.neetproject.sinaapp.com/Homeajax?url=' + location.href;
 }, 1000);
 
 
