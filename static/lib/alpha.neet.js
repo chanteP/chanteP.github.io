@@ -2322,6 +2322,7 @@
 	            if (!nav) {
 	                return;
 	            }
+	            api.check();
 	            [].forEach.call($.findAll('.cur', nav), function (node) {
 	                node.classList.remove('cur');
 	            });
@@ -2350,7 +2351,6 @@
 	    };
 	    $.domReady(function () {
 	        nav = $.find('#mainnav');
-
 	        api.check();
 
 	        nav.set = api.set;

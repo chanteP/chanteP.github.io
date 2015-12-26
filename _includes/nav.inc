@@ -7,7 +7,7 @@
 <!-- <li data-for="blog,article">
     <a href="/blog"><icon>⌸</icon><span>blog</span></a>
 </li> -->
-<li data-for="???" style="">
+<li data-for="???">
     <a href="/"><icon>᯽</icon><span>???</span></a>
 </li>
 <li data-for="about">
