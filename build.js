@@ -5,12 +5,20 @@ var memMap = {};
 (glob.sync('./app/posts/memories/*', null) || []).map((mem, i) => {
     memMap[mem] = false;
 });
-(glob.sync('./app/photos/*/*', null) || []).map((photos, i) => {
-    var rs = /\/([\d]{2,2})([\d]{2,2})([^\d\/]+)\/([^\/]+)$/.exec(photos);
+(glob.sync('./app/photos/*/*', null) || []).map((photo, i) => {
+    var rs = /\/([\d]{2,2})([\d]{2,2})([^\d\/]+)\/([^\/]+)$/.exec(photo);
     var yy = rs[1],
         mm = rs[2],
         name = rs[3],
-        fileName = rs[4].replace(/^_*/, '');
+        fileName = rs[4];
+
+    if(fileName.indexOf('_') === 0){
+        fs.writeFileSync(photo.replace(/_([^\/]+)$/, '$1'), fs.readFileSync(photo));
+        fs.unlinkSync(photo);
+        photo = photo.replace(/_([^\/]+)$/, '$1');
+        fileName = fileName.replace(/^_*/, '');
+    }
+
     var fn = './app/posts/memories/20' + yy + '-' + mm + '-01-' + name + '_' + fileName + '.md';
     memMap[fn] = true;
     var content = '' + yy + mm + '-' + name;
@@ -24,7 +32,7 @@ var memMap = {};
         'layout: none',
         'title: ' + name,
         'category: memories',
-        'image: /' + photos.slice(photos.indexOf('./app/') + 6),
+        'image: /' + photo.slice(photo.indexOf('./app/') + 6),
         'date: 20' + yy + '-' + mm + '-01',
         '---',
         content
