@@ -397,8 +397,13 @@
 	        init: function init() {
 	            _core.$.nav.check(true);
 	            _core.$.nav.set('memories');
+	            [].map.call(_core.$.findAll('[data-lazyload]', this.node), function (el) {
+	                el.style.height = el.clientWidth * 0.67 + 'px';
+	            });
 	            _core.$.lazyload(_core.$.find('.gallery_list', this.node), _core.$.find('.gallery_list', this.node), 'data-lazyload', function (el, src) {
 	                el.src = src;
+	                el.style.height = '';
+	                el.parentNode.classList.remove('loading');
 	            });
 	        },
 	        show: function show() {},
@@ -443,7 +448,7 @@
 
 
 	// module
-	exports.push([module.id, "/** track@alpha:{\"version\":\"0.2.43\",\"build\":\"2015-12-18 22:34:52\",\"hash\":\"\"} */\n.page_gallery {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0; }\n  .page_gallery .gallery_list {\n    height: 100%;\n    overflow-y: scroll;\n    overflow-scrolling: touch;\n    -webkit-overflow-scrolling: touch;\n    transform: translateZ(0);\n    -webkit-transform: translateZ(0);\n    margin-right: 0.6rem; }\n  .page_gallery .gallery_item {\n    margin: .4rem .3rem; }\n  .page_gallery .gallery_photo {\n    padding: .2rem;\n    background: #fff;\n    box-shadow: rgba(0, 0, 0, 0.37) 0 0 0.08rem; }\n  .page_gallery .gallery_cover {\n    width: 100%;\n    min-height: 2rem; }\n  .page_gallery .gallery_desc {\n    font-size: .26rem;\n    line-height: 2;\n    color: #666; }\n  .page_gallery .gallery_timeline {\n    position: absolute;\n    right: 0;\n    top: 0;\n    bottom: 0;\n    margin: 0.3rem 0.3rem;\n    width: .02rem;\n    background: rgba(0, 0, 0, 0.2); }\n", ""]);
+	exports.push([module.id, "/** track@alpha:{\"version\":\"0.2.43\",\"build\":\"2015-12-18 22:34:52\",\"hash\":\"\"} */\n.page_gallery {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0; }\n  .page_gallery .gallery_list {\n    height: 100%;\n    overflow-y: scroll;\n    overflow-scrolling: touch;\n    -webkit-overflow-scrolling: touch;\n    transform: translateZ(0);\n    -webkit-transform: translateZ(0);\n    margin-right: 0.6rem; }\n  .page_gallery .gallery_item {\n    margin: .4rem .3rem; }\n  .page_gallery .gallery_photo {\n    padding: .2rem;\n    background: #fff;\n    box-shadow: rgba(0, 0, 0, 0.37) 0 0.04rem 0.08rem; }\n  .page_gallery .gallery_cover {\n    width: 100%;\n    min-height: 2rem; }\n  .page_gallery .gallery_desc {\n    padding: .18rem 0.04rem; }\n    .page_gallery .gallery_desc p {\n      line-height: 1.4;\n      font-size: .24rem;\n      color: #999; }\n  .page_gallery .gallery_timeline {\n    position: absolute;\n    right: 0;\n    top: 0;\n    bottom: 0;\n    margin: 0.3rem 0.3rem;\n    width: .02rem;\n    background: rgba(0, 0, 0, 0.2); }\n", ""]);
 
 	// exports
 
