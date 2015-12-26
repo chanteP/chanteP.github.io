@@ -8,7 +8,7 @@ var glob = require('glob');
         mm = rs[2],
         name = rs[3],
         fileName = rs[4];
-    var fn = './app/posts/memories/20' + yy + '-' + mm + '-01-' + name + '_' + i + '.md';
+    var fn = './app/posts/memories/20' + yy + '-' + mm + '-01-' + name + '_' + fileName + '.md';
 
     if(fs.existsSync(fn)){
         return;

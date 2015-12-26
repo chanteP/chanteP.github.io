@@ -7,8 +7,8 @@
 <!-- <li data-for="blog,article">
     <a href="/blog"><icon>⌸</icon><span>blog</span></a>
 </li> -->
-<li data-for="memories">
-    <a href="/memories"><icon>᯽</icon><span>memories</span></a>
+<li data-for="???" style="">
+    <a href="/"><icon>᯽</icon><span>???</span></a>
 </li>
 <li data-for="about">
     <a href="/about"><icon>❄</icon><span>about</span></a>
