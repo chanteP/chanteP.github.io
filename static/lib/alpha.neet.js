@@ -2141,6 +2141,7 @@
 	                    this.loader = this.LOADING;
 	                    break;
 	                case this.LOADING:
+	                    this.node.style.display = 'none';
 	                    var i = document.createElement('iframe');
 	                    i.style.cssText = 'display:block;visibility:hidden;overflow:hidden;width:0;height:0;';
 	                    i.onload = i.onerror = function (e) {
@@ -2151,6 +2152,7 @@
 	                    document.body.appendChild(i);
 	                    break;
 	                case this.DOMREADY:
+	                    this.node.style.display = 'block';
 	                    break;
 	                case this.LOADED:
 	                    break;

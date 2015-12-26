@@ -2,11 +2,6 @@
 layout: page
 ---
 <div class="page_lab">
-    <script>
-        window.top.alpha.loadPage('/lab', wrapper, {
-            scripts:['/static/pages/lab/index.js']
-        });
-    </script>
     <section class="wrap" id="labList">
         <header class="hide">
             <h1>np实验室</h1>
@@ -30,4 +25,9 @@ layout: page
         {% endfor %}
         </ul>
     </section>
+    <script>
+        window.top.alpha.loadPage('/lab', wrapper, {
+            scripts:['/static/pages/lab/index.js']
+        });
+    </script>
 </div>

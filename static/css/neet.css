@@ -4866,6 +4866,7 @@ textarea.form-cell-input {
   left: 0;
   height: 100%;
   width: 100%;
+  display: none;
   animation-duration: 0.4s;
   -webkit-animation-duration: 0.4s; }
 
