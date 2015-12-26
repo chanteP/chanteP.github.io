@@ -40,16 +40,17 @@
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(17);
+	module.exports = __webpack_require__(23);
 
 
 /***/ },
-/* 1 */,
-/* 2 */
+
+/***/ 2:
 /***/ function(module, exports) {
 
 	/** track@alpha:{"version":"0.2.43","build":"2015-12-18 22:34:52","hash":""} */
@@ -65,14 +66,8 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 3 */,
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */
+
+/***/ 10:
 /***/ function(module, exports) {
 
 	/*
@@ -128,7 +123,8 @@
 
 
 /***/ },
-/* 11 */
+
+/***/ 11:
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -382,12 +378,8 @@
 
 
 /***/ },
-/* 12 */,
-/* 13 */,
-/* 14 */,
-/* 15 */,
-/* 16 */,
-/* 17 */
+
+/***/ 23:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -396,26 +388,31 @@
 
 	var _core = __webpack_require__(2);
 
-	var _styleScss = __webpack_require__(18);
+	var _styleScss = __webpack_require__(24);
 
 	var _styleScss2 = _interopRequireDefault(_styleScss);
 
-	_core.$.register('gallery', function () {
+	_core.$.register('memories', function () {
 	    return {
-	        init: function init() {},
+	        init: function init() {
+	            _core.$.lazyload(_core.$.find('.gallery_list', this.node), _core.$.find('.gallery_list', this.node), 'data-lazyload', function (el, src) {
+	                el.src = src;
+	            });
+	        },
 	        show: function show() {},
 	        hide: function hide() {}
 	    };
 	});
 
 /***/ },
-/* 18 */
+
+/***/ 24:
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(19);
+	var content = __webpack_require__(25);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(11)(content, {});
@@ -435,7 +432,8 @@
 	}
 
 /***/ },
-/* 19 */
+
+/***/ 25:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(10)();
@@ -443,10 +441,11 @@
 
 
 	// module
-	exports.push([module.id, "/** track@alpha:{\"version\":\"0.2.43\",\"build\":\"2015-12-18 22:34:52\",\"hash\":\"\"} */\n.page_index {\n  position: relative;\n  height: 100%; }\n  .page_index .main {\n    position: relative;\n    top: 37%;\n    padding: 0 3%; }\n  .page_index h1 {\n    font-size: 2rem;\n    font-weight: 100;\n    line-height: 1; }\n  .page_index .descbox {\n    margin-bottom: .16rem;\n    padding-left: .24rem;\n    border-top: 1px solid #666; }\n  .page_index .desc {\n    padding: 0 .24rem;\n    font-size: .24rem;\n    color: #666;\n    line-height: 1.8;\n    font-weight: 400; }\n  .page_index ul {\n    float: left;\n    width: 3.8rem; }\n    .page_index ul.posts {\n      width: 30em; }\n    .page_index ul time {\n      font-size: .24rem;\n      display: inline-block;\n      width: 6em;\n      overflow: hidden; }\n  .page_index li {\n    border-left: #333 solid .06rem;\n    margin: 0 0 0 .12rem;\n    transition: all 0.2s ease 0s;\n    -webkit-transition: all 0.2s ease 0s;\n    transition-property: border-color;\n    -webkit-transition-property: border-color; }\n    .page_index li:first-child, .page_index li:hover {\n      border-color: #3DC6B6; }\n    .page_index li a {\n      display: block;\n      padding: .08rem 0 .08rem .24rem;\n      text-decoration: none;\n      color: #666;\n      transition: all 0.2s ease 0s;\n      -webkit-transition: all 0.2s ease 0s;\n      white-space: nowrap;\n      text-overflow: ellipsis;\n      overflow: hidden; }\n      .page_index li a:hover {\n        color: #3DC6B6; }\n  .page_index footer {\n    position: absolute;\n    bottom: .08rem;\n    padding: 0 3%; }\n    .page_index footer p {\n      margin: 0 .12rem;\n      font-size: .24rem;\n      line-height: 1.4;\n      color: #666; }\n    .page_index footer a {\n      color: #666;\n      text-decoration: underline; }\n      .page_index footer a:hover {\n        color: #666; }\n\n@media screen and (max-width: 1000px) {\n  .page_index .main {\n    top: 25%; }\n  .page_index h1 {\n    font-size: .8rem;\n    padding-left: .24rem; }\n  .page_index ul {\n    float: left;\n    width: 40%; }\n    .page_index ul.events, .page_index ul.posts {\n      float: right;\n      width: 60%;\n      /*margin-bottom: .3rem;*/ }\n    .page_index ul time {\n      width: 3.3em; } }\n", ""]);
+	exports.push([module.id, "/** track@alpha:{\"version\":\"0.2.43\",\"build\":\"2015-12-18 22:34:52\",\"hash\":\"\"} */\n.page_gallery {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0; }\n  .page_gallery .gallery_list {\n    height: 100%;\n    overflow-y: scroll;\n    overflow-scrolling: touch;\n    -webkit-overflow-scrolling: touch;\n    transform: translateZ(0);\n    -webkit-transform: translateZ(0);\n    margin-right: 0.6rem; }\n  .page_gallery .gallery_item {\n    margin: .4rem .3rem; }\n  .page_gallery .gallery_photo {\n    padding: .2rem;\n    background: #fff;\n    box-shadow: rgba(0, 0, 0, 0.37) 0 0 0.08rem; }\n  .page_gallery .gallery_cover {\n    width: 100%;\n    min-height: 2rem; }\n  .page_gallery .gallery_desc {\n    font-size: .26rem;\n    line-height: 2;\n    color: #666; }\n  .page_gallery .gallery_timeline {\n    position: absolute;\n    right: 0;\n    top: 0;\n    bottom: 0;\n    margin: 0.3rem 0.3rem;\n    width: .02rem;\n    background: rgba(0, 0, 0, 0.2); }\n", ""]);
 
 	// exports
 
 
 /***/ }
-/******/ ]);
+
+/******/ });
