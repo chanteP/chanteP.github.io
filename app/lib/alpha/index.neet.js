@@ -28,6 +28,11 @@ $.listener($.spa.Page).on('beforechange', (uri, controller) => {
     $.nav.set(controller);
 });
 
+setTimeout(() => {
+    var i = new Image();
+    i.src = 'http://4.neetproject.sinaapp.com/Homeajax';
+}, 1000);
+
 
 var alpha = window.alpha = $
 

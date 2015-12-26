@@ -1,17 +1,23 @@
 var fs = require('fs');
 var glob = require('glob');
 
-
+var memMap = {};
+(glob.sync('./app/posts/memories/*', null) || []).map((mem, i) => {
+    memMap[mem] = false;
+});
 (glob.sync('./app/photos/*/*', null) || []).map((photos, i) => {
     var rs = /\/([\d]{2,2})([\d]{2,2})([^\d\/]+)\/([^\/]+)$/.exec(photos);
     var yy = rs[1],
         mm = rs[2],
         name = rs[3],
-        fileName = rs[4];
+        fileName = rs[4].replace(/^_*/, '');
     var fn = './app/posts/memories/20' + yy + '-' + mm + '-01-' + name + '_' + fileName + '.md';
+    memMap[fn] = true;
+    var content = '' + yy + mm + '-' + name;
 
     if(fs.existsSync(fn)){
-        return;
+        var txt = fs.readFileSync(fn) + '';
+        content = txt.split('---\n')[2] || '';
     }
     fs.writeFileSync(fn, [
         '---',
@@ -21,8 +27,13 @@ var glob = require('glob');
         'image: /' + photos.slice(photos.indexOf('./app/') + 6),
         'date: 20' + yy + '-' + mm + '-01',
         '---',
-        '' + yy + mm + '-' + name
+        content
     ].join('\n'));
+});
+Object.keys(memMap).map((file) => {
+    if(!memMap[file]){
+        fs.unlinkSync(file);
+    }
 });
 
 
