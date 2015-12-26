@@ -35,6 +35,7 @@
             "./app/css/fonts/**": "./css/fonts",
             "./app/posts/**": "../_posts",
             "./app/layout/**": "../_layouts",
+            "./app/includes/**": "../_includes",
             "./app/*config*": "../",
             "./app/CNAME": "../"
         }

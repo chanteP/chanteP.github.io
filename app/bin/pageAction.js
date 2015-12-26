@@ -6,7 +6,6 @@ module.exports = function(req, res){
     var params = url.parse(req.url, true);
 
     var c = /^\/([^\/\&\#]+)\/?([^\/\&\#]+)?/.exec(req.url);
-    console.log(c);
 
     if(c[1] === 'pages'){
         this.render('page.html', c[2] + '.html');

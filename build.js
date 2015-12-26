@@ -8,7 +8,9 @@ require('@mtfe/alpha/bin/build')(require('./package.json').alphaConfig, function
     catch(e){
     }
     (glob.sync('./app/views/*.html', null) || []).map((p) => {
-        var content = fs.readFileSync(p);
+        var content = fs.readFileSync(p) + '';
+        content = content.replace(/\s*(\n|\n\r|\r)\s*/gm, ' ');
+
         var viewName = /([^\/]+)\.html$/.exec(p);
         var contentMain = header('main') + content;
         var contentPage = header('page') + content;

@@ -1,0 +1,113 @@
+@import '../../css/variable.scss';
+.page_index{
+    position: relative;
+    height: 100%;
+
+    .main{
+        position: relative;
+        top:37%;
+        padding: 0 3%;
+    }
+    h1{
+        font-size: 2rem;
+        font-weight: 100;
+        line-height: 1;
+    }
+    .descbox{
+        margin-bottom: .16rem;
+        padding-left: .24rem;
+        border-top:1px solid $color-font-sub;
+    }
+    .desc{
+        padding: 0 .24rem;
+        font-size: .24rem;
+        color: $color-font-sub;
+        line-height: 1.8;
+        font-weight: 400;
+    }
+    ul{
+        float: left;
+        width: 3.8rem;
+        
+        &.posts{
+            width: 30em;
+        }
+
+        time{
+            font-size: .24rem;
+            display: inline-block;
+            width: 6em;
+            overflow: hidden;
+        }
+    }
+    li{
+        border-left: #333 solid .06rem; 
+        margin:0 0 0 .12rem;
+        @include transition;
+        @include transition-property(border-color);
+
+        &:first-child,
+        &:hover{
+            border-color: $color-main;
+        }
+        a{
+            display: block;
+            padding: .08rem 0 .08rem .24rem;
+            text-decoration: none;
+            color: #666;
+            @include transition;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+
+            &:hover{
+                color: $color-main;
+            }
+        }
+    }
+    
+    
+    footer{
+        position: absolute;
+        bottom: .08rem;
+        padding: 0 3%;
+        p{
+            margin:0 .12rem;
+            font-size: .24rem;
+            line-height: 1.4;
+            color: $color-font-sub;
+        }
+        a{
+            color: $color-font-sub;
+            text-decoration: underline;
+            &:hover{
+                color: $color-font-sub;
+            }
+        }
+    }
+}
+@media screen and (max-width : 1000px){
+    .page_index{
+        .main{
+            top:25%;
+        }
+        h1{
+            font-size: .8rem;
+            padding-left: .24rem;
+        }
+        ul{
+            float: left;
+            width: 40%;
+
+            &.events,
+            &.posts{
+                float: right;
+                width: 60%;
+                /*margin-bottom: .3rem;*/
+            }
+            time{
+                width: 3.3em;
+            }
+        }
+    }
+}

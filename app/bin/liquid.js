@@ -31,6 +31,8 @@ module.exports = function(app){
         var decHtml = getDec(dec);
 
         decHtml = decHtml.replace('{{ content }}', html);
+        decHtml = decHtml.replace(/\{%\sinclude\snav\.inc\s%\}/gim, fs.readFileSync('./app/includes/nav.inc') + '');
+
         var body = '';
         try{
             engine

@@ -9,6 +9,7 @@ export default ($) => {
             [].some.call($.findAll('[data-for]', nav), (li) => {
                 if(li.dataset['for'].split(',').indexOf(page) >= 0 && !+li.dataset['hide']){
                     li.classList.add('cur');
+                    $.scrollTo([li.offsetLeft - nav.clientWidth / 2 + li.clientWidth / 2], nav);
                     return true;
                 }
             }) ? api.show() : api.hide();

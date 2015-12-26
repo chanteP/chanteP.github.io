@@ -13,6 +13,7 @@ $navsize : 1.3rem;
     box-shadow: rgba(0,0,0,.4) 0 0 .04rem;
     visibility: hidden;
     z-index: 10;
+    @include scrollX(scroll);
     @include transform(translateY(-100%));
     @include transition;
     
@@ -23,6 +24,13 @@ $navsize : 1.3rem;
     ul{
         text-align: center;
         white-space: nowrap;
+        &:before,
+        &:after{
+            content: '';
+            display: inline-block;
+            width: 50%;
+            height: 100%;
+        }
     }
     li{
         display: inline-block;
@@ -39,8 +47,11 @@ $navsize : 1.3rem;
         &.cur a{
             color: $color-main;
         }
-        icon{
-            padding: 0 .1rem;
-        }
     }
+}
+nav icon{
+    padding: 0 .1rem;
+    min-width: 1.2em;
+    text-align: center;
+    display: inline-block;
 }
