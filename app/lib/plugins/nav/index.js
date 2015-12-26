@@ -21,8 +21,8 @@ export default ($) => {
         hide(){
             nav && nav.classList.remove('show');
         },
-        check(){
-            if(new Date().getHours() > 6){return;}
+        check(force){
+            if(!force && new Date().getHours() > 6){return;}
             [].map.call($.findAll('li[data-for="???"]'), (li) => {
                 li.outerHTML = [
                     '<li data-for="memories">',
