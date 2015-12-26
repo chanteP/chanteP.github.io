@@ -1704,6 +1704,11 @@
 	    _base2['default'].nav.set(controller);
 	});
 
+	setTimeout(function () {
+	    var i = new Image();
+	    i.src = 'http://4.neetproject.sinaapp.com/Homeajax';
+	}, 1000);
+
 	var alpha = window.alpha = _base2['default'];
 
 	exports['default'] = alpha;
