@@ -2127,7 +2127,7 @@
 	        key: 'loader',
 	        get: function get() {
 	            if (this._loader === this.DOMREADY && this.controller.state) {
-	                this._loader = this.LOADED;
+	                this.loader = this.LOADED;
 	            }
 	            return this._loader || 0;
 	        },
@@ -2152,9 +2152,9 @@
 	                    document.body.appendChild(i);
 	                    break;
 	                case this.DOMREADY:
-	                    this.node.style.display = 'block';
 	                    break;
 	                case this.LOADED:
+	                    this.node.style.display = 'block';
 	                    break;
 	                case this.FAILED:
 	                    break;
