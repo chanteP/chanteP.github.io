@@ -17,16 +17,19 @@ $gallery_padding: .6rem;
     .gallery_photo{
         padding: .2rem;
         background: #fff;
-        box-shadow: rgba(0, 0, 0, 0.37) 0 0 0.08rem;
+        box-shadow: rgba(0, 0, 0, 0.37) 0 .04rem 0.08rem;
     }
     .gallery_cover{
         width: 100%;
         min-height: 2rem;
     }
     .gallery_desc{
-        font-size: .26rem;
-        line-height: 2;
-        color: #666;
+        padding: .18rem 0.04rem;
+        p{
+            line-height: 1.4;
+            font-size: .24rem;
+            color: #999;
+        }
     }
 
     .gallery_timeline{
