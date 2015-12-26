@@ -2,6 +2,11 @@
 layout: page
 ---
 <div class="page_blog">
+    <script>
+        window.top.alpha.loadPage('/blog', wrapper, {
+            scripts:['/static/pages/blog/index.js']
+        });
+    </script>
     <section class="wrap">
         <ul class="blog_list">
         {% for post in site.categories.article %}
@@ -24,10 +29,4 @@ layout: page
         {% endfor %}
         </ul>
     </section>
-
-    <script>
-        window.top.alpha.loadPage('/blog', wrapper, {
-            scripts:['/static/pages/blog/index.js']
-        });
-    </script>
 </div>
