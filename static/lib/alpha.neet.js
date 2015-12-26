@@ -2340,8 +2340,8 @@
 	        hide: function hide() {
 	            nav && nav.classList.remove('show');
 	        },
-	        check: function check() {
-	            if (new Date().getHours() > 6) {
+	        check: function check(force) {
+	            if (!force && new Date().getHours() > 6) {
 	                return;
 	            }
 	            [].map.call($.findAll('li[data-for="???"]'), function (li) {

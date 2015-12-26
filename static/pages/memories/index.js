@@ -395,6 +395,8 @@
 	_core.$.register('memories', function () {
 	    return {
 	        init: function init() {
+	            _core.$.nav.check(true);
+	            _core.$.nav.show();
 	            _core.$.lazyload(_core.$.find('.gallery_list', this.node), _core.$.find('.gallery_list', this.node), 'data-lazyload', function (el, src) {
 	                el.src = src;
 	            });
