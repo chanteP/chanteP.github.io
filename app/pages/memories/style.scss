@@ -1,0 +1,43 @@
+@import '../../css/variable.scss';
+$gallery_padding: .6rem;
+.page_gallery{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    .gallery_list{
+        height: 100%;
+        @include scroll(scroll);
+        margin-right: $gallery_padding;
+    }
+    .gallery_item{
+        margin: .4rem .3rem;
+    }
+    .gallery_photo{
+        padding: .2rem;
+        background: #fff;
+        box-shadow: rgba(0, 0, 0, 0.37) 0 0 0.08rem;
+    }
+    .gallery_cover{
+        width: 100%;
+        min-height: 2rem;
+    }
+    .gallery_desc{
+        font-size: .26rem;
+        line-height: 2;
+        color: #666;
+    }
+
+    .gallery_timeline{
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: .3rem #{$gallery_padding / 2};
+        width: .02rem;
+        background: rgba(0,0,0,.2);
+    }
+}
+@media screen and (max-width : 1000px){
+}
