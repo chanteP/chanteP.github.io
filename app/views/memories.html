@@ -3,7 +3,7 @@
     {% for post in site.categories.memories %}
         <li class="gallery_item">
             <figure class="gallery_photo">
-                <img class="gallery_cover" data-lazyload="{{ post.image }}" />
+                <img class="gallery_cover" data-lazyload="/static{{ post.image }}" />
                 <figcaption class="gallery_desc">{{ post.content }}</figcaption>
             </figure>
         </li>

@@ -5,6 +5,7 @@ export default ($) => {
     api = {
         set(page){
             if(!nav){return;}
+            api.check();
             [].forEach.call($.findAll('.cur', nav), (node) => {node.classList.remove('cur');});
             [].some.call($.findAll('[data-for]', nav), (li) => {
                 if(li.dataset['for'].split(',').indexOf(page) >= 0 && !+li.dataset['hide']){
@@ -33,7 +34,6 @@ export default ($) => {
     }
     $.domReady(() => {
         nav = $.find('#mainnav');
-
         api.check();
 
         nav.set = api.set;
