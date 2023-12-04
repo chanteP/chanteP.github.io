@@ -1,17 +1,20 @@
 {
-    "name": "12",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "alpha": "node ./node_modules/.bin/alpha "
-    },
-    "author": "chanteP",
-    "license": "ISC",
-    "dependencies": {},
-    "devDependencies": {
-        "glob": "^6.0.2",
-        "liquid-node": "^2.6.1"
-    }
+  "name": "np-project",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.3.8"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.5.0",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.0",
+    "vue-tsc": "^1.8.22"
+  }
 }
