@@ -115,3 +115,7 @@ export function injectParallax(wrapperRef: Ref<HTMLElement | undefined>, options
 
     return box;
 }
+
+
+export const floatKey = Symbol('float');
+export type FloatOffsetData = Ref<number>;

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Ref, ref, watch } from 'vue';
-import { injectParallax } from './useParallax';
+import { Ref, provide, ref, watch } from 'vue';
+import { type FloatOffsetData, floatKey, injectParallax } from './useParallax';
 
 const props = withDefaults(defineProps<{
     currentOffset?: number;
@@ -23,6 +23,8 @@ const emit = defineEmits<{
 const $el = ref<HTMLElement>();
 const { current, currentOffset, showPercent, height } = injectParallax($el, {
 });
+
+provide<FloatOffsetData>(floatKey, currentOffset);
 
 function through<T>(name: string, refValue: Ref<T>) {
     watch(refValue, () => {

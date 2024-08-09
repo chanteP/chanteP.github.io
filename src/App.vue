@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { NConfigProvider, NMessageProvider, lightTheme } from 'naive-ui';
 
-import Home from './views/home/Index.vue'
 import { useParallax } from './components/Parallax/useParallax';
+
+import Home from './views/home/Index.vue'
+import Travel from './views/travel/Index.vue'
 
 useParallax();
 
@@ -11,11 +13,8 @@ useParallax();
 <template>
     <NConfigProvider class="naive-container" :theme="lightTheme">
         <NMessageProvider>
-            <Home class="h100" />
-            <Home class="h100" />
-            <Home class="h100" />
-            <Home class="h100" />
-            <Home class="h100" />
+            <Home />
+            <Travel />
         </NMessageProvider>
     </NConfigProvider>
 </template>
@@ -23,8 +22,5 @@ useParallax();
 <style scoped>
 .naive-container {
     min-height: 100vh;
-}
-.h100{
-    height: 100vh;
 }
 </style>
