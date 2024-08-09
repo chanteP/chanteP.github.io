@@ -2,13 +2,16 @@
 import { NConfigProvider, NMessageProvider, lightTheme } from 'naive-ui';
 
 import Home from './views/home/Index.vue'
+import { useParallax } from './components/Parallax/useParallax';
 
+useParallax();
 
 </script>
 
 <template>
     <NConfigProvider class="naive-container" :theme="lightTheme">
         <NMessageProvider>
+            <Home class="h100" />
             <Home class="h100" />
             <Home class="h100" />
             <Home class="h100" />
