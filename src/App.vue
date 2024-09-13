@@ -18,7 +18,7 @@ useParallax();
 </template>
 
 <style>
-/* @import url('./assets/fonts/themify.css'); */
+@import url('./assets/fonts/font.css');
 
 </style>
 

@@ -16,6 +16,6 @@ const showPercent = ref(0);
 
 <style scoped>
 h1 {
-    font-family: fot-klee, helvetica, themify, 'Microsoft YaHei', sans-serif;
+    font-family: Helvetica, 'Microsoft YaHei', sans-serif;
 }
 </style>
