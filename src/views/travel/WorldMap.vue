@@ -11,9 +11,9 @@ const ColorLandBorder = '#aaa';
 function getMapOptions() {
     let option = {
 
-        geo: {
-            componentType: 'geo',
-        },
+        // geo: {
+        //     componentType: 'geo',
+        // },
         visualMap: {
             min: 0,
             max: 10000,
