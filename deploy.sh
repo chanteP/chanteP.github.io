@@ -27,9 +27,9 @@ cp -r dist/* .
 
 # 提交更改到 master 分支
 echo "提交更改到 master 分支..."
-# git add .
-# git commit -m "Update dist to master"
-# git push origin master
+git add .
+git commit -m "feat: release"
+git push origin master
 
 # 切换回 next 分支
 echo "切换回 next 分支..."
