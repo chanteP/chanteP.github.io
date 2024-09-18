@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import { watch, onMounted, ref, type Ref, computed } from 'vue';
-
-// const SITE = 'NEET PROJECT';
-const SITE = 'PROJECT';
 </script>
 
 <template>
     <div class="title">
-        <h1>{{ SITE }}</h1>
+        <h1>NEET<br />PROJECT</h1>
     </div>
 </template>
 
@@ -23,7 +20,7 @@ const SITE = 'PROJECT';
         display: block;
 
         background-image: repeating-linear-gradient(
-            111deg,
+            129deg,
             rgba(255, 255, 255, 0) 0,
             rgba(255, 255, 255, 0) 1px,
             var(--dash-color) 2px,
@@ -44,7 +41,7 @@ h1 {
     margin: 0;
     padding: 8px 12px 0;
     font-family: Helvetica, 'Microsoft YaHei', sans-serif;
-    font-size: 50px;
+    font-size: 80px;
     line-height: 0.8;
     vertical-align: middle;
     color: var(--home-color);

@@ -28,6 +28,7 @@ onMounted(init);
 <template>
     <div class="background">
         <canvas ref="$canvas" class="canvas"></canvas>
+        <div class="mask"></div>
     </div>
 </template>
 
@@ -37,17 +38,18 @@ onMounted(init);
     width: 100vw;
     height: 100vh;
 
-    &:after {
-        content: '';
+    .mask {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(180deg, rgba(0, 0, 0, 0.749) 0%, rgba(0, 0, 0, 0) 25.6889%) 100% no-repeat;
+        pointer-events: none;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0.749) 0%, rgba(0, 0, 0, 0) 45%) 100% no-repeat;
     }
 
     .canvas {
+        display: block;
         width: 100%;
         height: 100%;
         z-index: -1;
