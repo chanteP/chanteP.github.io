@@ -23,6 +23,7 @@ find . -type f ! -path './dist/*' ! -path './.git/*' ! -path './node_modules/*' 
 
 # 复制构建产物到 master 分支
 echo "复制构建产物到 master 分支..."
+cp -r dist/.gitignore .
 cp -r dist/* .
 
 # 提交更改到 master 分支
