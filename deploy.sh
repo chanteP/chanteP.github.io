@@ -19,7 +19,7 @@ git checkout master
 
 # 清理 master 分支的旧文件，但保留 dist 和 node_modules 目录
 echo "清理 master 分支的旧文件（保留 dist 和 node_modules 目录）..."
-find . -mindepth 1 ! -name '.git' ! -name 'dist' ! -name 'node_modules' -exec rm -rf {} +
+find . -type f ! -path './dist/*' ! -path './.git/*' ! -path './node_modules/*' -delete
 
 # 复制构建产物到 master 分支
 echo "复制构建产物到 master 分支..."
