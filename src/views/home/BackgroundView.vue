@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, onMounted, ref, type Ref, computed } from 'vue';
+import { watch, onMounted, ref } from 'vue';
 
 import { simpleInit } from '@/utils/gl';
 import { getNoiseImg } from '@/utils/gl/getNoise';

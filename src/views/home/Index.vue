@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, onMounted, ref, type Ref, computed } from 'vue';
+import { watch, onMounted, ref } from 'vue';
 import ParallaxContainer from '../../components/Parallax/Container.vue';
 import Float from '../../components/Parallax/Float.vue';
 import BackgroundView from './BackgroundView.vue';
@@ -13,7 +13,9 @@ const showPercent = ref(0);
 
 <template>
     <ParallaxContainer class="home" v-model:current-offset="currentOffset" v-model:showPercent="showPercent">
-        <BackgroundView class="background-effect"></BackgroundView>
+        <ClientOnly>
+            <BackgroundView class="background-effect"></BackgroundView>
+        </ClientOnly>
         <div class="content">
             <TitleLine class="title" />
 

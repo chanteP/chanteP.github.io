@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, onMounted, ref, type Ref, computed } from 'vue';
+import { watch, onMounted, ref, computed } from 'vue';
 import ParallaxContainer from '../../components/Parallax/Container.vue';
 import Float from '../../components/Parallax/Float.vue';
 import WorldMap from './WorldMap.vue';

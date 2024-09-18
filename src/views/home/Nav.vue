@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, onMounted, ref, type Ref, computed } from 'vue';
+import { watch, onMounted, ref, computed } from 'vue';
 
 const nav = [{ url: 'https://lab.neetproject.com', label: 'WEB LAB', target: '_blank' }];
 </script>

@@ -59,7 +59,7 @@ void main(){
 
 `;
 
-const DEFAULT_RATIO = Math.min(window.devicePixelRatio ?? 1, 2);
+const DEFAULT_RATIO = Math.min(globalThis.window?.devicePixelRatio ?? 1, 2);
 
 export function ensureCanvas(canvas: HTMLCanvasElement, ratio = DEFAULT_RATIO) {
     canvas.width = canvas.clientWidth * ratio;

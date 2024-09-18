@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, onMounted, ref, type Ref, computed } from 'vue';
+import { watch, onMounted, ref, computed } from 'vue';
 import * as echarts from 'echarts';
 import worldMap from '@surbowl/world-geo-json-zh';
 

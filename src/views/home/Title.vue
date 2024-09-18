@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, onMounted, ref, type Ref, computed } from 'vue';
+import { watch, onMounted, ref, computed } from 'vue';
 </script>
 
 <template>
@@ -24,10 +24,12 @@ import { watch, onMounted, ref, type Ref, computed } from 'vue';
             rgba(255, 255, 255, 0) 0,
             rgba(255, 255, 255, 0) 1px,
             var(--dash-color) 2px,
-            var(--dash-color) 2px,
-            rgba(255, 255, 255, 0) 2px,
-            rgba(255, 255, 255, 0) 4px
+            var(--dash-color) 3px,
+            rgba(255, 255, 255, 0) 4px,
+            rgba(255, 255, 255, 0) 6px
         );
+
+        opacity: .7;
     }
     &:before {
         width: var(--padding-left-side, 5vw);

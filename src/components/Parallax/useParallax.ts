@@ -28,16 +28,20 @@ interface ParallaxContainerInject {
 
 
 function getScrollTop() {
-    return document.documentElement.scrollTop || document.body.scrollTop;
+    return globalThis.document?.documentElement.scrollTop || globalThis.document?.body.scrollTop || 0;
+}
+
+function getDocHeight() {
+    return globalThis.document?.documentElement.clientHeight ?? 0;
 }
 
 export function useParallax() {
     const current = ref(0);
-    const docHeight = ref(document.documentElement.clientHeight);
+    const docHeight = ref(getDocHeight());
 
     function update(e: Event) {
         current.value = getScrollTop();
-        docHeight.value = document.documentElement.clientHeight;
+        docHeight.value = getDocHeight();
     }
 
     provide<ParallaxContainerInject>(injectParallaxKey, {

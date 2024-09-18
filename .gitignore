@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+.vite-ssg-temp/
+
+# by some reason
+pnpm-lock.yaml

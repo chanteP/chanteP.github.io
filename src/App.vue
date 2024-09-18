@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { NConfigProvider, NMessageProvider, lightTheme } from 'naive-ui';
+import { NMessageProvider, NConfigProvider, lightTheme } from 'naive-ui';
 
 import { useParallax } from './components/Parallax/useParallax';
 
-import Home from './views/home/Index.vue'
+import Home from './views/home/Index.vue';
 
 useParallax();
-
 </script>
 
 <template>
@@ -19,7 +18,6 @@ useParallax();
 
 <style>
 @import url('./assets/fonts/font.css');
-
 </style>
 
 <style scoped>
