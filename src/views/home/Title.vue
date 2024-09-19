@@ -43,11 +43,16 @@ h1 {
     margin: 0;
     padding: 8px 12px 0;
     font-family: Helvetica, 'Microsoft YaHei', sans-serif;
-    font-size: 80px;
+    font-size: 68px;
     line-height: 0.8;
     vertical-align: middle;
     color: var(--home-color);
     background: repeat;
     text-shadow: var(--home-text-shadow);
+
+
+    @include media(isPC()) {
+        font-size: 80px;
+    }
 }
 </style>

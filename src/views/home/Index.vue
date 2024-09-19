@@ -12,7 +12,7 @@ const showPercent = ref(0);
 </script>
 
 <template>
-    <ParallaxContainer class="home" v-model:current-offset="currentOffset" v-model:showPercent="showPercent">
+    <ParallaxContainer class="home fill" v-model:current-offset="currentOffset" v-model:showPercent="showPercent">
         <ClientOnly>
             <BackgroundView class="background-effect"></BackgroundView>
         </ClientOnly>
@@ -44,8 +44,6 @@ const showPercent = ref(0);
 
 <style scoped lang="scss">
 .home {
-    height: 100vh;
-
     background: #333;
 }
 .content {

@@ -1,0 +1,9 @@
+
+@mixin media($query) {
+    @media #{$query} {
+        @content;
+    }
+}
+@function isPC($min-ratio: 0.8) {
+    @return "(min-aspect-ratio: #{$min-ratio} / 1)";
+}

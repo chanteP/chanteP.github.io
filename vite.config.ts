@@ -30,4 +30,13 @@ export default defineConfig({
             return renderedHTML.replace(/<\/head>/, `${(appCtx as any).__collectStyle()}</head>`);
         },
     },
+
+
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "@/styles/mixin.scss";`,
+      },
+    },
+  },
 });

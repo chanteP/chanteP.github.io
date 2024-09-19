@@ -26,7 +26,7 @@ onMounted(init);
 </script>
 
 <template>
-    <div class="background">
+    <div class="background fill">
         <canvas ref="$canvas" class="canvas"></canvas>
         <div class="mask"></div>
     </div>
@@ -35,8 +35,6 @@ onMounted(init);
 <style scoped>
 .background {
     position: absolute;
-    width: 100vw;
-    height: 100vh;
 
     .mask {
         position: absolute;
