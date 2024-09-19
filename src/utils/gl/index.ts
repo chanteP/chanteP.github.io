@@ -498,14 +498,3 @@ export function renderFullScreenCanvas(options?: Parameters<typeof simpleInit>[1
 
     return simpleInit(canvas, options);
 }
-
-export async function loadImage(src?: string, sourceImage?: HTMLImageElement) {
-    return new Promise<HTMLImageElement>((res, rej) => {
-        const img = sourceImage ?? new Image();
-
-        img.crossOrigin = 'anonymous';
-        img.onload = () => res(img);
-        img.onerror = rej;
-        img.src = src!;
-    });
-}

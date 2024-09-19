@@ -1,5 +1,5 @@
 <template>
-    <div class="copyright">© 2024 <span>NEETPROJECT</span> / <span>chanteP</span> | All rights reserved.</div>
+    <div class="copyright">© 2024 <span>NEETPROJECT</span> @<span><a href="https://github.com/chanteP" target="_blank">chanteP</a></span> | All rights reserved.</div>
 </template>
 
 <style scoped>
@@ -15,6 +15,10 @@
     span {
         font-family: fot-klee;
         font-weight: 700;
+    }
+    a{
+        text-decoration: none !important;
+        color: inherit !important;
     }
 }
 </style>
