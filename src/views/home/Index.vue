@@ -2,19 +2,25 @@
 import { watch, onMounted, ref } from 'vue';
 import ParallaxContainer from '../../components/Parallax/Container.vue';
 import Float from '../../components/Parallax/Float.vue';
-import BackgroundView from './BackgroundView.vue';
+
+import BackgroundView from './backgroundRender/sunset/Background.vue';
+// import BackgroundView from './backgroundRender/firework/Background.vue';
+
 import NavList from './Nav.vue';
 import TitleLine from './Title.vue';
 import Copyright from './Copyright.vue';
 
 const currentOffset = ref(0);
 const showPercent = ref(0);
+
+const backgroundFallback = ref(false);
+
 </script>
 
 <template>
     <ParallaxContainer class="home fill" v-model:current-offset="currentOffset" v-model:showPercent="showPercent">
         <ClientOnly>
-            <BackgroundView class="background-effect"></BackgroundView>
+            <BackgroundView class="background-effect" :class="{fallback: backgroundFallback}" @error="backgroundFallback = true"></BackgroundView>
         </ClientOnly>
         <div class="content">
             <TitleLine class="title" />
@@ -26,22 +32,6 @@ const showPercent = ref(0);
     </ParallaxContainer>
 </template>
 
-<style>
-/* theme */
-:root {
-    --home-color: rgba(51, 51, 51, 0.9);
-    --home-color-active: rgba(253, 106, 79, 0.9);
-    --home-text-shadow: rgba(0, 0, 0, 0.4) 1px 1px 4px;
-    /* --home-text-shadow: rgba(0,0,0,.4) 2px 2px 0px; */
-    --dash-color: rgba(0, 0, 0, 0.5);
-    --padding-left-side: 5vw;
-}
-
-::selection {
-    background: rgba(255, 255, 255, 0.8);
-}
-</style>
-
 <style scoped lang="scss">
 .home {
     background: #333;
@@ -51,8 +41,22 @@ const showPercent = ref(0);
     top: 45vh;
 }
 .background-effect {
+    position: absolute;
+
     opacity: 0;
     animation: show 500ms ease 300ms;
     animation-fill-mode: forwards;
+
+    &.fallback {
+        background: linear-gradient(0deg, rgb(255, 244, 208), rgb(84, 203, 177));
+        mix-blend-mode: exclusion;
+        .canvas {
+            background: 
+                repeating-radial-gradient(#000 0 .0001%, #fff 0 .0002%) 50% 0 / 2500px 2500px, 
+                repeating-conic-gradient(#000 0 .0001%, #fff 0 .0002%) 60% 60% / 2500px 2500px;
+            background-blend-mode: difference;
+            opacity: 0.06;
+        }
+    }
 }
 </style>

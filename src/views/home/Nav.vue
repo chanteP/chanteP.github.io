@@ -1,14 +1,24 @@
 <script setup lang="ts">
 import { watch, onMounted, ref, computed } from 'vue';
 
-const nav = [{ url: 'https://lab.neetproject.com', label: 'WEB LAB', target: '_blank' }];
+const nav = [
+    {
+        url: 'https://lab.neetproject.com',
+        label: 'lab',
+        desc: 'web pages for browser experiments.',
+        target: '_blank',
+    },
+];
 </script>
 
 <template>
     <nav class="nav">
         <ul>
             <li v-for="link in nav" :key="link.url">
-                <a :href="link.url" :target="link.target">{{ link.label }}</a>
+                <a :href="link.url" :target="link.target">
+                    {{ link.label }}
+                    <span class="desc">{{ link.desc }}</span>
+                </a>
             </li>
         </ul>
     </nav>
@@ -28,14 +38,33 @@ const nav = [{ url: 'https://lab.neetproject.com', label: 'WEB LAB', target: '_b
         line-height: 1.6;
         padding-left: 8px;
         border-left: 3px solid var(--home-color);
-        transition: border-color 300ms ease, background 300ms ease;
+        transition:
+            border-color 300ms ease,
+            background 300ms ease;
         text-shadow: var(--home-text-shadow);
 
         a {
             display: block;
             text-decoration: none;
             color: var(--home-color);
-            transition: color 300ms ease, transform 300ms ease;
+            font-family: fot-klee;
+            transition:
+                color 300ms ease,
+                transform 300ms ease;
+        }
+
+        .desc {
+            opacity: 0;
+            transform: translate(5vw, 0);
+            transition:
+                opacity 300ms ease,
+                transform 300ms ease;
+
+            &:before,
+            &:after {
+                content: '-';
+                padding: 0 1em;
+            }
         }
 
         &:hover {
@@ -45,6 +74,11 @@ const nav = [{ url: 'https://lab.neetproject.com', label: 'WEB LAB', target: '_b
             a {
                 color: var(--home-color-active);
                 transform: translate(4px, 0);
+            }
+
+            .desc {
+                opacity: 1;
+                transform: translate(0, 0);
             }
         }
     }

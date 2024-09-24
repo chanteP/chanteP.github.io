@@ -5,7 +5,11 @@ import { simpleInit } from '@/utils/gl';
 import { getNoiseImg } from '@/utils/gl/getNoise';
 
 // https://www.shadertoy.com/view/XslGRr
-import cloudFrag from './backgroundRender/sunset.frag?raw';
+import cloudFrag from './sunset.frag?raw';
+
+const emit = defineEmits<{
+    (e:'error', err: Error):void;
+}>();
 
 const $canvas = ref<HTMLCanvasElement>();
 const needFallback = ref(false);
@@ -27,7 +31,7 @@ async function setContext(){
     try{
         await init();
     }catch(e){
-        needFallback.value = true;
+        emit('error', e as Error);
     }
 }
 
@@ -35,43 +39,41 @@ onMounted(setContext);
 </script>
 
 <template>
-    <div class="background fill" :class="{fallback: needFallback}">
-        <canvas ref="$canvas" class="canvas"></canvas>
-        <div class="mask"></div>
+    <div class="background fill">
+        <canvas ref="$canvas" class="canvas full"></canvas>
+        <div class="mask full"></div>
     </div>
 </template>
 
+<style>
+/* theme */
+:root {
+    --home-color: rgba(51, 51, 51, 0.9);
+    --home-color-active: rgba(253, 106, 79, 0.9);
+    --home-text-shadow: rgba(0, 0, 0, 0.4) 1px 1px 4px;
+    /* --home-text-shadow: rgba(0,0,0,.4) 2px 2px 0px; */
+    --dash-color: rgba(0, 0, 0, 0.5);
+    --padding-left-side: 5vw;
+}
+
+::selection {
+    background: rgba(255, 255, 255, 0.8);
+}
+</style>
+
 <style scoped>
 .background {
-    position: absolute;
-
     .mask {
         position: absolute;
         top: 0;
         left: 0;
-        width: 100%;
-        height: 100%;
         pointer-events: none;
         background: linear-gradient(180deg, rgba(0, 0, 0, 0.749) 0%, rgba(0, 0, 0, 0) 45%) 100% no-repeat;
     }
 
     .canvas {
         display: block;
-        width: 100%;
-        height: 100%;
         z-index: -1;
-    }
-
-    &.fallback {
-        background: linear-gradient(0deg, rgb(255, 244, 208), rgb(84, 203, 177));
-        mix-blend-mode: exclusion;
-        .canvas {
-            background: 
-                repeating-radial-gradient(#000 0 .0001%, #fff 0 .0002%) 50% 0 / 2500px 2500px, 
-                repeating-conic-gradient(#000 0 .0001%, #fff 0 .0002%) 60% 60% / 2500px 2500px;
-            background-blend-mode: difference;
-            opacity: 0.06;
-        }
     }
 }
 </style>
