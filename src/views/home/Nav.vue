@@ -42,6 +42,7 @@ const nav = [
             border-color 300ms ease,
             background 300ms ease;
         text-shadow: var(--home-text-shadow);
+        white-space: nowrap;
 
         a {
             display: block;
@@ -55,10 +56,9 @@ const nav = [
 
         .desc {
             opacity: 0;
-            transform: translate(5vw, 0);
+            font-size: 12px;
             transition:
-                opacity 300ms ease,
-                transform 300ms ease;
+                opacity 300ms ease;
 
             &:before,
             &:after {
@@ -68,17 +68,16 @@ const nav = [
         }
 
         &:hover {
-            border-left-color: var(--home-color-active);
+            // border-left-color: var(--home-color-active);
             border-left-width: 5px;
             background: rgba(0, 0, 0, 0.03);
             a {
-                color: var(--home-color-active);
+                // color: var(--home-color-active);
                 transform: translate(4px, 0);
             }
 
             .desc {
                 opacity: 1;
-                transform: translate(0, 0);
             }
         }
     }

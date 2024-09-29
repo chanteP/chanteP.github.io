@@ -23,5 +23,7 @@ useParallax();
 <style scoped>
 .naive-container {
     min-height: 100vh;
+    max-width: 100vw;
+    overflow-x: hidden;
 }
 </style>
