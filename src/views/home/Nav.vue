@@ -43,6 +43,7 @@ const nav = [
             background 300ms ease;
         text-shadow: var(--home-text-shadow);
         white-space: nowrap;
+        overflow: hidden;
 
         a {
             display: block;
