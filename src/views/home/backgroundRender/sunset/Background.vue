@@ -38,7 +38,7 @@ async function setContext() {
 }
 
 function blur(v: number, p: number) {
-    return `filter: blur(${p * 60}px) contrast(${p * 100 + 100}%);transform:translateY(${v * 0.3}px);`;
+    return `filter: blur(${p * 60}px) contrast(${p * 100 + 100}%);transform:translateY(${v * 0.45}px);`;
 }
 
 onMounted(setContext);
@@ -51,6 +51,7 @@ onBeforeUnmount(() => {
     <Float class="background fill" :fn="blur">
         <canvas ref="$canvas" class="canvas full"></canvas>
         <div class="mask full"></div>
+        <div ref="$decoratorContainer" class="full-page-decorator"></div>
     </Float>
 </template>
 
@@ -83,6 +84,14 @@ onBeforeUnmount(() => {
     .canvas {
         display: block;
         z-index: -1;
+    }
+
+    .full-page-decorator {
+        position: absolute;
+        bottom: 0;
+        height: 0;
+        left: 0;
+        right: 0;
     }
 }
 </style>
