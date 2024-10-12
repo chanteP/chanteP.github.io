@@ -1,10 +1,17 @@
 <script setup lang="ts">
+import Float from '@/components/Parallax/Float.vue';
 import { watch, onMounted, ref, computed } from 'vue';
+
+function titleFn(value: number, showPercent: number) {
+    return `opacity:${1 - showPercent * 2};flex:${Math.cos(showPercent - Math.PI / 2) * 10};`;
+}
 </script>
 
 <template>
     <div class="title">
-        <h1>NEET<br />PROJECT</h1>
+        <Float :fn="titleFn">
+            <h1>NEET<br />PROJECT</h1>
+        </Float>
     </div>
 </template>
 
@@ -29,7 +36,7 @@ import { watch, onMounted, ref, computed } from 'vue';
             rgba(255, 255, 255, 0) 6px
         );
 
-        opacity: .7;
+        opacity: 0.7;
     }
     &:before {
         width: var(--padding-left-side, 5vw);
@@ -47,9 +54,7 @@ h1 {
     line-height: 0.8;
     vertical-align: middle;
     color: var(--home-color);
-    background: repeat;
     text-shadow: var(--home-text-shadow);
-
 
     @include media(isPC()) {
         font-size: 80px;

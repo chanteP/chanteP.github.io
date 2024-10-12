@@ -1,5 +1,13 @@
+<script setup lang="ts">
+import Float from '@/components/Parallax/Float.vue';
+
+function translateX(v: number, p: number){
+    return `opacity: ${1 - 3 * p}`;
+}
+</script>
+
 <template>
-    <div class="copyright">© 2024 <span>NEETPROJECT</span> @<span><a href="https://github.com/chanteP" target="_blank">chanteP</a></span> | All rights reserved.</div>
+    <Float class="copyright" :fn="translateX">© 2024 <span>NEETPROJECT</span> @<span><a href="https://github.com/chanteP" target="_blank">chanteP</a></span> | All rights reserved.</Float>
 </template>
 
 <style scoped>

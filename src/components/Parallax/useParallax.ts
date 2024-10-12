@@ -26,7 +26,6 @@ interface ParallaxContainerInject {
     docHeight: Ref<number>;
 }
 
-
 function getScrollTop() {
     return globalThis.document?.documentElement.scrollTop || globalThis.document?.body.scrollTop || 0;
 }
@@ -120,6 +119,5 @@ export function injectParallax(wrapperRef: Ref<HTMLElement | undefined>, options
     return box;
 }
 
-
 export const floatKey = Symbol('float');
-export type FloatOffsetData = Ref<number>;
+export type FloatOffsetData = { currentOffset: Ref<number>; showPercent: Ref<number> };

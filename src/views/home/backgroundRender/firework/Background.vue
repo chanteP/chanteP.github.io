@@ -46,11 +46,15 @@ onMounted(setContext);
 /* theme */
 :root {
     --home-color: rgba(51, 51, 51, 0.9);
+    --font-color: rgba(223, 223, 223, 1);
     --home-color-active: rgba(253, 106, 79, 0.9);
     --home-text-shadow: rgba(0, 0, 0, 0.4) 1px 1px 4px;
     /* --home-text-shadow: rgba(0,0,0,.4) 2px 2px 0px; */
     --dash-color: rgba(0, 0, 0, 0.5);
     --padding-left-side: 5vw;
+
+    background: var(--home-color);
+    color: var(--font-color);
 }
 
 ::selection {

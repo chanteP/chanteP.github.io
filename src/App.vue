@@ -4,6 +4,7 @@ import { NMessageProvider, NConfigProvider, lightTheme } from 'naive-ui';
 import { useParallax } from './components/Parallax/useParallax';
 
 import Home from './views/home/Index.vue';
+import Copyright from './views/copyright/Index.vue';
 
 useParallax();
 </script>
@@ -12,6 +13,7 @@ useParallax();
     <NConfigProvider class="naive-container" :theme="lightTheme">
         <NMessageProvider>
             <Home />
+            <Copyright />
         </NMessageProvider>
     </NConfigProvider>
 </template>

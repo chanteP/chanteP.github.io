@@ -2,14 +2,17 @@
 import { Ref, provide, ref, watch } from 'vue';
 import { type FloatOffsetData, floatKey, injectParallax } from './useParallax';
 
-const props = withDefaults(defineProps<{
-    currentOffset?: number;
+const props = withDefaults(
+    defineProps<{
+        currentOffset?: number;
 
-    watchTop?: number | `${number}%`;
-    watchBottom?: number | `${number}%`;
-}>(), {
-    currentOffset: 0,
-});
+        watchTop?: number | `${number}%`;
+        watchBottom?: number | `${number}%`;
+    }>(),
+    {
+        currentOffset: 0,
+    },
+);
 
 const emit = defineEmits<{
     (e: 'update:currentOffset', val: number): void;
@@ -21,35 +24,41 @@ const emit = defineEmits<{
 }>();
 
 const $el = ref<HTMLElement>();
-const { current, currentOffset, showPercent, height } = injectParallax($el, {
-});
+const { current, currentOffset, showPercent, height } = injectParallax($el, {});
 
-provide<FloatOffsetData>(floatKey, currentOffset);
+provide<FloatOffsetData>(floatKey, { currentOffset, showPercent });
 
 function through<T>(name: string, refValue: Ref<T>) {
-    watch(refValue, () => {
-        // @ts-expect-error
-        emit(`update:${name}`, refValue.value);
-    }, {
-        immediate: true,
-    });
+    watch(
+        refValue,
+        () => {
+            // @ts-expect-error
+            emit(`update:${name}`, refValue.value);
+        },
+        {
+            immediate: true,
+        },
+    );
 }
 
 let lastInArea = false;
 
-watch(() => currentOffset.value, () => {
-    const offset = currentOffset.value;
-    emit('update:currentOffset', offset);
+watch(
+    () => currentOffset.value,
+    () => {
+        const offset = currentOffset.value;
+        emit('update:currentOffset', offset);
 
-    const inArea = offset >= 0 && offset <= 1;
-    if (inArea && !lastInArea) {
-        emit('show');
-    } else if (!inArea && lastInArea) {
-        emit('hide');
-    }
+        const inArea = offset >= 0 && offset <= 1;
+        if (inArea && !lastInArea) {
+            emit('show');
+        } else if (!inArea && lastInArea) {
+            emit('hide');
+        }
 
-    lastInArea = inArea;
-});
+        lastInArea = inArea;
+    },
+);
 through('current', current);
 through('showPercent', showPercent);
 through('height', height);
