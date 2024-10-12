@@ -12,7 +12,6 @@ type Ball = {
     delay: number;
 };
 
-const ballCount = 10;
 const decoratorList = ref<Ball[]>([]);
 
 function createBall(n: number, options: Partial<Ball> = {}) {
@@ -39,14 +38,13 @@ function createBall(n: number, options: Partial<Ball> = {}) {
 }
 
 onMounted(() => {
-    createBall(5, { y: 0, delay: 1000, hue: 70 });
-    createBall(ballCount);
+    createBall((document.documentElement.clientWidth / 500) * 10);
 });
 </script>
 
 <template>
     <ParallaxContainer class="copyright-wrapper">
-        <div class="background-decorator fill">
+        <Float class="background-decorator fill" :fn="(v, p) => `opacity: ${p + 1};`">
             <div
                 class="ball"
                 v-for="ball in decoratorList"
@@ -60,7 +58,7 @@ onMounted(() => {
                     filter: `hue-rotate(${ball.hue}deg)`,
                 }"
             ></div>
-        </div>
+        </Float>
         <Float class="copyright" :fn="(v, p) => `transform: translateY(${v * 0.2}px);`">
             <div>© <span>NEETPROJECT</span> 2024</div>
             <div>
