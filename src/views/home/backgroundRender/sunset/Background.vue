@@ -33,12 +33,16 @@ async function setContext() {
     try {
         await init();
     } catch (e) {
+        needFallback.value = true;
         emit('error', e as Error);
     }
 }
 
 function blur(v: number, p: number) {
-    return `filter: blur(${p * 60}px) contrast(${p * 100 + 100}%);transform:translateY(${v * 0.2}px);`;
+    if (needFallback.value) {
+        return '';
+    }
+    return `filter: blur(${p * 60}px) contrast(${p * 100 + 100}%);`;
 }
 
 onMounted(setContext);
@@ -65,19 +69,6 @@ onBeforeUnmount(() => {
     --padding-left-side: 5vw;
 }
 
-body:before {
-    content: '';
-    position: fixed;
-    width: 100%;
-    height: 100%;
-
-    background:
-        repeating-radial-gradient(#000 0 0.0001%, #fff 0 0.0002%) 50% 0 / 2500px 2500px,
-        repeating-conic-gradient(#000 0 0.0001%, #fff 0 0.0002%) 60% 60% / 2500px 2500px;
-    background-blend-mode: difference;
-    opacity: 0.06;
-}
-
 ::selection {
     background: rgba(255, 255, 255, 0.8);
 }
@@ -96,6 +87,18 @@ body:before {
     .canvas {
         display: block;
         z-index: -1;
+        filter: contrast(300%);
+        animation: contrast 800ms ease 400ms 1;
+        animation-fill-mode: forwards;
+    }
+}
+
+@keyframes contrast {
+    0%{
+        filter: contrast(300%);
+    }
+    100%{
+        filter: contrast(100%);
     }
 }
 </style>

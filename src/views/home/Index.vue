@@ -34,6 +34,20 @@ const backgroundFallback = ref(false);
         <!-- <Float style="background:#fff;width: 100px;height:100px;" :damp="0.5"></Float> -->
     </ParallaxContainer>
 </template>
+<style>
+body:before {
+    content: '';
+    position: fixed;
+    width: 100%;
+    height: 100%;
+
+    background:
+        repeating-radial-gradient(#000 0 0.0001%, #fff 0 0.0002%) 50% 0 / 2500px 2500px,
+        repeating-conic-gradient(#000 0 0.0001%, #fff 0 0.0002%) 60% 60% / 2500px 2500px;
+    background-blend-mode: difference;
+    opacity: 0.06;
+}
+</style>
 
 <style scoped lang="scss">
 .content {
@@ -49,14 +63,8 @@ const backgroundFallback = ref(false);
 
     &.fallback {
         background: linear-gradient(0deg, rgb(255, 244, 208), rgb(84, 203, 177));
-        mix-blend-mode: exclusion;
-        .canvas {
-            background:
-                repeating-radial-gradient(#000 0 0.0001%, #fff 0 0.0002%) 50% 0 / 2500px 2500px,
-                repeating-conic-gradient(#000 0 0.0001%, #fff 0 0.0002%) 60% 60% / 2500px 2500px;
-            background-blend-mode: difference;
-            opacity: 0.06;
-        }
+        z-index: -1;
+        // mix-blend-mode: exclusion;
     }
 }
 </style>

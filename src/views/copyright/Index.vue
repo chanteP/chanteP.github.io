@@ -32,24 +32,21 @@ function createBall(n: number, options: Partial<Ball> = {}) {
             y: Math.random() * mergedOptions.y,
             size: Math.random() * mergedOptions.size + 50,
             hue: Math.random() * mergedOptions.hue,
-            duration: Math.random() * mergedOptions.duration + 5000,
-            delay: Math.random() * mergedOptions.delay,
+            duration: Math.random() * mergedOptions.duration + 7000,
+            delay: Math.random() * mergedOptions.delay - 2 * mergedOptions.delay,
         });
     }
 }
 
 onMounted(() => {
-    createBall(5, { y: 20, delay: 1000, hue: 70 });
+    createBall(5, { y: 0, delay: 1000, hue: 70 });
     createBall(ballCount);
 });
 </script>
 
 <template>
     <ParallaxContainer class="copyright-wrapper">
-        <Float
-            class="background-decorator fill"
-            :fn="(v, p) => `transform: translateY(${v * 0.2}px);opacity:${p + 1};`"
-        >
+        <div class="background-decorator fill">
             <div
                 class="ball"
                 v-for="ball in decoratorList"
@@ -63,13 +60,13 @@ onMounted(() => {
                     filter: `hue-rotate(${ball.hue}deg)`,
                 }"
             ></div>
-        </Float>
-        <div class="copyright">
+        </div>
+        <Float class="copyright" :fn="(v, p) => `transform: translateY(${v * 0.2}px);`">
             <div>© <span>NEETPROJECT</span> 2024</div>
             <div>
                 @<span><a href="https://github.com/chanteP" target="_blank">chanteP</a></span>
             </div>
-        </div>
+        </Float>
     </ParallaxContainer>
 </template>
 
