@@ -38,7 +38,7 @@ async function setContext() {
 }
 
 function blur(v: number, p: number) {
-    return `filter: blur(${p * 60}px) contrast(${p * 100 + 100}%);transform:translateY(${v * 0.45}px);`;
+    return `filter: blur(${p * 60}px) contrast(${p * 100 + 100}%);transform:translateY(${v * 0.2}px);`;
 }
 
 onMounted(setContext);
@@ -51,7 +51,6 @@ onBeforeUnmount(() => {
     <Float class="background fill" :fn="blur">
         <canvas ref="$canvas" class="canvas full"></canvas>
         <div class="mask full"></div>
-        <div ref="$decoratorContainer" class="full-page-decorator"></div>
     </Float>
 </template>
 
@@ -64,6 +63,19 @@ onBeforeUnmount(() => {
     /* --home-text-shadow: rgba(0,0,0,.4) 2px 2px 0px; */
     --dash-color: rgba(0, 0, 0, 0.5);
     --padding-left-side: 5vw;
+}
+
+body:before {
+    content: '';
+    position: fixed;
+    width: 100%;
+    height: 100%;
+
+    background:
+        repeating-radial-gradient(#000 0 0.0001%, #fff 0 0.0002%) 50% 0 / 2500px 2500px,
+        repeating-conic-gradient(#000 0 0.0001%, #fff 0 0.0002%) 60% 60% / 2500px 2500px;
+    background-blend-mode: difference;
+    opacity: 0.06;
 }
 
 ::selection {
@@ -84,14 +96,6 @@ onBeforeUnmount(() => {
     .canvas {
         display: block;
         z-index: -1;
-    }
-
-    .full-page-decorator {
-        position: absolute;
-        bottom: 0;
-        height: 0;
-        left: 0;
-        right: 0;
     }
 }
 </style>
