@@ -15,21 +15,31 @@ type Ball = {
 const ballCount = 10;
 const decoratorList = ref<Ball[]>([]);
 
-function createBall(n: number) {
+function createBall(n: number, options: Partial<Ball> = {}) {
+    const mergedOptions = {
+        x: options.x ?? 110,
+        y: options.y ?? 110,
+        size: options.size ?? 200,
+        hue: options.hue ?? 180,
+        duration: options.duration ?? 27000,
+        delay: options.delay ?? 7000,
+    };
+
     let i = 0;
     while (i++ < n) {
         decoratorList.value.push({
-            x: Math.random() * 100,
-            y: Math.random() * 100,
-            size: Math.random() * 200 + 50,
-            hue: Math.random() * 70,
-            duration: Math.random() * 25000 + 5000,
-            delay: Math.random() * 10000,
+            x: Math.random() * mergedOptions.x - 5,
+            y: Math.random() * mergedOptions.y,
+            size: Math.random() * mergedOptions.size + 50,
+            hue: Math.random() * mergedOptions.hue,
+            duration: Math.random() * mergedOptions.duration + 5000,
+            delay: Math.random() * mergedOptions.delay,
         });
     }
 }
 
 onMounted(() => {
+    createBall(5, { y: 20, delay: 1000, hue: 70 });
     createBall(ballCount);
 });
 </script>
@@ -38,19 +48,19 @@ onMounted(() => {
     <ParallaxContainer class="copyright-wrapper">
         <Float
             class="background-decorator fill"
-            :fn="(v, p) => `transform: translateY(${v * 0.95}px);opacity:${p + 1};`"
+            :fn="(v, p) => `transform: translateY(${v * 0.2}px);opacity:${p + 1};`"
         >
             <div
                 class="ball"
                 v-for="ball in decoratorList"
                 :style="{
-                    width:`${ball.size}px`,
-                    height:`${ball.size}px`,
-                    left:`${ball.x}%`,
-                    top:`${ball.y}%`,
-                    animationDelay:`${ball.delay}ms`,
-                    animationDuration:`${ball.duration}ms`,
-                    filter:`hue-rotate(${ball.hue}deg)`,
+                    width: `${ball.size}px`,
+                    height: `${ball.size}px`,
+                    left: `${ball.x}%`,
+                    top: `${ball.y}%`,
+                    animationDelay: `${ball.delay}ms`,
+                    animationDuration: `${ball.duration}ms`,
+                    filter: `hue-rotate(${ball.hue}deg)`,
                 }"
             ></div>
         </Float>
@@ -80,7 +90,7 @@ onMounted(() => {
         top: 0;
         width: 10px;
         height: 10px;
-        opacity: 0;
+        opacity: 0.1;
         background-color: var(--home-color-active);
         border-radius: 50%;
         transform-origin: center center;
@@ -108,15 +118,23 @@ onMounted(() => {
 @keyframes ball {
     0% {
         transform: scale(1);
-        opacity: 0;
+        opacity: 0.1;
+    }
+    20% {
+        transform: scale(1.5) translate(23%, 0);
+        opacity: 1;
     }
     50% {
-        transform: scale(1.3) translate(20%, 0);
+        transform: scale(1.3) translate(0, 0);
+        opacity: 1;
+    }
+    70% {
+        transform: scale(1.5) translate(-17%, 0);
         opacity: 1;
     }
     100% {
         transform: scale(1);
-        opacity: 0;
+        opacity: 0.1;
     }
 }
 </style>
