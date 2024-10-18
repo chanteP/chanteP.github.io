@@ -43,7 +43,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <ParallaxContainer class="copyright-wrapper">
+    <ParallaxContainer name="about" class="copyright-wrapper">
         <Float class="background-decorator fill" :fn="(v, p) => `opacity: ${(p + 1) / 2};`">
             <div
                 class="ball"

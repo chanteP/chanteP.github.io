@@ -3,8 +3,8 @@ import { watch, onMounted, ref, computed } from 'vue';
 
 const navLeft = [
     {
-        url: '#travel',
-        label: 'travel',
+        url: '#about',
+        label: 'about',
         desc: '',
         target: '_self',
     },

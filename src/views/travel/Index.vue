@@ -8,7 +8,7 @@ import WorldMap from './WorldMap.vue';
 </script>
 
 <template>
-    <ParallaxContainer class="travel-wrapper">
+    <ParallaxContainer name="travel" class="travel-wrapper">
         <Float class="map-float" :damp="0">
             <WorldMap />
         </Float>

@@ -4,6 +4,7 @@ import { type FloatOffsetData, floatKey, injectParallax } from './useParallax';
 
 const props = withDefaults(
     defineProps<{
+        name: string;
         currentOffset?: number;
 
         watchTop?: number | `${number}%`;
@@ -24,7 +25,7 @@ const emit = defineEmits<{
 }>();
 
 const $el = ref<HTMLElement>();
-const { current, currentOffset, showPercent, height } = injectParallax($el, {});
+const { current, currentOffset, showPercent, height } = injectParallax($el, {name: props.name});
 
 provide<FloatOffsetData>(floatKey, { currentOffset, showPercent });
 

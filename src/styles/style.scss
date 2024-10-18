@@ -14,6 +14,7 @@
 
     animation: show 300ms ease;
     animation-fill-mode: forwards;
+    scroll-behavior: smooth;
 }
 
 @keyframes show {

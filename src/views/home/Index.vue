@@ -17,7 +17,7 @@ const backgroundFallback = ref(false);
 </script>
 
 <template>
-    <ParallaxContainer class="home fill" v-model:current-offset="currentOffset" v-model:showPercent="showPercent">
+    <ParallaxContainer name="home" class="home fill" v-model:current-offset="currentOffset" v-model:showPercent="showPercent">
         <ClientOnly>
             <BackgroundView
                 class="background-effect"

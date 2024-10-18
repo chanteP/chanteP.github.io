@@ -1,7 +1,9 @@
 import { ComponentInternalInstance, Ref, getCurrentInstance, inject, onMounted, provide, ref, watch } from 'vue';
 import { useEventListener } from '@vueuse/core';
 
-interface ParallaxBoxOptions {}
+interface ParallaxBoxOptions {
+    name: string;
+}
 
 interface Box {
     el?: HTMLElement;
@@ -21,6 +23,8 @@ interface Box {
 
 const injectParallaxKey = Symbol('parallax');
 
+const registeredBoxes: Map<string, Box> = new Map();
+
 interface ParallaxContainerInject {
     current: Ref<number, number>;
     docHeight: Ref<number>;
@@ -32,6 +36,17 @@ function getScrollTop() {
 
 function getDocHeight() {
     return globalThis.document?.documentElement.clientHeight ?? 0;
+}
+
+function scrollTo(target: string) {
+    if (registeredBoxes.has(target)) {
+        const box = registeredBoxes.get(target);
+
+        window.scrollTo({
+            top: box?.top ?? 0,
+            behavior: 'smooth',
+        });
+    }
 }
 
 export function useParallax() {
@@ -50,9 +65,22 @@ export function useParallax() {
 
     useEventListener('scroll', update, { passive: true });
     useEventListener('resize', update, { passive: true });
+
+    window.addEventListener('hashchange', (e) => {
+        e.preventDefault();
+        const target = location.hash.slice(1);
+        // location.hash = '';
+        history.replaceState('', document.title, location.origin);
+        scrollTo(target);
+    });
+
+    onMounted(() => {
+        const target = location.hash.slice(1);
+        scrollTo(target);
+    });
 }
 
-export function injectParallax(wrapperRef: Ref<HTMLElement | undefined>, options?: ParallaxBoxOptions): Box {
+export function injectParallax(wrapperRef: Ref<HTMLElement | undefined>, options: ParallaxBoxOptions): Box {
     const injectData = inject<ParallaxContainerInject>(injectParallaxKey);
     if (!injectData) {
         throw new Error('no parallax inject');
@@ -67,6 +95,7 @@ export function injectParallax(wrapperRef: Ref<HTMLElement | undefined>, options
         height: ref<number>(0),
         showPercent: ref<number>(0),
     };
+    registeredBoxes.set(options.name, box);
 
     function setResize() {
         if (!wrapperRef?.value) {
