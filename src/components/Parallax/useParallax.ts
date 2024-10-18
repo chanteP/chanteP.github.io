@@ -66,13 +66,15 @@ export function useParallax() {
     useEventListener('scroll', update, { passive: true });
     useEventListener('resize', update, { passive: true });
 
-    window.addEventListener('hashchange', (e) => {
-        e.preventDefault();
-        const target = location.hash.slice(1);
-        // location.hash = '';
-        history.replaceState('', document.title, location.origin);
-        scrollTo(target);
-    });
+    if (typeof window !== 'undefined') {
+        window.addEventListener('hashchange', (e) => {
+            e.preventDefault();
+            const target = location.hash.slice(1);
+            // location.hash = '';
+            history.replaceState('', document.title, location.origin);
+            scrollTo(target);
+        });
+    }
 
     onMounted(() => {
         const target = location.hash.slice(1);
