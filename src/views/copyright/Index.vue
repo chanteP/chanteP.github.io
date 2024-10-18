@@ -44,7 +44,7 @@ onMounted(() => {
 
 <template>
     <ParallaxContainer class="copyright-wrapper">
-        <Float class="background-decorator fill" :fn="(v, p) => `opacity: ${p + 1};`">
+        <Float class="background-decorator fill" :fn="(v, p) => `opacity: ${(p + 1) / 2};`">
             <div
                 class="ball"
                 v-for="ball in decoratorList"

@@ -28,7 +28,7 @@ const backgroundFallback = ref(false);
         <div class="content">
             <TitleLine class="title" />
 
-            <NavList class="nav" />
+            <NavList />
         </div>
         <Copyright />
         <!-- <Float style="background:#fff;width: 100px;height:100px;" :damp="0.5"></Float> -->

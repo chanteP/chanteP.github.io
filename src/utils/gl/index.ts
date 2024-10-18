@@ -33,6 +33,8 @@ void main(){
 }
 `;
 
+export const gl = typeof window !== 'undefined' ? window.WebGLRenderingContext : {};
+
 const simpleFragHeader = `#version 300 es
 
 // 指定默认精度为 highp
@@ -216,7 +218,7 @@ function injectTexture(
     const texture = gl.createTexture();
     const sampler = gl.getUniformLocation(program, name);
 
-    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, options?.flip ?? 1 ? 1 : 0);
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, (options?.flip ?? 1) ? 1 : 0);
     gl.activeTexture(gl[`TEXTURE${index}` as 'TEXTURE0']);
     gl.bindTexture(gl.TEXTURE_2D, texture);
 
