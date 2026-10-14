@@ -3,19 +3,13 @@ import { NMessageProvider, NConfigProvider, lightTheme } from 'naive-ui';
 
 import { useParallax } from './components/Parallax/useParallax';
 
-import Home from './views/home/Index.vue';
-// import Travel from './views/travel/Index.vue';
-import Copyright from './views/copyright/Index.vue';
-
 useParallax();
 </script>
 
 <template>
     <NConfigProvider class="naive-container" :theme="lightTheme">
         <NMessageProvider>
-            <Home />
-            <!-- <Travel /> -->
-            <Copyright />
+            <RouterView />
         </NMessageProvider>
     </NConfigProvider>
 </template>
